@@ -31,7 +31,7 @@ public class ServletAppContext implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5179");
+                        .allowedOrigins("http://localhost:3500");
             }
         };
     }
