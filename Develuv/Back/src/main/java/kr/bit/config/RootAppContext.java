@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-//@MapperScan(basePackages = {"kr.bit.mapper"})
+@MapperScan(basePackages = {"kr.bit.mapper"})
 @PropertySource({"classpath:database.properties"})
 public class RootAppContext {
     @Autowired
