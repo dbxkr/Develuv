@@ -1,5 +1,6 @@
 package kr.bit.controller;
 
+import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
 import kr.bit.dto.UserLoginDTO;
 import kr.bit.service.UserService;
@@ -17,6 +18,15 @@ import java.util.Map;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @GetMapping("/findId")
+    public Map<String,String> findId(@ModelAttribute UserFindIdDTO userFindIdDTO) {
+        Map<String, String> data = new HashMap<>();
+        String id = userService.findId(userFindIdDTO);
+        data.put("아이디",id);
+
+        return data;
+    }
 
     @GetMapping("/findPw")
     public Map<String,String> findPw(@ModelAttribute UserFindPwDTO userFindPwDTO) {

@@ -5,27 +5,27 @@ import "./App.css";
 function App() {
   const url = "http://localhost:8080/";
   const [data, setData] = useState(null);
+  const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [user, setUser] = useState(null);
 
   var daaa;
 
-  // useEffect(() => {
-  //   axios
-  //     .get(url)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-  //       if (res.data && typeof res.data === "object" && res.data !== null) {
-  //         daaa = res.data;
-  //         console.log(daaa.id);
-  //         setData(Object.values(res.data));
-  //       } else {
-  //         setData(res.data);
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  const findId = () => {
+    const email = document.getElementById("email").value;
+    axios
+      .get(url + "findId?user_email=" + email)
+      .then((res) => {
+        console.log(res.data);
+        // 데이터가 객체인 경우, 객체의 값을 배열로 변환
+        if (res.data && typeof res.data === "object" && res.data !== null) {
+          setId(Object.values(res.data));
+        } else {
+          setId(res.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const findPw = () => {
     const id = document.getElementById("id").value;
@@ -80,8 +80,10 @@ function App() {
         <input type="text" name="userEmail" id="email" />
         <br />
         <button onClick={login}>로긴하기</button>
+        <button onClick={findId}>아이디 찾기</button>
         <button onClick={findPw}>비번 찾기</button>
         <div>유저 정보:{JSON.stringify(user)}</div>
+        <div>아이디 찾기 결과:{id}</div>
         <div>비번 찾기 결과:{pw}</div>
       </div>
     </div>
