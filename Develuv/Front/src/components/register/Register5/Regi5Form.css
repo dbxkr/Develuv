@@ -1,0 +1,116 @@
+.container{
+    margin-top: 50px;
+    margin-left: 10%;
+    text-align: center;
+    width: 80%;
+
+}
+
+.container div {
+    margin-bottom: 10px;
+}
+
+.tt {
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.gray_font{
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #888888;
+}
+
+.sub_title{
+    position: relative;
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.form_label{
+    position: relative;
+    left: 150px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: left;
+}
+
+.btn_div {
+    text-align: left;
+    margin-left: 140px;
+}
+
+.regi5_btn{
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px 16px;
+    border: 1px solid ghostwhite;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width: 100px;
+    margin: 3px 10px;
+}
+
+.regi5_btn:hover{
+    background-color: #1D4289;
+    color: whitesmoke;
+}
+
+.regi5_btn_selBtn{
+    background-color: #1D4289;
+    color: whitesmoke;
+    border: none;
+
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width: 100px;
+    margin: 3px 10px;
+}
+
+
+.before_btn{
+    position: fixed;
+    bottom: 50px;
+    left: 40px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid darkgray;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.after_btn{
+    position: fixed;
+    bottom: 50px;
+    right: 40px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid darkgray;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.after_btn:hover{
+    background-color: #1D4289;
+    color:white;
+}
+
+
+.before_btn:hover{
+    background-color: #1D4289;
+    color:white;
+}
