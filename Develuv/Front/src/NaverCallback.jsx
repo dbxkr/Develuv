@@ -10,8 +10,8 @@ function NaverCallback() {
       const urlParams = new URLSearchParams(location.search);
       const code = urlParams.get('code');
       const state = urlParams.get('state');
-      const clientId = 'OeXmWy5TKjs0PsWs63Xr';
-      const clientSecret = 'cCJluG2Qps';
+      const clientId = process.env.REACT_APP_NAVER_CLIENT_ID;
+      const clientSecret = process.env.REACT_APP_NAVER_SECRET_KEY;
 
       try {
         const response = await axios.get(`https://nid.naver.com/oauth2.0/token`, {
