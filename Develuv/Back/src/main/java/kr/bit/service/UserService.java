@@ -1,5 +1,6 @@
 package kr.bit.service;
 
+import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
 import kr.bit.dto.UserLoginDTO;
 import kr.bit.mapper.UserMapper;
@@ -14,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 public class UserService {
     @Autowired
     UserMapper userMapper;
-    
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -43,6 +44,14 @@ public class UserService {
         return pw;
     }
 
+    public String findId(UserFindIdDTO findIdDTO) {
+        String id = userMapper.findId(findIdDTO);
+        if (id == null) {
+            id = "이메일을 다시 확인하세요";
+        }
+        return id;
+    }
+
     public String findPw(UserFindPwDTO findPwDTO) {
         String pw = userMapper.findPw(findPwDTO);
         if (pw == null) {
@@ -52,6 +61,7 @@ public class UserService {
     }
 
     public UserLoginDTO login(String userId, String userPw) {
+
         return userMapper.login(userId,userPw);
     }
 }
