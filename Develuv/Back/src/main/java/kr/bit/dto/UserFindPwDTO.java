@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class UserFindPwDTO {
-    String userId;
-    String userEmail;
+    String user_id;
+    String user_email;
 }
