@@ -1,0 +1,115 @@
+.container{
+    margin-top: 50px;
+    margin-left: 10%;
+    text-align: center;
+    width: 80%;
+
+}
+
+.container div {
+    margin-bottom: 10px;
+}
+
+.tt {
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.gray_font{
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #888888;
+}
+
+.sub_title{
+    position: relative;
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.form_label{
+    position: relative;
+    left: 420px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: left;
+}
+
+.half_hr{
+    width: 50%;
+    margin-bottom: 20px ;
+    color: whitesmoke;
+}
+
+.gender_btn{
+    gap: 20px;
+    width: 200px;
+    margin:0px 10px 20px 10px;
+    background-color: white;
+    border: 1px solid whitesmoke;
+    color: darkgray;
+    font-weight: 500;
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+.gender_btn .active{
+    background-color: #1D4289;
+    border-radius: 5px;
+    color: whitesmoke;
+}
+
+.gender_btn:hover{
+    background-color: #1D4289;
+    color: whitesmoke;
+}
+
+.regi3_in{
+    border: 1px solid whitesmoke;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 450;
+    margin-bottom: 10px;
+    width: 380px;
+}
+
+.before_btn{
+    position: fixed;
+    bottom: 50px;
+    left: 40px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid darkgray;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.after_btn{
+    position: fixed;
+    bottom: 50px;
+    right: 40px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid darkgray;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.after_btn:hover{
+    background-color: #1D4289;
+    color:white;
+}
+
+
+.before_btn:hover{
+    background-color: #1D4289;
+    color:white;
+}
