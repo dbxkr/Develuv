@@ -52,16 +52,27 @@
     margin:0px 10px 20px 10px;
     background-color: white;
     border: 1px solid whitesmoke;
+    border-radius: 5px;
     color: darkgray;
     font-weight: 500;
     font-size: 18px;
     padding: 10px 20px;
 }
 
-.gender_btn .active{
+.gender_btn_sel{
     background-color: #1D4289;
     border-radius: 5px;
     color: whitesmoke;
+
+    gap: 20px;
+    width: 200px;
+    margin:0px 10px 20px 10px;
+
+    border: none;
+
+    font-weight: 500;
+    font-size: 18px;
+    padding: 10px 20px;
 }
 
 .gender_btn:hover{
