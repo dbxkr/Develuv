@@ -57,6 +57,7 @@ function Regi5Form({ user_id }) {
   const [selEdu, setSelEdu] = useState("");
 
   // 선택시 state 변환
+
   const plClicked = (lang) => {
     setSelPL(lang);
   };
