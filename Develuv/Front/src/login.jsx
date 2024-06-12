@@ -37,13 +37,21 @@ function Login() {
     const handleKakaoLogin = () => {
         // 클라이언트 ID와 리다이렉트 URI를 사용하여 카카오 OAuth 2.0 인증 요청 URL을 생성합니다.
         const clientId = 'b2a9dd6df1d6d045f36d21f214271aa7'; // 여기에 자신의 카카오 클라이언트 ID를 넣어주세요.
-        const redirectUri = encodeURI('http://localhost:8080/Callback'); // 설정한 리다이렉트 URI와 일치해야 합니다.
+        const redirectUri = encodeURI('http://localhost:8080'); // 설정한 리다이렉트 URI와 일치해야 합니다.
         const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
 
         // 생성된 인증 요청 URL로 페이지를 리다이렉션합니다.
         window.location.href = kakaoAuthUrl;
     };
 
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
     
     return (
         <div className="login-container">
@@ -73,10 +81,18 @@ function Login() {
                 </div>
             </form>
             <div className="link-container">
-                <a href="#" className="link" >아이디 찾기</a> |
+                <a href="#" className="link" onClick={handleOpenModal}>아이디 찾기</a> |
                 <a href="#" className="link">비밀번호 찾기</a> |
                 <a href="#" className="link">회원가입</a>
             </div>
+            <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
+                <div>
+                    {/* 아이디 찾기 모달 내용 */}
+                    <h3>아이디 찾기</h3>
+                    {/* 아이디 찾기 내용을 여기에 추가하세요 */}
+                    <button onClick={handleCloseModal}>Close</button>
+                </div>
+            </Modal>
             <div className="divider">
                 <span>or continue with</span>
             </div>

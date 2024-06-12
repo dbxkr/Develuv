@@ -5,11 +5,11 @@ import kr.bit.dto.UserFindPwDTO;
 import kr.bit.dto.UserLoginDTO;
 import kr.bit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,4 +43,27 @@ public class UserController {
         data.put("유저_정보",userService.login(user_id,user_pw));
         return data;
     }
+    @GetMapping("/sns")
+    public Map<String,Object> sns(@RequestParam String authUrl) {
+        System.out.println(authUrl);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(authUrl, String.class);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("유저_정보",response.getStatusCode());
+        return data;
+    }
+    @GetMapping("/Callback")
+    public Map<String,Object> callback(@RequestBody(required = false) Map<String, String> payload, @RequestParam String code) {
+//        String authCode = payload.get("code");
+//        System.out.println("***********callback payload***********"+authCode);
+        System.out.println("***********callback code***********"+code);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("code",code);
+        return data;
+    }
+
+
 }
