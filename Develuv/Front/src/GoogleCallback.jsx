@@ -15,7 +15,7 @@ function GoogleCallback() {
                         code: code,
                         client_id: google_id,
                         client_secret: google_key,
-                        redirect_uri: 'http://localhost:8080', // Must match the configured redirect URI
+                        redirect_uri: 'http://localhost:8080/Callback', // Must match the configured redirect URI
                         grant_type: 'authorization_code',
                     });
                     console.log('Access Token:', response.data.access_token);
