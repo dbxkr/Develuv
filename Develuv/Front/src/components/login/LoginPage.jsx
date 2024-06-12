@@ -1,88 +1,76 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import Modal from "react-modal";
+import Login from "./login";
+import LoginBackground from "./LoginBackground";
+import "./lb.css";
+
+// 모달에 대한 스타일을 정의합니다.
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+  overlay: {
+    overflow: "scroll",
+  },
+};
+
+// 모달의 root element를 설정합니다. (App의 root element를 사용하는 것이 일반적입니다.)
+Modal.setAppElement("#root");
 
 function LoginPage() {
-  const url = "http://localhost:8080/";
-  const [data, setData] = useState(null);
-  const [pw, setPw] = useState("");
-  const [user, setUser] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
-  var daaa;
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
 
-  // useEffect(() => {
-  //   axios
-  //     .get(url)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-  //       if (res.data && typeof res.data === "object" && res.data !== null) {
-  //         daaa = res.data;
-  //         console.log(daaa.id);
-  //         setData(Object.values(res.data));
-  //       } else {
-  //         setData(res.data);
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+    window.addEventListener("resize", handleResize);
 
-  const findPw = () => {
-    const id = document.getElementById("id").value;
-    const email = document.getElementById("email").value;
-    axios
-      .get(url + "findPw?user_id=" + id + "&user_email=" + email)
-      .then((res) => {
-        console.log(res.data);
-        // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === "object" && res.data !== null) {
-          daaa = res.data;
-          console.log(daaa.id);
-          setPw(Object.values(res.data));
-        } else {
-          setPw(res.data);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+    // cleanup 함수를 반환하여 이벤트 리스너를 제거합니다.
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-  const login = () => {
-    const id = document.getElementById("id").value;
-    const pw = document.getElementById("pw").value;
-    axios
-      .get(url + "login?user_id=" + id + "&user_pw=" + pw)
-      .then((res) => {
-        console.log(res.data);
-        // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === "object" && res.data !== null) {
-          daaa = res.data;
-          console.log(daaa.id);
-          setUser(Object.values(res.data));
-        } else {
-          setUser({
-            error: "login failed",
-          });
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
+  }
 
   return (
     <div>
-      <div>
-        id:
-        <input type="text" name="userId" id="id" />
-        <br />
-        pw:
-        <input type="password" name="userPw" id="pw" />
-        <br />
-        email:
-        <input type="text" name="userEmail" id="email" />
-        <br />
-        <button onClick={login}>로긴하기</button>
-        <button onClick={findPw}>비번 찾기</button>
-        <div>유저 정보:{JSON.stringify(user)}</div>
-        <div>비번 찾기 결과:{pw}</div>
-      </div>
+      <button className="loginBtn" onClick={openModal}>
+        로그인
+      </button>
+      <LoginBackground
+        key={windowSize.width + windowSize.height}
+        windowSize={windowSize}
+      />
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Login Modal"
+      >
+        <Login />
+        <button onClick={closeModal}>닫기</button>
+      </Modal>
     </div>
   );
 }

@@ -9,22 +9,11 @@ function Cell({ value, color, onMouseOver }) {
   );
 }
 
-function LoginBackground() {
+function LoginBackground({ windowSize }) {
   const cellSize = 8 * 2; // 셀의 크기 (px)
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
 
-  useEffect(() => {
-    const handleResize = () =>
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const rows = Math.floor(windowSize.height / cellSize) * 1.2;
-  const cols = Math.floor(windowSize.width / cellSize);
+  const rows = Math.floor(windowSize.height / cellSize) * 1.1;
+  const cols = Math.floor(windowSize.width / cellSize) * 0.7;
   const n = Math.min(rows, cols) / 2; // 웹 페이지의 크기에 따라 변하는 값
 
   const center = { x: Math.floor(cols / 2), y: Math.floor(rows / 2) };
@@ -40,8 +29,8 @@ function LoginBackground() {
 
   useEffect(() => {
     const newData = [...gridData];
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
+    for (let i = 0; i <= rows; i++) {
+      for (let j = 0; j <= cols; j++) {
         const x = j - center.x;
         const y = i - center.y;
         if (x * x + Math.abs(x) * y + y * y < (n * n) / (1.5 * 1.5)) {
@@ -53,7 +42,12 @@ function LoginBackground() {
   }, []); // 빈 의존성 배열을 전달하여 컴포넌트가 마운트될 때만 이 효과를 실행합니다.
 
   const changeColor = (i, j) => {
-    if (gridData[i][j].active && gridData[i][j].color == "lightgray") {
+    if (
+      gridData[i] &&
+      gridData[i][j] &&
+      gridData[i][j].active == true &&
+      gridData[i][j].color == "lightgray"
+    ) {
       const newData = [...gridData];
       newData[i][j] = { ...newData[i][j], color: "#00356d" }; // 색상 변경
       setGridData(newData);
