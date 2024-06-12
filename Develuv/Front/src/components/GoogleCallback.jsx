@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 function GoogleCallback() {
+    const history = useHistory();
+
     useEffect(() => {
         const handleGoogleCallback = async () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const google_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-            const google_key = process.env.REACT_APP_GOOGLE_SECRET_KEY;
+            const google_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+            const google_key = import.meta.env.VITE_GOOGLE_SECRET_KEY;
             const code = urlParams.get('code');
             if (code) {
                 try {
@@ -15,7 +18,7 @@ function GoogleCallback() {
                         code: code,
                         client_id: google_id,
                         client_secret: google_key,
-                        redirect_uri: 'http://localhost:8080/Callback', // Must match the configured redirect URI
+                        redirect_uri: 'http://localhost:8080/login/oauth2/code/google', // Must match the configured redirect URI
                         grant_type: 'authorization_code',
                     });
                     console.log('Access Token:', response.data.access_token);
@@ -27,6 +30,9 @@ function GoogleCallback() {
                         },
                     });
                     console.log('User Info:', userInfoResponse.data);
+
+                    // Redirect to mainPage after successful login
+                    history.push('/MainPage');
                 } catch (error) {
                     console.error('Error fetching Google token:', error);
                 }
@@ -34,7 +40,7 @@ function GoogleCallback() {
         };
 
         handleGoogleCallback();
-    }, []);
+    }, [history]);
 
     return (
         <div>

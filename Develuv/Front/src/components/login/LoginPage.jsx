@@ -70,7 +70,9 @@ function LoginPage() {
         contentLabel="Login Modal"
       >
         <Login />
-        <button onClick={closeModal}>닫기</button>
+        <div className="closeBtn">
+          <button onClick={closeModal}>닫기</button>
+        </div>
       </Modal>
     </div>
   );
