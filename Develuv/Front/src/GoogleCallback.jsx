@@ -5,8 +5,8 @@ function GoogleCallback() {
     useEffect(() => {
         const handleGoogleCallback = async () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const google_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-            const google_key = process.env.REACT_APP_GOOGLE_SECRET_KEY;
+            const google_id = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID;
+            const google_key = import.meta.env.REACT_APP_GOOGLE_SECRET_KEY;
             const code = urlParams.get('code');
             if (code) {
                 try {
