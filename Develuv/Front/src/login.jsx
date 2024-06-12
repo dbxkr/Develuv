@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import google from "../.././img/google.png";
-import kakao from "../.././img/kakao.png";
-import naver from "../.././img/naver.png";
-import axios from "axios";
+import google from "./img/google.png";
+import kakao from "./img/kakao.png";
+import naver from "./img/naver.png";
 
 function Login() {
   const [id, setId] = useState("");
@@ -18,40 +17,28 @@ function Login() {
   };
 
   const handleNaverLogin = async () => {
-    const clientId = import.meta.env.VITE_NAVER_CLIENT_ID; // 네이버에서 발급받은 클라이언트 ID
-    console.log(clientId);
+    const clientId = process.env.REACT_APP_NAVER_CLIENT_ID; // 네이버에서 발급받은 클라이언트 ID
     const redirectUri = encodeURI("http://localhost/8080/Callback"); // 콜백 URL
     const state = Math.random().toString(36).substr(2, 11); // 상태 코드 (CSRF 방지를 위해 사용)
     const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
-    axios
-      .get(naverAuthUrl)
-      .then((res) => {
-        console.log(res.data);
-        // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === "object" && res.data !== null) {
-          daaa = res.data;
-          console.log(daaa.id);
-          setUser(Object.values(res.data));
-        } else {
-          setUser({
-            error: "login failed",
-          });
-        }
-      })
-      .catch((err) => console.log(err));
+
+    // 서버로부터의 응답을 받아옵니다.
+    const response = await fetch(naverAuthUrl);
+    console.log(response.status);
 
     // 서버로부터의 응답에 따라 다른 페이지로 리다이렉트합니다.
     if (response.status === 200) {
       // 가입된 사용자
-      window.location.href = naverAuthUrl;
+      // window.location.href = naverAuthUrl;
     } else if (response.status === 401) {
       // 가입되지 않은 사용자
       // window.location.href = "/signup"; // 가입 페이지로 리다이렉트
+      alert("가입하쉴");
     }
   };
   //회원일때 어디페이지로 가는지 확인하기
   const handleGoogleLogin = () => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const redirectUri = encodeURI("http://localhost:8080"); // Must match the configured redirect URI
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=email profile`;
 
@@ -60,7 +47,7 @@ function Login() {
 
   const handleKakaoLogin = () => {
     // 클라이언트 ID와 리다이렉트 URI를 사용하여 카카오 OAuth 2.0 인증 요청 URL을 생성합니다.
-    const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID; // 여기에 자신의 카카오 클라이언트 ID를 넣어주세요.
+    const clientId = process.env.REACT_APP_KAKAO_CLIENT_ID; // 여기에 자신의 카카오 클라이언트 ID를 넣어주세요.
     const redirectUri = encodeURI("http://localhost:8080"); // 설정한 리다이렉트 URI와 일치해야 합니다.
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
 
@@ -77,7 +64,7 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
       <p>Please enter your ID and Password.</p>
       <form onSubmit={handleSubmit}>
