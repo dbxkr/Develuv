@@ -19,35 +19,27 @@ function Login() {
 
   const handleNaverLogin = async () => {
     const clientId = import.meta.env.VITE_NAVER_CLIENT_ID; // 네이버에서 발급받은 클라이언트 ID
-    console.log(clientId);
-    const redirectUri = encodeURI("http://localhost/8080/Callback"); // 콜백 URL
+    const serverUrl = "http://localhost:8080/sns";
+    const redirectUri = encodeURI("http://localhost:8080/Callback"); // 콜백 URL
     const state = Math.random().toString(36).substr(2, 11); // 상태 코드 (CSRF 방지를 위해 사용)
     const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
-    axios
-      .get(naverAuthUrl)
-      .then((res) => {
-        console.log(res.data);
-        // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === "object" && res.data !== null) {
-          daaa = res.data;
-          console.log(daaa.id);
-          setUser(Object.values(res.data));
-        } else {
-          setUser({
-            error: "login failed",
-          });
-        }
-      })
-      .catch((err) => console.log(err));
-
-    // 서버로부터의 응답에 따라 다른 페이지로 리다이렉트합니다.
-    if (response.status === 200) {
-      // 가입된 사용자
-      window.location.href = naverAuthUrl;
-    } else if (response.status === 401) {
-      // 가입되지 않은 사용자
-      // window.location.href = "/signup"; // 가입 페이지로 리다이렉트
-    }
+    window.location.href = naverAuthUrl;
+    // axios
+    //   .get(serverUrl + "?authUrl=" + naverAuthUrl)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     // 데이터가 객체인 경우, 객체의 값을 배열로 변환
+    //     // if (res.data && typeof res.data === "object" && res.data !== null) {
+    //     //   daaa = res.data;
+    //     //   console.log(daaa.id);
+    //     //   setUser(Object.values(res.data));
+    //     // } else {
+    //     //   setUser({
+    //     //     error: "login failed",
+    //     //   });
+    //     // }
+    //   })
+    //   .catch((err) => console.log(err));
   };
   //회원일때 어디페이지로 가는지 확인하기
   const handleGoogleLogin = () => {
