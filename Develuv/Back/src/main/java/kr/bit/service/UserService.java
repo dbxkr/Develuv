@@ -20,8 +20,12 @@ public class UserService {
     private UserMapper userMapper;
     @Autowired
     private JavaMailSender mailSender;
+
     // 인증번호를 저장할 Map (key: 이메일, value: 인증번호)
     private Map<String, String> verificationCodes = new HashMap<>();
+
+    // 인증번호 발송 시간 저장
+    private Map<String, Long> verificationCodeTimestamps = new HashMap<>();
 
     public void saveUser(UserDto userDto) {
         try {
@@ -32,11 +36,18 @@ public class UserService {
             user.setUser_email(userDto.getUser_email());
             user.setUser_birth(userDto.getUser_birth());
             user.setUser_phone(userDto.getUser_phone());
-
+            user.setUser_gender(userDto.getUser_gender());
+            user.setUser_profile(userDto.getUser_profile());
+            user.setUser_provider_id(userDto.getUser_provider_id());
+            user.setUser_heart(userDto.getUser_heart());
+            user.setUser_code(userDto.getUser_code());
+            user.setUser_job(userDto.getUser_job());
+            user.setUser_address(userDto.getUser_address());
+            user.setUser_nbti(userDto.getUser_nbti());
             userMapper.save(user);  // 데이터베이스에 저장
-        } catch (Exception e) {  // 추가된 예외 처리
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("User saving failed", e);  // 예외 발생 시 메시지 출력 및 예외 던지기
+            throw new RuntimeException("User saving failed: " + e.getMessage(), e);
         }
     }
 
@@ -44,8 +55,15 @@ public class UserService {
         return !userMapper.existsById(userId);
     }
 
+    public boolean isUserEmailAvailable(String email) {
+        return !userMapper.existsByEmail(email);
+    }
 
     public String sendVerificationCode(String email) {
+        if (!isUserEmailAvailable(email)) {
+            return "이미 가입된 이메일입니다.";
+        }
+
         MimeMessage message = mailSender.createMimeMessage();
         String success = "인증번호가 발송되었습니다";
         try {
@@ -54,8 +72,11 @@ public class UserService {
             // 랜덤한 4자리 숫자 생성
             String verificationCode = generateVerificationCode();
 
-            // 인증번호를 Map에 저장
+            // 인증번호를 Map에 저장 (이전 인증번호 무효화)
             verificationCodes.put(email, verificationCode);
+
+            // 인증번호 발송 시간 저장
+            verificationCodeTimestamps.put(email, System.currentTimeMillis());
 
             // 메일 수신 시 표시될 이름 설정
             messageHelper.setFrom("btt0408@gmail.com", "Develuv");
@@ -74,17 +95,21 @@ public class UserService {
 
     private String generateVerificationCode() {
         Random random = new Random();
-        int code = random.nextInt(9000) + 1000; // 1000부터 9999 사이의 숫자 생성
+        int code = random.nextInt(9000) + 1000;  // 1000부터 9999 사이의 숫자 생성
         return String.valueOf(code);
     }
 
     public String verifyCode(String email, String code) {
         String storedCode = verificationCodes.get(email);
-        if (storedCode != null && storedCode.equals(code)) {
+        Long timestamp = verificationCodeTimestamps.get(email);
+
+        // 인증번호가 유효한 시간 설정 (예: 5분)
+        long validDuration = 5 * 60 * 1000;
+
+        if (storedCode != null && storedCode.equals(code) && (System.currentTimeMillis() - timestamp) < validDuration) {
             return "인증이 완료되었습니다.";
         } else {
-            return "인증번호가 일치하지 않습니다. 다시 입력해주세요.";
+            return "인증번호가 일치하지 않거나 만료되었습니다. 다시 입력해주세요.";
         }
     }
 }
-

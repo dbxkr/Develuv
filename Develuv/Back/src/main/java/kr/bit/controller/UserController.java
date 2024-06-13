@@ -40,16 +40,12 @@ public class UserController {
         }
     }
 
-
-    // 사용자 ID 중복 확인 요청을 처리합니다.
     @GetMapping("/checkUserId")
     @CrossOrigin(origins = "http://localhost:3500")
     public boolean checkUserId(@RequestParam String userId) {
         return userService.isUserIdAvailable(userId);
     }
 
-
-    // 이메일 인증 요청을 처리하여 인증 코드를 발송합니다.
     @PostMapping("/sendVerificationCode")
     @CrossOrigin(origins = "http://localhost:3500")
     public Map<String, Object> sendVerificationCode(@RequestParam String email) {
@@ -58,7 +54,6 @@ public class UserController {
         map.put("msg", msg);
         return map;
     }
-
 
     @PostMapping("/verifyCode")
     @CrossOrigin(origins = "http://localhost:3500")
