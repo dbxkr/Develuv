@@ -11,7 +11,6 @@
   <url>http://maven.apache.org</url>
 
   <packaging>war</packaging>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <org.springframework-version>5.2.2.RELEASE</org.springframework-version>

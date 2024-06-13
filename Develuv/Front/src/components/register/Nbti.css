@@ -1,0 +1,133 @@
+.container-header {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+
+/* 'vs' 폰트 위치 조정 */
+.container-button-center {
+  padding: 100px;
+}
+
+/* NBTI 선택 버튼 */
+.container-button {
+  display: flex;
+  text-align: left;
+  font-weight: bold;
+  justify-content: center;
+}
+
+.container-button input[type="radio"] {
+  display: none;
+}
+
+.container-button input[type="radio"] + label {
+  display: inline-block;
+  width: 300px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  box-shadow: 0 5px 5px -5px #888;
+  border: 1px solid #888;
+  border-radius: 5px;
+  background-color: #f7f8fc;
+}
+
+.container-button input[type="radio"]:checked + label {
+  color: white;
+  background-color: #00356d;
+}
+
+.container-button ul {
+  list-style: none;
+}
+
+.container-button li {
+  margin-top: 30px;
+  margin-right: 40px;
+}
+
+.container-footer {
+  margin-top: 100px;
+}
+
+.left-button {
+  position: fixed;
+  bottom: 50px;
+  left: 40px;
+}
+
+.right-button {
+  position: fixed;
+  bottom: 50px;
+  right: 40px;
+}
+
+.container-footer button {
+  width: 70px;
+  padding: 5px;
+  border: 1px solid #888;
+  border-radius: 5px;
+}
+
+/* button:hover {
+  color: white;
+  background-color: #00356d;
+} */
+
+/* 1~5단계 프로그레스 막대 */
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.progress-line {
+  position: relative;
+  width: 300px; /* 적절한 너비 지정 */
+  height: 4px; /* 선의 두께 */
+  background-color: #00356d; /* 선의 색상 */
+  z-index: 10;
+}
+
+.progress-circle-fourth {
+  position: absolute;
+  width: 30px; /* 동그라미의 지름 */
+  height: 30px; /* 동그라미의 지름 */
+  border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
+  background-color: #00356d; /* 동그라미의 색상 */
+  top: -13px; /* 선 위에 위치하도록 조정 */
+  transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* 텍스트 색상 */
+  font-weight: bold;
+  left: calc(75% - 15px); /* 네 번째 동그라미의 위치 */
+}
+
+.progress-circle-fourth::after {
+  content: "4"; /* 4번 동그라미에 텍스트 추가 */
+}
+
+.progress-circle-fifth {
+  position: absolute;
+  width: 30px; /* 동그라미의 지름 */
+  height: 30px; /* 동그라미의 지름 */
+  border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
+  background-color: #cccccc; /* 동그라미의 색상 */
+  top: -13px; /* 선 위에 위치하도록 조정 */
+  transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* 텍스트 색상 */
+  font-weight: bold;
+  background-color: #cccccc; /* 마지막 동그라미의 색상 */
+  right: 0; /* 다섯 번째 동그라미의 위치 */
+}
+
+.progress-circle-fifth::after {
+  content: "5"; /* 마지막 동그라미에 텍스트 추가 */
+}
