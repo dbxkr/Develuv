@@ -6,7 +6,7 @@ import { useMatch } from "react-router-dom";
 const LoginCallback = (props) => {
   const navigate = useNavigate();
   let match = useMatch("/callback/:provider");
-  const serverUrl = "http://localhost:8080/sns";
+  const serverUrl = "http://localhost:8080/user/sns";
 
   const { naver } = window;
 

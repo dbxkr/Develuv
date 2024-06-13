@@ -15,7 +15,7 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
   const [email, setEmail] = useState("");
   const [foundId, setFoundId] = useState(""); // 아이디 찾기 결과를 저장하는 상태
   const [foundPw, setFoundPw] = useState(""); // 비밀번호 찾기 결과를 저장하는 상태
-  const url = "http://localhost:8080/";
+  const url = "http://localhost:8080/user/";
 
   const handleSubmit = async (event) => {
     event.preventDefault();

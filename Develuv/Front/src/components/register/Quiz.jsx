@@ -1,51 +1,51 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import './Quiz.css'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Quiz.css";
 
 const Quiz = ({ onSuccess }) => {
-  const [quiz, setQuiz] = useState(null)
-  const [selectedAnswer, setSelectedAnswer] = useState('')
-  const [attemptsLeft, setAttemptsLeft] = useState(4) // 시도 횟수 4번으로 설정
-  const [errorMessage, setErrorMessage] = useState('')
+  const [quiz, setQuiz] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [attemptsLeft, setAttemptsLeft] = useState(4); // 시도 횟수 4번으로 설정
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/quizzes')
+      .get("http://localhost:8080/quizzes")
       .then((response) => {
-        console.log(response.data) // 응답 데이터 확인
-        setQuiz(response.data) // 퀴즈 데이터 설정
+        console.log(response.data); // 응답 데이터 확인
+        setQuiz(response.data); // 퀴즈 데이터 설정
       })
       .catch((error) => {
-        console.error('Error fetching quiz:', error)
-        setErrorMessage('Error fetching quiz.') // 오류 발생 시 메시지 설정
-      })
-  }, [])
+        console.error("Error fetching quiz:", error);
+        setErrorMessage("Error fetching quiz."); // 오류 발생 시 메시지 설정
+      });
+  }, []);
 
   const handleAnswerChange = (answer) => {
-    setSelectedAnswer(answer)
-  }
+    setSelectedAnswer(answer);
+  };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:8080/quizzes/submit',
+        "http://localhost:8080/quizzes/submit",
         { answer: selectedAnswer }
-      )
+      );
       if (response.data.correct) {
-        onSuccess() // 정답일 경우 다음 단계로 이동
+        onSuccess(); // 정답일 경우 다음 단계로 이동
       } else {
-        setAttemptsLeft(response.data.attemptsLeft) // 오답일 경우 남은 시도 횟수 업데이트
-        setErrorMessage('오답입니다. 다시 도전해보세요!') // 오류 메시지 설정
+        setAttemptsLeft(response.data.attemptsLeft); // 오답일 경우 남은 시도 횟수 업데이트
+        setErrorMessage("오답입니다. 다시 도전해보세요!"); // 오류 메시지 설정
       }
     } catch (error) {
-      setErrorMessage('Error submitting quiz.') // 제출 오류 시 메시지 설정
-      console.error('Error submitting quiz:', error)
+      setErrorMessage("Error submitting quiz."); // 제출 오류 시 메시지 설정
+      console.error("Error submitting quiz:", error);
     }
-  }
+  };
 
-  if (!quiz) return <p>Loading...</p>
-  if (!quiz.options) return <p>Error loading quiz options.</p>
+  if (!quiz) return <p>Loading...</p>;
+  if (!quiz.options) return <p>Error loading quiz options.</p>;
 
   return (
     <div className="quiz-container">
@@ -80,7 +80,7 @@ const Quiz = ({ onSuccess }) => {
                 key={option}
                 type="button"
                 className={`radio-like-button ${
-                  selectedAnswer === option ? 'selected' : ''
+                  selectedAnswer === option ? "selected" : ""
                 }`}
                 onClick={() => handleAnswerChange(option)}
               >
@@ -99,7 +99,7 @@ const Quiz = ({ onSuccess }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Quiz
+export default Quiz;

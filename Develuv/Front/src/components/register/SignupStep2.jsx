@@ -1,176 +1,176 @@
-import React, { useState, useEffect } from 'react'
-import './SignupStep2.css'
-import axios from 'axios'
+import React, { useState, useEffect } from "react";
+import "./SignupStep2.css";
+import axios from "axios";
 
 const SignupStep2 = () => {
   const [formData, setFormData] = useState({
-    user_id: '',
-    user_pw: '',
-    user_pw_confirm: '',
-    user_email: '',
-    verification_code: '',
-    user_name: '',
-    user_birth: '',
-    user_phone: '',
-    user_gender: '',
-    user_profile: '',
-    user_provider_id: '',
-    user_heart: '',
-    user_code: '',
-    user_job: '',
-    user_address: '',
-    user_nbti: '',
-  })
+    user_id: "",
+    user_pw: "",
+    user_pw_confirm: "",
+    user_email: "",
+    verification_code: "",
+    user_name: "",
+    user_birth: "",
+    user_phone: "",
+    user_gender: "",
+    user_profile: "",
+    user_provider_id: "",
+    user_heart: "",
+    user_code: "",
+    user_job: "",
+    user_address: "",
+    user_nbti: "",
+  });
 
   const [formErrors, setFormErrors] = useState({
-    user_id: '',
-    user_pw: '',
-    user_pw_confirm: '',
-    user_email: '',
-  })
+    user_id: "",
+    user_pw: "",
+    user_pw_confirm: "",
+    user_email: "",
+  });
 
   const [fieldTouched, setFieldTouched] = useState({
     user_id: false,
     user_pw: false,
     user_pw_confirm: false,
     user_email: false,
-  })
+  });
 
-  const [showVerificationField, setShowVerificationField] = useState(false)
-  const [userIdAvailable, setUserIdAvailable] = useState(null)
-  const [verificationMessage, setVerificationMessage] = useState('')
-  const [userIdCheckMessage, setUserIdCheckMessage] = useState('')
+  const [showVerificationField, setShowVerificationField] = useState(false);
+  const [userIdAvailable, setUserIdAvailable] = useState(null);
+  const [verificationMessage, setVerificationMessage] = useState("");
+  const [userIdCheckMessage, setUserIdCheckMessage] = useState("");
 
   useEffect(() => {
-    if (fieldTouched.user_id) validateUserId(formData.user_id)
-    if (fieldTouched.user_pw) validatePassword(formData.user_pw)
+    if (fieldTouched.user_id) validateUserId(formData.user_id);
+    if (fieldTouched.user_pw) validatePassword(formData.user_pw);
     if (fieldTouched.user_pw_confirm)
-      validatePasswordConfirm(formData.user_pw, formData.user_pw_confirm)
-    if (fieldTouched.user_email) validateEmail(formData.user_email)
-  }, [formData, fieldTouched])
+      validatePasswordConfirm(formData.user_pw, formData.user_pw_confirm);
+    if (fieldTouched.user_email) validateEmail(formData.user_email);
+  }, [formData, fieldTouched]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
-    })
-    if (name === 'user_id') {
-      setUserIdCheckMessage('') // 아이디 필드가 수정되면 중복 확인 메시지를 숨김
+    });
+    if (name === "user_id") {
+      setUserIdCheckMessage(""); // 아이디 필드가 수정되면 중복 확인 메시지를 숨김
     }
-  }
+  };
 
   const handleFocus = (e) => {
-    const { name } = e.target
+    const { name } = e.target;
     setFieldTouched({
       ...fieldTouched,
       [name]: true,
-    })
-  }
+    });
+  };
 
   const handleBlur = (e) => {
-    const { name } = e.target
+    const { name } = e.target;
     setFieldTouched({
       ...fieldTouched,
       [name]: false,
-    })
-  }
+    });
+  };
 
   const validateUserId = (user_id) => {
-    let error = ''
+    let error = "";
     if (user_id.length < 6) {
-      error = '아이디는 6글자 이상이어야 합니다.'
+      error = "아이디는 6글자 이상이어야 합니다.";
     }
-    setFormErrors((prevErrors) => ({ ...prevErrors, user_id: error }))
-  }
+    setFormErrors((prevErrors) => ({ ...prevErrors, user_id: error }));
+  };
 
   const validatePassword = (user_pw) => {
-    let error = ''
+    let error = "";
     if (user_pw.length < 8) {
-      error = '비밀번호는 8글자 이상이어야 합니다.'
+      error = "비밀번호는 8글자 이상이어야 합니다.";
     } else if (!/\d/.test(user_pw)) {
-      error = '비밀번호에는 숫자가 포함되어야 합니다.'
+      error = "비밀번호에는 숫자가 포함되어야 합니다.";
     }
-    setFormErrors((prevErrors) => ({ ...prevErrors, user_pw: error }))
-  }
+    setFormErrors((prevErrors) => ({ ...prevErrors, user_pw: error }));
+  };
 
   const validatePasswordConfirm = (user_pw, user_pw_confirm) => {
-    let error = ''
+    let error = "";
     if (user_pw !== user_pw_confirm) {
-      error = '비밀번호가 일치하지 않습니다.'
+      error = "비밀번호가 일치하지 않습니다.";
     }
-    setFormErrors((prevErrors) => ({ ...prevErrors, user_pw_confirm: error }))
-  }
+    setFormErrors((prevErrors) => ({ ...prevErrors, user_pw_confirm: error }));
+  };
 
   const validateEmail = (user_email) => {
-    let error = ''
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    let error = "";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(user_email)) {
-      error = '유효한 이메일 주소를 입력하세요.'
+      error = "유효한 이메일 주소를 입력하세요.";
     }
-    setFormErrors((prevErrors) => ({ ...prevErrors, user_email: error }))
-  }
+    setFormErrors((prevErrors) => ({ ...prevErrors, user_email: error }));
+  };
 
   const handleCheckId = async () => {
     if (!formErrors.user_id) {
       try {
         const response = await axios.get(
           `http://localhost:8080/user/checkUserId?userId=${formData.user_id}`
-        )
-        setUserIdAvailable(response.data)
+        );
+        setUserIdAvailable(response.data);
         setUserIdCheckMessage(
           response.data
-            ? '사용 가능한 아이디입니다.'
-            : '이미 사용 중인 아이디입니다.'
-        )
+            ? "사용 가능한 아이디입니다."
+            : "이미 사용 중인 아이디입니다."
+        );
       } catch (error) {
-        console.error('Error checking user ID:', error)
+        console.error("Error checking user ID:", error);
       }
     }
-  }
+  };
 
   const handleSendVerificationCode = async () => {
     if (!formErrors.user_email) {
       try {
         const response = await axios.post(
           `http://localhost:8080/user/sendVerificationCode?email=${formData.user_email}`
-        )
-        setShowVerificationField(true)
-        alert(response.data.msg) // 서버에서 보낸 메시지 알림
+        );
+        setShowVerificationField(true);
+        alert(response.data.msg); // 서버에서 보낸 메시지 알림
       } catch (error) {
-        console.error('Error sending verification code:', error)
+        console.error("Error sending verification code:", error);
       }
     }
-  }
+  };
 
   const handleVerifyCode = async () => {
     try {
       const response = await axios.post(
         `http://localhost:8080/user/verifyCode?email=${formData.user_email}&code=${formData.verification_code}`
-      )
+      );
       if (response.data.isValid) {
-        setVerificationMessage('인증이 완료되었습니다.')
+        setVerificationMessage("인증이 완료되었습니다.");
       } else {
-        setVerificationMessage('인증에 실패하였습니다.')
+        setVerificationMessage("인증에 실패하였습니다.");
       }
     } catch (error) {
-      setVerificationMessage('Error verifying code: ' + error.message)
+      setVerificationMessage("Error verifying code: " + error.message);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:8080/user/signup',
+        "http://localhost:8080/user/signup",
         formData
-      )
-      alert(response.data) // 서버에서 반환된 메시지를 알림으로 표시
+      );
+      alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
     } catch (error) {
-      console.error('Error signing up:', error)
-      alert('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.')
+      console.error("Error signing up:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
-  }
+  };
 
   return (
     <div className="quiz-container">
@@ -182,7 +182,7 @@ const SignupStep2 = () => {
       </div>
       <div className="copy">
         <div className="sign-up">Sign Up</div>
-        <div className="welcome-to-bluv">Welcome to Bluv</div>
+        <div className="welcome-to-bluv">Welcome to Develuv</div>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="field input-with-button">
@@ -317,7 +317,7 @@ const SignupStep2 = () => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default SignupStep2
+export default SignupStep2;
