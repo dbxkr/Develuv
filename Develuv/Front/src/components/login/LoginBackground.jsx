@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./lb.css";
 function Cell({ value, color, onMouseOver }) {
   const style = { color: color, userSelect: "none" };
   return (

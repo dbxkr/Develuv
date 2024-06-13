@@ -12,6 +12,9 @@ public interface UserMapper {
     @Select("select user_id from users where user_email = #{user_email}")
     String findId(UserFindIdDTO userFindIdDTO);
 
+    @Select("select user_id from users where user_id = #{user_id}")
+    String findById(String user_id);
+
     @Select("select user_pw from users where user_email = #{user_email} and user_id = #{user_id}")
     String findPw(UserFindPwDTO userFindPwDTO);
 

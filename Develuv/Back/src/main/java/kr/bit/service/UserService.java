@@ -21,6 +21,7 @@ public class UserService {
 
     public String findPwEmail(UserFindPwDTO findPwDTO) {
         String pw = userMapper.findPw(findPwDTO);
+
         if (pw == null) {
             pw = "아이디 혹은 이메일을 다시 확인하세요";
         }else{
@@ -29,7 +30,7 @@ public class UserService {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
 
                 //메일 수신 시 표시될 이름 설정
-                messageHelper.setFrom("btt0408@gmail.com","develuv");
+                messageHelper.setFrom("btt0408@gmail.com","Develuv");
                 messageHelper.setSubject("비번 확인하셈");
                 messageHelper.setTo(findPwDTO.getUser_email());
                 messageHelper.setText("비밀번호 이거임:\n"+pw);
@@ -63,5 +64,12 @@ public class UserService {
     public UserLoginDTO login(String userId, String userPw) {
 
         return userMapper.login(userId,userPw);
+    }
+
+    public boolean findById(String user_id) {
+        if(userMapper.findById(user_id) == null) {
+            return false;
+        }
+        return true;
     }
 }

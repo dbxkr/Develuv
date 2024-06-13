@@ -4,9 +4,15 @@ import App from "./App.jsx";
 import "./index.css";
 import "./login.css";
 import LoginPage from "./components/login/LoginPage.jsx";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import LoginCallback from "./components/login/LoginCallback.jsx";
+import Login from "./login.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <LoginPage />
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/callback/:provider" element={<LoginCallback />} />
+    </Routes>
+  </BrowserRouter>
 );
