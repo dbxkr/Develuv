@@ -72,8 +72,23 @@
     <!--      <artifactId>spring-security-taglibs</artifactId>-->
     <!--      <version>${org.springsecurity-version}</version>-->
     <!--    </dependency>-->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>javax.mail-api</artifactId>
+      <version>1.6.2</version>
+    </dependency>
 
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
+    </dependency>
 
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${org.springframework-version}</version>
+    </dependency>
 
     <!--추가-->
     <dependency>
