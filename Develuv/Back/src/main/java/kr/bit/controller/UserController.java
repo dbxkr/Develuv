@@ -2,29 +2,22 @@ package kr.bit.controller;
 
 import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
-import kr.bit.dto.UserLoginDTO;
 import kr.bit.dto.social.KakaoLoginDTO;
 import kr.bit.dto.social.NaverLoginDTO;
+import kr.bit.dto.UserDto;
 import kr.bit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
+
     @Autowired
     UserService userService;
 
@@ -36,7 +29,26 @@ public class UserController {
 
         return data;
     }
-
+    @PostMapping("/save")
+    public void saveUser(@RequestBody UserDto userDto) {
+        userService.saveUser(userDto);
+    }
+    // 회원가입 요청을 처리합니다.
+    @PostMapping("/signup")
+    @CrossOrigin(origins = "http://localhost:3500")
+    public ResponseEntity<String> signup(@RequestBody UserDto userDto) {
+        try {
+            userService.saveUser(userDto);  // 예외 발생 가능성
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/json; charset=UTF-8");
+            return new ResponseEntity<>("회원가입이 완료되었습니다.", headers, HttpStatus.OK);
+        } catch (Exception e) {  // 추가된 예외 처리
+            e.printStackTrace();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/json; charset=UTF-8");
+            return new ResponseEntity<>("회원가입 중 오류가 발생했습니다.", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/findPw")
     public Map<String,String> findPw(@ModelAttribute UserFindPwDTO userFindPwDTO) {
         Map<String, String> data = new HashMap<>();
@@ -57,33 +69,6 @@ public class UserController {
         String header = "Bearer " + naverLoginDTO.getCode(); // Bearer 다음에 공백 추가
 //        System.out.println("***********callback code***********:\n"+header);
         naverLoginDTO.setMember(userService.findById(naverLoginDTO.getId()));
-        System.out.println("**************************************");
-//        System.out.println("header: "+header);
-//        System.out.println(naverLoginDTO);
-//        try {
-//            String apiURL = "https://openapi.naver.com/v1/nid/me";
-//            URL url = new URL(apiURL);
-//            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-//            con.setRequestMethod("GET");
-//            con.setRequestProperty("Authorization", header);
-//            int responseCode = con.getResponseCode();
-//            BufferedReader br;
-//            if(responseCode==200) { // 정상 호출
-//                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//            } else {  // 에러 발생
-//                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-//            }
-//            String inputLine;
-//            StringBuffer response = new StringBuffer();
-//            while ((inputLine = br.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//            br.close();
-//            System.out.println(response.toString());
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-        System.out.println("**************************************");
         Map<String, Object> data = new HashMap<>();
         data.put("naver",naverLoginDTO);
         return data;
@@ -98,5 +83,31 @@ public class UserController {
         return data;
     }
 
+    @GetMapping("/checkUserId")
+    @CrossOrigin(origins = "http://localhost:3500")
+    public boolean checkUserId(@RequestParam String userId) {
+        return userService.isUserIdAvailable(userId);
+    }
 
+
+
+    @PostMapping("/sendVerificationCode")
+    @CrossOrigin(origins = "http://localhost:3500")
+    public Map<String, Object> sendVerificationCode(@RequestParam String email) {
+        String msg = userService.sendVerificationCode(email);
+        Map<String, Object> map = new HashMap<>();
+        map.put("msg", msg);
+        return map;
+    }
+
+    @PostMapping("/verifyCode")
+    @CrossOrigin(origins = "http://localhost:3500")
+    public Map<String, Object> verifyCode(@RequestParam String email, @RequestParam String code) {
+        String msg = userService.verifyCode(email, code);
+        boolean isValid = msg.equals("인증이 완료되었습니다.");
+        Map<String, Object> map = new HashMap<>();
+        map.put("isValid", isValid);
+        map.put("msg", msg);
+        return map;
+    }
 }
