@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./Nbti.css";
 import axios from "axios";
 
@@ -8,8 +8,9 @@ function Nbti({ user_id }) {
   user_id = "hhy";
 
   //유저가 선택한 nbti 요소를 배열 형태로 저장한다.
-  const [nbti, setNbti] = useState([]);
-  const inputNbti = useRef([]);
+  const [nbti, setNbti] = useState(["", "", "", ""]);
+  const inputNbti = useRef(["", "", "", ""]);
+
   const onSetNbti = (e) => {
     //유저의 입력순서가 아닌 NBTI 순서대로 저장하기 위해서 useRef로 순서대로 배열에 담은 후 setNbti 로 저장했다.
     if (e.target.name === "nbti1") {
@@ -24,16 +25,21 @@ function Nbti({ user_id }) {
     if (e.target.name === "nbti4") {
       inputNbti.current[3] = e.target.value;
     }
-    setNbti(inputNbti.current);
-
-    //유효성 검사를 위한 함수 호출
-    checkNbti();
+    setNbti([...inputNbti.current]);
   };
 
-  //NBTI 4개를 전부 선택해야 [다음] 버튼이 활성화되도록 함.
-  const [isValid, setIsValid] = useState(true);
+  //유효성 검사 : NBTI 4개를 전부 선택해야 [다음] 버튼이 활성화되도록 함.
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    checkNbti();
+  }, [nbti]);
+
   const checkNbti = () => {
-    setIsValid(nbti.length >= 4 ? false : true);
+    const allSelected = nbti.every(
+      (value) => value !== "" && value !== undefined
+    );
+    setIsValid(allSelected);
   };
 
   //[이전] 혹은 [다음] 버튼을 누르면 선택한 nbti 배열을 서버에 전송한다.
@@ -162,7 +168,7 @@ function Nbti({ user_id }) {
         <button className="left-button" onClick={onSubmit}>
           이전
         </button>
-        <button onClick={onSubmit} disabled={isValid}>
+        <button className="right-button" onClick={onSubmit} disabled={!isValid}>
           다음
         </button>
       </div>

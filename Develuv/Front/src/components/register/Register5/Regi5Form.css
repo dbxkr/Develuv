@@ -1,6 +1,10 @@
 .container {
-  margin-top: 50px;
-  margin-left: 10%;
+  /* hhy 이하 3줄 추가 및 2줄 주석처리 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-top: 50px;
+  margin-left: 10%; */
   text-align: center;
   width: 80%;
 }
@@ -13,6 +17,7 @@
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: 600;
+  margin-top: 40px; /* hhy 추가 */
 }
 
 .gray_font {
@@ -28,15 +33,17 @@
   font-weight: 600;
 }
 
+.option-container {
+  margin-top: 40px; /* hhy 추가 */
+}
+
 .form_label {
-  position: relative;
-  left: 150px;
+  /* position: relative;
+  left: 150px; */
   font-weight: 500;
   margin-bottom: 5px;
   font-size: 20px;
   border-radius: 5px;
-  width: 300px;
-  text-align: left;
 }
 
 .btn_div {

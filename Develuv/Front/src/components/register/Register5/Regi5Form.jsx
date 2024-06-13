@@ -127,104 +127,107 @@ function Regi5Form({ user_id }) {
         선택 정보로 다른 사람의 정보도 볼 수 있어요
       </div>
 
-      {/* 선호 프로그램 언어*/}
-      <div className={"form_label"}>선호하는 프로그래밍 언어</div>
-      <div className={"btn_div"}>
-        {proLangs.map((pl, index) => (
-          <button
-            type={"button"}
-            key={index}
-            onClick={() => plClicked(pl.lang)}
-            className={"regi5_btn" + `${selPL === pl.lang ? "_selBtn" : ""}`}
-          >
-            {pl.title}
-          </button>
-        ))}
-      </div>
+      <div className="option-container">
+        {/* 선호 프로그램 언어*/}
+        <div className={"form_label"}>선호하는 프로그래밍 언어</div>
+        <div className={"btn_div"}>
+          {proLangs.map((pl, index) => (
+            <button
+              type={"button"}
+              key={index}
+              onClick={() => plClicked(pl.lang)}
+              className={"regi5_btn" + `${selPL === pl.lang ? "_selBtn" : ""}`}
+            >
+              {pl.title}
+            </button>
+          ))}
+        </div>
 
-      {/* 음주 즐기는 정도 */}
-      <div className={"form_label"}>음주</div>
-      <div className={"btn_div"}>
-        {alchols.map((alchol, index) => (
-          <button
-            type={"button"}
-            key={index}
-            onClick={() => alClicked(alchol.type)}
-            className={
-              "regi5_btn" + `${selAlchol === alchol.type ? "_selBtn" : ""}`
-            }
-          >
-            {alchol.title}
-          </button>
-        ))}
-      </div>
+        {/* 음주 즐기는 정도 */}
+        <div className={"form_label"}>음주</div>
+        <div className={"btn_div"}>
+          {alchols.map((alchol, index) => (
+            <button
+              type={"button"}
+              key={index}
+              onClick={() => alClicked(alchol.type)}
+              className={
+                "regi5_btn" + `${selAlchol === alchol.type ? "_selBtn" : ""}`
+              }
+            >
+              {alchol.title}
+            </button>
+          ))}
+        </div>
 
-      {/* 흡연 여부 */}
-      <div className={"form_label"}>흡연</div>
-      <div className={"btn_div"}>
-        {smokes.map((smoke, index) => (
-          <button
-            type={"button"}
-            key={index}
-            onClick={() => smClicked(smoke.type)}
-            className={
-              "regi5_btn" + `${selSmoke === smoke.type ? "_selBtn" : ""}`
-            }
-          >
-            {smoke.title}
-          </button>
-        ))}
-      </div>
+        {/* 흡연 여부 */}
+        <div className={"form_label"}>흡연</div>
+        <div className={"btn_div"}>
+          {smokes.map((smoke, index) => (
+            <button
+              type={"button"}
+              key={index}
+              onClick={() => smClicked(smoke.type)}
+              className={
+                "regi5_btn" + `${selSmoke === smoke.type ? "_selBtn" : ""}`
+              }
+            >
+              {smoke.title}
+            </button>
+          ))}
+        </div>
 
-      {/* 데이팅 스타일 */}
-      <div className={"form_label"}>데이팅 스타일(중복가능)</div>
-      <div className={"btn_div"}>
-        {datingStyles.map((ds, index) => (
-          <button
-            type={"button"}
-            key={index}
-            onClick={() => dsClicked(ds.type)}
-            className={
-              "regi5_btn" + `${selDateStyle === ds.type ? "_selBtn" : ""}`
-            }
-          >
-            {ds.title}
-          </button>
-        ))}
-      </div>
+        {/* 데이팅 스타일 */}
+        <div className={"form_label"}>데이팅 스타일(중복가능)</div>
+        <div className={"btn_div"}>
+          {datingStyles.map((ds, index) => (
+            <button
+              type={"button"}
+              key={index}
+              onClick={() => dsClicked(ds.type)}
+              className={
+                "regi5_btn" + `${selDateStyle === ds.type ? "_selBtn" : ""}`
+              }
+            >
+              {ds.title}
+            </button>
+          ))}
+        </div>
 
-      {/* 종교 여부 */}
-      <div className={"form_label"}>종교</div>
-      <div className={"btn_div"}>
-        {jongs.map((jong, index) => (
-          <button
-            type={"button"}
-            key={index}
-            onClick={() => jongClicked(jong.type)}
-            className={
-              "regi5_btn" + `${selJong === jong.type ? "_selBtn" : ""}`
-            }
-          >
-            {jong.title}
-          </button>
-        ))}
-      </div>
+        {/* 종교 여부 */}
+        <div className={"form_label"}>종교</div>
+        <div className={"btn_div"}>
+          {jongs.map((jong, index) => (
+            <button
+              type={"button"}
+              key={index}
+              onClick={() => jongClicked(jong.type)}
+              className={
+                "regi5_btn" + `${selJong === jong.type ? "_selBtn" : ""}`
+              }
+            >
+              {jong.title}
+            </button>
+          ))}
+        </div>
 
-      {/* 학력 */}
-      <div className={"form_label"}>학력</div>
-      <div className={"btn_div"}>
-        {educations.map((edu, index) => (
-          <button
-            type={"button"}
-            key={index}
-            onClick={() => eduClicked(edu.type)}
-            className={"regi5_btn" + `${selEdu === edu.type ? "_selBtn" : ""}`}
-          >
-            {edu.title}
-          </button>
-        ))}
+        {/* 학력 */}
+        <div className={"form_label"}>학력</div>
+        <div className={"btn_div"}>
+          {educations.map((edu, index) => (
+            <button
+              type={"button"}
+              key={index}
+              onClick={() => eduClicked(edu.type)}
+              className={
+                "regi5_btn" + `${selEdu === edu.type ? "_selBtn" : ""}`
+              }
+            >
+              {edu.title}
+            </button>
+          ))}
+        </div>
       </div>
-
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>
         <button type={"button"} className={"before_btn"}>
