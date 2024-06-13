@@ -4,17 +4,61 @@ import KakaoLogin from "react-kakao-login";
 import google from "../.././img/google.png";
 import kakao from "../.././img/kakao.png";
 import axios from "axios";
+import "../login.css";
+import "./lb.css";
+import ModalComponent from "../ModalComponent";
 
 function Login({ user, setUser, naverLogin, getNaverUser }) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPwModalOpen, setIsPwModalOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [foundId, setFoundId] = useState(""); // 아이디 찾기 결과를 저장하는 상태
+  const [foundPw, setFoundPw] = useState(""); // 비밀번호 찾기 결과를 저장하는 상태
+  const url = "http://localhost:8080/";
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // 여기에 로그인 로직을 추가합니다
-    console.log("ID:", id);
-    console.log("Password:", password);
+    console.log("id:", id);
+    console.log("pw:", password);
+  };
+
+  const findId = async () => {
+    try {
+      const response = await axios.get(url + "findId?user_email=" + email);
+      console.log(response.data);
+      if (
+        response.data &&
+        typeof response.data === "object" &&
+        response.data !== null
+      ) {
+        setFoundId(Object.values(response.data).join(", ")); // foundId 상태에 설정
+      } else {
+        setFoundId(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const findPw = async () => {
+    const id = document.getElementById("pw-id").value; // 비밀번호 찾기 모달의 ID 필드
+    const email = document.getElementById("pw-email").value; // 비밀번호 찾기 모달의 Email 필드
+    try {
+      const response = await axios.get(
+        url + "findPw?user_id=" + id + "&user_email=" + email
+      );
+      console.log(response.data);
+      if (response.data && response.data.비번) {
+        setFoundPw(response.data.비번); // foundPw 상태에 설정
+      } else {
+        setFoundPw("비밀번호를 찾을 수 없습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      setFoundPw("오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   const { naver } = window;
@@ -39,8 +83,7 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
     const redirectUri = encodeURI("http://localhost:3500/callback/google"); // Must match the configured redirect URI
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=email profile`;
-
-    window.location.href = googleAuthUrl; // Redirect to Google login page
+    window.location.href = googleAuthUrl;
   };
 
   const handleKakaoLogin = () => {
@@ -48,8 +91,6 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
     const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID; // 여기에 자신의 카카오 클라이언트 ID를 넣어주세요.
     const redirectUri = encodeURI("http://localhost:3500/callback/kakao"); // 설정한 리다이렉트 URI와 일치해야 합니다.
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-
-    // 생성된 인증 요청 URL로 페이지를 리다이렉션합니다.
     window.location.href = kakaoAuthUrl;
   };
 
@@ -59,6 +100,14 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleOpenPwModal = () => {
+    setIsPwModalOpen(true);
+  };
+
+  const handleClosePwModal = () => {
+    setIsPwModalOpen(false);
   };
 
   return (
@@ -95,22 +144,47 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
           아이디 찾기
         </a>{" "}
         |
-        <a href="#" className="link">
+        <a href="#" className="link" onClick={handleOpenPwModal}>
           비밀번호 찾기
         </a>{" "}
         |
         <a href="#" className="link">
+          {" "}
+          {/*클릭하면 Quiz.jsx로 넘어가게*/}
           회원가입
         </a>
       </div>
-      <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
-        <div>
-          {/* 아이디 찾기 모달 내용 */}
-          <h3>아이디 찾기</h3>
-          {/* 아이디 찾기 내용을 여기에 추가하세요 */}
-          <button onClick={handleCloseModal}>Close</button>
+      <Modal
+        // isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        className="modal-content"
+        overlayClassName="modal-overlay"
+      >
+        <ModalComponent />
+      </Modal>
+
+      <Modal
+        isOpen={isPwModalOpen}
+        onRequestClose={handleClosePwModal}
+        className="modal-content"
+        overlayClassName="modal-overlay"
+      >
+        <div className="modal-body">
+          <h3>비밀번호 찾기</h3>
+          <div className="form-group">
+            <input type="text" id="pw-id" required placeholder="ID" />
+          </div>
+          <div className="form-group">
+            <input type="email" id="pw-email" required placeholder="Email" />
+          </div>
+          <p>Password: {foundPw}</p> {/* 비밀번호 찾기 결과를 표시 */}
+          <div className="button-container">
+            <button onClick={findPw}>OK</button>
+            <button onClick={handleClosePwModal}>Close</button>
+          </div>
         </div>
       </Modal>
+
       <div className="divider">
         <span>or continue with</span>
       </div>
@@ -136,7 +210,7 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
       <br></br>
       <br></br>
       <p>
-        By loggin in,<br></br>you agree to our Terms of Service and Privacy
+        By logging in,<br></br>you agree to our Terms of Service and Privacy
         Policy
       </p>
     </div>

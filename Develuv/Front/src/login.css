@@ -100,3 +100,13 @@ div .loginBtn {
   right: 10%;
   top: 5%;
 }
+
+.modal-content {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: 50%; /* 모달의 너비를 조정하려면 필요에 따라 값을 조절합니다. */
+  height: 50%; /* 모달의 높이를 조정하려면 필요에 따라 값을 조절합니다. */
+}

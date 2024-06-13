@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import google from "./img/google.png";
 import kakao from "./img/kakao.png";
 import naver from "./img/naver.png";
+import "./login.css";
 
 function Login() {
   const [id, setId] = useState("");
@@ -29,8 +30,6 @@ function Login() {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
     const redirectUri = encodeURI("http://localhost:3500/callback/google"); // Must match the configured redirect URI
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=email profile`;
-
-    window.location.href = googleAuthUrl; // Redirect to Google login page
   };
 
   const handleKakaoLogin = () => {
@@ -38,11 +37,7 @@ function Login() {
     const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID; // 여기에 자신의 카카오 클라이언트 ID를 넣어주세요.
     const redirectUri = encodeURI("hhttp://localhost:3500/callback/kakao"); // 설정한 리다이렉트 URI와 일치해야 합니다.
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-
-    // 생성된 인증 요청 URL로 페이지를 리다이렉션합니다.
-    window.location.href = kakaoAuthUrl;
   };
-
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -95,10 +90,8 @@ function Login() {
       </div>
       <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
         <div>
-          {/* 아이디 찾기 모달 내용 */}
           <h3>아이디 찾기</h3>
-          {/* 아이디 찾기 내용을 여기에 추가하세요 */}
-          <button onClick={handleCloseModal}>Close</button>
+          <button onClick={handleCloseModal}>Closeqwe</button>
         </div>
       </Modal>
       <div className="divider">
