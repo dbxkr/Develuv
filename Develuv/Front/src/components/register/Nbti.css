@@ -49,24 +49,31 @@
 
 .container-footer {
   margin-top: 100px;
-  display: flex;
-  justify-content: flex-start;
+}
+
+.left-button {
+  position: fixed;
+  bottom: 50px;
+  left: 40px;
+}
+
+.right-button {
+  position: fixed;
+  bottom: 50px;
+  right: 40px;
 }
 
 .container-footer button {
   width: 70px;
   padding: 5px;
   border: 1px solid #888;
-}
-
-.left-button {
-  margin-right: auto;
+  border-radius: 5px;
 }
 
 /* button:hover {
-    color: white;
-    background-color: #00356d;
-  } */
+  color: white;
+  background-color: #00356d;
+} */
 
 /* 1~5단계 프로그레스 막대 */
 .progress-container {
@@ -81,6 +88,7 @@
   width: 300px; /* 적절한 너비 지정 */
   height: 4px; /* 선의 두께 */
   background-color: #00356d; /* 선의 색상 */
+  z-index: 10;
 }
 
 .progress-circle-fourth {
@@ -96,11 +104,9 @@
   align-items: center;
   color: white; /* 텍스트 색상 */
   font-weight: bold;
-}
-
-.progress-circle-fourth {
   left: calc(75% - 15px); /* 네 번째 동그라미의 위치 */
 }
+
 .progress-circle-fourth::after {
   content: "4"; /* 4번 동그라미에 텍스트 추가 */
 }
@@ -118,9 +124,6 @@
   align-items: center;
   color: white; /* 텍스트 색상 */
   font-weight: bold;
-}
-
-.progress-circle-fifth {
   background-color: #cccccc; /* 마지막 동그라미의 색상 */
   right: 0; /* 다섯 번째 동그라미의 위치 */
 }

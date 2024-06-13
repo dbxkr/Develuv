@@ -1,25 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-function App() {
-  const url = "http://localhost:8080/data";
-  const [data, setData] = useState(null);
-  var daaa;
+import Regi5Form from "./components/register/Register5/Regi5Form";
+import Regi3Form from "./components/register/Register3/Regi3Form";
+import Nbti from "./components/register/Nbti";
 
-  useEffect(() => {
-    axios.get(url)
-      .then(res => {
-        // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === 'object' && res.data !== null) {
-          daaa = res.data;
-          console.log(daaa.id);
-          setData(Object.values(res.data));
-        } else {
-          setData(res.data);
-        }
-      })
-      .catch(err => console.log(err));
-  }, []);
+function App() {
+  // const url = "http://localhost:8080/data";
+  // const [data, setData] = useState(null);
+  // var daaa;
+
+  // useEffect(() => {
+  //   axios
+  //     .get(url)
+  //     .then((res) => {
+  //       // 데이터가 객체인 경우, 객체의 값을 배열로 변환
+  //       if (res.data && typeof res.data === "object" && res.data !== null) {
+  //         daaa = res.data;
+  //         console.log(daaa.id);
+  //         setData(Object.values(res.data));
+  //       } else {
+  //         setData(res.data);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   return (
     <div>
@@ -35,9 +40,12 @@ function App() {
       {/*  // 데이터가 없는 경우, 로딩 메시지 표시*/}
       {/*  <div>데이터를 불러오는 중...</div>*/}
       {/*)}*/}
-      받아온 값 : {data}
+      {/* 받아온 값 : {data} */}
+      <Nbti />
+      {/* <Regi5Form /> */}
+      {/* <Regi3Form /> */}
     </div>
   );
 }
 
-export default App
+export default App;
