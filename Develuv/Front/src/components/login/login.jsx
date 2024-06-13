@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import KakaoLogin from "react-kakao-login";
 import google from "../.././img/google.png";
 import kakao from "../.././img/kakao.png";
 import axios from "axios";
-import "../login.css";
-import "./lb.css";
-import ModalComponent from "../ModalComponent";
+import "./login.css";
+import FindIdModal from "./FindIdModal";
+import FindPwModal from "./FindPwModal";
 
 function Login({ user, setUser, naverLogin, getNaverUser }) {
   const [id, setId] = useState("");
@@ -155,12 +154,17 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
         </a>
       </div>
       <Modal
-        // isOpen={isModalOpen}
+        isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
         className="modal-content"
         overlayClassName="modal-overlay"
       >
-        <ModalComponent />
+        <FindIdModal
+          findId={findId}
+          foundId={foundId}
+          setEmail={setEmail}
+          handleCloseModal={handleCloseModal}
+        />
       </Modal>
 
       <Modal
@@ -169,20 +173,11 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
         className="modal-content"
         overlayClassName="modal-overlay"
       >
-        <div className="modal-body">
-          <h3>비밀번호 찾기</h3>
-          <div className="form-group">
-            <input type="text" id="pw-id" required placeholder="ID" />
-          </div>
-          <div className="form-group">
-            <input type="email" id="pw-email" required placeholder="Email" />
-          </div>
-          <p>Password: {foundPw}</p> {/* 비밀번호 찾기 결과를 표시 */}
-          <div className="button-container">
-            <button onClick={findPw}>OK</button>
-            <button onClick={handleClosePwModal}>Close</button>
-          </div>
-        </div>
+        <FindPwModal
+          findPw={findPw}
+          foundPw={foundPw}
+          handleClosePwModal={handleClosePwModal}
+        />
       </Modal>
 
       <div className="divider">

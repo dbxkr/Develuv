@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import Login from "./login";
 import LoginBackground from "./LoginBackground";
 import axios from "axios";
-// import Login from "../../login";
 
 // 모달에 대한 스타일을 정의합니다.
 const customStyles = {

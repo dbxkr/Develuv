@@ -84,29 +84,66 @@ button.login-button {
 .naver,
 .kakao,
 .google {
-  width: 45px;
+  width: 40px;
   height: 40px;
   border-radius: 5px;
-}
-.background {
-  font-size: 12px;
-  font-weight: bold;
-  width: 8px;
-  height: 12px;
-}
-
-div .loginBtn {
-  /* position: absolute; */
-  right: 10%;
-  top: 5%;
+  cursor: pointer;
 }
 
 .modal-content {
+  position: absolute;
   top: 50%;
   left: 50%;
-  right: auto;
-  bottom: auto;
   transform: translate(-50%, -50%);
-  width: 50%; /* 모달의 너비를 조정하려면 필요에 따라 값을 조절합니다. */
-  height: 50%; /* 모달의 높이를 조정하려면 필요에 따라 값을 조절합니다. */
+  background-color: white;
+  padding: 5px;
+  border: 1px solid #00356d;
+  border-radius: 8px;
+  width: 500px;
+  height: 300px; /* 높이를 조정하여 내용에 맞추기 */
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 100%; /* 버튼이 모달 창의 너비에 맞춰서 정렬되도록 설정 */
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  background-color: #00356d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-buttons button:hover {
+  background-color: #002a50;
+}
+
+.closeBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.background {
+  font-size: 12px;
+  width: 8px;
+  height: 12px;
+  font-weight: bold;
 }

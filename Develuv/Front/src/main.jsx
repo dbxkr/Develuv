@@ -2,11 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import "./login.css";
+import "./components/login/login.css";
 import LoginPage from "./components/login/LoginPage.jsx";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import LoginCallback from "./components/login/LoginCallback.jsx";
-import Login from "./login.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>

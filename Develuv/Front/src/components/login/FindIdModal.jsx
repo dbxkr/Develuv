@@ -1,18 +1,12 @@
 import React from "react";
-import Modal from "react-modal";
 
-const ModalComponent = ({ handleCloseModal }) => {
-  isOpen = { isOpen };
-  onRequestClose = { handleCloseModal };
-  className = "modal-content";
-  overlayClassName = "modal-overlay";
+const FindIdModal = ({ handleCloseModal, setEmail, foundId, findId }) => {
   return (
     <div className="modal-body">
       <h3>아이디 찾기</h3>
       <div className="form-group">
         <input
           type="email"
-          value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
           placeholder="Email"
@@ -27,4 +21,4 @@ const ModalComponent = ({ handleCloseModal }) => {
   );
 };
 
-export default ModalComponent;
+export default FindIdModal;
