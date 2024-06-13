@@ -143,7 +143,7 @@ input[type='date'] {
   font-size: 12px;
   margin-top: 3px;
   position: absolute;
-  top: 100%; /* 필드 아래에 위치 */
+  top: 95%; /* 필드 아래에 위치 */
   left: 60px;
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   background: none; /* 배경색 제거 */
@@ -156,8 +156,8 @@ input[type='date'] {
   margin-top: 3px;
   color: green;
   position: absolute;
-  top: 270px;
-  left: 165px; /* 왼쪽 여백 조정 */
+  top: 38px;
+  left: 80px; /* 왼쪽 여백 조정 */
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
 }
 
@@ -168,8 +168,8 @@ input[type='date'] {
   color: green; /* 텍스트 색상 */
 
   position: absolute;
-  top: 470px; /* 적절한 위치 조정 */
-  left: 180px; /* 왼쪽 여백 조정 */
+  top: 520px; /* 적절한 위치 조정 */
+  left: 170px; /* 왼쪽 여백 조정 */
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   text-align: center;
 }
