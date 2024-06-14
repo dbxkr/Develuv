@@ -51,11 +51,22 @@ const SignupStep2 = () => {
     if (fieldTouched.user_email) validateEmail(formData.user_email);
   }, [formData, fieldTouched]);
 
+  if (state.user != null) {
+    console.log(state);
+    formData.provider = state.provider;
+    formData.user_id = state.user.id;
+    if (state.provider === "naver") {
+      formData.user_pw = state.user.provider;
+      formData.user_pw_confirm = state.user.provider;
+      formData.user_email = state.user.email;
+      formData.verification_code = state.user.provider;
+      formData.user_name = state.user.name;
+      formData.user_birth = state.user.birthyear + "-" + state.user.birthday;
+      formData.user_phone = state.user.mobile;
+    }
+  }
   useEffect(() => {
     console.log(state);
-    if (state != null) {
-      formData.provider = state.provider;
-    }
   }, []);
 
   const handleChange = (e) => {
@@ -169,6 +180,7 @@ const SignupStep2 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
     if (
       formData.user_id === "" &&
       formData.user_pw === "" &&
@@ -180,11 +192,11 @@ const SignupStep2 = () => {
     ) {
     } else {
       try {
-        const response = await axios.post(
-          "http://localhost:8080/user/signup",
-          formData
-        );
-        alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
+        const response = await axios
+          .post("http://localhost:8080/user/signup", formData)
+          .then((res) => {
+            alert(res.data);
+          });
       } catch (error) {
         console.error("Error signing up:", error);
         alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -270,11 +282,7 @@ const SignupStep2 = () => {
             type="email"
             name="user_email"
             placeholder="이메일"
-            value={
-              state && state.provider === "naver"
-                ? state.user.email
-                : formData.user_email
-            }
+            value={formData.user_email}
             onChange={handleChange}
             onFocus={state && state.provider === "naver" ? null : handleFocus}
             onBlur={state && state.provider === "naver" ? null : handleBlur}
@@ -331,11 +339,7 @@ const SignupStep2 = () => {
             type="text"
             name="user_name"
             placeholder="이름"
-            value={
-              state && state.provider === "naver"
-                ? state.user.name
-                : formData.user_name
-            }
+            value={formData.user_name}
             readOnly={state && state.provider === "naver" ? true : false}
             style={
               state && state.provider === "naver"
@@ -349,11 +353,7 @@ const SignupStep2 = () => {
           <input
             type="date"
             name="user_birth"
-            value={
-              state && state.provider === "naver"
-                ? state.user.birthyear + "-" + state.user.birthday
-                : formData.user_birth
-            }
+            value={formData.user_birth}
             readOnly={state && state.provider === "naver" ? true : false}
             style={
               state && state.provider === "naver"
@@ -368,11 +368,7 @@ const SignupStep2 = () => {
             type="text"
             name="user_phone"
             placeholder="휴대전화번호"
-            value={
-              state && state.provider === "naver"
-                ? state.user.mobile
-                : formData.user_phone
-            }
+            value={formData.user_phone}
             readOnly={state && state.provider === "naver" ? true : false}
             style={
               state && state.provider === "naver"

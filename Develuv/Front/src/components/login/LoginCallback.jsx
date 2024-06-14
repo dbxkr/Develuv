@@ -81,6 +81,7 @@ const LoginCallback = (props) => {
             "kakao.access_token",
             JSON.stringify(access_token)
           );
+          navigate("/");
         }
       })
       .catch((err) => console.log(err));
@@ -136,6 +137,8 @@ const LoginCallback = (props) => {
               } else {
                 navigate("/");
               }
+            } else {
+              navigate("/");
             }
           })
           .catch((err) => console.log(err));

@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import Login from "./login";
 import LoginBackground from "./LoginBackground";
 import axios from "axios";
+import { json } from "react-router-dom";
 
 // 모달에 대한 스타일을 정의합니다.
 const customStyles = {
@@ -85,8 +86,7 @@ function LoginPage() {
       const token = localStorage.getItem("kakao.access_token");
       getKakaoUserData(token)
         .then((data) => {
-          console.log(data);
-          setUser(data.properties);
+          setUser(data);
         })
         .catch((err) => {
           console.log(err);
@@ -125,7 +125,7 @@ function LoginPage() {
       <div>
         {user ? (
           <div>
-            {user.name}
+            {user.name ? user.name : user.kakao_account.profile.nickname}
             <button className="loginBtn" onClick={logout}>
               로그아웃
             </button>
