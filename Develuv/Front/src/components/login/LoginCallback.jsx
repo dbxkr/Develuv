@@ -54,6 +54,7 @@ const LoginCallback = (props) => {
     const data = {
       id: user.data.id,
       nickname: user.data.kakao_account.profile.nickname,
+      access_token: access_token,
     };
     axios
       .post(serverUrl + "/kakao", data)
@@ -65,8 +66,13 @@ const LoginCallback = (props) => {
               "카카오로 회원가입 하지 않았습니다. 카카오 계정으로 회원가입을 진행할까요?"
             )
           ) {
-            //여기에 회원가입으로 이동하는 코드 작성. 유저 정보를 함께 보내야함
-            navigate("/");
+            navigate("/register/1", {
+              state: {
+                provider: "kakao",
+                user: data,
+                access_token: access_token,
+              },
+            });
           } else {
             navigate("/");
           }
@@ -110,6 +116,9 @@ const LoginCallback = (props) => {
           .then((res) => {
             console.log(res);
             if (!res.data.naver.member) {
+              const access_token = localStorage.getItem(
+                "com.naver.nid.access_token"
+              );
               localStorage.removeItem("com.naver.nid.access_token");
               if (
                 window.confirm(
@@ -117,7 +126,13 @@ const LoginCallback = (props) => {
                 )
               ) {
                 //여기에 회원가입으로 이동하는 코드 작성. 유저 정보를 함께 보내야함
-                navigate("/");
+                navigate("/register/1", {
+                  state: {
+                    provider: "naver",
+                    user: data,
+                    access_token: access_token,
+                  },
+                });
               } else {
                 navigate("/");
               }
@@ -149,7 +164,7 @@ const LoginCallback = (props) => {
     }
 
     // 요청이 성공하면 navigate('/main')
-  });
+  }, [match]);
 
   return <div id="naverIdLogin" style={{ display: "none" }}></div>;
 };

@@ -6,6 +6,7 @@ import axios from "axios";
 import "./login.css";
 import FindIdModal from "./FindIdModal";
 import FindPwModal from "./FindPwModal";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 function Login({ user, setUser, naverLogin, getNaverUser }) {
   const [id, setId] = useState("");
@@ -147,11 +148,11 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
           비밀번호 찾기
         </a>{" "}
         |
-        <a href="#" className="link">
+        <Link to="/register/1" className="link">
           {" "}
-          {/*클릭하면 Quiz.jsx로 넘어가게*/}
+          {/* Use Link to navigate to Quiz.jsx */}
           회원가입
-        </a>
+        </Link>
       </div>
       <Modal
         isOpen={isModalOpen}

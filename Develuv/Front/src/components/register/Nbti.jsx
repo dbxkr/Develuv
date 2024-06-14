@@ -59,7 +59,9 @@ function Nbti({ user_id }) {
   }
 
   return (
-    <div className="container">
+    <div
+    // className="container"
+    >
       <div className="progress-container">
         <div className="progress-line">
           <div className="total-progress-line">

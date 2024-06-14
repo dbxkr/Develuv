@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./SignupStep2.css";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const SignupStep2 = () => {
   const [formData, setFormData] = useState({
@@ -40,6 +41,7 @@ const SignupStep2 = () => {
   const [userIdAvailable, setUserIdAvailable] = useState(null);
   const [verificationMessage, setVerificationMessage] = useState("");
   const [userIdCheckMessage, setUserIdCheckMessage] = useState("");
+  const { state } = useLocation();
 
   useEffect(() => {
     if (fieldTouched.user_id) validateUserId(formData.user_id);
@@ -48,6 +50,13 @@ const SignupStep2 = () => {
       validatePasswordConfirm(formData.user_pw, formData.user_pw_confirm);
     if (fieldTouched.user_email) validateEmail(formData.user_email);
   }, [formData, fieldTouched]);
+
+  useEffect(() => {
+    console.log(state);
+    if (state != null) {
+      formData.provider = state.provider;
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -160,15 +169,26 @@ const SignupStep2 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/user/signup",
-        formData
-      );
-      alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
-    } catch (error) {
-      console.error("Error signing up:", error);
-      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    if (
+      formData.user_id === "" &&
+      formData.user_pw === "" &&
+      formData.user_pw_confirm === "" &&
+      formData.user_email === "" &&
+      formData.verification_code === "" &&
+      formData.user_name === "" &&
+      formData.user_birth === ""
+    ) {
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/user/signup",
+          formData
+        );
+        alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
+      } catch (error) {
+        console.error("Error signing up:", error);
+        alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
     }
   };
 
@@ -190,16 +210,18 @@ const SignupStep2 = () => {
             type="text"
             name="user_id"
             placeholder="아이디"
-            value={formData.user_id}
+            value={state.user ? state.provider : formData.user_id}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={state.user ? null : handleFocus}
+            onBlur={state.user ? null : handleBlur}
             className="with-button-input"
+            readOnly={!!state.user}
+            style={state.user ? { backgroundColor: "lightgray" } : null}
           />
           <button
             type="button"
             className="check-button"
-            onClick={handleCheckId}
+            onClick={state.user ? null : handleCheckId}
             disabled={!!formErrors.user_id} // 유효성 에러가 있으면 버튼 비활성화
           >
             중복확인
@@ -218,8 +240,10 @@ const SignupStep2 = () => {
             placeholder="비밀번호"
             value={formData.user_pw}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={state.user ? null : handleFocus}
+            onBlur={state.user ? null : handleBlur}
+            style={state.user ? { backgroundColor: "lightgray" } : null}
+            readOnly={!!state.user}
           />
           {fieldTouched.user_pw && formErrors.user_pw && (
             <p className="error-message2">{formErrors.user_pw}</p>
@@ -232,8 +256,10 @@ const SignupStep2 = () => {
             placeholder="비밀번호 재확인"
             value={formData.user_pw_confirm}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={state.user ? null : handleFocus}
+            onBlur={state.user ? null : handleBlur}
+            style={state.user ? { backgroundColor: "lightgray" } : null}
+            readOnly={!!state.user}
           />
           {fieldTouched.user_pw_confirm && formErrors.user_pw_confirm && (
             <p className="error-message2">{formErrors.user_pw_confirm}</p>
@@ -244,16 +270,30 @@ const SignupStep2 = () => {
             type="email"
             name="user_email"
             placeholder="이메일"
-            value={formData.user_email}
+            value={
+              state && state.provider === "naver"
+                ? state.user.email
+                : formData.user_email
+            }
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={state && state.provider === "naver" ? null : handleFocus}
+            onBlur={state && state.provider === "naver" ? null : handleBlur}
             className="with-button-input"
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
           />
           <button
             type="button"
             className="check-button"
-            onClick={handleSendVerificationCode}
+            onClick={
+              state && state.provider === "naver"
+                ? null
+                : handleSendVerificationCode
+            }
           >
             인증 번호 받기
           </button>
@@ -291,7 +331,17 @@ const SignupStep2 = () => {
             type="text"
             name="user_name"
             placeholder="이름"
-            value={formData.user_name}
+            value={
+              state && state.provider === "naver"
+                ? state.user.name
+                : formData.user_name
+            }
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
         </div>
@@ -299,7 +349,17 @@ const SignupStep2 = () => {
           <input
             type="date"
             name="user_birth"
-            value={formData.user_birth}
+            value={
+              state && state.provider === "naver"
+                ? state.user.birthyear + "-" + state.user.birthday
+                : formData.user_birth
+            }
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
         </div>
@@ -308,7 +368,17 @@ const SignupStep2 = () => {
             type="text"
             name="user_phone"
             placeholder="휴대전화번호"
-            value={formData.user_phone}
+            value={
+              state && state.provider === "naver"
+                ? state.user.mobile
+                : formData.user_phone
+            }
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
         </div>

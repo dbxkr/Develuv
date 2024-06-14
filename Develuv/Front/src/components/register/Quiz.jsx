@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Quiz.css";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Quiz = ({ onSuccess }) => {
   const [quiz, setQuiz] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [attemptsLeft, setAttemptsLeft] = useState(4); // 시도 횟수 4번으로 설정
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const { state } = useLocation();
 
   useEffect(() => {
     axios
@@ -19,6 +22,8 @@ const Quiz = ({ onSuccess }) => {
         console.error("Error fetching quiz:", error);
         setErrorMessage("Error fetching quiz."); // 오류 발생 시 메시지 설정
       });
+    console.log("state");
+    console.log(state);
   }, []);
 
   const handleAnswerChange = (answer) => {
@@ -33,7 +38,9 @@ const Quiz = ({ onSuccess }) => {
         { answer: selectedAnswer }
       );
       if (response.data.correct) {
-        onSuccess(); // 정답일 경우 다음 단계로 이동
+        navigate("/register/2", {
+          state: { ...state },
+        });
       } else {
         setAttemptsLeft(response.data.attemptsLeft); // 오답일 경우 남은 시도 횟수 업데이트
         setErrorMessage("오답입니다. 다시 도전해보세요!"); // 오류 메시지 설정

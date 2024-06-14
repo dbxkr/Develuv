@@ -113,7 +113,9 @@ function Regi5Form({ user_id }) {
   };
 
   return (
-    <div className={"container"}>
+    <div
+    // className={"container"}
+    >
       {/*프로그레스 바*/}
       <div className="progress-container">
         <div className="progress-line">
