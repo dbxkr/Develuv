@@ -36,7 +36,7 @@
 }
 
 .progress-circle.second {
-  left: calc(25% - 15px); /* 두 번째 동그라미의 위치 */
+  left: calc(25%); /* 두 번째 동그라미의 위치 */
 }
 
 .progress-circle.second::after {
@@ -59,7 +59,7 @@
 .sign-up {
   font-size: 24px;
   font-weight: bold;
-  margin-top: 100px; /* 상단 간격 조정 */
+  margin-top: 40px; /* 상단 간격 조정 */
 }
 
 .welcome-to-bluv {

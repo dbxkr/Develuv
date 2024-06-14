@@ -10,7 +10,7 @@
   border: 2px solid #000000; /* 박스 테두리 */
   border-radius: 10px; /* 박스 테두리 둥글게 */
   padding: 10px; /* 내부 여백 */
-  margin-top: 100px; /* 상단 간격 조정 */
+  margin-top: 200px; /* 상단 간격 조정 */
   margin-bottom: 40px; /* 하단 간격 조정 */
 
   width: 150%; /* 너비 조정 */

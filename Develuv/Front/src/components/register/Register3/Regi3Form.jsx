@@ -1,9 +1,11 @@
 import "./Regi3Form.css";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Regi3Form() {
   let url = "http://localhost:8080/";
+  const navigate = useNavigate();
 
   const genders = [
     { type: "male", title: "남자" },
@@ -71,6 +73,8 @@ function Regi3Form() {
       .then((response) => {
         // 성공적으로 응답을 받은 경우 처리
         console.log(response.data);
+        navigate('/register/4');
+
       })
       .catch((error) => {
         // 오류가 발생한 경우 처리
@@ -79,7 +83,7 @@ function Regi3Form() {
   };
 
   return (
-    <div className={"container"}>
+    <div >
       <div className={"tt"}>Essential Information</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>

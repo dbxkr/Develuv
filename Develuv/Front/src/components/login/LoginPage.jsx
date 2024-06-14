@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import Login from "./login";
 import LoginBackground from "./LoginBackground";
 import axios from "axios";
-import { json } from "react-router-dom";
 
 // 모달에 대한 스타일을 정의합니다.
 const customStyles = {
@@ -56,6 +55,7 @@ function LoginPage() {
       }
     });
   };
+  
   const getKakaoUserData = async (token) => {
     const user = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
       headers: {
@@ -68,7 +68,7 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    //마운트 시 사이즈 받아오기
+    // 마운트 시 사이즈 받아오기
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -77,13 +77,13 @@ function LoginPage() {
     };
     window.addEventListener("resize", handleResize);
 
-    //미은트 시 네이버 유저인지 체크
+    // 미운트 시 네이버 유저인지 체크
     getNaverUser();
-    //마운트 시 카카오 유저인지 체크
+
+    // 마운트 시 카카오 유저인지 체크
     const token = localStorage.getItem("kakao.access_token");
     console.log("카카오 토큰 :" + token);
     if (token) {
-      const token = localStorage.getItem("kakao.access_token");
       getKakaoUserData(token)
         .then((data) => {
           setUser(data);
@@ -109,6 +109,7 @@ function LoginPage() {
   function closeModal() {
     setModalIsOpen(false);
   }
+  
   const logout = () => {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -122,21 +123,23 @@ function LoginPage() {
 
   return (
     <div>
+      <header style={{ background: 'linear-gradient(90deg, #001d3d, #525dc3)', padding: "15px", color: "white", display: "flex", justifyContent: "space-between" }}>
+      <div style={{ fontSize: "24px",fontWeight: "bold"}}>DeveLuv</div>
       <div>
-        {user ? (
-          <div>
-            {user.name ? user.name : user.kakao_account.profile.nickname}
-            <button className="loginBtn" onClick={logout}>
-              로그아웃
+          {user ? (
+            <div>
+              {user.name ? user.name : user.kakao_account.profile.nickname}
+              <button className="loginBtn" onClick={logout} style={{ marginLeft: "10px", backgroundColor: "white", color: "#00356d", padding: "7px 14px", border: "none", borderRadius: "5px" }}>
+                로그아웃
+              </button>
+            </div>
+          ) : (
+            <button className="loginBtn" onClick={openModal} style={{ backgroundColor: "white", color: "#00356d", padding: "7px 14px", border: "none", borderRadius: "5px" }}>
+              로그인
             </button>
-          </div>
-        ) : (
-          <button className="loginBtn" onClick={openModal}>
-            로그인
-          </button>
-        )}
-      </div>
-      <div></div>
+          )}
+        </div>
+      </header>
       <LoginBackground
         key={windowSize.width + windowSize.height}
         windowSize={windowSize}
