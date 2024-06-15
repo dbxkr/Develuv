@@ -116,7 +116,7 @@
   width: 30px; /* 동그라미의 지름 */
   height: 30px; /* 동그라미의 지름 */
   border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
-  background-color: #cccccc; /* 동그라미의 색상 */
+  background-color: #00356d; /* 동그라미의 색상 */
   top: -13px; /* 선 위에 위치하도록 조정 */
   transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
   display: flex;
@@ -124,7 +124,7 @@
   align-items: center;
   color: white; /* 텍스트 색상 */
   font-weight: bold;
-  background-color: #cccccc; /* 마지막 동그라미의 색상 */
+  background-color: #00356d; /* 마지막 동그라미의 색상 */
   right: 0; /* 다섯 번째 동그라미의 위치 */
 }
 
