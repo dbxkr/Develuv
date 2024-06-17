@@ -55,7 +55,7 @@ function LoginPage() {
       }
     });
   };
-  
+
   const getKakaoUserData = async (token) => {
     const user = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
       headers: {
@@ -109,7 +109,7 @@ function LoginPage() {
   function closeModal() {
     setModalIsOpen(false);
   }
-  
+
   const logout = () => {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -123,9 +123,22 @@ function LoginPage() {
 
   return (
     <div>
-      <header style={{ background: 'linear-gradient(90deg, #001d3d, #525dc3)', padding: "15px", color: "white", display: "flex", justifyContent: "space-between" }}>
-      <div style={{ fontSize: "24px",fontWeight: "bold"}}>DeveLuv</div>
-      <div>
+      <header style={{ 
+        background: 'linear-gradient(90deg, #001d3d, #525dc3)', 
+        padding: "50px", 
+        color: "white", 
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: "center",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 1000
+
+      }}>
+        <div style={{ fontSize: "24px", fontWeight: "bold" }}>DeveLuv</div>
+        <div style={{ display: "flex", alignItems: "center", marginRight: "100px" }}>
           {user ? (
             <div>
               {user.name ? user.name : user.kakao_account.profile.nickname}
@@ -134,16 +147,18 @@ function LoginPage() {
               </button>
             </div>
           ) : (
-            <button className="loginBtn" onClick={openModal} style={{ backgroundColor: "white", color: "#00356d", padding: "7px 14px", border: "none", borderRadius: "5px" }}>
+            <button className="loginBtn" onClick={openModal} style={{ backgroundColor: "white", color: "#00356d", padding: "7px 14px", border: "none", borderRadius: "5px", marginRight: "20px" }}>
               로그인
             </button>
           )}
         </div>
       </header>
-      <LoginBackground
-        key={windowSize.width + windowSize.height}
-        windowSize={windowSize}
-      />
+      <div style={{ marginTop: "90px" }}>
+        <LoginBackground
+          key={windowSize.width + windowSize.height}
+          windowSize={windowSize}
+        />
+      </div>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

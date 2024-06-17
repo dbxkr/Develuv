@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  padding-top: 100px; /* 헤더와 같은 높이만큼의 공간을 확보 */
+
 }
 
 .quiz-header-box {

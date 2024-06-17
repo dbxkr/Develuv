@@ -84,6 +84,12 @@ function Regi3Form() {
 
   return (
     <div >
+     <div className="progress-container">
+        <div className="progress-line">
+          <div className="progress-circle third"></div>
+          <div className="progress-circle fifth"></div>
+        </div>
+      </div>
       <div className={"tt"}>Essential Information</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
