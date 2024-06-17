@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Modal.css'
-import icon from '../../assets/money.svg' // SVG 이미지 파일 import
+import icon from '../../assets/money.png' // PNG 이미지 파일 import
 
 const Modal = ({ type, closeModal }) => {
   const [isNbtiSelection, setIsNbtiSelection] = useState(false)
@@ -33,14 +33,18 @@ const Modal = ({ type, closeModal }) => {
               alt="Icon"
               style={{ width: '50px', height: '50px' }}
             />
-            <p>1000 BIT로 한번 더 소개받기</p>
-            <button onClick={handleCoinUse}>1000 BIT 결제</button>
-            <button onClick={closeModal}>뒤로가기</button>
+            <p className="modal-text">1000 BIT로 한번 더 소개받기</p>
+            <button className="modal-button" onClick={handleCoinUse}>
+              1000 BIT 결제
+            </button>
+            <button className="modal-button" onClick={closeModal}>
+              뒤로가기
+            </button>
           </>
         ) : (
           <>
-            <h4>NBTI</h4>
-
+            <h2>NBTI</h2>
+            <h4>Please select your NBTI.</h4>
             <div className="nbti-container">
               <ul>
                 <li>
