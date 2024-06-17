@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <div>
     <Header/>
     <Routes>
-      <Route path="/" element={<LoginPage />} />
+      <Route path="/" element={<MainChat />} />
       <Route path="/callback/:provider" element={<LoginCallback />} />
       <Route path="/register/1" element={<Quiz />} />
       <Route path="/register/2" element={<SignupStep2 />} />
