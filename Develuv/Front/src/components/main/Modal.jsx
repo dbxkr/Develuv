@@ -43,8 +43,8 @@ const Modal = ({ type, closeModal }) => {
           </>
         ) : (
           <>
-            <h2>NBTI</h2>
-            <h4>Please select your NBTI.</h4>
+            <h3>NBTI</h3>
+            <h4>선호하는 NBTI를 골라주세요.</h4>
             <div className="nbti-container">
               <ul>
                 <li>
