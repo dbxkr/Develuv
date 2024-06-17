@@ -1,0 +1,122 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  position: relative;
+  max-width: 400px; /* 모달창의 최대 너비를 설정 */
+  width: 90%; /* 모달창의 너비를 설정 */
+  left: 15%; /* 왼쪽으로 이동 */
+
+  top: 20%; /* 위쪽으로 이동 */
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px;
+}
+
+.modal-content select {
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  background-color: #1d4289;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.modal-content button:nth-child(3) {
+  background-color: #f44336; /* 뒤로가기 버튼 색상 변경 */
+}
+
+.modal-text {
+  font-weight: bold; /* 텍스트를 두껍게 설정 */
+}
+.modal-content .modal-button:first-of-type {
+  margin-top: 40px; /* 첫 번째 버튼을 밑으로 내림 */
+  margin-bottom: 30px;
+}
+
+.nbti-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.nbti-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nbti-container li {
+  margin-bottom: 10px;
+}
+
+.nbti-container .vs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.nbti-container input[type='radio'] {
+  display: none;
+}
+
+.nbti-container input[type='radio'] + label {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  box-shadow: 0 5px 5px -5px #888;
+  border: 1px solid #888;
+  border-radius: 5px;
+  background-color: #f7f8fc;
+}
+
+.nbti-container input[type='radio']:checked + label {
+  color: white;
+  background-color: #00356d;
+}
+
+button {
+  margin-top: 20px;
+  width: 100px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1d4289;
+  color: white;
+  cursor: pointer;
+}

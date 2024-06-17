@@ -1,21 +1,22 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import "./index.css";
-import "./components/login/login.css";
-import LoginPage from "./components/login/LoginPage.jsx";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
-import LoginCallback from "./components/login/LoginCallback.jsx";
-import Quiz from "./components/register/Quiz.jsx";
-import SignupStep2 from "./components/register/SignupStep2.jsx";
-import Regi3Form from "./components/register/Register3/Regi3Form.jsx";
-import Regi5Form from "./components/register/Register5/Regi5Form.jsx";
-import Nbti from "./components/register/Nbti.jsx";
-import MainPage from "./components/login/MainPage.jsx";
-import Matching from "./components/main/Matching.jsx";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import './components/login/login.css'
+import LoginPage from './components/login/LoginPage.jsx'
+import { Route, BrowserRouter, Routes } from 'react-router-dom'
+import LoginCallback from './components/login/LoginCallback.jsx'
+import Quiz from './components/register/Quiz.jsx'
+import SignupStep2 from './components/register/SignupStep2.jsx'
+import Regi3Form from './components/register/Register3/Regi3Form.jsx'
+import Regi5Form from './components/register/Register5/Regi5Form.jsx'
+import Nbti from './components/register/Nbti.jsx'
+import Matching from './components/main/Matching.jsx'
+import Modal from './components/main/Modal.jsx'
 import Mypage from "./components/mypage/Mypage.jsx";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<LoginPage />} />
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/register/5" element={<Regi5Form />} />
       <Route path={"/main"} element={<Matching />}/>
       <Route path={"/mypage/:user_id"} element={<Mypage/>}/>
+      <Route path="/modal" element={<Modal />} />
     </Routes>
   </BrowserRouter>
-);
+)
