@@ -1,9 +1,12 @@
 import "./Regi3Form.css";
 import { useState } from "react";
 import axios from "axios";
+import UploadImg from "./UploadImg.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Regi3Form() {
   let url = "http://localhost:8080/";
+  const navi = useNavigate();
 
   const genders = [
     { type: "male", title: "남자" },
@@ -71,6 +74,7 @@ function Regi3Form() {
       .then((response) => {
         // 성공적으로 응답을 받은 경우 처리
         console.log(response.data);
+        navi("/register/4")
       })
       .catch((error) => {
         // 오류가 발생한 경우 처리
@@ -139,6 +143,9 @@ function Regi3Form() {
         type={"text"}
         placeholder={"주소 입력"}
       />
+
+      {/* 여기에 이미지 던지기*/}
+      {/*<UploadImg/>*/}
 
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>

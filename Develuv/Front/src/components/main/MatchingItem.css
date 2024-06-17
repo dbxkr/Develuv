@@ -1,0 +1,19 @@
+.MatchingList{
+    margin-top: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.MatchingItem{
+    width: 230px;
+
+    padding: 20px;
+    text-align: center;
+}
+
+.MatchingItem .matching_item_profile{
+    border-radius: 10px;
+    border: 1px solid gray;
+    margin-bottom: 10px;
+}

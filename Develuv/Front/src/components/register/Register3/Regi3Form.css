@@ -9,7 +9,7 @@
   margin-bottom: 10px;
 }
 
-.tt {
+.container .tt {
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: 600;
@@ -106,7 +106,7 @@
   bottom: 50px;
   right: 40px;
   padding: 5px 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: white;
   border: 1px solid darkgray;
   font-size: 20px;
