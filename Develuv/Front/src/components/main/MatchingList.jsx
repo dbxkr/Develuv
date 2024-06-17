@@ -56,15 +56,14 @@ const MatchingList = () => {
 
   return(
     <div className={"MatchingList"}>
-
-
-      {matchList.map((item) =>
-        <MatchingItem key={item.user_id} user_id={item.user_id} user_name={item.user_name}
-                      user_gender={item.user_gender}
-                      user_adress={item.user_address} user_nbti={item.user_nbti} user_profile={item.user_profile}/>)}
-
-      <button onClick={testReload} style={{backgroundColor: "yellow"}}>히히</button>
+      <div className={"MatchingItems"}>
+        {matchList.map((item) =>
+          <MatchingItem key={item.user_id} user_id={item.user_id} user_name={item.user_name}
+                        user_gender={item.user_gender}
+                        user_adress={item.user_address} user_nbti={item.user_nbti} user_profile={item.user_profile}/>)}
+      </div>
     </div>
+
   )
 
 }
