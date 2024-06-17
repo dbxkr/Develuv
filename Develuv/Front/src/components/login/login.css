@@ -147,3 +147,6 @@ button.login-button {
   height: 12px;
   font-weight: bold;
 }
+.loginBtn {
+  color: black;
+}

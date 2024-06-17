@@ -42,4 +42,6 @@ build/
 
 
 /src/main/resources/database.properties
+/src/main/resources/g_drive.properties
 /src/main/resources/email.properties
+/src/main/resources/credentials.json

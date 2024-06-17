@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./SignupStep2.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SignupStep2 = () => {
   const [formData, setFormData] = useState({
@@ -42,6 +42,7 @@ const SignupStep2 = () => {
   const [verificationMessage, setVerificationMessage] = useState("");
   const [userIdCheckMessage, setUserIdCheckMessage] = useState("");
   const { state } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (fieldTouched.user_id) validateUserId(formData.user_id);
@@ -51,7 +52,7 @@ const SignupStep2 = () => {
     if (fieldTouched.user_email) validateEmail(formData.user_email);
   }, [formData, fieldTouched]);
 
-  if (state.user != null) {
+  if (state && state.user != null) {
     console.log(state);
     formData.provider = state.provider;
     formData.user_id = state.user.id;
@@ -192,11 +193,12 @@ const SignupStep2 = () => {
     ) {
     } else {
       try {
-        const response = await axios
-          .post("http://localhost:8080/user/signup", formData)
-          .then((res) => {
-            alert(res.data);
-          });
+        // const response = await axios
+        //   .post("http://localhost:8080/user/signup", formData)
+        //   .then((res) => {
+        //     alert(res.data);
+        //   });
+        navigate("/register/3", formData);
       } catch (error) {
         console.error("Error signing up:", error);
         alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -222,18 +224,20 @@ const SignupStep2 = () => {
             type="text"
             name="user_id"
             placeholder="아이디"
-            value={state.user ? state.provider : formData.user_id}
+            value={state && state.user ? state.provider : formData.user_id}
             onChange={handleChange}
-            onFocus={state.user ? null : handleFocus}
-            onBlur={state.user ? null : handleBlur}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
             className="with-button-input"
-            readOnly={!!state.user}
-            style={state.user ? { backgroundColor: "lightgray" } : null}
+            readOnly={state && !!state.user}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
           />
           <button
             type="button"
             className="check-button"
-            onClick={state.user ? null : handleCheckId}
+            onClick={state && state.user ? null : handleCheckId}
             disabled={!!formErrors.user_id} // 유효성 에러가 있으면 버튼 비활성화
           >
             중복확인
@@ -252,10 +256,12 @@ const SignupStep2 = () => {
             placeholder="비밀번호"
             value={formData.user_pw}
             onChange={handleChange}
-            onFocus={state.user ? null : handleFocus}
-            onBlur={state.user ? null : handleBlur}
-            style={state.user ? { backgroundColor: "lightgray" } : null}
-            readOnly={!!state.user}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
+            readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw && formErrors.user_pw && (
             <p className="error-message2">{formErrors.user_pw}</p>
@@ -268,10 +274,12 @@ const SignupStep2 = () => {
             placeholder="비밀번호 재확인"
             value={formData.user_pw_confirm}
             onChange={handleChange}
-            onFocus={state.user ? null : handleFocus}
-            onBlur={state.user ? null : handleBlur}
-            style={state.user ? { backgroundColor: "lightgray" } : null}
-            readOnly={!!state.user}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
+            readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw_confirm && formErrors.user_pw_confirm && (
             <p className="error-message2">{formErrors.user_pw_confirm}</p>

@@ -11,6 +11,7 @@ import SignupStep2 from "./components/register/SignupStep2.jsx";
 import Regi3Form from "./components/register/Register3/Regi3Form.jsx";
 import Regi5Form from "./components/register/Register5/Regi5Form.jsx";
 import Nbti from "./components/register/Nbti.jsx";
+import ImageUpload from "./components/imgupload.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/register/3" element={<Regi3Form />} />
       <Route path="/register/4" element={<Nbti />} />
       <Route path="/register/5" element={<Regi5Form />} />
+      <Route path="/imgtest" element={<ImageUpload />} />
     </Routes>
   </BrowserRouter>
 );
