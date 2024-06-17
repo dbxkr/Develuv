@@ -1,19 +1,24 @@
 .MatchingList{
-    margin-top: 400px;
+    position:absolute;
+    left: 500px;
+    top:150px;
+    width: auto;
+    text-align: left;
+}
+
+.MatchingItems{
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
-
 .MatchingItem{
-    width: 230px;
-
+    width: 220px;
     padding: 20px;
     text-align: center;
 }
 
 .MatchingItem .matching_item_profile{
     border-radius: 10px;
-    border: 1px solid gray;
+    border: 2px solid aliceblue;
     margin-bottom: 10px;
 }

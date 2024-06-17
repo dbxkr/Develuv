@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/register/4" element={<Nbti />} />
       <Route path="/register/5" element={<Regi5Form />} />
       <Route path={"/main"} element={<Matching />}/>
-      <Route path={"/mypage/:id"} element={<Mypage/>}/>
+      <Route path={"/mypage/:user_id"} element={<Mypage/>}/>
     </Routes>
   </BrowserRouter>
 );

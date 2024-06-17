@@ -4,7 +4,7 @@ const MatchingItem = ({user_id,user_name,user_gender, user_nbti,user_adress,user
   return (
     <div className={"MatchingItem"}>
       <div className={"matching_item_profile"}>
-        <a href={"/mypage/11"}>
+        <a href={`/mypage/${user_id}`}>
           <img src={reactimg} style={{width:"180px", height:"180px"}}/>
         </a>
       </div>
