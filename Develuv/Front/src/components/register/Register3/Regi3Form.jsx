@@ -1,11 +1,20 @@
 import "./Regi3Form.css";
 import { useState } from "react";
 import axios from "axios";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+import UploadImg from "./UploadImg.jsx";
+import {useNavigate} from "react-router-dom";
+>>>>>>> c7a20d1 (add matchingList item tinMypage)
 
 function Regi3Form({ progress, setProgress, formData, setFormData }) {
   let url = "http://localhost:8080/";
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+  const navi = useNavigate();
+>>>>>>> c7a20d1 (add matchingList item tinMypage)
 
   const genders = [
     { type: "male", title: "남자" },
@@ -69,6 +78,7 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
     };
     setProgress(progress + 1);
     // GET 요청 보내기
+<<<<<<< HEAD
     // axios
     //   .get(url + "regi3submit", { params })
     //   .then((response) => {
@@ -80,6 +90,19 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
     //     // 오류가 발생한 경우 처리
     //     console.error("There was an error!", error);
     //   });
+=======
+    axios
+      .get(url + "regi3submit", { params })
+      .then((response) => {
+        // 성공적으로 응답을 받은 경우 처리
+        console.log(response.data);
+        navi("/register/4")
+      })
+      .catch((error) => {
+        // 오류가 발생한 경우 처리
+        console.error("There was an error!", error);
+      });
+>>>>>>> c7a20d1 (add matchingList item tinMypage)
   };
 
   return (
@@ -143,6 +166,9 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
         type={"text"}
         placeholder={"주소 입력"}
       />
+
+      {/* 여기에 이미지 던지기*/}
+      {/*<UploadImg/>*/}
 
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>
