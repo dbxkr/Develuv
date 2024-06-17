@@ -1,5 +1,6 @@
 package kr.bit.mapper;
 
+import kr.bit.dto.UserDto;
 import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
 import kr.bit.dto.UserLoginDTO;
@@ -31,4 +32,7 @@ public interface UserMapper {
 
     @Select("SELECT COUNT(*) > 0 FROM Users WHERE user_email = #{email}")
     boolean existsByEmail(@Param("email") String email);
+
+    @Select("SELECT * from users where user_id=#{user_id}")
+    UserDto findUserById(@Param("user_id") String user_id);
 }

@@ -13,6 +13,8 @@ import Regi5Form from './components/register/Register5/Regi5Form.jsx'
 import Nbti from './components/register/Nbti.jsx'
 import Matching from './components/main/Matching.jsx'
 import Modal from './components/main/Modal.jsx'
+import Mypage from "./components/mypage/Mypage.jsx";
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -24,7 +26,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/register/3" element={<Regi3Form />} />
       <Route path="/register/4" element={<Nbti />} />
       <Route path="/register/5" element={<Regi5Form />} />
-      <Route path="/main" element={<Matching />} />
+      <Route path={"/main"} element={<Matching />}/>
+      <Route path={"/mypage/:user_id"} element={<Mypage/>}/>
       <Route path="/modal" element={<Modal />} />
     </Routes>
   </BrowserRouter>
