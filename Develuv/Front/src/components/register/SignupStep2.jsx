@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import './SignupStep2.css'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import "./SignupStep2.css";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SignupStep2 = () => {
   const navigate = useNavigate()
@@ -47,18 +47,37 @@ const SignupStep2 = () => {
     user_phone: false,
   })
 
-  const [showVerificationField, setShowVerificationField] = useState(false)
-  const [userIdAvailable, setUserIdAvailable] = useState(null)
-  const [verificationMessage, setVerificationMessage] = useState('')
-  const [userIdCheckMessage, setUserIdCheckMessage] = useState('')
+  const [showVerificationField, setShowVerificationField] = useState(false);
+  const [userIdAvailable, setUserIdAvailable] = useState(null);
+  const [verificationMessage, setVerificationMessage] = useState("");
+  const [userIdCheckMessage, setUserIdCheckMessage] = useState("");
+  const { state } = useLocation();
 
   useEffect(() => {
     if (fieldTouched.user_id) validateUserId(formData.user_id)
     if (fieldTouched.user_pw) validatePassword(formData.user_pw)
     if (fieldTouched.user_pw_confirm)
-      validatePasswordConfirm(formData.user_pw, formData.user_pw_confirm)
-    if (fieldTouched.user_email) validateEmail(formData.user_email)
-  }, [formData, fieldTouched])
+      validatePasswordConfirm(formData.user_pw, formData.user_pw_confirm);
+    if (fieldTouched.user_email) validateEmail(formData.user_email);
+  }, [formData, fieldTouched]);
+
+  if (state && state.user != null) {
+    console.log(state);
+    formData.provider = state.provider;
+    formData.user_id = state.user.id;
+    if (state.provider === "naver") {
+      formData.user_pw = state.user.provider;
+      formData.user_pw_confirm = state.user.provider;
+      formData.user_email = state.user.email;
+      formData.verification_code = state.user.provider;
+      formData.user_name = state.user.name;
+      formData.user_birth = state.user.birthyear + "-" + state.user.birthday;
+      formData.user_phone = state.user.mobile;
+    }
+  }
+  useEffect(() => {
+    console.log(state);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -260,16 +279,20 @@ const SignupStep2 = () => {
             type="text"
             name="user_id"
             placeholder="아이디"
-            value={formData.user_id}
+            value={state && state.user ? state.provider : formData.user_id}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
             className="with-button-input"
+            readOnly={state && !!state.user}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
           />
           <button
             type="button"
             className="check-button"
-            onClick={handleCheckId}
+            onClick={state && state.user ? null : handleCheckId}
             disabled={!!formErrors.user_id} // 유효성 에러가 있으면 버튼 비활성화
           >
             중복확인
@@ -288,8 +311,12 @@ const SignupStep2 = () => {
             placeholder="비밀번호"
             value={formData.user_pw}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
+            readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw && formErrors.user_pw && (
             <p className="error-message2">{formErrors.user_pw}</p>
@@ -302,8 +329,12 @@ const SignupStep2 = () => {
             placeholder="비밀번호 재확인"
             value={formData.user_pw_confirm}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
+            readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw_confirm && formErrors.user_pw_confirm && (
             <p className="error-message2">{formErrors.user_pw_confirm}</p>
@@ -319,6 +350,12 @@ const SignupStep2 = () => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             className="with-button-input"
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
           />
           <button
             type="button"
@@ -368,6 +405,12 @@ const SignupStep2 = () => {
             name="user_name"
             placeholder="이름"
             value={formData.user_name}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_name && formErrors.user_name && (
@@ -379,6 +422,12 @@ const SignupStep2 = () => {
             type="date"
             name="user_birth"
             value={formData.user_birth}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_birth && formErrors.user_birth && (
@@ -391,6 +440,12 @@ const SignupStep2 = () => {
             name="user_phone"
             placeholder="휴대전화번호"
             value={formData.user_phone}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_phone && formErrors.user_phone && (
@@ -405,4 +460,4 @@ const SignupStep2 = () => {
   )
 }
 
-export default SignupStep2 
+export default SignupStep2

@@ -98,7 +98,7 @@ function ImageUpload() {
       <input type="file" id="img" />
       <button onClick={uploadFile}>업로드</button>
       <hr />
-      <img src={imgUrl} alt="" />
+      <img src={imgUrl} alt="" style={{ width: "100%", height: "auto" }} />
     </div>
   );
 }

@@ -27,7 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/register/3" element={<Regi3Form />} />
       <Route path="/register/4" element={<Nbti />} />
       <Route path="/register/5" element={<Regi5Form />} />
-      <Route path="/imgtest" element={<ImageUpload/>}/>
+      <Route path="/imgtest" element={<ImageUpload />} />
     </Routes>
     </div>
   </BrowserRouter>
