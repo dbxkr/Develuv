@@ -25,15 +25,17 @@ public class ServletAppContext implements WebMvcConfigurer {
         registry.viewResolver(bean);
 
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3500");
+                        .allowedOrigins("http://localhost:3500", "http://localhost:4000");
             }
         };
     }
+
 
 }

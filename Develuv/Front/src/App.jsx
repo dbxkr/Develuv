@@ -4,6 +4,7 @@ import axios from "axios";
 import Regi5Form from "./components/register/Register5/Regi5Form";
 import Regi3Form from "./components/register/Register3/Regi3Form";
 import Nbti from "./components/register/Nbti";
+import Chat from "./components/chat/Chat";
 
 function App() {
   // const url = "http://localhost:8080/data";
@@ -41,9 +42,10 @@ function App() {
       {/*  <div>데이터를 불러오는 중...</div>*/}
       {/*)}*/}
       {/* 받아온 값 : {data} */}
-      <Nbti />
+      {/* <Nbti /> */}
       {/* <Regi5Form /> */}
       {/* <Regi3Form /> */}
+      <Chat />
     </div>
   );
 }

@@ -1,0 +1,75 @@
+const express = require("express");
+const app = express();
+const http = require("http");
+const cors = require("cors");
+const { Server } = require("socket.io");
+app.use(cors());
+const axios = require("axios");
+
+const server = http.createServer(app);
+
+const port = 4000;
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3500",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("join_room", (data) => {
+    socket.join(data.room);
+    console.log(`${data.username}유저가 ${data.room}번 방에 입장했습니다`);
+    let noti = {
+      message: `${data.username} 유저가 방에 입장했습니다`,
+      author: "알림",
+    };
+
+    axios
+      .post("http://localhost:8080/chat/send", {
+        key1: "Join임",
+        key2: data.username + "가 들어왔다네",
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    socket.to(data.room).emit("receive_message", noti);
+  });
+
+  socket.on("send_message", (data) => {
+    console.log(data);
+    axios
+      .post("http://localhost:8080/chat/send", {
+        key1: "send임",
+        key2: data.message + " <<< 라는 메세지를 받았나봄",
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    socket.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {
+    axios
+      .post("http://localhost:8080/chat/send", {
+        key1: "disconnect임",
+        key2: socket.id + "가 나갔나봄 ㅇㅇ",
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    console.log(`${socket.id}가 접속을 끊었습니다`);
+  });
+});
+
+server.listen(port, () => console.log(`server running on port ${port}`));

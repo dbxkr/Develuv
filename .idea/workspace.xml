@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5abbd9a-4b9b-4ef8-83a2-78c3cd023add" name="Changes" comment="" />
+    <list default="true" id="d5abbd9a-4b9b-4ef8-83a2-78c3cd023add" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Develuv/Back/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Develuv/Back/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Develuv/Front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Develuv/Front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Develuv/Front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Develuv/Front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Develuv/Front/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Develuv/Front/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Develuv/Front/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Develuv/Front/vite.config.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,12 +34,27 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "hhy",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/hwayeon/Documents/study/Develuv/Develuv",
     "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Develuv" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Develuv" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
