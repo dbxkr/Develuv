@@ -20,6 +20,6 @@ public interface MatchingListMapper {
     List<MatchingListDTO> findMatchingListByNbti(String user_nbti, String user_address);
 
     @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
-            "from users where user_address like concat('%',#{user_address},'%') order by user_heart limit 12 ")
+            "from users where user_address like concat('%',#{user_address},'%') order by user_fame limit 12 ")
     List<MatchingListDTO> findMatchingListByFame(String user_address);
 }
