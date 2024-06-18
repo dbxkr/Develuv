@@ -7,11 +7,7 @@ import axios from "axios";
 
 let searchAdr = "dress";
 
-const MatchingList = () => {
-
-  const [matchType, setMatchType] = useState("");
-  const [matchList, setMatchList] = useState([]);
-
+const MatchingList = ({matchList,matchType,setMatchList,setMatchType}) => {
 
   useEffect(() => {
     const formData = new FormData();
