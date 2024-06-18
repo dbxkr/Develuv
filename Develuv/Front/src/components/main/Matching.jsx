@@ -1,12 +1,14 @@
 import MatchingList from './MatchingList.jsx';
 import HeadBar from "../Navigate/HeadBar.jsx";
-import { useEffect, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Left from './Left.jsx';
+import axios from "axios";
 
 const Matching = () => {
-  const [matchType, setMatchType] = useState('normal')
-  const [matchList, setMatchList] = useState([])
   const user_id="user01";
+  const [matchList, setMatchList] = useState([])
+  const [matchType, setMatchType] = useState('normal')
+
 
   return (
     <div className={'Matching'}>
