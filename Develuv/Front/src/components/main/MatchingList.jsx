@@ -14,14 +14,18 @@ const MatchingList = ({matchList, matchType, setMatchList, setMatchType, user_id
       }
     }).then(
       response => {
-        address.current = response.data;
+        address.current=response.data;
         console.log(address.current);
+        getMatchList();
       }).catch(error => {
       console.log("error get address => ", error);
     });
+  }, [matchType]);
 
+  function getMatchList() {
     const formData = new FormData();
     if (matchType === 'normal') { // 일반 매칭 검색
+      console.log("before call List address : "+address.current);
       formData.append("searchAdr", address.current);
       axios.get('http://localhost:8080/matchingList', {
         params: {
@@ -54,7 +58,7 @@ const MatchingList = ({matchList, matchType, setMatchList, setMatchType, user_id
           console.error('Error getList fame => ', error);
         });
     }
-  }, [matchType]);
+  }
 
   return (
     <div className={"MatchingList"}>

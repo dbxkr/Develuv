@@ -19,7 +19,10 @@ public class MatchingListController {
     @RequestMapping("/matchingList")
     public List<MatchingListDTO> matchingList(@RequestParam("searchAdr") String searchAdr){
         List<MatchingListDTO> list = new ArrayList<>();
+        System.out.println("address : " + searchAdr);
         list= matchingListMapper.findMatchingList(searchAdr);
+
+        System.out.println(list);
 
         return list;
     }
