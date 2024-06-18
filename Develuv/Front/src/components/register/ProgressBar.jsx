@@ -4,13 +4,15 @@ const ProgressBar = ({ progress }) => {
   return (
     <div className="progress-container">
       <div className="progress-line">
-        <div
-          className="progress-circle"
-          style={{ left: `${(progress - 1) * 25}%` }}
-        >
-          {progress}
-        </div>
-        <div className="progress-circle fifth" />
+        {progress != 5 && (
+          <div
+            className="progress-circle"
+            style={{ left: `${(progress - 1) * 23}%` }}
+          >
+            {progress}
+          </div>
+        )}
+        <div className="progress-circle-fifth" />
       </div>
     </div>
   );

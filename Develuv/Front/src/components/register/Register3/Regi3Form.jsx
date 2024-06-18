@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Regi3Form({ progress, setProgress, formData, setFormData }) {
-  let url = "http://localhost:8080/";
   const navigate = useNavigate();
 
   const genders = [
@@ -12,61 +11,50 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
     { type: "female", title: "여자" },
   ];
 
-  const [name, setName] = useState("");
   const [selGen, setSelGen] = useState("");
-  const [job, setJob] = useState("");
-  const [addr, setAddr] = useState("");
-
   const onChangeName = (e) => {
-    setName(e.target.value);
+    // setFormData(...formData, name:e.target.value);
     console.log(name);
   };
 
   const onChangeJob = (e) => {
-    setJob(e.target.value);
+    setFormData({ ...formData, user_job: e.target.value });
   };
   const onChangeAddr = (e) => {
-    setAddr(e.target.value);
+    setFormData({ ...formData, user_address: e.target.value });
   };
 
   const onEnter = (e) => {
     if (e.code === "Enter") {
       alert(
         "이름 입력은 : " +
-          name +
+          formData.user_name +
           " 성별은 : " +
-          selGen +
+          formData.user_gender +
           " 직업은 : " +
-          job +
+          formData.user_job +
           " 주소는 : " +
-          addr
+          formData.user_address
       );
     }
   };
 
   const genClicked = (type) => {
     setSelGen(type);
+    setFormData({ ...formData, user_gender: selGen });
   };
 
   const regi3Submit = () => {
     alert(
       "이름 입력은 : " +
-        name +
+        formData.user_name +
         " 성별은 : " +
-        selGen +
+        formData.user_gender +
         " 직업은 : " +
-        job +
+        formData.user_job +
         " 주소는 : " +
-        addr
+        formData.user_address
     );
-
-    const params = {
-      id: "user01",
-      name: name,
-      gender: selGen,
-      job: job,
-      addr: addr,
-    };
     setProgress(progress + 1);
     // GET 요청 보내기
     // axios
@@ -128,7 +116,7 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
         className={"regi3_in"}
         onChange={onChangeJob}
         onKeyDown={onEnter}
-        value={job}
+        value={formData.user_job}
         type={"text"}
         placeholder={"직업 입력"}
       />
@@ -139,7 +127,7 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
         className={"regi3_in"}
         onChange={onChangeAddr}
         onKeyDown={onEnter}
-        value={addr}
+        value={formData.user_address}
         type={"text"}
         placeholder={"주소 입력"}
       />

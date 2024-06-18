@@ -216,6 +216,11 @@
   margin-top: 30px; /* 상단 간격 조정 */
   margin-bottom: 30px; /* 하단 간격 조정 */
   align-items: center;
+  padding: auto;
+}
+
+.input-with-button input {
+  margin: auto;
 }
 
 input {
@@ -246,6 +251,8 @@ input.with-button-input {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: auto;
+  margin-top: auto;
 }
 
 .separator {
@@ -401,22 +408,6 @@ input[type="date"] {
   height: 4px; /* 선의 두께 */
   background-color: #00356d; /* 선의 색상 */
   z-index: 10;
-}
-
-.progress-circle-fourth {
-  position: absolute;
-  width: 30px; /* 동그라미의 지름 */
-  height: 30px; /* 동그라미의 지름 */
-  border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
-  background-color: #00356d; /* 동그라미의 색상 */
-  top: -13px; /* 선 위에 위치하도록 조정 */
-  transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white; /* 텍스트 색상 */
-  font-weight: bold;
-  left: calc(70%); /* 네 번째 동그라미의 위치 */
 }
 
 .progress-circle-fourth::after {

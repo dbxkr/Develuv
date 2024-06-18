@@ -22,7 +22,7 @@ function RegisterPage() {
     user_gender: "",
     user_profile: "",
     user_provider_id: "",
-    user_heart: "",
+    user_heart: 0,
     user_code: "",
     user_job: "",
     user_address: "",

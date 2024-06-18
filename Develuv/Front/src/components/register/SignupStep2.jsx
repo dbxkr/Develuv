@@ -230,7 +230,7 @@ const SignupStep2 = ({
     <div className="quiz-container">
       <div className="copy">
         <div className="sign-up">Sign Up</div>
-        <div className="welcome-to-bluv">Welcome to Bluv</div>
+        <div className="welcome-to-bluv">Welcome to Develuv</div>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="field input-with-button">
@@ -319,7 +319,7 @@ const SignupStep2 = ({
           <button
             type="button"
             className="check-button"
-            onClick={handleSendVerificationCode}
+            onClick={state && state.user ? null : handleSendVerificationCode}
           >
             인증 번호 받기
           </button>

@@ -4,9 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 //유저정보 추가를 위해 이전 페이지에서 사용자 id 정보 가져오기
-function Regi5Form({ user_id }) {
-  //임의 id 입력...
-  user_id = "hhy";
+function Regi5Form({ formData, setFormData, progress, setProgress }) {
   const navigate = useNavigate();
 
   // 리스트에 들어갈 문자열들
@@ -79,41 +77,12 @@ function Regi5Form({ user_id }) {
     setSelEdu(type);
   };
   const navigateToPrevious = () => {
-    navigate("/register/4");
+    setProgress(progress - 1);
   };
   // 제출
   const url = "http://localhost:8080/register/additional";
   const submitAO = () => {
-    // alert(
-    //   "PL : " +
-    //     selPL +
-    //     " al : " +
-    //     selAlchol +
-    //     " sm  : " +
-    //     selSmoke +
-    //     " ds : " +
-    //     selDateStyle +
-    //     " jong : " +
-    //     selJong +
-    //     " edu : " +
-    //     selEdu
-    // );
-    axios
-      .post(url, {
-        user_id: user_id,
-        user_pro_lang: selPL,
-        user_drink: selAlchol,
-        user_smoke: selSmoke,
-        dating_style: selDateStyle,
-        user_religion: selJong,
-        user_edu: selEdu,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(formData);
   };
 
   return (

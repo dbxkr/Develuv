@@ -69,15 +69,6 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
 
   return (
     <div>
-      <div className="progress-container">
-        <div className="progress-line">
-          <div className="total-progress-line">
-            <div className="progress-circle-fourth" />
-            <div className="progress-circle-fifth" />
-          </div>
-        </div>
-      </div>
-
       <div className="container-header">
         <h2>NBTI</h2>
         <h4>Please select your NBTI.</h4>
