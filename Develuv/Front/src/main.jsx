@@ -15,6 +15,8 @@ import ImageUpload from "./components/imgupload.jsx";
 import Header from "./components/Header";
 import ChatList from "./components/chat/ChatList.jsx";
 import { AuthProvider } from "./AuthProvider.jsx";
+import NotFound from "./components/notfound/notfounf.jsx";
+import RegisterPage from "./components/register/RegisterPage.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -24,13 +26,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/callback/:provider" element={<LoginCallback />} />
-          <Route path="/register/1" element={<Quiz />} />
-          <Route path="/register/2" element={<SignupStep2 />} />
-          <Route path="/register/3" element={<Regi3Form />} />
-          <Route path="/register/4" element={<Nbti />} />
-          <Route path="/register/5" element={<Regi5Form />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/imgtest" element={<ImageUpload />} />
           <Route path="/chat" element={<ChatList />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>

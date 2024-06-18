@@ -1,7 +1,7 @@
 import "./Regi5Form.css";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 //유저정보 추가를 위해 이전 페이지에서 사용자 id 정보 가져오기
 function Regi5Form({ user_id }) {
@@ -79,7 +79,7 @@ function Regi5Form({ user_id }) {
     setSelEdu(type);
   };
   const navigateToPrevious = () => {
-    navigate('/register/4');
+    navigate("/register/4");
   };
   // 제출
   const url = "http://localhost:8080/register/additional";
@@ -120,13 +120,6 @@ function Regi5Form({ user_id }) {
     <div
     // className={"container"}
     >
-      {/*프로그레스 바*/}
-      <div className="progress-container">
-        <div className="progress-line">
-          <div className="progress-circle fifth" />
-        </div>
-      </div>
-
       <div className={"tt"}>Additional Options</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -236,7 +229,11 @@ function Regi5Form({ user_id }) {
       </div>
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>
-        <button type={"button"} onClick={navigateToPrevious} className={"before_btn"}>
+        <button
+          type={"button"}
+          onClick={navigateToPrevious}
+          className={"before_btn"}
+        >
           이전
         </button>
         <button type={"button"} onClick={submitAO} className={"after_btn"}>

@@ -1,9 +1,8 @@
 import { useRef, useState, useEffect } from "react";
-import "./Nbti.css";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
-function Nbti({ user_id }) {
+function Nbti({ progress, setProgress, formData, setFormData }) {
   // 임시 id 세팅
   user_id = "hhy";
   const navigate = useNavigate();
@@ -37,34 +36,35 @@ function Nbti({ user_id }) {
   }, [nbti]);
 
   const checkNbtiValidity = () => {
-    const allSelected = nbti.every(value => value !== "");
+    const allSelected = nbti.every((value) => value !== "");
     setIsValid(allSelected);
   };
 
   // [이전] 버튼 클릭 시 이전 페이지로 이동
   const navigateToPrevious = () => {
-    navigate('/register/3');
+    setProgress(progress - 1);
   };
 
   // [다음] 버튼 클릭 시 유효성 검사 후 서버에 데이터 전송 후 다음 페이지로 이동
   const url = "http://localhost:8080/register/nbti";
-  const onSubmit = (nextPage) => {
-    if (isValid) {
-      axios
-        .post(url, {
-          user_id: user_id,
-          nbti: nbti,
-        })
-        .then((res) => {
-          console.log(res);
-          navigate(nextPage);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      alert("모든 NBTI 항목을 선택해주세요.");
-    }
+  const onSubmit = () => {
+    // if (isValid) {
+    //   axios
+    //     .post(url, {
+    //       user_id: user_id,
+    //       nbti: nbti,
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       navigate(nextPage);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // } else {
+    //   alert("모든 NBTI 항목을 선택해주세요.");
+    // }
+    setProgress(progress + 1);
   };
 
   return (
@@ -177,7 +177,11 @@ function Nbti({ user_id }) {
         <button className="left-button" onClick={navigateToPrevious}>
           이전
         </button>
-        <button className="right-button" onClick={() => onSubmit('/register/5')} disabled={!isValid}>
+        <button
+          className="right-button"
+          onClick={() => onSubmit()}
+          disabled={!isValid}
+        >
           다음
         </button>
       </div>

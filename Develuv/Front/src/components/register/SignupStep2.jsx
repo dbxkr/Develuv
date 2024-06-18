@@ -1,57 +1,23 @@
 import React, { useState, useEffect } from "react";
-import "./SignupStep2.css";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const SignupStep2 = () => {
+const SignupStep2 = ({
+  setProgress,
+  formData,
+  setFormData,
+  state,
+  fieldTouched,
+  setFieldTouched,
+  formErrors,
+  setFormErrors,
+}) => {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    user_id: "",
-    user_pw: "",
-    user_pw_confirm: "",
-    user_email: "",
-    verification_code: "",
-    user_name: "",
-    user_birth: "",
-    user_phone: "",
-    user_gender: "",
-    user_profile: "",
-    user_provider_id: "",
-    user_heart: "",
-    user_code: "",
-    user_job: "",
-    user_address: "",
-    user_nbti: "",
-  });
-
-  const [formErrors, setFormErrors] = useState({
-    user_id: "",
-    user_pw: "",
-    user_pw_confirm: "",
-    user_email: "",
-    verification_code: "",
-    user_name: "",
-    user_birth: "",
-    user_phone: "",
-  });
-
-  const [fieldTouched, setFieldTouched] = useState({
-    user_id: false,
-    user_pw: false,
-    user_pw_confirm: false,
-    user_email: false,
-    verification_code: false,
-    user_name: false,
-    user_birth: false,
-    user_phone: false,
-  });
 
   const [showVerificationField, setShowVerificationField] = useState(false);
   const [userIdAvailable, setUserIdAvailable] = useState(null);
   const [verificationMessage, setVerificationMessage] = useState("");
   const [userIdCheckMessage, setUserIdCheckMessage] = useState("");
-  const { state } = useLocation();
 
   useEffect(() => {
     if (fieldTouched.user_id) validateUserId(formData.user_id);
@@ -247,27 +213,21 @@ const SignupStep2 = () => {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/user/signup",
-        formData
-      );
-      alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
-      navigate("/register/3"); // 회원가입 성공 시 페이지 이동
-    } catch (error) {
-      console.error("Error signing up:", error);
-      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
-    }
+    setProgress(3);
+    // try {
+    // const response = await axios.post(
+    //   "http://localhost:8080/user/signup",
+    //   formData
+    // );
+    // alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
+    // } catch (error) {
+    //   console.error("Error signing up:", error);
+    //   alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    // }
   };
 
   return (
     <div className="quiz-container">
-      <div className="progress-container">
-        <div className="progress-line">
-          <div className="progress-circle second" />
-          <div className="progress-circle fifth" />
-        </div>
-      </div>
       <div className="copy">
         <div className="sign-up">Sign Up</div>
         <div className="welcome-to-bluv">Welcome to Bluv</div>

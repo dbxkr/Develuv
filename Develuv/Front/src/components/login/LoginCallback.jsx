@@ -67,7 +67,7 @@ const LoginCallback = (props) => {
               "카카오로 회원가입 하지 않았습니다. 카카오 계정으로 회원가입을 진행할까요?"
             )
           ) {
-            navigate("/register/1", {
+            navigate("/register", {
               state: {
                 provider: "kakao",
                 user: data,
@@ -129,7 +129,7 @@ const LoginCallback = (props) => {
                 )
               ) {
                 //여기에 회원가입으로 이동하는 코드 작성. 유저 정보를 함께 보내야함
-                navigate("/register/1", {
+                navigate("/register", {
                   state: {
                     provider: "naver",
                     user: data,

@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Regi3Form() {
+function Regi3Form({ progress, setProgress, formData, setFormData }) {
   let url = "http://localhost:8080/";
   const navigate = useNavigate();
 
@@ -67,29 +67,23 @@ function Regi3Form() {
       job: job,
       addr: addr,
     };
+    setProgress(progress + 1);
     // GET 요청 보내기
-    axios
-      .get(url + "regi3submit", { params })
-      .then((response) => {
-        // 성공적으로 응답을 받은 경우 처리
-        console.log(response.data);
-        navigate('/register/4');
-
-      })
-      .catch((error) => {
-        // 오류가 발생한 경우 처리
-        console.error("There was an error!", error);
-      });
+    // axios
+    //   .get(url + "regi3submit", { params })
+    //   .then((response) => {
+    //     // 성공적으로 응답을 받은 경우 처리
+    //     console.log(response.data);
+    //     navigate("/register/4");
+    //   })
+    //   .catch((error) => {
+    //     // 오류가 발생한 경우 처리
+    //     console.error("There was an error!", error);
+    //   });
   };
 
   return (
-    <div >
-     <div className="progress-container">
-        <div className="progress-line">
-          <div className="progress-circle third"></div>
-          <div className="progress-circle fifth"></div>
-        </div>
-      </div>
+    <div>
       <div className={"tt"}>Essential Information</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -152,7 +146,13 @@ function Regi3Form() {
 
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>
-        <button type={"button"} className={"before_btn"}>
+        <button
+          type={"button"}
+          onClick={() => {
+            setProgress(progress - 1);
+          }}
+          className={"before_btn"}
+        >
           이전
         </button>
         <button type={"button"} onClick={regi3Submit} className={"after_btn"}>
