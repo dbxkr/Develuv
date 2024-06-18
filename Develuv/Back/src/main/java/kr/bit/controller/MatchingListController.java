@@ -33,4 +33,13 @@ public class MatchingListController {
 
         return list;
     }
+
+    @RequestMapping("/matchingList/getUserAdr")
+    public String getUserAdr(@RequestParam("user_id") String user_id){
+        String reAddress = matchingListMapper.findAddressById(user_id);
+        if(reAddress != null){
+            return reAddress;
+        }
+        return "서울시 강남구";
+    }
 }

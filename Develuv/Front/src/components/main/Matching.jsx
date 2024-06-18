@@ -14,7 +14,7 @@ const Matching = () => {
       {/*  나머지 컴포넌트*/}
       <HeadBar user_id={user_id}/>
       <MatchingList matchType={matchType} setMatchType={setMatchType}
-      matchList={matchList} setMatchList={setMatchList}/>
+      matchList={matchList} setMatchList={setMatchList} user_id={user_id}/>
     </div>
   )
 }
