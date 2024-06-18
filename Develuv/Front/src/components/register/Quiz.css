@@ -1,0 +1,151 @@
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 100px; /* 헤더와 같은 높이만큼의 공간을 확보 */
+
+}
+
+.quiz-header-box {
+  background-color: #ffffff; /* 박스 배경색 */
+  border: 2px solid #000000; /* 박스 테두리 */
+  border-radius: 10px; /* 박스 테두리 둥글게 */
+  padding: 10px; /* 내부 여백 */
+  margin-top: 200px; /* 상단 간격 조정 */
+  margin-bottom: 40px; /* 하단 간격 조정 */
+
+  width: 150%; /* 너비 조정 */
+  max-width: 800px; /* 최대 너비 설정 */
+}
+
+.quiz-header {
+  margin: 0; /* 기본 마진 제거 */
+  margin-bottom: 30px; /* 헤더와 내용 간격 조정 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.quiz-content {
+  width: 100%; /* 내용 가로폭 조정 */
+  max-width: 600px; /* 최대 가로폭 설정 */
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: row; /* 요소들을 가로로 배열 */
+  flex-wrap: wrap; /* 요소들이 넘칠 경우 다음 줄로 이동 */
+  justify-content: center; /* 가운데 정렬 */
+  gap: 30px; /* 버튼 간격을 조정 */
+}
+
+.radio-like-button,
+.submit-button {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 8px 16px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  width: 100px;
+  margin-bottom: 50px; /* 상단 간격 조정 */
+}
+
+.radio-like-button:hover,
+.submit-button:hover {
+  background-color: #00356d;
+  color: #ffffff;
+}
+
+.radio-like-button:active,
+.submit-button:active {
+  background-color: #cccccc;
+}
+
+.radio-like-button.selected {
+  background-color: #00356d;
+  color: #ffffff;
+}
+
+.submit-button {
+  background-color: #00356d;
+  color: #ffffff;
+  margin-top: 30px; /* 위쪽 간격 조정 */
+}
+
+.submit-button:hover {
+  border-color: #cccccc;
+}
+
+.submit-button:active {
+  border-color: #cccccc;
+}
+
+.quiz-container,
+.quiz-header,
+.quiz-content,
+.quiz-options,
+.submit-button {
+  font-weight: bold;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.progress-line {
+  position: relative;
+  width: 500px; /* 적절한 너비 지정 */
+  height: 4px; /* 선의 두께 */
+  background-color: #cccccc; /* 선의 색상 */
+}
+
+.progress-circle {
+  position: absolute;
+  width: 30px; /* 동그라미의 지름 */
+  height: 30px; /* 동그라미의 지름 */
+  border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
+  background-color: #00356d; /* 동그라미의 색상 */
+  top: -13px; /* 선 위에 위치하도록 조정 */
+  transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* 텍스트 색상 */
+  font-weight: bold;
+}
+
+.progress-circle:nth-child(1) {
+  left: 0; /* 첫 번째 동그라미의 위치 */
+}
+.progress-circle:nth-child(1)::after {
+  content: '1'; /* 1번 동그라미에 텍스트 추가 */
+}
+
+.progress-circle:last-child {
+  background-color: #cccccc; /* 마지막 동그라미의 색상 */
+  right: 0; /* 다섯 번째 동그라미의 위치 */
+}
+.progress-circle:last-child::after {
+  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
+}
+
+.error-message {
+  margin-top: 20px;
+  color: red;
+  font-weight: bold;
+  position: fixed; /* 메시지를 고정 위치에 배치 */
+  bottom: 20px; /* 화면 하단에서 20px 위에 위치 */
+  right: 31%; /* 화면 가로 중앙에 위치 */
+  transform: translateX(-50%); /* 가로 중앙 정렬 */
+  background-color: #fff; /* 배경 색상 추가 */
+  padding: 10px; /* 패딩 추가 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  z-index: 1000; /* 다른 요소들보다 위에 배치 */
+}

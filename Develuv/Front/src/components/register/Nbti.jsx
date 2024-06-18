@@ -1,23 +1,31 @@
 import { useRef, useState, useEffect } from "react";
 import "./Nbti.css";
 import axios from "axios";
+<<<<<<< HEAD
 import { Tooltip } from "react-tooltip";
+=======
+import { useNavigate } from 'react-router-dom'
+>>>>>>> jyt
 
-//이전 페이지에서 사용자의 id 를 받아와야 한다.
 function Nbti({ user_id }) {
-  //임시 id 세팅...
+  // 임시 id 세팅
   user_id = "hhy";
+  const navigate = useNavigate();
 
+<<<<<<< HEAD
   //NBTI 상세설명 작성 --> 툴팁으로 띄운다.
   const description =
     "NBTI란? MBTI 처럼 개인의 개발성향을 분류하는 Develuv 만의 심리학 도구입니다. 네 가지 기본 지표 중에서 자신의 개발 유형을 선택해주세요 !";
 
   //유저가 선택한 nbti 요소를 배열 형태로 저장한다.
+=======
+  // 유저가 선택한 nbti 요소를 배열 형태로 저장
+>>>>>>> jyt
   const [nbti, setNbti] = useState(["", "", "", ""]);
   const inputNbti = useRef(["", "", "", ""]);
 
+  // nbti 선택 시 상태 업데이트
   const onSetNbti = (e) => {
-    //유저의 입력순서가 아닌 NBTI 순서대로 저장하기 위해서 useRef로 순서대로 배열에 담은 후 setNbti 로 저장했다.
     if (e.target.name === "nbti1") {
       inputNbti.current[0] = e.target.value;
     }
@@ -33,38 +41,46 @@ function Nbti({ user_id }) {
     setNbti([...inputNbti.current]);
   };
 
-  //유효성 검사 : NBTI 4개를 전부 선택해야 [다음] 버튼이 활성화되도록 함.
+  // nbti 배열의 유효성 검사를 통해 다음 버튼 활성화 여부 결정
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    checkNbti();
+    checkNbtiValidity();
   }, [nbti]);
 
-  const checkNbti = () => {
-    const allSelected = nbti.every(
-      (value) => value !== "" && value !== undefined
-    );
+  const checkNbtiValidity = () => {
+    const allSelected = nbti.every(value => value !== "");
     setIsValid(allSelected);
   };
 
-  //[이전] 혹은 [다음] 버튼을 누르면 선택한 nbti 배열을 서버에 전송한다.
+  // [이전] 버튼 클릭 시 이전 페이지로 이동
+  const navigateToPrevious = () => {
+    navigate('/register/3');
+  };
+
+  // [다음] 버튼 클릭 시 유효성 검사 후 서버에 데이터 전송 후 다음 페이지로 이동
   const url = "http://localhost:8080/register/nbti";
-  function onSubmit() {
-    axios
-      .post(url, {
-        user_id: user_id,
-        nbti: nbti,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  const onSubmit = (nextPage) => {
+    if (isValid) {
+      axios
+        .post(url, {
+          user_id: user_id,
+          nbti: nbti,
+        })
+        .then((res) => {
+          console.log(res);
+          navigate(nextPage);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("모든 NBTI 항목을 선택해주세요.");
+    }
+  };
 
   return (
-    <div className="container">
+    <div>
       <div className="progress-container">
         <div className="progress-line">
           <div className="total-progress-line">
@@ -186,10 +202,10 @@ function Nbti({ user_id }) {
         </ul>
       </div>
       <div className="container-footer">
-        <button className="left-button" onClick={onSubmit}>
+        <button className="left-button" onClick={navigateToPrevious}>
           이전
         </button>
-        <button className="right-button" onClick={onSubmit} disabled={!isValid}>
+        <button className="right-button" onClick={() => onSubmit('/register/5')} disabled={!isValid}>
           다음
         </button>
       </div>

@@ -1,7 +1,8 @@
 .container-header {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 170px;
   margin-bottom: 40px;
+  
 }
 
 /* 'vs' 폰트 위치 조정 */
@@ -81,11 +82,13 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  padding-top: 200px; /* 헤더와 같은 높이만큼의 공간을 확보 */
+
 }
 
 .progress-line {
   position: relative;
-  width: 300px; /* 적절한 너비 지정 */
+  width: 500px; /* 적절한 너비 지정 */
   height: 4px; /* 선의 두께 */
   background-color: #00356d; /* 선의 색상 */
   z-index: 10;
@@ -104,7 +107,7 @@
   align-items: center;
   color: white; /* 텍스트 색상 */
   font-weight: bold;
-  left: calc(75% - 15px); /* 네 번째 동그라미의 위치 */
+  left: calc(70%); /* 네 번째 동그라미의 위치 */
 }
 
 .progress-circle-fourth::after {
@@ -124,7 +127,10 @@
   align-items: center;
   color: white; /* 텍스트 색상 */
   font-weight: bold;
+<<<<<<< HEAD
   background-color: #00356d; /* 마지막 동그라미의 색상 */
+=======
+>>>>>>> jyt
   right: 0; /* 다섯 번째 동그라미의 위치 */
 }
 

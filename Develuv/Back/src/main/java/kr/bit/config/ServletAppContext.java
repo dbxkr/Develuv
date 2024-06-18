@@ -8,7 +8,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"kr.bit.controller"})
+@ComponentScan(basePackages = {"kr.bit"})
 public class ServletAppContext implements WebMvcConfigurer {
 
     @Override
@@ -37,5 +37,9 @@ public class ServletAppContext implements WebMvcConfigurer {
         };
     }
 
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> jyt
