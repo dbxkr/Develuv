@@ -23,4 +23,14 @@ public class MatchingListController {
 
         return list;
     }
+
+    @RequestMapping("/matchingList/fame")
+    public List<MatchingListDTO> fameMatchingList(@RequestParam("searchAdr") String searchAdr){
+
+        List<MatchingListDTO> list = new ArrayList<>();
+
+        list = matchingListMapper.findMatchingListByFame(searchAdr);
+
+        return list;
+    }
 }
