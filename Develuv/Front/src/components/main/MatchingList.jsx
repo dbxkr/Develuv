@@ -9,7 +9,7 @@ let searchAdr = "dress";
 const MatchingList = ({matchList, matchType, setMatchList, setMatchType}) => {
 
   useEffect(() => {
-    if (matchType === 'normal') {
+    if (matchType === 'normal') { // 일반 매칭 검색
       const formData = new FormData();
       formData.append("searchAdr", searchAdr);
       axios.get('http://localhost:8080/matchingList', {
@@ -24,27 +24,14 @@ const MatchingList = ({matchList, matchType, setMatchList, setMatchType}) => {
         .catch(error => {
           console.error('Error getList => ', error);
         });
-    } else {
-      console(matchType);
+    } else if(matchType === 'rematch') { // 다시 검색
+      console.log(matchType);
+    } else if(matchType === 'nbti') { // 선택한 nbti로 검색
+      console.log(matchType);
+    } else if(matchType === 'fame'){ // 유명한순
+      console.log(matchType);
     }
   }, [matchType]);
-
-
-  function returnList(matchType) {
-    const formData = new FormData();
-    formData.append("searchAdr", searchAdr);
-    // if(matchType === "normal"){
-    //   axios.get("http://localhost:8080/matchingList",
-    //     formData).then()
-    // }
-    // else if(matchType === "rematch") {
-    //
-    // } else if(matchType === "nbti") {
-    //
-    // } else if(matchType === "fame") {
-    //
-    // }
-  }
 
   return (
     <div className={"MatchingList"}>
