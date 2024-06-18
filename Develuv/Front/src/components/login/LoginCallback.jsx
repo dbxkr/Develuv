@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useMatch } from "react-router-dom";
 import axios from "axios";
-import { useMatch } from "react-router-dom";
+import { useAuth } from "../../AuthProvider";
 
 const LoginCallback = (props) => {
   const navigate = useNavigate();
@@ -9,6 +9,7 @@ const LoginCallback = (props) => {
   const serverUrl = "http://localhost:8080/user/sns";
 
   const { naver } = window;
+  const { login } = useAuth();
 
   const naverLogin = new naver.LoginWithNaverId({
     clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
@@ -81,6 +82,7 @@ const LoginCallback = (props) => {
             "kakao.access_token",
             JSON.stringify(access_token)
           );
+          login(res.data.kakao.id, res.data.kakao.nickname);
           navigate("/");
         }
       })
@@ -138,6 +140,7 @@ const LoginCallback = (props) => {
                 navigate("/");
               }
             } else {
+              login(res.data.naver.id, res.data.naver.name);
               navigate("/");
             }
           })

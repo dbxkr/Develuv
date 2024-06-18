@@ -12,23 +12,27 @@ import Regi3Form from "./components/register/Register3/Regi3Form.jsx";
 import Regi5Form from "./components/register/Register5/Regi5Form.jsx";
 import Nbti from "./components/register/Nbti.jsx";
 import ImageUpload from "./components/imgupload.jsx";
-import MainChat from "./components/MainChat.jsx";
 import Header from "./components/Header";
+import ChatList from "./components/chat/ChatList.jsx";
+import { AuthProvider } from "./AuthProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-  <div>
-    <Header/>
-    <Routes>
-      <Route path="/" element={<MainChat />} />
-      <Route path="/callback/:provider" element={<LoginCallback />} />
-      <Route path="/register/1" element={<Quiz />} />
-      <Route path="/register/2" element={<SignupStep2 />} />
-      <Route path="/register/3" element={<Regi3Form />} />
-      <Route path="/register/4" element={<Nbti />} />
-      <Route path="/register/5" element={<Regi5Form />} />
-      <Route path="/imgtest" element={<ImageUpload />} />
-    </Routes>
-    </div>
-  </BrowserRouter>
+  <AuthProvider>
+    <BrowserRouter>
+      <div>
+        <Header />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/callback/:provider" element={<LoginCallback />} />
+          <Route path="/register/1" element={<Quiz />} />
+          <Route path="/register/2" element={<SignupStep2 />} />
+          <Route path="/register/3" element={<Regi3Form />} />
+          <Route path="/register/4" element={<Nbti />} />
+          <Route path="/register/5" element={<Regi5Form />} />
+          <Route path="/imgtest" element={<ImageUpload />} />
+          <Route path="/chat" element={<ChatList />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  </AuthProvider>
 );

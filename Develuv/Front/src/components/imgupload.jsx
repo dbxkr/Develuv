@@ -68,28 +68,30 @@ function ImageUpload() {
         console.log("File uploaded successfully");
         // 파일 ID를 사용하여 파일의 메타데이터를 가져옵니다.
         const fileId = response.data.id;
-        setImgUrl(`https://lh3.googleusercontent.com/d/${fileId}?authuser=0`);
-        // axios
-        //   .get(
-        //     `https://www.googleapis.com/drive/v3/files/${fileId}?fields=webViewLink,thumbnailLink`,
-        //     {
-        //       headers: {
-        //         Authorization: `Bearer ${api_key}`,
-        //       },
-        //     }
-        //   )
-        //   .then((response) => {
-        //     console.log("File metadata: ", response.data);
-        //   })
-        //   .catch((error) => {
-        //     console.error(
-        //       "There was an error getting the file metadata: ",
-        //       error
-        //     );
-        //   });
-      })
-      .catch((error) => {
-        console.error("There was an error uploading the file: ", error);
+        // setImgUrl(`https://lh3.googleusercontent.com/d/${fileId}?authuser=0`);
+        setImgUrl(`https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`);
+        //   axios
+        //     .get(
+        //       `https://www.googleapis.com/drive/v3/files/${fileId}?fields=webViewLink,thumbnailLink`,
+        //       {
+        //         headers: {
+        //           Authorization: `Bearer ${accessToken}`,
+        //         },
+        //       }
+        //     )
+        //     .then((response) => {
+        //       console.log("File metadata: ", response.data);
+        //       setImgUrl(response.data.thumbnailLink);
+        //     })
+        //     .catch((error) => {
+        //       console.error(
+        //         "There was an error getting the file metadata: ",
+        //         error
+        //       );
+        //     });
+        // })
+        // .catch((error) => {
+        //   console.error("There was an error uploading the file: ", error);
       });
   };
 

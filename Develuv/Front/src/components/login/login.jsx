@@ -6,9 +6,10 @@ import axios from "axios";
 import "./login.css";
 import FindIdModal from "./FindIdModal";
 import FindPwModal from "./FindPwModal";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
+import { useAuth } from "../../AuthProvider";
 
-function Login({ user, setUser, naverLogin, getNaverUser }) {
+function Login({ closeModal }) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,11 +18,22 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
   const [foundId, setFoundId] = useState(""); // 아이디 찾기 결과를 저장하는 상태
   const [foundPw, setFoundPw] = useState(""); // 비밀번호 찾기 결과를 저장하는 상태
   const url = "http://localhost:8080/user/";
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("id:", id);
     console.log("pw:", password);
+    axios.get(url + `/login?user_id=${id}&user_pw=${password}`).then((res) => {
+      if (res.data.user_info == null) {
+        alert("오답이다 어리석은 것");
+      } else {
+        login(res.data.user_info.user_id, res.data.user_info.user_name);
+        closeModal();
+        navigate("/");
+      }
+    });
   };
 
   const findId = async () => {
@@ -64,7 +76,7 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
   const { naver } = window;
 
   useEffect(() => {
-    naverLogin = new naver.LoginWithNaverId({
+    const naverLogin = new naver.LoginWithNaverId({
       clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
       callbackUrl: "http://localhost:3500/callback/naver",
       isPopup: false,
@@ -75,7 +87,7 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
       },
     });
     naverLogin.init();
-    getNaverUser();
+    // getNaverUser();
   }, []);
 
   //회원일때 어디페이지로 가는지 확인하기
@@ -148,7 +160,7 @@ function Login({ user, setUser, naverLogin, getNaverUser }) {
           비밀번호 찾기
         </a>{" "}
         |
-        <Link to="/register/1" className="link">
+        <Link to={"/register/1"} onClick={closeModal} className="link">
           {" "}
           {/* Use Link to navigate to Quiz.jsx */}
           회원가입
