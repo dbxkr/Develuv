@@ -309,6 +309,12 @@ const SignupStep2 = ({
             onFocus={handleFocus}
             onBlur={handleBlur}
             className="with-button-input"
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
           />
           <button
             type="button"
@@ -358,6 +364,12 @@ const SignupStep2 = ({
             name="user_name"
             placeholder="이름"
             value={formData.user_name}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_name && formErrors.user_name && (
@@ -369,6 +381,12 @@ const SignupStep2 = ({
             type="date"
             name="user_birth"
             value={formData.user_birth}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_birth && formErrors.user_birth && (
@@ -381,6 +399,12 @@ const SignupStep2 = ({
             name="user_phone"
             placeholder="휴대전화번호"
             value={formData.user_phone}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_phone && formErrors.user_phone && (
