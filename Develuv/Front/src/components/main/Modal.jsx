@@ -1,23 +1,90 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Modal.css'
-import icon from '../../assets/money.svg' // SVG 이미지 파일 import
+import {
+  getUserCoins,
+  deductCoins,
+  recommendUser,
+  recommendUserByNbti,
+} from './api'
+import icon from '../../assets/money.png'
 
-const Modal = ({ type, closeModal }) => {
+const Modal = ({ type, closeModal, userId }) => {
   const [isNbtiSelection, setIsNbtiSelection] = useState(false)
+  const [nbti, setNbti] = useState({
+    nbti1: '',
+    nbti2: '',
+    nbti3: '',
+    nbti4: '',
+  })
+  const [recommendedUser, setRecommendedUser] = useState(null)
+  const [coins, setCoins] = useState(0)
+  const [noUserFound, setNoUserFound] = useState(false)
 
-  const handleCoinUse = () => {
-    if (type === 'nbti') {
-      alert('1000 코인을 사용하여 NBTI 유형의 유저를 소개받습니다.')
-      setIsNbtiSelection(true)
-    } else {
-      alert('1000 코인을 사용하여 새로운 유저를 소개받습니다.')
-      closeModal()
+  useEffect(() => {
+    const fetchUserCoins = async () => {
+      try {
+        const userCoins = await getUserCoins(userId)
+        setCoins(userCoins)
+      } catch (error) {
+        console.error('Error fetching user coins:', error)
+      }
+    }
+
+    fetchUserCoins()
+  }, [userId])
+
+  const handleCoinUse = async () => {
+    try {
+      const remainingCoins = await deductCoins(userId, 1000)
+      setCoins(remainingCoins)
+      if (type === 'nbti') {
+        setIsNbtiSelection(true)
+      } else {
+        const user = await recommendUser(userId)
+        setRecommendedUser(user)
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message === 'Insufficient coins'
+      ) {
+        alert('코인이 부족합니다.')
+      } else {
+        console.error('Failed to use coins:', error)
+      }
     }
   }
 
-  const handleNbtiSubmit = () => {
-    // NBTI 제출 로직
-    closeModal()
+  const handleNbtiChange = (e) => {
+    const { name, value } = e.target
+    setNbti((prevNbti) => ({
+      ...prevNbti,
+      [name]: value,
+    }))
+  }
+
+  const handleNbtiSubmit = async () => {
+    try {
+      const user = await recommendUserByNbti(userId, nbti)
+      if (user) {
+        setRecommendedUser(user)
+        setNoUserFound(false)
+      } else {
+        setNoUserFound(true)
+      }
+      setIsNbtiSelection(false)
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message === 'Insufficient coins'
+      ) {
+        alert('코인이 부족합니다.')
+      } else {
+        console.error('Failed to use coins:', error)
+      }
+    }
   }
 
   return (
@@ -33,14 +100,31 @@ const Modal = ({ type, closeModal }) => {
               alt="Icon"
               style={{ width: '50px', height: '50px' }}
             />
-            <p>1000 BIT로 한번 더 소개받기</p>
-            <button onClick={handleCoinUse}>1000 BIT 결제</button>
-            <button onClick={closeModal}>뒤로가기</button>
+            <p className="modal-text">1000 BIT로 한번 더 소개받기</p>
+            <p>현재 코인: {coins}</p>
+            <button className="modal-button" onClick={handleCoinUse}>
+              1000 BIT 결제
+            </button>
+            <button className="modal-button" onClick={closeModal}>
+              뒤로가기
+            </button>
+            {recommendedUser && (
+              <div>
+                <h4>추천된 유저:</h4>
+                <p>{recommendedUser.user_name}</p>
+                <p>{recommendedUser.user_nbti}</p>
+              </div>
+            )}
+            {noUserFound && (
+              <div>
+                <p>해당 NBTI에 맞는 유저를 찾지 못했습니다.</p>
+              </div>
+            )}
           </>
         ) : (
           <>
-            <h4>NBTI</h4>
-
+            <h3>NBTI</h3>
+            <h4>선호하는 NBTI를 골라주세요.</h4>
             <div className="nbti-container">
               <ul>
                 <li>
@@ -49,7 +133,7 @@ const Modal = ({ type, closeModal }) => {
                     id="front"
                     name="nbti1"
                     value="F"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="front">Front</label>
                 </li>
@@ -59,7 +143,7 @@ const Modal = ({ type, closeModal }) => {
                     id="inside"
                     name="nbti2"
                     value="I"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="inside">Inside</label>
                 </li>
@@ -69,7 +153,7 @@ const Modal = ({ type, closeModal }) => {
                     id="window"
                     name="nbti3"
                     value="W"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="window">Window</label>
                 </li>
@@ -79,7 +163,7 @@ const Modal = ({ type, closeModal }) => {
                     id="daytime"
                     name="nbti4"
                     value="D"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="daytime">Daytime</label>
                 </li>
@@ -96,7 +180,7 @@ const Modal = ({ type, closeModal }) => {
                     id="back"
                     name="nbti1"
                     value="B"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="back">Back</label>
                 </li>
@@ -106,7 +190,7 @@ const Modal = ({ type, closeModal }) => {
                     id="outside"
                     name="nbti2"
                     value="O"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="outside">Outside</label>
                 </li>
@@ -116,7 +200,7 @@ const Modal = ({ type, closeModal }) => {
                     id="mac"
                     name="nbti3"
                     value="M"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="mac">Mac</label>
                 </li>
@@ -126,13 +210,15 @@ const Modal = ({ type, closeModal }) => {
                     id="night"
                     name="nbti4"
                     value="N"
-                    onClick={handleNbtiSubmit}
+                    onChange={handleNbtiChange}
                   />
                   <label htmlFor="night">Night</label>
                 </li>
               </ul>
             </div>
-            <button onClick={handleNbtiSubmit}>제출</button>
+            <button className="submit-button" onClick={handleNbtiSubmit}>
+              제출
+            </button>
           </>
         )}
       </div>
