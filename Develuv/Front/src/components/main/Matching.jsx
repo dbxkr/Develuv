@@ -3,7 +3,7 @@ import "./Matching.css"
 import {useState} from "react";
 
 const Matching = () => {
-  const [matchType, setMatchType] = useState("");
+  const [matchType, setMatchType] = useState("normal");
   const [matchList, setMatchList] = useState([]);
 
   return(

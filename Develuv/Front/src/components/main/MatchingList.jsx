@@ -1,4 +1,3 @@
-
 // 아직 넘겨오는지는 몰라서 일단 대충 주소값 넣음
 import MatchingItem from "./MatchingItem.jsx";
 import {useEffect, useState} from "react";
@@ -7,29 +6,29 @@ import axios from "axios";
 
 let searchAdr = "dress";
 
-const MatchingList = ({matchList,matchType,setMatchList,setMatchType}) => {
+const MatchingList = ({matchList, matchType, setMatchList, setMatchType}) => {
 
   useEffect(() => {
-    const formData = new FormData();
-    formData.append("searchAdr",searchAdr);
-    axios.get('http://localhost:8080/matchingList', {
-      params: {
-        searchAdr: searchAdr
-      }
-    })
-      .then(response => {
-        setMatchList(response.data);
-        console.log(matchList);
+    if (matchType === 'normal') {
+      const formData = new FormData();
+      formData.append("searchAdr", searchAdr);
+      axios.get('http://localhost:8080/matchingList', {
+        params: {
+          searchAdr: searchAdr
+        }
       })
-      .catch(error => {
-        console.error('Error getList => ', error);
-      });
+        .then(response => {
+          setMatchList(response.data);
+          console.log(matchList);
+        })
+        .catch(error => {
+          console.error('Error getList => ', error);
+        });
+    } else {
+      console(matchType);
+    }
   }, [matchType]);
 
-
-  useEffect(() => {
-    setMatchType("normal");
-  }, []);
 
   function returnList(matchType) {
     const formData = new FormData();
@@ -46,11 +45,8 @@ const MatchingList = ({matchList,matchType,setMatchList,setMatchType}) => {
     //
     // }
   }
-  function testReload(){
-    setMatchType("hi");
-  }
 
-  return(
+  return (
     <div className={"MatchingList"}>
       <div className={"MatchingItems"}>
         {matchList.map((item) =>
