@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function Nbti({ progress, setProgress, formData, setFormData }) {
   // 임시 id 세팅
-  user_id = "hhy";
+
   const navigate = useNavigate();
 
   // 유저가 선택한 nbti 요소를 배열 형태로 저장

@@ -1,47 +1,23 @@
 import React, { useState, useEffect } from "react";
-import "./SignupStep2.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const SignupStep2 = () => {
-  const [formData, setFormData] = useState({
-    user_id: "",
-    user_pw: "",
-    user_pw_confirm: "",
-    user_email: "",
-    verification_code: "",
-    user_name: "",
-    user_birth: "",
-    user_phone: "",
-    user_gender: "",
-    user_profile: "",
-    user_provider_id: "",
-    user_heart: "",
-    user_code: "",
-    user_job: "",
-    user_address: "",
-    user_nbti: "",
-  });
-
-  const [formErrors, setFormErrors] = useState({
-    user_id: "",
-    user_pw: "",
-    user_pw_confirm: "",
-    user_email: "",
-  });
-
-  const [fieldTouched, setFieldTouched] = useState({
-    user_id: false,
-    user_pw: false,
-    user_pw_confirm: false,
-    user_email: false,
-  });
+const SignupStep2 = ({
+  setProgress,
+  formData,
+  setFormData,
+  state,
+  fieldTouched,
+  setFieldTouched,
+  formErrors,
+  setFormErrors,
+}) => {
+  const navigate = useNavigate();
 
   const [showVerificationField, setShowVerificationField] = useState(false);
   const [userIdAvailable, setUserIdAvailable] = useState(null);
   const [verificationMessage, setVerificationMessage] = useState("");
   const [userIdCheckMessage, setUserIdCheckMessage] = useState("");
-  const { state } = useLocation();
 
   useEffect(() => {
     if (fieldTouched.user_id) validateUserId(formData.user_id);
@@ -51,13 +27,13 @@ const SignupStep2 = () => {
     if (fieldTouched.user_email) validateEmail(formData.user_email);
   }, [formData, fieldTouched]);
 
-  if (state.user != null) {
+  if (state && state.user != null) {
     console.log(state);
     formData.provider = state.provider;
     formData.user_id = state.user.id;
+    formData.user_pw = state.provider;
+    formData.user_pw_confirm = state.provider;
     if (state.provider === "naver") {
-      formData.user_pw = state.user.provider;
-      formData.user_pw_confirm = state.user.provider;
       formData.user_email = state.user.email;
       formData.verification_code = state.user.provider;
       formData.user_name = state.user.name;
@@ -152,11 +128,25 @@ const SignupStep2 = () => {
   const handleSendVerificationCode = async () => {
     if (!formErrors.user_email) {
       try {
-        const response = await axios.post(
-          `http://localhost:8080/user/sendVerificationCode?email=${formData.user_email}`
-        );
-        setShowVerificationField(true);
-        alert(response.data.msg); // 서버에서 보낸 메시지 알림
+        const response = await axios
+          .post(
+            `http://localhost:8080/user/sendVerificationCode?email=${formData.user_email}`
+          )
+          .then((res) => {
+            console.log(res);
+            if (
+              res.data.msg === "이미 가입된 이메일입니다." ||
+              res.data.msg ===
+                "메일 전송에 실패했습니다. 주소를 다시 확인해주세요."
+            ) {
+              setShowVerificationField(false); // 이미 가입된 이메일일 경우 필드 숨김
+            } else {
+              setShowVerificationField(true); // 인증 번호 입력 필드 표시
+            }
+            alert(res.data.msg); // 서버에서 보낸 메시지 알림
+          });
+
+        // console.log(response.data) // 응답 데이터를 로그로 출력
       } catch (error) {
         console.error("Error sending verification code:", error);
       }
@@ -180,28 +170,60 @@ const SignupStep2 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    if (
-      formData.user_id === "" &&
-      formData.user_pw === "" &&
-      formData.user_pw_confirm === "" &&
-      formData.user_email === "" &&
-      formData.verification_code === "" &&
-      formData.user_name === "" &&
-      formData.user_birth === ""
-    ) {
-    } else {
-      try {
-        const response = await axios
-          .post("http://localhost:8080/user/signup", formData)
-          .then((res) => {
-            alert(res.data);
-          });
-      } catch (error) {
-        console.error("Error signing up:", error);
-        alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+
+    // 필수 필드들이 비어 있는지 확인
+    const requiredFields = [
+      "user_id",
+      "user_pw",
+      "user_pw_confirm",
+      "user_email",
+      "verification_code",
+      "user_name",
+      "user_birth",
+      "user_phone",
+    ];
+
+    let allFieldsFilled = true;
+    const newFormErrors = { ...formErrors };
+
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        newFormErrors[field] = "이 필드는 필수입니다.";
+        allFieldsFilled = false;
+      } else {
+        newFormErrors[field] = "";
       }
+    });
+
+    setFormErrors(newFormErrors);
+
+    if (!allFieldsFilled) {
+      alert("모든 필수 필드를 입력하세요.");
+      return;
     }
+
+    // 기존 유효성 검사를 통과했는지 확인
+    if (
+      formErrors.user_id ||
+      formErrors.user_pw ||
+      formErrors.user_pw_confirm ||
+      formErrors.user_email
+    ) {
+      alert("입력한 필드에 오류가 있습니다. 다시 확인해주세요.");
+      return;
+    }
+
+    setProgress(3);
+    // try {
+    // const response = await axios.post(
+    //   "http://localhost:8080/user/signup",
+    //   formData
+    // );
+    // alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
+    // } catch (error) {
+    //   console.error("Error signing up:", error);
+    //   alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    // }
   };
 
   return (
@@ -216,18 +238,20 @@ const SignupStep2 = () => {
             type="text"
             name="user_id"
             placeholder="아이디"
-            value={state.user ? state.provider : formData.user_id}
+            value={state && state.user ? state.provider : formData.user_id}
             onChange={handleChange}
-            onFocus={state.user ? null : handleFocus}
-            onBlur={state.user ? null : handleBlur}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
             className="with-button-input"
-            readOnly={!!state.user}
-            style={state.user ? { backgroundColor: "lightgray" } : null}
+            readOnly={state && !!state.user}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
           />
           <button
             type="button"
             className="check-button"
-            onClick={state.user ? null : handleCheckId}
+            onClick={state && state.user ? null : handleCheckId}
             disabled={!!formErrors.user_id} // 유효성 에러가 있으면 버튼 비활성화
           >
             중복확인
@@ -246,10 +270,12 @@ const SignupStep2 = () => {
             placeholder="비밀번호"
             value={formData.user_pw}
             onChange={handleChange}
-            onFocus={state.user ? null : handleFocus}
-            onBlur={state.user ? null : handleBlur}
-            style={state.user ? { backgroundColor: "lightgray" } : null}
-            readOnly={!!state.user}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
+            readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw && formErrors.user_pw && (
             <p className="error-message2">{formErrors.user_pw}</p>
@@ -262,10 +288,12 @@ const SignupStep2 = () => {
             placeholder="비밀번호 재확인"
             value={formData.user_pw_confirm}
             onChange={handleChange}
-            onFocus={state.user ? null : handleFocus}
-            onBlur={state.user ? null : handleBlur}
-            style={state.user ? { backgroundColor: "lightgray" } : null}
-            readOnly={!!state.user}
+            onFocus={state && state.user ? null : handleFocus}
+            onBlur={state && state.user ? null : handleBlur}
+            style={
+              state && state.user ? { backgroundColor: "lightgray" } : null
+            }
+            readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw_confirm && formErrors.user_pw_confirm && (
             <p className="error-message2">{formErrors.user_pw_confirm}</p>
@@ -281,6 +309,12 @@ const SignupStep2 = () => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             className="with-button-input"
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
           />
           <button
             type="button"
@@ -314,7 +348,13 @@ const SignupStep2 = () => {
         )}
         <div className="parent-container">
           {verificationMessage && (
-            <p className="verification-message">{verificationMessage}</p>
+            <p
+              className={`verification-message ${
+                verificationMessage.includes("완료") ? "success" : "error"
+              }`}
+            >
+              {verificationMessage}
+            </p>
           )}
         </div>
         <div className="separator"></div>
@@ -324,6 +364,12 @@ const SignupStep2 = () => {
             name="user_name"
             placeholder="이름"
             value={formData.user_name}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_name && formErrors.user_name && (
@@ -335,6 +381,12 @@ const SignupStep2 = () => {
             type="date"
             name="user_birth"
             value={formData.user_birth}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_birth && formErrors.user_birth && (
@@ -347,6 +399,12 @@ const SignupStep2 = () => {
             name="user_phone"
             placeholder="휴대전화번호"
             value={formData.user_phone}
+            readOnly={state && state.provider === "naver" ? true : false}
+            style={
+              state && state.provider === "naver"
+                ? { backgroundColor: "lightgray" }
+                : null
+            }
             onChange={handleChange}
           />
           {fieldTouched.user_phone && formErrors.user_phone && (
