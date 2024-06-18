@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import "./chat.css"; // CSS 파일 임포트
+import { useAuth } from "../../AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const customStyles = {
   content: {
@@ -22,6 +24,8 @@ function ChatList() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null); // 선택된 채팅방 상태
   const [chatList, setChatList] = useState(null);
+  const { user, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const chats = [
     {
@@ -109,6 +113,13 @@ function ChatList() {
   function selectChat(chat) {
     setSelectedChat(chat);
   }
+  useEffect(() => {
+    if (!localStorage.getItem("user")) {
+      console.log(user);
+      alert("로긴해");
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="main-chat">

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./MainChat.css"; // CSS 파일 임포트
+import { useAuth } from "../AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const customStyles = {
   content: {
@@ -21,20 +23,53 @@ Modal.setAppElement("#root");
 function MainChat() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null); // 선택된 채팅방 상태
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   const chats = [
-    { id: 1, name: '전유탁', message: '오늘 저녁 먹고 뭐해?', time: '2 min ago' },
-    { id: 2, name: '서창호', message: '오늘 뭐해?', time: '2 min ago' },
-    { id: 3, name: '홍화연', message: '내일 오후에 시간 있어?', time: '2 min ago' },
-    { id: 4, name: '예세림', message: '이번 주말에 뭐 할거야?', time: '2 min ago' },
-    { id: 5, name: '유가영', message: '안녕! 잘 지내고 있어?ㅂㅂㄴㄴㄴㄴㄴㄴㄴㄴㄴㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ', time: '2 min ago' },
+    {
+      id: 1,
+      name: "전유탁",
+      message: "오늘 저녁 먹고 뭐해?",
+      time: "2 min ago",
+    },
+    { id: 2, name: "서창호", message: "오늘 뭐해?", time: "2 min ago" },
+    {
+      id: 3,
+      name: "홍화연",
+      message: "내일 오후에 시간 있어?",
+      time: "2 min ago",
+    },
+    {
+      id: 4,
+      name: "예세림",
+      message: "이번 주말에 뭐 할거야?",
+      time: "2 min ago",
+    },
+    {
+      id: 5,
+      name: "유가영",
+      message:
+        "안녕! 잘 지내고 있어?ㅂㅂㄴㄴㄴㄴㄴㄴㄴㄴㄴㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ",
+      time: "2 min ago",
+    },
   ];
 
-  const messages = selectedChat ? [
-    { from: selectedChat.name, text: '안녕? 잘 지내고 있어? 요즘 어떻게 지내니?', time: '09:31 AM' },
-    { from: selectedChat.name, text: '집 언제 가니? 점심 먹자!', time: '09:32 AM' },
-    { from: 'Me', text: '몰라!!', time: '09:32 AM' },
-  ] : [];
+  const messages = selectedChat
+    ? [
+        {
+          from: selectedChat.name,
+          text: "안녕? 잘 지내고 있어? 요즘 어떻게 지내니?",
+          time: "09:31 AM",
+        },
+        {
+          from: selectedChat.name,
+          text: "집 언제 가니? 점심 먹자!",
+          time: "09:32 AM",
+        },
+        { from: "Me", text: "몰라!!", time: "09:32 AM" },
+      ]
+    : [];
 
   function openModal() {
     setModalIsOpen(true);
@@ -53,13 +88,19 @@ function MainChat() {
       <header className="header">
         <div className="logo">DeveLuv</div>
         <div className="mypage-button">
-          <button className="loginBtn" onClick={openModal}>MyPage</button>
+          <button className="loginBtn" onClick={openModal}>
+            MyPage
+          </button>
         </div>
       </header>
       <div className="chat-container">
         <div className="chat-list">
           {chats.map((chat) => (
-            <div key={chat.id} className="chat-item" onClick={() => selectChat(chat)}>
+            <div
+              key={chat.id}
+              className="chat-item"
+              onClick={() => selectChat(chat)}
+            >
               <div className="chat-avatar"></div>
               <div className="chat-info">
                 <div className="chat-name">{chat.name}</div>
@@ -72,7 +113,12 @@ function MainChat() {
         <div className="chat-window">
           {messages.length > 0 ? (
             messages.map((message, index) => (
-              <div key={index} className={`chat-message ${message.from === 'Me' ? 'me' : 'other'}`}>
+              <div
+                key={index}
+                className={`chat-message ${
+                  message.from === "Me" ? "me" : "other"
+                }`}
+              >
                 <div className="message-text">{message.text}</div>
                 <div className="message-time">{message.time}</div>
               </div>

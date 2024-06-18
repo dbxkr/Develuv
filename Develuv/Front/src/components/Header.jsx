@@ -66,7 +66,6 @@ function Header() {
   useEffect(() => {
     // // 미운트 시 네이버 유저인지 체크
     // getNaverUser();
-
     // // 마운트 시 카카오 유저인지 체크
     // const token = localStorage.getItem("kakao.access_token");
     // console.log("카카오 토큰 :" + token);
@@ -80,12 +79,6 @@ function Header() {
     //       localStorage.removeItem("kakao.access_token");
     //     });
     // }
-    if (location.pathname === "/match" || location.pathname === "/chat") {
-      if (!isLoggedIn) {
-        alert("로긴해");
-        navigate("/");
-      }
-    }
   }, []);
 
   const openModal = () => {
@@ -97,13 +90,6 @@ function Header() {
   };
 
   const handleLogout = () => {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.includes("access_token")) {
-        localStorage.removeItem(key);
-      }
-    }
-    localStorage.removeItem("user");
     logout();
     navigate("/");
   };
@@ -129,6 +115,7 @@ function Header() {
         <Link to={"/"} style={{ fontSize: "24px", fontWeight: "bold" }}>
           DeveLuv
         </Link>
+        <Link to={"/chat"}>채팅</Link>
         <div
           style={{
             display: "flex",
