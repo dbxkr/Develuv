@@ -1,7 +1,7 @@
 import "./Regi5Form.css";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 //유저정보 추가를 위해 이전 페이지에서 사용자 id 정보 가져오기
 function Regi5Form({ formData, setFormData, progress, setProgress }) {

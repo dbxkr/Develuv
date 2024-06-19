@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import "./index.css";
 import "./components/login/login.css";
 import LoginPage from "./components/login/LoginPage.jsx";
@@ -15,7 +14,6 @@ import RegisterPage from "./components/register/RegisterPage.jsx";
 import Matching from "./components/main/Matching.jsx";
 import Modal from "./components/main/Modal.jsx";
 import Mypage from "./components/mypage/Mypage.jsx";
-import MainChat from "./components/MainChat.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>

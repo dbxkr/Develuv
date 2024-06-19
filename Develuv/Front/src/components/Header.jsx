@@ -1,5 +1,3 @@
-// Header.jsx
-
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,6 +5,9 @@ import axios from "axios";
 import Modal from "react-modal";
 import Login from "./login/login";
 import { useAuth } from "../AuthProvider";
+import menuImg from "../assets/menubar_white.svg"; // SVG 파일을 임포트
+import chatBtn from "../assets/messenger_white.svg"; // SVG 파일을 임포트
+
 // 모달에 대한 스타일을 정의합니다.
 const customStyles = {
   content: {
@@ -24,6 +25,7 @@ const customStyles = {
 
 // 모달의 root element를 설정합니다. (App의 root element를 사용하는 것이 일반적입니다.)
 Modal.setAppElement("#root");
+
 function Header() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const location = useLocation();
@@ -38,19 +40,6 @@ function Header() {
       }
     }
   }, [location, isLoggedIn]);
-
-  // const { naver } = window;
-
-  // const naverLogin = new naver.LoginWithNaverId({
-  //   clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
-  //   callbackUrl: "http://localhost:3500/callback/naver",
-  //   isPopup: true,
-  //   loginButton: {
-  //     color: "green",
-  //     type: 1,
-  //     height: 40,
-  //   },
-  // });
 
   const getNaverUser = async () => {
     await naverLogin.getLoginStatus((status) => {
@@ -108,7 +97,7 @@ function Header() {
       <header
         style={{
           background: "linear-gradient(90deg, #001d3d, #525dc3)",
-          padding: "50px",
+          padding: "20px",
           color: "white",
           display: "flex",
           justifyContent: "space-between",
@@ -118,56 +107,96 @@ function Header() {
           left: 0,
           width: "100%",
           zIndex: 1000,
-          height: "5px",
+          height: "70px",
         }}
       >
-        <Link to={"/"} style={{ fontSize: "24px", fontWeight: "bold" }}>
-          DeveLuv
-        </Link>
-        <Link to={"/chat"}>채팅(테스트)</Link>
-        <Link to={"/main"}>매칭(테스트)</Link>
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginRight: "100px",
-          }}
+          className="left-container"
+          style={{ display: "flex", alignItems: "center" }}
         >
-          {isLoggedIn ? (
-            <div>
-              {user.name ? user.name : null}
-              <button
-                className="loginBtn"
-                onClick={handleLogout}
-                style={{
-                  marginLeft: "10px",
-                  backgroundColor: "white",
-                  color: "#00356d",
-                  padding: "7px 14px",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-              >
-                로그아웃
-              </button>
+          <div className="menu_bar">
+            <img src={menuImg} alt="Menu" />
+          </div>
+          <Link
+            to="/"
+            style={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              marginLeft: "20px",
+              color: "white",
+            }}
+          >
+            DeveLuv
+          </Link>
+        </div>
+
+        {user && (
+          <>
+            <div
+              className="center-container"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Link to="/chat" style={{ marginRight: "30px", color: "white" }}>
+                채팅(테스트)
+              </Link>
+              <Link to="/main" style={{ color: "white" }}>
+                매칭(테스트)
+              </Link>
             </div>
-          ) : location.pathname == "/" ? (
-            <button
-              className="loginBtn"
-              onClick={openModal}
+
+            <div
+              className="right-container"
               style={{
-                backgroundColor: "white",
-                color: "#00356d",
-                padding: "7px 14px",
-                border: "none",
-                borderRadius: "5px",
-                marginRight: "20px",
+                display: "flex",
+                alignItems: "center",
+                marginRight: "50px",
               }}
             >
-              로그인
-            </button>
-          ) : null}
-        </div>
+              <div className="chat_btn" style={{ marginRight: "50px" }}>
+                <Link to="/chat">
+                  {" "}
+                  {/* Link 컴포넌트로 chatBtn을 클릭하면 /chat으로 이동하도록 설정 */}
+                  <img src={chatBtn} alt="Chat" />
+                </Link>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {user.name ? user.name : null}
+                <button
+                  className="loginBtn"
+                  onClick={handleLogout}
+                  style={{
+                    marginLeft: "20px",
+                    backgroundColor: "white",
+                    color: "#00356d",
+                    padding: "5px 10px",
+                    border: "none",
+                    borderRadius: "5px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  로그아웃
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+
+        {!user && location.pathname === "/" && (
+          <button
+            className="loginBtn"
+            onClick={openModal}
+            style={{
+              backgroundColor: "white",
+              color: "#00356d",
+              padding: "5px 10px",
+              border: "none",
+              borderRadius: "5px",
+              marginRight: "50px",
+            }}
+          >
+            로그인
+          </button>
+        )}
       </header>
       <Modal
         isOpen={modalIsOpen}
