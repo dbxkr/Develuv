@@ -1,4 +1,4 @@
-@import './assets/styles.css';
+@import "./assets/styles.css";
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -8,8 +8,8 @@
   /* color: rgba(255, 255, 255, 0.87); */
   /* background-color: #242424; */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  /* font-synthesis: none; */
+  /* text-rendering: optimizeLegibility; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -49,6 +49,7 @@ button {
 }
 button:hover {
   border-color: #646cff;
+  color: white;
 }
 button:focus,
 button:focus-visible {

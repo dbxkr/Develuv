@@ -1,11 +1,11 @@
 import "./Regi5Form.css";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //유저정보 추가를 위해 이전 페이지에서 사용자 id 정보 가져오기
-function Regi5Form({ user_id }) {
-  //임의 id 입력...
-  user_id = "hhy";
+function Regi5Form({ formData, setFormData, progress, setProgress }) {
+  const navigate = useNavigate();
 
   // 리스트에 들어갈 문자열들
   const proLangs = [
@@ -58,71 +58,50 @@ function Regi5Form({ user_id }) {
 
   // 선택시 state 변환
 
-  const plClicked = (lang) => {
-    setSelPL(lang);
+  const plClicked = (type) => {
+    setSelPL(type);
+    setFormData({ ...formData, user_pro_lang: type });
   };
   const alClicked = (type) => {
     setSelAlchol(type);
+    setFormData({ ...formData, user_drink: type });
   };
   const smClicked = (type) => {
     setSelSmoke(type);
+    setFormData({ ...formData, user_smoke: type });
   };
   const dsClicked = (type) => {
     setSelDateStyle(type);
   };
   const jongClicked = (type) => {
     setSelJong(type);
+    setFormData({ ...formData, user_religion: type });
   };
   const eduClicked = (type) => {
     setSelEdu(type);
+    setFormData({ ...formData, user_edu: type });
   };
-
+  const navigateToPrevious = () => {
+    setProgress(progress - 1);
+  };
   // 제출
-  const url = "http://localhost:8080/register/additional";
-  const submitAO = () => {
-    // alert(
-    //   "PL : " +
-    //     selPL +
-    //     " al : " +
-    //     selAlchol +
-    //     " sm  : " +
-    //     selSmoke +
-    //     " ds : " +
-    //     selDateStyle +
-    //     " jong : " +
-    //     selJong +
-    //     " edu : " +
-    //     selEdu
-    // );
-    axios
-      .post(url, {
-        user_id: user_id,
-        user_pro_lang: selPL,
-        user_drink: selAlchol,
-        user_smoke: selSmoke,
-        dating_style: selDateStyle,
-        user_religion: selJong,
-        user_edu: selEdu,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const signupUrl = "http://localhost:8080/user/signup";
+  const submitAO = async () => {
+    try {
+      const response = await axios.post(signupUrl, formData);
+      alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing up:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
+    console.log(formData);
   };
 
   return (
     <div
     // className={"container"}
     >
-      {/*프로그레스 바*/}
-      <div className="progress-container">
-        <div className="progress-line">
-          <div className="progress-circle fifth" />
-        </div>
-      </div>
-
       <div className={"tt"}>Additional Options</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -232,7 +211,11 @@ function Regi5Form({ user_id }) {
       </div>
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>
-        <button type={"button"} className={"before_btn"}>
+        <button
+          type={"button"}
+          onClick={navigateToPrevious}
+          className={"before_btn"}
+        >
           이전
         </button>
         <button type={"button"} onClick={submitAO} className={"after_btn"}>
