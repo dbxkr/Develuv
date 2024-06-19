@@ -18,8 +18,8 @@ public interface UserMapper {
     @Select("select user_id from users where user_id = #{user_id}")
     String findById(String user_id);
 
-    @Insert("INSERT INTO Users(user_id, user_pw, user_name, user_email, user_birth, user_phone, user_gender, user_profile, user_provider_id, user_heart, user_code, user_job, user_address, user_nbti) VALUES(#{user_id}, #{user_pw}, #{user_name}, #{user_email}, #{user_birth}, #{user_phone}, #{user_gender}, #{user_profile}, #{user_provider_id}, #{user_heart}, #{user_code}, #{user_job}, #{user_address}, #{user_nbti})")
-    void save(User user);
+    @Insert("INSERT INTO Users(user_id, user_pw, user_name, user_email, user_birth, user_phone, user_gender, user_profile, user_provider_id, user_heart, user_code, user_job, user_address, user_nbti,user_pro_lang,user_drink,user_smoke,user_religion,user_edu) VALUES(#{user_id}, #{user_pw}, #{user_name}, #{user_email}, #{user_birth}, #{user_phone}, #{user_gender}, #{user_profile}, #{user_provider_id}, #{user_heart}, #{user_code}, #{user_job}, #{user_address}, #{user_nbti},#{user_pro_lang},#{user_drink},#{user_smoke},#{user_religion},#{user_edu})")
+    void save(UserDto user);
 
     @Select("select user_pw from users where user_email = #{user_email} and user_id = #{user_id}")
     String findPw(UserFindPwDTO userFindPwDTO);

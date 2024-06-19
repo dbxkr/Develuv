@@ -12,10 +12,10 @@
   gap: 10px;
 }
 
-.MatchingItem{
-    width: 220px;
-    padding: 10px;
-    text-align: center;
+.MatchingItem {
+  width: 220px;
+  padding: 10px;
+  text-align: center;
 }
 
 .MatchingItem .matching_item_profile {

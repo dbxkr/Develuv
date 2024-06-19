@@ -17,7 +17,7 @@
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: 600;
-  margin-top: 40px; /* hhy 추가 */
+  margin-top: 65px; /* hhy 추가 */
 }
 
 .gray_font {
@@ -143,7 +143,8 @@
 
 .progress-circle:last-child {
   background-color: #00356d; /* 마지막 동그라미의 색상 */
-  right: 0; /* 다섯 번째 동그라미의 위치 */
+  left: calc(100%); /* 두 번째 동그라미의 위치 */
+
 }
 
 .progress-circle:last-child::after {

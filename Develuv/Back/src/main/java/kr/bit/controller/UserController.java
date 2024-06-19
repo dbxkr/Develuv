@@ -61,7 +61,7 @@ public class UserController {
     @GetMapping("/login")
     public Map<String,Object> longin(@RequestParam String user_id, @RequestParam String user_pw) {
         Map<String, Object> data = new HashMap<>();
-        data.put("유저_정보",userService.login(user_id,user_pw));
+        data.put("user_info",userService.login(user_id,user_pw));
         return data;
     }
     @PostMapping("/sns/naver")
