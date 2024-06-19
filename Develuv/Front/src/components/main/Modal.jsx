@@ -6,9 +6,11 @@ import {
   recommendUser,
   recommendUserByNbti,
 } from './api'
+import { useNavigate } from 'react-router-dom'
 import icon from '../../assets/money.png'
 
-const Modal = ({ type, closeModal, userId }) => {
+const Modal = ({ type, closeModal, userId, setMatchType }) => {
+  const navigate = useNavigate()
   const [isNbtiSelection, setIsNbtiSelection] = useState(false)
   const [nbti, setNbti] = useState({
     nbti1: '',
@@ -16,7 +18,6 @@ const Modal = ({ type, closeModal, userId }) => {
     nbti3: '',
     nbti4: '',
   })
-  const [recommendedUser, setRecommendedUser] = useState(null)
   const [coins, setCoins] = useState(0)
   const [noUserFound, setNoUserFound] = useState(false)
 
@@ -34,14 +35,18 @@ const Modal = ({ type, closeModal, userId }) => {
   }, [userId])
 
   const handleCoinUse = async () => {
+    const confirmPayment = window.confirm('결제하시겠습니까?')
+    if (!confirmPayment) return
+
     try {
       const remainingCoins = await deductCoins(userId, 1000)
       setCoins(remainingCoins)
       if (type === 'nbti') {
         setIsNbtiSelection(true)
       } else {
-        const user = await recommendUser(userId)
-        setRecommendedUser(user)
+        setMatchType('rematch')
+        closeModal()
+        navigate('/matching')
       }
     } catch (error) {
       if (
@@ -65,11 +70,18 @@ const Modal = ({ type, closeModal, userId }) => {
   }
 
   const handleNbtiSubmit = async () => {
+    const confirmPayment = window.confirm('결제하시겠습니까?')
+    if (!confirmPayment) return
+
     try {
-      const user = await recommendUserByNbti(userId, nbti)
-      if (user) {
-        setRecommendedUser(user)
+      const remainingCoins = await deductCoins(userId, 1000)
+      setCoins(remainingCoins)
+      const users = await recommendUserByNbti(userId, nbti)
+      if (users && users.length > 0) {
         setNoUserFound(false)
+        setMatchType('nbti')
+        closeModal()
+        navigate('/matching')
       } else {
         setNoUserFound(true)
       }
@@ -108,13 +120,6 @@ const Modal = ({ type, closeModal, userId }) => {
             <button className="modal-button" onClick={closeModal}>
               뒤로가기
             </button>
-            {recommendedUser && (
-              <div>
-                <h4>추천된 유저:</h4>
-                <p>{recommendedUser.user_name}</p>
-                <p>{recommendedUser.user_nbti}</p>
-              </div>
-            )}
             {noUserFound && (
               <div>
                 <p>해당 NBTI에 맞는 유저를 찾지 못했습니다.</p>

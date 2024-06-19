@@ -7,7 +7,7 @@ import icon2 from '../../assets/money.svg' // SVG 이미지 파일 import
 const Left = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalType, setModalType] = useState('')
-  const [userId] = useState('user01') // 실제로는 로그인한 사용자의 ID를 사용
+  const [userId] = useState('asd1234') // 실제로는 로그인한 사용자의 ID를 사용
   // 일단 db에 user01한테 3000비트 넣어놓음(임시)
 
   const openModal = (type) => {
