@@ -23,10 +23,14 @@ function RegisterPage() {
     user_profile: "",
     user_provider_id: "",
     user_heart: 0,
-    user_code: "",
     user_job: "",
     user_address: "",
     user_nbti: "",
+    user_pro_lang: "",
+    user_drink: "",
+    user_smoke: "",
+    user_religion: "",
+    user_edu: "",
   });
 
   const [formErrors, setFormErrors] = useState({

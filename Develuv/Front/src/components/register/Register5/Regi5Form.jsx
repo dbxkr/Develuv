@@ -58,30 +58,43 @@ function Regi5Form({ formData, setFormData, progress, setProgress }) {
 
   // 선택시 state 변환
 
-  const plClicked = (lang) => {
-    setSelPL(lang);
+  const plClicked = (type) => {
+    setSelPL(type);
+    setFormData({ ...formData, user_pro_lang: type });
   };
   const alClicked = (type) => {
     setSelAlchol(type);
+    setFormData({ ...formData, user_drink: type });
   };
   const smClicked = (type) => {
     setSelSmoke(type);
+    setFormData({ ...formData, user_smoke: type });
   };
   const dsClicked = (type) => {
     setSelDateStyle(type);
   };
   const jongClicked = (type) => {
     setSelJong(type);
+    setFormData({ ...formData, user_religion: type });
   };
   const eduClicked = (type) => {
     setSelEdu(type);
+    setFormData({ ...formData, user_edu: type });
   };
   const navigateToPrevious = () => {
     setProgress(progress - 1);
   };
   // 제출
-  const url = "http://localhost:8080/register/additional";
-  const submitAO = () => {
+  const signupUrl = "http://localhost:8080/user/signup";
+  const submitAO = async () => {
+    try {
+      const response = await axios.post(signupUrl, formData);
+      alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing up:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
     console.log(formData);
   };
 

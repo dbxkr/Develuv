@@ -3,12 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Nbti({ progress, setProgress, formData, setFormData }) {
-  // 임시 id 세팅
-
-  const navigate = useNavigate();
-
   // 유저가 선택한 nbti 요소를 배열 형태로 저장
-  const [nbti, setNbti] = useState(["", "", "", ""]);
+  const [nbti, setNbti] = useState("");
   const inputNbti = useRef(["", "", "", ""]);
 
   // nbti 선택 시 상태 업데이트
@@ -25,7 +21,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
     if (e.target.name === "nbti4") {
       inputNbti.current[3] = e.target.value;
     }
-    setNbti([...inputNbti.current]);
+    setNbti(inputNbti.current.join(""));
   };
 
   // nbti 배열의 유효성 검사를 통해 다음 버튼 활성화 여부 결정
@@ -36,7 +32,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
   }, [nbti]);
 
   const checkNbtiValidity = () => {
-    const allSelected = nbti.every((value) => value !== "");
+    const allSelected = inputNbti.current.every((value) => value !== "");
     setIsValid(allSelected);
   };
 
@@ -64,6 +60,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
     // } else {
     //   alert("모든 NBTI 항목을 선택해주세요.");
     // }
+    setFormData({ ...formData, user_nbti: nbti });
     setProgress(progress + 1);
   };
 
@@ -71,7 +68,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
     <div>
       <div className="container-header">
         <h2>NBTI</h2>
-        <h4>Please select your NBTI.</h4>
+        <h4>자신의 코딩 유형을 골라주세요.</h4>
       </div>
       <div className="container-button">
         <ul>

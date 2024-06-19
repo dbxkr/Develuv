@@ -88,22 +88,22 @@ public class UserService {
 
     public void saveUser(UserDto userDto) {
         try {
-            User user = new User();
-            user.setUser_id(userDto.getUser_id());
-            user.setUser_pw(userDto.getUser_pw());
-            user.setUser_name(userDto.getUser_name());
-            user.setUser_email(userDto.getUser_email());
-            user.setUser_birth(userDto.getUser_birth());
-            user.setUser_phone(userDto.getUser_phone());
-            user.setUser_gender(userDto.getUser_gender());
-            user.setUser_profile(userDto.getUser_profile());
-            user.setUser_provider_id(userDto.getUser_provider_id());
-            user.setUser_heart(userDto.getUser_heart());
-            user.setUser_code(userDto.getUser_code());
-            user.setUser_job(userDto.getUser_job());
-            user.setUser_address(userDto.getUser_address());
-            user.setUser_nbti(userDto.getUser_nbti());
-            userMapper.save(user);  // 데이터베이스에 저장
+//            User user = new User();
+//            user.setUser_id(userDto.getUser_id());
+//            user.setUser_pw(userDto.getUser_pw());
+//            user.setUser_name(userDto.getUser_name());
+//            user.setUser_email(userDto.getUser_email());
+//            user.setUser_birth(userDto.getUser_birth());
+//            user.setUser_phone(userDto.getUser_phone());
+//            user.setUser_gender(userDto.getUser_gender());
+//            user.setUser_profile(userDto.getUser_profile());
+//            user.setUser_provider_id(userDto.getUser_provider_id());
+//            user.setUser_heart(userDto.getUser_heart());
+//            user.setUser_code(userDto.getUser_code());
+//            user.setUser_job(userDto.getUser_job());
+//            user.setUser_address(userDto.getUser_address());
+//            user.setUser_nbti(userDto.getUser_nbti());
+            userMapper.save(userDto);  // 데이터베이스에 저장
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("User saving failed: " + e.getMessage(), e);

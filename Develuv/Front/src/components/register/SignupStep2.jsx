@@ -29,7 +29,7 @@ const SignupStep2 = ({
 
   if (state && state.user != null) {
     console.log(state);
-    formData.provider = state.provider;
+    formData.user_provider_id = state.provider;
     formData.user_id = state.user.id;
     formData.user_pw = state.provider;
     formData.user_pw_confirm = state.provider;

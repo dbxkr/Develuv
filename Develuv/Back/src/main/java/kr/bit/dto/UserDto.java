@@ -19,4 +19,9 @@ public class UserDto {
     private String user_address = ""; // 기본값 설정
     private String user_nbti = ""; // 기본값 설정
     private String verification_code;
+    private String user_pro_lang;
+    private String user_drink;
+    private String user_smoke;
+    private String user_religion;
+    private String user_edu;
 }
