@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
-import "./chat.css"; // CSS 파일 임포트
+import axios from "axios";
 import { useAuth } from "../../AuthProvider";
 import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import "./chat.css"; // CSS 파일 임포트
 
 const customStyles = {
   content: {
@@ -23,144 +24,75 @@ Modal.setAppElement("#root");
 function ChatList() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null); // 선택된 채팅방 상태
-  const [chatList, setChatList] = useState(null);
+  const [participants, setParticipants] = useState([]); // 같은 room_id에 있는 상대방 목록 상태
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const chatUrl = "http://localhost:8080/chatlists/";
+  const participantUrl = "http://localhost:8080/chatlists/room/participants/";
 
-  const chats = [
-    {
-      id: 1,
-      name: "전유탁",
-      message: "철 없을적 내 기억 속에",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-    {
-      id: 2,
-      name: "서창호",
-      message: "비행기 타고 가요~ Let's go",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-    {
-      id: 3,
-      name: "홍화연",
-      message: "파란 하늘 위를 훨훨 날아 가겠죠.",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-    {
-      id: 4,
-      name: "예세림",
-      message: "어려서 꿈꾸었던 비행기 타고 기다리는 동안 아무 말도 못해요",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-    {
-      id: 5,
-      name: "유가영",
-      message: "내 생각 말할 수 없어요.",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-    {
-      id: 6,
-      name: "유가영",
-      message: "이제 준비 다 끝났어",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-    {
-      id: 7,
-      name: "유가영",
-      message: "곱게 차려입고 나서",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-    {
-      id: 8,
-      name: "유가영",
-      message: "바깥 풍경마저 들뜬 기분",
-      time: "2 min ago",
-      profile:
-        "https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000",
-    },
-  ];
+  const chatRoomTest = async () => {
+    try {
+      const res = await axios.get(chatUrl + "user/" + user.id);
+      console.log("Rooms:", res.data); // 확인용 로그
+      const rooms = res.data.map((item) => item.roomId);
+      const participantsData = [];
 
-  const messages = selectedChat
-    ? [
-        {
-          from: selectedChat.name,
-          text: "안녕? 잘 지내고 있어? 요즘 어떻게 지내니?",
-          time: "09:31 AM",
-        },
-        {
-          from: selectedChat.name,
-          text: "집 언제 가니? 점심 먹자!",
-          time: "09:32 AM",
-        },
-        { from: "Me", text: "몰라!!", time: "09:32 AM" },
-      ]
-    : [];
+      for (const roomId of rooms) {
+        const res = await axios.get(participantUrl + roomId);
+        console.log(`Participants for room ${roomId}:`, res.data); // 확인용 로그
+        res.data.forEach((participant) => {
+          // 데이터 구조를 확인하여 roomId와 userId를 설정
+          if (participant.user_id !== user.id) { // 자신의 user_id가 아닌 경우에만 추가
+            participantsData.push({ roomId, userId: participant.user_id, name: participant.user_name });
+          }
+        });
+      }
+
+      console.log("All Participants Data:", participantsData); // 확인용 로그
+      setParticipants(participantsData);
+    } catch (error) {
+      console.error("채팅방 또는 참가자 데이터를 가져오는 중 오류 발생", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      chatRoomTest();
+    }
+  }, [isLoggedIn]);
 
   function selectChat(chat) {
     setSelectedChat(chat);
   }
-  useEffect(() => {
-    if (!localStorage.getItem("user")) {
-      console.log(user);
-      alert("로긴해");
-      navigate("/");
-    }
-  }, []);
 
   return (
     <div className="main-chat">
       <div className="chat-container">
+        <button 
+          onClick={chatRoomTest}
+          className="small-button"
+        >
+          채팅방 가져오기
+        </button>
         <div className="chat-list">
-          {chats.map((chat) => (
-            <div
-              key={chat.id}
-              className="chat-item"
-              onClick={() => selectChat(chat)}
-            >
-              <div className="chat-avatar">
-                <img
-                  src="https://drive.google.com/thumbnail?id=1U3nZx1FZgRsL1GiydBx02NTAM4-vVeLG&sz=s4000"
-                  alt=""
-                  style={{ width: "200%", borderRadius: "5em" }}
-                />
-              </div>
-              <div className="chat-info">
-                <div className="chat-name">{chat.name}</div>
-                <div className="chat-message">{chat.message}</div>
-                <div className="chat-time">{chat.time}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="chat-window">
-          {messages.length > 0 ? (
-            messages.map((message, index) => (
-              <div
-                key={index}
-                className={`chat-message ${
-                  message.from === "Me" ? "me" : "other"
-                }`}
-              >
-                <div className="message-text">{message.text}</div>
-                <div className="message-time">{message.time}</div>
-              </div>
-            ))
+          {participants.length > 0 ? (
+            <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+              {participants.map((participant, index) => (
+                <li key={index} className="chat-item">
+                  <div className="chat-avatar">
+                    <img src={`https://via.placeholder.com/50`} alt="avatar" />
+                  </div>
+                  <div className="chat-info">
+                    <p className="chat-name">{participant.name}</p>
+                    <p className="chat-message">How are you today?</p>
+                  </div>
+                  <div className="chat-time">2분전</div>
+                  <div className="chat-notification">3</div>
+                </li>
+              ))}
+            </ul>
           ) : (
-            <div>채팅방을 선택하세요</div>
+            <p>참가자가 없습니다</p>
           )}
         </div>
       </div>

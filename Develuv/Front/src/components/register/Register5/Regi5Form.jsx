@@ -82,22 +82,8 @@ function Regi5Form({ user_id }) {
     navigate('/register/4');
   };
   // 제출
-  const url = "http://localhost:8080/register/additional";
   const submitAO = () => {
-    // alert(
-    //   "PL : " +
-    //     selPL +
-    //     " al : " +
-    //     selAlchol +
-    //     " sm  : " +
-    //     selSmoke +
-    //     " ds : " +
-    //     selDateStyle +
-    //     " jong : " +
-    //     selJong +
-    //     " edu : " +
-    //     selEdu
-    // );
+    const url = "http://localhost:8080/register/additional";
     axios
       .post(url, {
         user_id: user_id,
@@ -110,6 +96,8 @@ function Regi5Form({ user_id }) {
       })
       .then((res) => {
         console.log(res);
+        // 제출 후 로그인 페이지로 이동
+        navigate('/');
       })
       .catch((error) => {
         console.log(error);

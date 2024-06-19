@@ -15,6 +15,7 @@ import ImageUpload from "./components/imgupload.jsx";
 import Header from "./components/Header";
 import ChatList from "./components/chat/ChatList.jsx";
 import { AuthProvider } from "./AuthProvider.jsx";
+import MainChat from "./components/MainChat.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -31,6 +32,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/register/5" element={<Regi5Form />} />
           <Route path="/imgtest" element={<ImageUpload />} />
           <Route path="/chat" element={<ChatList />} />
+          <Route path="/mainchat" element={<MainChat />} />
+
         </Routes>
       </div>
     </BrowserRouter>

@@ -26,12 +26,13 @@ function Login({ closeModal }) {
     console.log("id:", id);
     console.log("pw:", password);
     axios.get(url + `/login?user_id=${id}&user_pw=${password}`).then((res) => {
+      console.log(res);
       if (res.data.user_info == null) {
         alert("오답이다 어리석은 것");
       } else {
         login(res.data.user_info.user_id, res.data.user_info.user_name);
         closeModal();
-        navigate("/");
+        navigate("/"); // 로그인 성공 시 MainChat 컴포넌트로 이동
       }
     });
   };
