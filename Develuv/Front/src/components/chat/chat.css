@@ -3,9 +3,7 @@
   flex-direction: column;
   height: 100vh;
   background-color: #f7f7f7;
-  padding: 20px; /* 전체 내용에서 패딩 추가 */
-  justify-content: space-between; /* 아이템 간의 공간을 최대한 확보 */
-
+  padding: 20px;
 }
 
 .chat-container {
@@ -13,52 +11,56 @@
   flex-direction: column;
   margin-top: 20px;
   height: calc(100% - 20px);
-  align-items: flex-start; /* 왼쪽 정렬 추가 */
-  overflow: hidden; /* 초과 부분 숨기기 */
+  align-items: center;
 }
 
 .small-button {
-  font-size: 12px;
-  margin-bottom: 20px;
-  padding: 5px 10px;
-  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 25px;
   background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.small-button:hover {
+  background-color: #0056b3;
 }
 
 .chat-list {
-  width: 100%;
-  max-width: 800px;
-  border: none;
+  width: 80%;
+  max-width: 500px;
   background-color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 80px; /* 내부 패딩 조정 */
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow-y: auto;
+  margin-top: 120px;
+  margin-right: 1000px;
 }
 
 .chat-item {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 15px 0;
   border-bottom: 1px solid #eee;
   cursor: pointer;
   transition: background-color 0.3s;
-  position: relative;
 }
 
 .chat-item:hover {
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;
 }
 
 .chat-avatar {
   width: 50px;
   height: 50px;
-  background-color: transparent;
   border-radius: 50%;
-  margin-right: 15px;
   overflow: hidden;
+  margin-right: 15px;
 }
 
 .chat-avatar img {
@@ -71,17 +73,15 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .chat-name {
   font-weight: bold;
   font-size: 16px;
+  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 5px; /* 이름과 메세지 사이 여백 추가 */
-
 }
 
 .chat-message {
@@ -92,11 +92,15 @@
   text-overflow: ellipsis;
 }
 
+.chat-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .chat-time {
   color: #aaa;
   font-size: 12px;
-  margin-right: 10px; /* 오른쪽 여백 추가 */
-
 }
 
 .chat-notification {
@@ -110,6 +114,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  right: 15px;
+  margin-top: 5px;
 }

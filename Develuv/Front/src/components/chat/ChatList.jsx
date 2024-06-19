@@ -71,6 +71,7 @@ function ChatList() {
         <button 
           onClick={chatRoomTest}
           className="small-button"
+          style={{ marginBottom: "10px" }} // 버튼 아래 여백 추가
         >
           채팅방 가져오기
         </button>
@@ -86,8 +87,10 @@ function ChatList() {
                     <p className="chat-name">{participant.name}</p>
                     <p className="chat-message">How are you today?</p>
                   </div>
-                  <div className="chat-time">2분전</div>
-                  <div className="chat-notification">3</div>
+                  <div className="chat-meta">
+                    <div className="chat-time">2분전</div>
+                    <div className="chat-notification">3</div>
+                  </div>
                 </li>
               ))}
             </ul>
