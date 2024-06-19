@@ -319,7 +319,11 @@ const SignupStep2 = ({
           <button
             type="button"
             className="check-button"
-            onClick={state && state.user ? null : handleSendVerificationCode}
+            onClick={
+              state && state.provider === "naver"
+                ? null
+                : handleSendVerificationCode
+            }
           >
             인증 번호 받기
           </button>
