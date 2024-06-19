@@ -31,7 +31,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path={"/main"} element={<Matching />} />
           <Route path={"/mypage/:user_id"} element={<Mypage />} />
           <Route path="/modal" element={<Modal />} />
-          <Route path="/mainchat" element={<MainChat />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </div>

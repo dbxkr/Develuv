@@ -35,4 +35,7 @@ public interface UserMapper {
 
     @Select("SELECT * from users where user_id=#{user_id}")
     UserDto findUserById(@Param("user_id") String user_id);
+
+    @Select("select user_name from users where user_id=#{user_id}")
+    String findUserNameById(@Param("user_id") String user_id);
 }

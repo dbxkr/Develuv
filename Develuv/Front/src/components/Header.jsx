@@ -29,6 +29,15 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isLoggedIn, user, logout } = useAuth();
+  const needLogin = ["/chat", "/main", "/mypage"];
+  useEffect(() => {
+    if (needLogin.includes(location.pathname)) {
+      if (!isLoggedIn) {
+        alert("로그인 해");
+        navigate("/");
+      }
+    }
+  }, [location, isLoggedIn]);
 
   // const { naver } = window;
 
@@ -116,7 +125,7 @@ function Header() {
           DeveLuv
         </Link>
         <Link to={"/chat"}>채팅(테스트)</Link>
-        <Link to={"/match"}>매칭(테스트)</Link>
+        <Link to={"/main"}>매칭(테스트)</Link>
         <div
           style={{
             display: "flex",
@@ -124,7 +133,7 @@ function Header() {
             marginRight: "100px",
           }}
         >
-          {user ? (
+          {isLoggedIn ? (
             <div>
               {user.name ? user.name : null}
               <button
