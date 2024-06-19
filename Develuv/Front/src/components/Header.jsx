@@ -130,7 +130,7 @@ function Header() {
           </Link>
         </div>
 
-        {user && (
+        {isLoggedIn && (
           <>
             <div
               className="center-container"
@@ -181,7 +181,7 @@ function Header() {
           </>
         )}
 
-        {!user && location.pathname === "/" && (
+        {!isLoggedIn && location.pathname === "/" && (
           <button
             className="loginBtn"
             onClick={openModal}
