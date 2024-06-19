@@ -11,11 +11,12 @@ const SignupStep2 = ({
   setFieldTouched,
   formErrors,
   setFormErrors,
+  userIdAvailable,
+  setUserIdAvailable,
 }) => {
   const navigate = useNavigate();
 
   const [showVerificationField, setShowVerificationField] = useState(false);
-  const [userIdAvailable, setUserIdAvailable] = useState(null);
   const [verificationMessage, setVerificationMessage] = useState("");
   const [userIdCheckMessage, setUserIdCheckMessage] = useState("");
 
@@ -29,6 +30,7 @@ const SignupStep2 = ({
 
   if (state && state.user != null) {
     console.log(state);
+    setUserIdAvailable(true);
     formData.user_provider_id = state.provider;
     formData.user_id = state.user.id;
     formData.user_pw = state.provider;
@@ -53,6 +55,7 @@ const SignupStep2 = ({
     });
     if (name === "user_id") {
       setUserIdCheckMessage(""); // 아이디 필드가 수정되면 중복 확인 메시지를 숨김
+      setUserIdAvailable(false);
     }
   };
 
@@ -177,7 +180,7 @@ const SignupStep2 = ({
       "user_pw",
       "user_pw_confirm",
       "user_email",
-      "verification_code",
+      // "verification_code",
       "user_name",
       "user_birth",
       "user_phone",
@@ -199,6 +202,11 @@ const SignupStep2 = ({
 
     if (!allFieldsFilled) {
       alert("모든 필수 필드를 입력하세요.");
+      return;
+    }
+
+    if (!userIdAvailable) {
+      alert("아이디 중복 여부를 확인하세요.");
       return;
     }
 

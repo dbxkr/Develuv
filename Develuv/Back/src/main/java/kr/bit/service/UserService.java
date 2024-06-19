@@ -88,6 +88,7 @@ public class UserService {
     }
 
     public void saveUser(UserDto userDto) {
+        System.out.println(userDto);
         try {
 //            User user = new User();
 //            user.setUser_id(userDto.getUser_id());
