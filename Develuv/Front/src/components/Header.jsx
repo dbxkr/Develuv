@@ -115,7 +115,8 @@ function Header() {
         <Link to={"/"} style={{ fontSize: "24px", fontWeight: "bold" }}>
           DeveLuv
         </Link>
-        <Link to={"/chat"}>채팅</Link>
+        <Link to={"/chat"}>채팅(테스트)</Link>
+        <Link to={"/match"}>매칭(테스트)</Link>
         <div
           style={{
             display: "flex",

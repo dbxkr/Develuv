@@ -3,8 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Regi3Form() {
-  let url = "http://localhost:8080/";
+function Regi3Form({ progress, setProgress, formData, setFormData }) {
   const navigate = useNavigate();
 
   const genders = [
@@ -12,84 +11,56 @@ function Regi3Form() {
     { type: "female", title: "여자" },
   ];
 
-  const [name, setName] = useState("");
   const [selGen, setSelGen] = useState("");
-  const [job, setJob] = useState("");
-  const [addr, setAddr] = useState("");
-
   const onChangeName = (e) => {
-    setName(e.target.value);
-    console.log(name);
+    setFormData({ ...formData, user_name: e.target.value });
   };
 
   const onChangeJob = (e) => {
-    setJob(e.target.value);
+    setFormData({ ...formData, user_job: e.target.value });
   };
   const onChangeAddr = (e) => {
-    setAddr(e.target.value);
+    setFormData({ ...formData, user_address: e.target.value });
   };
 
   const onEnter = (e) => {
-    if (e.code === "Enter") {
-      alert(
-        "이름 입력은 : " +
-          name +
-          " 성별은 : " +
-          selGen +
-          " 직업은 : " +
-          job +
-          " 주소는 : " +
-          addr
-      );
-    }
+    // if (e.code === "Enter") {
+    //   alert(
+    //     "이름 입력은 : " +
+    //       formData.user_name +
+    //       " 성별은 : " +
+    //       formData.user_gender +
+    //       " 직업은 : " +
+    //       formData.user_job +
+    //       " 주소는 : " +
+    //       formData.user_address
+    //   );
+    // }
   };
 
   const genClicked = (type) => {
     setSelGen(type);
+    setFormData({ ...formData, user_gender: type });
   };
 
   const regi3Submit = () => {
-    alert(
-      "이름 입력은 : " +
-        name +
-        " 성별은 : " +
-        selGen +
-        " 직업은 : " +
-        job +
-        " 주소는 : " +
-        addr
-    );
-
-    const params = {
-      id: "user01",
-      name: name,
-      gender: selGen,
-      job: job,
-      addr: addr,
-    };
+    setProgress(progress + 1);
     // GET 요청 보내기
-    axios
-      .get(url + "regi3submit", { params })
-      .then((response) => {
-        // 성공적으로 응답을 받은 경우 처리
-        console.log(response.data);
-        navigate('/register/4');
-
-      })
-      .catch((error) => {
-        // 오류가 발생한 경우 처리
-        console.error("There was an error!", error);
-      });
+    // axios
+    //   .get(url + "regi3submit", { params })
+    //   .then((response) => {
+    //     // 성공적으로 응답을 받은 경우 처리
+    //     console.log(response.data);
+    //     navigate("/register/4");
+    //   })
+    //   .catch((error) => {
+    //     // 오류가 발생한 경우 처리
+    //     console.error("There was an error!", error);
+    //   });
   };
 
   return (
-    <div >
-     <div className="progress-container">
-        <div className="progress-line">
-          <div className="progress-circle third"></div>
-          <div className="progress-circle fifth"></div>
-        </div>
-      </div>
+    <div>
       <div className={"tt"}>Essential Information</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -102,8 +73,8 @@ function Regi3Form() {
       <input
         className={"regi3_in"}
         onChange={onChangeName}
-        onKeyDown={onEnter}
-        value={name}
+        // onKeyDown={onEnter}
+        value={formData.user_name}
         placeholder={"이름 입력"}
       />
 
@@ -133,8 +104,8 @@ function Regi3Form() {
       <input
         className={"regi3_in"}
         onChange={onChangeJob}
-        onKeyDown={onEnter}
-        value={job}
+        // onKeyDown={onEnter}
+        value={formData.user_job}
         type={"text"}
         placeholder={"직업 입력"}
       />
@@ -144,15 +115,24 @@ function Regi3Form() {
       <input
         className={"regi3_in"}
         onChange={onChangeAddr}
-        onKeyDown={onEnter}
-        value={addr}
+        // onKeyDown={onEnter}
+        value={formData.user_address}
         type={"text"}
         placeholder={"주소 입력"}
       />
 
+      {/* 여기에 이미지 던지기*/}
+      {/*<UploadImg/>*/}
+
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>
-        <button type={"button"} className={"before_btn"}>
+        <button
+          type={"button"}
+          onClick={() => {
+            setProgress(progress - 1);
+          }}
+          className={"before_btn"}
+        >
           이전
         </button>
         <button type={"button"} onClick={regi3Submit} className={"after_btn"}>

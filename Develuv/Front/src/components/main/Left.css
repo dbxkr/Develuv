@@ -1,0 +1,46 @@
+.matching-container {
+  position: fixed;
+  top: 30cap;
+  left: 150px;
+  width: 300px;
+  height: auto;
+
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Flexbox 아이템들을 세로로 배치 */
+  z-index: 1; /* 모달이 최상위에 위치하도록 설정 */
+}
+
+.matching-container button {
+  margin: 10px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.check-button {
+  width: 190px;
+  padding: 8px;
+  background-color: #1d4289;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative; /* left 속성을 적용하기 위해 position을 relative로 설정 */
+  /*left: -670px; /* 버튼 왼쪽으로 이동 */
+}
+
+.matching-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 25px; /* 이미지와 버튼 사이에 공백 추가 */
+  position: relative; /* left 속성을 적용하기 위해 position을 relative로 설정 */
+
+  left: 70px; /* 버튼 왼쪽으로 이동 */
+}
+
+.button-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px; /* 텍스트와 아이콘 사이에 공백 추가 */
+  fill: white; /* SVG 아이콘의 색상을 흰색으로 변경 */
+}

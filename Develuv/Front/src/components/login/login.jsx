@@ -30,6 +30,7 @@ function Login({ closeModal }) {
       if (res.data.user_info == null) {
         alert("오답이다 어리석은 것");
       } else {
+        console.log(res);
         login(res.data.user_info.user_id, res.data.user_info.user_name);
         closeModal();
         navigate("/"); // 로그인 성공 시 MainChat 컴포넌트로 이동
@@ -161,7 +162,7 @@ function Login({ closeModal }) {
           비밀번호 찾기
         </a>{" "}
         |
-        <Link to={"/register/1"} onClick={closeModal} className="link">
+        <Link to={"/register"} onClick={closeModal} className="link">
           {" "}
           {/* Use Link to navigate to Quiz.jsx */}
           회원가입
