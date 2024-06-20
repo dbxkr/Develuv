@@ -33,6 +33,7 @@
 .chat-list {
   width: 80%;
   max-width: 500px;
+  max-height: 80%;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
