@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import Message from "./Message";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid"; // uuid 모듈 가져오기
+import "./chatstyle.css";
 
 const socket = io.connect("http://localhost:4000");
 
@@ -58,12 +59,12 @@ function Chat({ myId, oppoId, roomId }) {
   };
 
   // 마우스 스크롤을 스무스하게 움직인다...
-  useEffect(() => {
-    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messageList]);
+  // useEffect(() => {
+  //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messageList]);
 
   const otherUser =
-    messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
+    messageList.find((msg) => msg.user_id !== user_id)?.user_id || oppoId;
 
   return (
     <PageContainer>
@@ -73,9 +74,10 @@ function Chat({ myId, oppoId, roomId }) {
         </RoomHeader>
         <RoomBody>
           <MessageBox>
-            {messageList.map((el) => (
-              <Message message={el} user_id={user_id} key={uuidv4()} />
-            ))}
+            {messageList[0] &&
+              messageList[0].map((el) => (
+                <Message message={el} user_id={user_id} key={uuidv4()} />
+              ))}
             <div ref={messageBottomRef} />
           </MessageBox>
         </RoomBody>
@@ -93,6 +95,33 @@ function Chat({ myId, oppoId, roomId }) {
         </ChatInputBox>
       </RoomContainer>
     </PageContainer>
+    // <div className="PageContainer">
+    //   <div className="RoomContainer">
+    //     <div className="RoomHeader">
+    //       <div className="RoomHeader">{otherUser}</div>
+    //       <div className="RoomBody">
+    //         <div className="MessageBox">
+    //           {messageList.map((el) => (
+    //             <Message message={el} user_id={user_id} key={uuidv4()} />
+    //           ))}
+    //           <div ref={messageBottomRef} />
+    //         </div>
+    //       </div>
+    //       <div className="ChatInputBox">
+    //         <input
+    //           className="ChatInput"
+    //           type="text"
+    //           ref={inputRef}
+    //           placeholder="메시지를 입력해주세요"
+    //           onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+    //         />
+    //       </div>
+    //       <button className="ChatButton" onClick={sendMessage}>
+    //         ▹
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }
 
@@ -100,6 +129,7 @@ export default Chat;
 
 const PageContainer = styled.div`
   background-color: #eeefee; /* 웹페이지 전체 배경색 */
+  margin-top: 100px;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -109,7 +139,7 @@ const PageContainer = styled.div`
 
 const RoomContainer = styled.div`
   width: 500px; /* 채팅방 너비 */
-  height: 300px; /* 채팅방 높이 */
+  height: 700px; /* 채팅방 높이 */
   background-color: #ffffff; /* 채팅방 내 배경색 */
   border-radius: 6px;
   display: flex;
