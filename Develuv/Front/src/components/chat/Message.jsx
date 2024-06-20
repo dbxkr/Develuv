@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Message = ({ oneMessage, user_id }) => {
   const [who, setWho] = useState("me");
-  console.log("el : ", oneMessage);
+  console.log("el : ", oneMessage[0]);
 
   useEffect(() => {
     setWho(user_id === oneMessage.user_id ? "me" : "other");
@@ -17,7 +17,7 @@ const Message = ({ oneMessage, user_id }) => {
         <MessageBody who={who}>
           <MessageText>{oneMessage.message_content}</MessageText>
         </MessageBody>
-        <Time who={who}>{oneMessage.time}</Time>
+        <Time who={who}>{oneMessage.message_time}</Time>
       </MessageWrapper>
     </MessageContainer>
   );
