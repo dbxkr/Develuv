@@ -1,8 +1,16 @@
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import { Tooltip } from "react-tooltip";
 import { useNavigate } from "react-router-dom";
 
 function Nbti({ progress, setProgress, formData, setFormData }) {
+  // 임시 id 세팅
+  const navigate = useNavigate();
+
+  //NBTI 상세설명 작성 --> 툴팁으로 띄운다.
+  const description =
+    "NBTI란? MBTI 처럼 개인의 개발성향을 분류하는 Develuv 만의 심리학 도구입니다. 네 가지 기본 지표 중에서 자신의 개발 유형을 선택해주세요 !";
+
   // 유저가 선택한 nbti 요소를 배열 형태로 저장
   const [nbti, setNbti] = useState("");
   const inputNbti = useRef(["", "", "", ""]);
@@ -32,7 +40,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
   }, [nbti]);
 
   const checkNbtiValidity = () => {
-    const allSelected = inputNbti.current.every((value) => value !== "");
+    const allSelected = nbti.every((value) => value !== "");
     setIsValid(allSelected);
   };
 
@@ -67,6 +75,24 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
   return (
     <div>
       <div className="container-header">
+        <h2>
+          NBTI
+          <img
+            src="src/assets/question-circle-fill.svg"
+            width={20}
+            height={20}
+            data-tooltip-id="tooltip"
+            data-tooltip-content={description}
+          />
+          <Tooltip
+            id="tooltip"
+            place="top"
+            style={{ fontSize: "0.7em" }}
+            backgroundColor="gray"
+            arrowColor="transparent"
+          />
+        </h2>
+        <h4>당신의 NBTI를 선택해주세요.</h4>
         <h2>NBTI</h2>
         <h4>자신의 코딩 유형을 골라주세요.</h4>
       </div>

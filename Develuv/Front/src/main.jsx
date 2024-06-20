@@ -9,6 +9,7 @@ import ImageUpload from "./components/imgupload.jsx";
 import Header from "./components/Header";
 import ChatList from "./components/chat/ChatList.jsx";
 import { AuthProvider } from "./AuthProvider.jsx";
+import Chat from "./components/chat/Chat.jsx";
 import NotFound from "./components/notfound/notfounf.jsx";
 import RegisterPage from "./components/register/RegisterPage.jsx";
 import Matching from "./components/main/Matching.jsx";
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/imgtest" element={<ImageUpload />} />
           <Route path="/chat" element={<ChatList />} />
+          <Route path="/chatroom" element={<Chat />} />
           <Route path={"/main"} element={<Matching />} />
           <Route path={"/mypage/:user_id"} element={<Mypage />} />
           <Route path="/modal" element={<Modal />} />

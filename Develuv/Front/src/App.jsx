@@ -1,75 +1,75 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import './App.css'
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
-  const url = 'http://localhost:8080/'
-  const [data, setData] = useState(null)
-  const [id, setId] = useState('')
-  const [pw, setPw] = useState('')
-  const [user, setUser] = useState(null)
+  const url = "http://localhost:8080/";
+  const [data, setData] = useState(null);
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+  const [user, setUser] = useState(null);
 
-  var daaa
+  var daaa;
 
   const findId = () => {
-    const email = document.getElementById('email').value
+    const email = document.getElementById("email").value;
     axios
-      .get(url + 'findId?user_email=' + email)
+      .get(url + "findId?user_email=" + email)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === 'object' && res.data !== null) {
-          setId(Object.values(res.data))
+        if (res.data && typeof res.data === "object" && res.data !== null) {
+          setId(Object.values(res.data));
         } else {
-          setId(res.data)
+          setId(res.data);
         }
       })
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   const findPw = () => {
-    const id = document.getElementById('id').value
-    const email = document.getElementById('email').value
+    const id = document.getElementById("id").value;
+    const email = document.getElementById("email").value;
     axios
-      .get(url + 'findPw?user_id=' + id + '&user_email=' + email)
+      .get(url + "findPw?user_id=" + id + "&user_email=" + email)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === 'object' && res.data !== null) {
-          daaa = res.data
-          console.log(daaa.id)
-          setPw(Object.values(res.data))
+        if (res.data && typeof res.data === "object" && res.data !== null) {
+          daaa = res.data;
+          console.log(daaa.id);
+          setPw(Object.values(res.data));
         } else {
-          setPw(res.data)
+          setPw(res.data);
         }
       })
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   const login = () => {
-    const id = document.getElementById('id').value
-    const pw = document.getElementById('pw').value
+    const id = document.getElementById("id").value;
+    const pw = document.getElementById("pw").value;
     axios
-      .get(url + 'login?user_id=' + id + '&user_pw=' + pw)
+      .get(url + "login?user_id=" + id + "&user_pw=" + pw)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         // 데이터가 객체인 경우, 객체의 값을 배열로 변환
-        if (res.data && typeof res.data === 'object' && res.data !== null) {
-          daaa = res.data
-          console.log(daaa.id)
-          setUser(Object.values(res.data))
+        if (res.data && typeof res.data === "object" && res.data !== null) {
+          daaa = res.data;
+          console.log(daaa.id);
+          setUser(Object.values(res.data));
         } else {
           setUser({
-            error: 'login failed',
-          })
+            error: "login failed",
+          });
         }
       })
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div>
-      <div>
+      {/* <div>
         id:
         <input type="text" name="userId" id="id" />
         <br />
@@ -85,7 +85,7 @@ function App() {
         <div>유저 정보:{JSON.stringify(user)}</div>
         <div>아이디 찾기 결과:{id}</div>
         <div>비번 찾기 결과:{pw}</div>
-      </div>
+      </div> */}
       {/* //퀴즈 완료 여부에 따라
 //퀴즈 컴포넌트 or 회원가입 2단계 컴포넌트 렌더링
 import React, { useState } from 'react'
@@ -106,7 +106,7 @@ function App() {
         <Quiz onSuccess={() => setQuizCompleted(true)} />
       )} */}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
