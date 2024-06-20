@@ -42,26 +42,6 @@ function Header() {
     }
   }, [location, isLoggedIn]);
 
-  const getNaverUser = async () => {
-    await naverLogin.getLoginStatus((status) => {
-      console.log(`네이버 로그인?: ${status}`);
-      if (status) {
-        setUser({ ...naverLogin.user });
-      }
-    });
-  };
-
-  const getKakaoUserData = async (token) => {
-    const user = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
-    });
-    console.log(user);
-    return user.data;
-  };
-
   useEffect(() => {
     // // 미운트 시 네이버 유저인지 체크
     // getNaverUser();
@@ -163,8 +143,6 @@ function Header() {
             >
               <div className="chat_btn" style={{ marginRight: "50px" }}>
                 <Link to="/chat">
-                  {" "}
-                  {/* Link 컴포넌트로 chatBtn을 클릭하면 /chat으로 이동하도록 설정 */}
                   <img src={chatBtn} alt="Chat" />
                 </Link>
               </div>
@@ -179,7 +157,6 @@ function Header() {
                   className="loginBtn"
                   onClick={handleLogout}
                   style={{
-                    marginLeft: "20px",
                     backgroundColor: "white",
                     color: "#00356d",
                     padding: "5px 10px",
@@ -227,9 +204,9 @@ function Header() {
             zIndex: "1001", // 헤더의 z-index보다 높게 설정
           }}
         >
-          <ul style={{ listStyle: "none", padding: "20px 0", margin: "0" }}>
+          <ul style={{ listStyle: "none", padding: "20px 0", margin: "0", textAlign: "center" }}>
             {user && (
-              <li>
+              <li style={{ display: "flex", justifyContent: "center" }}>
                 <Link
                   to={`/mypage/${user.id}`}
                   style={{
@@ -244,7 +221,7 @@ function Header() {
               </li>
             )}
             {user && (
-              <li>
+              <li style={{ display: "flex", justifyContent: "center" }}>
                 <Link
                   to="/main"
                   style={{
@@ -258,7 +235,7 @@ function Header() {
                 </Link>
               </li>
             )}
-            <li>
+            <li style={{ display: "flex", justifyContent: "center" }}>
               <Link
                 to="/"
                 style={{
@@ -272,6 +249,7 @@ function Header() {
               </Link>
             </li>
           </ul>
+
           <div
             style={{
               display: "flex",
