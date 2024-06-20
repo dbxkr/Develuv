@@ -31,26 +31,24 @@ function Chat({ myId, oppoId, roomId }) {
   };
 
   // 소켓이 연결되거나 유저가 채팅을 보낼 때 messageList 에 반영
-  socket.on("start_message", (data) => {
-    setMessageList((list) => [...list, data]);
-  });
-  socket.on("receive_message", (data) => {
-    setMessageList((list) => [...list, data]);
-  });
+  // socket.on("start_message", (data) => {
+  //   setMessageList((list) => [...list, data[0]]);
+  // });
+  // socket.on("receive_message", (data) => {
+  //   setMessageList((list) => [...list, data[0]]);
+  // });
 
   // 유저가 채팅을 보낼 때 로직
   const sendMessage = async () => {
     const currentMsg = inputRef.current.value;
     if (currentMsg !== "") {
+      let now = new Date();
+      now.setHours(now.getHours() + 9);
       const messageData = {
         room_id: room_id,
         user_id: user_id,
         message_content: currentMsg,
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        avatar: userAvatars[user_id],
+        message_time: now.toISOString().slice(0, 19).replace("T", " "),
       };
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
@@ -58,25 +56,47 @@ function Chat({ myId, oppoId, roomId }) {
     }
   };
 
-  // 마우스 스크롤을 스무스하게 움직인다...
-  // useEffect(() => {
-  //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [messageList]);
+  useEffect(() => {
+    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    console.log("mgslist", messageList);
+  }, [messageList]);
 
-  const otherUser =
-    messageList.find((msg) => msg.user_id !== user_id)?.user_id || oppoId;
+  useEffect(() => {
+    if (user_id !== "" && room_id !== "") {
+      socket.emit("join_room", { room_id, user_id });
+    } else {
+      console.log("소켓연결실패");
+    }
+  }, []);
+  useEffect(() => {
+    const receiveMessageHandler = (data) => {
+      console.log("받음ㅇㅇ", Array.isArray(data));
+
+      if (Array.isArray(data)) {
+        setMessageList((list) => [...list, ...data]);
+      } else {
+        setMessageList((list) => [...list, data]);
+      }
+    };
+    socket.on("receive_message", receiveMessageHandler);
+    return () => {
+      socket.off("receive_message", receiveMessageHandler);
+    };
+  }, [socket]);
+  const otherUser = oppoId;
+  // messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
 
   return (
-    <PageContainer>
+    <PageContainer style={{ width: "50%" }}>
       <RoomContainer>
         <RoomHeader>
           <RoomTitle>{otherUser}</RoomTitle>
         </RoomHeader>
         <RoomBody>
           <MessageBox>
-            {messageList[0] &&
-              messageList[0].map((el) => (
-                <Message message={el} user_id={user_id} key={uuidv4()} />
+            {messageList &&
+              messageList.map((el) => (
+                <Message oneMessage={el} user_id={user_id} key={uuidv4()} />
               ))}
             <div ref={messageBottomRef} />
           </MessageBox>
