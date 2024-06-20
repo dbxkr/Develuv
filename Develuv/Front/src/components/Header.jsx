@@ -1,5 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
@@ -93,6 +93,10 @@ function Header() {
     navigate("/");
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div>
       <header
@@ -115,7 +119,11 @@ function Header() {
           className="left-container"
           style={{ display: "flex", alignItems: "center" }}
         >
-          <div className="menu_bar">
+          <div
+            className="menu_bar"
+            onClick={toggleMenu}
+            style={{ cursor: "pointer" }}
+          >
             <img src={menuImg} alt="Menu" />
           </div>
           <Link
@@ -161,7 +169,12 @@ function Header() {
                 </Link>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
-                {user.name ? user.name : null}
+                <Link
+                  to={`/mypage/${user.id}`}
+                  style={{ color: "white", marginRight: "20px" }}
+                >
+                  {user.name}
+                </Link>
                 <button
                   className="loginBtn"
                   onClick={handleLogout}
@@ -198,6 +211,94 @@ function Header() {
             로그인
           </button>
         )}
+
+        {/* 왼쪽에서 슬라이드 창 */}
+        <div
+          className="menu-slide"
+          style={{
+            position: "fixed",
+            top: "110px", // 헤더 아래에 위치하도록 수정
+            left: isMenuOpen ? "0" : "-250px",
+            width: "250px",
+            height: "calc(100vh - 70px)", // 전체 화면 높이에서 헤더 높이만큼 뺀 크기로 설정
+            background: "#001d3d",
+            color: "white",
+            transition: "left 0.3s ease",
+            zIndex: "1001", // 헤더의 z-index보다 높게 설정
+          }}
+        >
+          <ul style={{ listStyle: "none", padding: "20px 0", margin: "0" }}>
+            {user && (
+              <li>
+                <Link
+                  to={`/mypage/${user.id}`}
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    marginBottom: "20px",
+                    display: "block",
+                  }}
+                >
+                  마이페이지
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li>
+                <Link
+                  to="/main"
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    marginBottom: "20px",
+                    display: "block",
+                  }}
+                >
+                  매칭
+                </Link>
+              </li>
+            )}
+            <li>
+              <Link
+                to="/"
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  marginBottom: "20px",
+                  display: "block",
+                }}
+              >
+                홈
+              </Link>
+            </li>
+          </ul>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "500px",
+              padding: "20px 0",
+            }}
+          >
+            {user && (
+              <button
+                className="loginBtn"
+                onClick={handleLogout}
+                style={{
+                  backgroundColor: "white",
+                  color: "#00356d",
+                  padding: "5px 10px",
+                  border: "none",
+                  borderRadius: "5px",
+                  width: "80%",
+                }}
+              >
+                로그아웃
+              </button>
+            )}
+          </div>
+        </div>
       </header>
       <Modal
         isOpen={modalIsOpen}
@@ -206,7 +307,20 @@ function Header() {
         contentLabel="Login Modal"
       >
         <Login closeModal={closeModal} />
-        <button onClick={closeModal}>닫기</button>
+        <button
+          onClick={closeModal}
+          style={{
+            backgroundColor: "#00356d",
+            color: "white",
+            border: "none",
+            padding: "5px 10px",
+            borderRadius: "5px",
+            marginTop: "10px",
+            cursor: "pointer",
+          }}
+        >
+          닫기
+        </button>
       </Modal>
     </div>
   );

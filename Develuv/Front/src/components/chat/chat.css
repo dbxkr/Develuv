@@ -40,6 +40,9 @@
   overflow-y: auto;
   margin-right: 800px;
 }
+.chat-list::-webkit-scrollbar {
+  display: none;
+}
 
 .chat-item {
   display: flex;

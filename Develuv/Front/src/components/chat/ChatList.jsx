@@ -42,8 +42,13 @@ function ChatList() {
         console.log(`Participants for room ${roomId}:`, res.data); // 확인용 로그
         res.data.forEach((participant) => {
           // 데이터 구조를 확인하여 roomId와 userId를 설정
-          if (participant.user_id !== user.id) { // 자신의 user_id가 아닌 경우에만 추가
-            participantsData.push({ roomId, userId: participant.user_id, name: participant.user_name });
+          if (participant.user_id !== user.id) {
+            // 자신의 user_id가 아닌 경우에만 추가
+            participantsData.push({
+              roomId,
+              userId: participant.user_id,
+              name: participant.user_name,
+            });
           }
         });
       }
@@ -68,13 +73,13 @@ function ChatList() {
   return (
     <div className="main-chat">
       <div className="chat-container">
-        <button 
+        {/* <button 
           onClick={chatRoomTest}
           className="small-button"
           style={{ marginBottom: "10px" }} // 버튼 아래 여백 추가
         >
           채팅방 가져오기
-        </button>
+        </button> */}
         <div className="chat-list">
           {participants.length > 0 ? (
             <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
