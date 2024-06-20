@@ -36,4 +36,22 @@ public class ChatListService {
     public List<UserDto> getUsersByRoomId(String roomId) {
         return chatListMapper.getUsersByRoomId(roomId);
     }
+
+    public String getRoomIdByUserId(String myId, String oppoId) {
+        return chatListMapper.getRoomIdByUserId(myId, oppoId);
+    }
+
+    public String getRoomIdByRoomId(String roomId) {
+        return chatListMapper.getRoomIdByRoomId(roomId);
+    }
+
+    public void createNewChatRoom(String roomId, String roomName, String myId, String oppoId) {
+        chatListMapper.createNewChatroom(roomId, roomName);
+        chatListMapper.insertIntoChatlists(roomId,myId);
+        chatListMapper.insertIntoChatlists(roomId,oppoId);
+    }
+
+    public void joinExistingChatRoom(String roomId, String myId) {
+        chatListMapper.insertIntoChatlists(roomId,myId);
+    }
 }

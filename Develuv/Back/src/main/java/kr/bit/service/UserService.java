@@ -6,6 +6,7 @@ import kr.bit.dto.UserLoginDTO;
 import kr.bit.dto.UserDto;
 import kr.bit.mapper.UserMapper;
 import kr.bit.model.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -87,6 +88,7 @@ public class UserService {
     }
 
     public void saveUser(UserDto userDto) {
+        System.out.println(userDto);
         try {
 //            User user = new User();
 //            user.setUser_id(userDto.getUser_id());
@@ -169,5 +171,9 @@ public class UserService {
         } else {
             return "인증번호가 일치하지 않거나 만료되었습니다. 다시 입력해주세요.";
         }
+    }
+
+    public String findNameById(String user_id){
+        return userMapper.findUserNameById(user_id);
     }
 }
