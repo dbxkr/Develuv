@@ -3,7 +3,15 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Regi3Form({ progress, setProgress, formData, setFormData }) {
+function Regi3Form({
+  progress,
+  setProgress,
+  formData,
+  setFormData,
+  imgPreview,
+  setImgPreview,
+  setImage,
+}) {
   const navigate = useNavigate();
 
   const genders = [
@@ -23,21 +31,6 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
     setFormData({ ...formData, user_address: e.target.value });
   };
 
-  const onEnter = (e) => {
-    // if (e.code === "Enter") {
-    //   alert(
-    //     "이름 입력은 : " +
-    //       formData.user_name +
-    //       " 성별은 : " +
-    //       formData.user_gender +
-    //       " 직업은 : " +
-    //       formData.user_job +
-    //       " 주소는 : " +
-    //       formData.user_address
-    //   );
-    // }
-  };
-
   const genClicked = (type) => {
     setSelGen(type);
     setFormData({ ...formData, user_gender: type });
@@ -45,18 +38,18 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
 
   const regi3Submit = () => {
     setProgress(progress + 1);
-    // GET 요청 보내기
-    // axios
-    //   .get(url + "regi3submit", { params })
-    //   .then((response) => {
-    //     // 성공적으로 응답을 받은 경우 처리
-    //     console.log(response.data);
-    //     navigate("/register/4");
-    //   })
-    //   .catch((error) => {
-    //     // 오류가 발생한 경우 처리
-    //     console.error("There was an error!", error);
-    //   });
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setImage(file);
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImgPreview(reader.result);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -121,10 +114,16 @@ function Regi3Form({ progress, setProgress, formData, setFormData }) {
         placeholder={"주소 입력"}
       />
 
-      {/* 여기에 이미지 던지기*/}
-      {/*<UploadImg/>*/}
-
-      {/* 이전 다음 페이지로 넘어가기*/}
+      <div>
+        {imgPreview && (
+          <img
+            src={imgPreview}
+            alt="Preview"
+            style={{ width: "300px", height: "auto" }}
+          />
+        )}
+        <input type="file" onChange={handleImageUpload} />
+      </div>
       <div>
         <button
           type={"button"}

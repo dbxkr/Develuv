@@ -3,8 +3,7 @@ import HeadBar from '../Navigate/HeadBar.jsx'
 import { useEffect, useRef, useState } from 'react'
 import Left from './Left.jsx'
 import axios from 'axios'
-//메인 페이지 메인 컴포넌트
-//매칭 리스트 매칭 타입 관리
+
 const Matching = () => {
   const user_id = 'user01'
   const [matchList, setMatchList] = useState([])
