@@ -1,6 +1,5 @@
 package kr.bit.service;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
 import kr.bit.dto.UserLoginDTO;
@@ -28,7 +27,7 @@ public class UserService {
     private JavaMailSender mailSender;
 
     // 인증번호를 저장할 Map (key: 이메일, value: 인증번호)
-    private Map<MysqlxDatatypes.Scalar.String, String> verificationCodes = new HashMap<>();
+    private Map<String, String> verificationCodes = new HashMap<>();
 
     // 인증번호 발송 시간 저장
     private Map<String, Long> verificationCodeTimestamps = new HashMap<>();
