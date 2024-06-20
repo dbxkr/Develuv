@@ -5,6 +5,7 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 app.use(cors());
 const axios = require("axios");
+const { type } = require("os");
 
 const server = http.createServer(app);
 
@@ -19,41 +20,43 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
-    socket.join(data.room);
-    console.log(`${data.username}유저가 ${data.room}번 방에 입장했습니다`);
-    let noti = {
-      message: `${data.username} 유저가 방에 입장했습니다`,
-      author: "알림",
-    };
+    socket.join(data.room_id);
+    console.log(`${data.user_id}유저가 ${data.room_id}번 방에 입장했습니다`);
 
+    // let noti = {
+    //   message: `${data.user_id} 유저가 방에 입장했습니다`,
+    //   author: "알림",
+    // };
     axios
-      .post("http://localhost:8080/chat/send", {
-        key1: "Join임",
-        key2: data.username + "가 들어왔다네",
+      .post("http://localhost:8080/chat/join", {
+        room_id: data.room_id,
+        user_id: data.user_id,
       })
       .then(function (response) {
-        console.log(response.data);
+        let allMessages = response.data;
+        console.log(allMessages);
+        socket.emit("receive_message", allMessages);
       })
       .catch(function (error) {
         console.error(error);
       });
-    socket.to(data.room).emit("receive_message", noti);
   });
 
   socket.on("send_message", (data) => {
     console.log(data);
     axios
       .post("http://localhost:8080/chat/send", {
-        key1: "send임",
-        key2: data.message + " <<< 라는 메세지를 받았나봄",
+        room_id: data.room_id,
+        user_id: data.user_id,
+        message_content: data.message_content,
       })
       .then(function (response) {
-        console.log(response.data);
+        console.log(response);
       })
       .catch(function (error) {
         console.error(error);
       });
-    socket.to(data.room).emit("receive_message", data);
+    socket.emit("receive_message", data);
   });
 
   socket.on("disconnect", () => {

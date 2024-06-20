@@ -37,9 +37,4 @@ public class ServletAppContext implements WebMvcConfigurer {
         };
     }
 
-<<<<<<< HEAD
-
 }
-=======
-}
->>>>>>> jyt

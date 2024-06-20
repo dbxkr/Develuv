@@ -14,15 +14,13 @@
     "axios": "^1.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-<<<<<<< HEAD
-    "react-router-dom": "^6.23.1",
-    "react-tooltip": "^5.26.4",
-    "socket.io-client": "^4.7.5"
-=======
     "react-kakao-login": "^2.1.1",
     "react-modal": "^3.16.1",
-    "react-router-dom": "^6.23.1"
->>>>>>> jyt
+    "react-router-dom": "^6.23.1",
+    "react-tooltip": "^5.26.4",
+    "socket.io-client": "^4.7.5",
+    "styled-components": "^6.1.11",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

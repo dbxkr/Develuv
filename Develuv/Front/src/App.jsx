@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-<<<<<<< HEAD
-
-import Regi5Form from "./components/register/Register5/Regi5Form";
-import Regi3Form from "./components/register/Register3/Regi3Form";
-import Nbti from "./components/register/Nbti";
-import Chat from "./components/chat/Chat";
-=======
 import "./App.css";
->>>>>>> jyt
+import Chat from "./components/chat/Chat";
 
 function App() {
   const url = "http://localhost:8080/";
@@ -77,26 +70,8 @@ function App() {
 
   return (
     <div>
-<<<<<<< HEAD
-      {/*{data ? (*/}
-      {/*  // 데이터가 배열인 경우, map 함수를 사용하여 렌더링*/}
-      {/*  Array.isArray(data) ? data.map((item, index) => (*/}
-      {/*    <div key={index}>받아온값: {item}</div>*/}
-      {/*  )) : (*/}
-      {/*    // 데이터가 원시 타입인 경우, 직접 렌더링*/}
-      {/*    <div>받아온값: {data}</div>*/}
-      {/*  )*/}
-      {/*) : (*/}
-      {/*  // 데이터가 없는 경우, 로딩 메시지 표시*/}
-      {/*  <div>데이터를 불러오는 중...</div>*/}
-      {/*)}*/}
-      {/* 받아온 값 : {data} */}
-      {/* <Nbti /> */}
-      {/* <Regi5Form /> */}
-      {/* <Regi3Form /> */}
       <Chat />
-=======
-      <div>
+      {/* <div>
         id:
         <input type="text" name="userId" id="id" />
         <br />
@@ -112,7 +87,7 @@ function App() {
         <div>유저 정보:{JSON.stringify(user)}</div>
         <div>아이디 찾기 결과:{id}</div>
         <div>비번 찾기 결과:{pw}</div>
-      </div>
+      </div> */}
       {/* //퀴즈 완료 여부에 따라
 //퀴즈 컴포넌트 or 회원가입 2단계 컴포넌트 렌더링
 import React, { useState } from 'react'
@@ -132,7 +107,6 @@ function App() {
         // 퀴즈가 완료되지 않은 경우 퀴즈 컴포넌트를 렌더링
         <Quiz onSuccess={() => setQuizCompleted(true)} />
       )} */}
->>>>>>> jyt
     </div>
   );
 }

@@ -1,26 +1,18 @@
 import { useRef, useState, useEffect } from "react";
 import "./Nbti.css";
 import axios from "axios";
-<<<<<<< HEAD
 import { Tooltip } from "react-tooltip";
-=======
-import { useNavigate } from 'react-router-dom'
->>>>>>> jyt
+import { useNavigate } from "react-router-dom";
 
 function Nbti({ user_id }) {
   // 임시 id 세팅
   user_id = "hhy";
   const navigate = useNavigate();
 
-<<<<<<< HEAD
   //NBTI 상세설명 작성 --> 툴팁으로 띄운다.
   const description =
     "NBTI란? MBTI 처럼 개인의 개발성향을 분류하는 Develuv 만의 심리학 도구입니다. 네 가지 기본 지표 중에서 자신의 개발 유형을 선택해주세요 !";
-
-  //유저가 선택한 nbti 요소를 배열 형태로 저장한다.
-=======
   // 유저가 선택한 nbti 요소를 배열 형태로 저장
->>>>>>> jyt
   const [nbti, setNbti] = useState(["", "", "", ""]);
   const inputNbti = useRef(["", "", "", ""]);
 
@@ -49,13 +41,13 @@ function Nbti({ user_id }) {
   }, [nbti]);
 
   const checkNbtiValidity = () => {
-    const allSelected = nbti.every(value => value !== "");
+    const allSelected = nbti.every((value) => value !== "");
     setIsValid(allSelected);
   };
 
   // [이전] 버튼 클릭 시 이전 페이지로 이동
   const navigateToPrevious = () => {
-    navigate('/register/3');
+    navigate("/register/3");
   };
 
   // [다음] 버튼 클릭 시 유효성 검사 후 서버에 데이터 전송 후 다음 페이지로 이동
@@ -205,7 +197,11 @@ function Nbti({ user_id }) {
         <button className="left-button" onClick={navigateToPrevious}>
           이전
         </button>
-        <button className="right-button" onClick={() => onSubmit('/register/5')} disabled={!isValid}>
+        <button
+          className="right-button"
+          onClick={() => onSubmit("/register/5")}
+          disabled={!isValid}
+        >
           다음
         </button>
       </div>

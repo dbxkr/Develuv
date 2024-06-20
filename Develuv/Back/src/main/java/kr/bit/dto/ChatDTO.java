@@ -4,6 +4,10 @@ import lombok.Data;
 
 @Data
 public class ChatDTO {
-    private String key1;
-    private String key2;
+    private int message_id;
+    private String room_id;
+    private String user_id;
+    private String message_content;
+    private String message_time;
+    private boolean message_read;
 }

@@ -1,3 +1,4 @@
+/* chat.css */
 .main-chat {
   display: flex;
   flex-direction: column;
@@ -12,11 +13,12 @@
   background-color: #f5f5f5;
   border-bottom: 1px solid #ddd;
 }
+
 .chat-container {
   flex: 1;
-  margin-top: 150px; /* 헤더의 높이만큼 여백을 줍니다 */
+  margin-top: 150px;
   display: flex;
-  height: calc(100% - 50px); /* 헤더 높이를 뺀 나머지 */
+  height: calc(100% - 50px);
 }
 
 .chat-list {
@@ -67,11 +69,13 @@
   color: #aaa;
   font-size: 12px;
 }
+
 .mypage-button {
   display: flex;
   align-items: center;
   margin-right: 80px;
 }
+
 .loginBtn {
   background-color: white;
   color: #00356d;
@@ -94,9 +98,9 @@
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 10px;
-  width: 300px; /* 고정된 너비 설정 */
-  overflow-wrap: break-word; /* 길이가 길 경우 줄바꿈 */
-  word-break: break-word; /* 단어가 길 경우 줄바꿈 */
+  width: 300px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .chat-message.other {
