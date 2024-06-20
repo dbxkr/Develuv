@@ -1,13 +1,12 @@
 package kr.bit.service;
 
-import kr.bit.mapper.LeftMapper;
-import kr.bit.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import kr.bit.mapper.LeftMapper;
+import kr.bit.model.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class LeftService {
@@ -24,11 +23,15 @@ public class LeftService {
         leftMapper.insertCoinHistory(user_id, -amount);
     }
 
-    public User recommendUser(String user_id) {
-        return leftMapper.recommendUser(user_id);
+    public List<User> recommendUser(String user_id, List<String> excludedUserIds) {
+        return leftMapper.recommendUser(user_id, excludedUserIds);
     }
 
-    public User recommendUserByNbti(String nbti1, String nbti2, String nbti3, String nbti4) {
-        return leftMapper.recommendUserByNbti(nbti1, nbti2, nbti3, nbti4);
+    public List<User> recommendUserByFame(String user_id, List<String> excludedUserIds) {
+        return leftMapper.recommendUserByFame(user_id, excludedUserIds);
+    }
+
+    public List<User> recommendUserByNbti(String nbti1, String nbti2, String nbti3, String nbti4, List<String> excludedUserIds) {
+        return leftMapper.recommendUserByNbti(nbti1, nbti2, nbti3, nbti4, excludedUserIds);
     }
 }

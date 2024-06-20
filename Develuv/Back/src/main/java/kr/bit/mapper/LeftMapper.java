@@ -1,7 +1,9 @@
 package kr.bit.mapper;
 
-import kr.bit.model.User;
 import org.apache.ibatis.annotations.*;
+
+import kr.bit.model.User;
+import java.util.List;
 
 @Mapper
 public interface LeftMapper {
@@ -14,8 +16,17 @@ public interface LeftMapper {
     @Insert("INSERT INTO CoinHistory (user_id, amount, timestamp) VALUES (#{user_id}, #{amount}, NOW())")
     void insertCoinHistory(@Param("user_id") String user_id, @Param("amount") int amount);
 
-    @Select("SELECT * FROM Users WHERE user_id != #{user_id} ORDER BY RAND() LIMIT 1")
-    User recommendUser(@Param("user_id") String user_id);
+    @Select("<script>"
+            + "SELECT * FROM Users WHERE user_id != #{user_id} "
+            + "<if test='excludedUserIds != null and !excludedUserIds.isEmpty()'>"
+            + "AND user_id NOT IN "
+            + "<foreach item='id' collection='excludedUserIds' open='(' separator=',' close=')'>"
+            + "#{id}"
+            + "</foreach>"
+            + "</if>"
+            + "ORDER BY RAND() LIMIT 12"
+            + "</script>")
+    List<User> recommendUser(@Param("user_id") String user_id, @Param("excludedUserIds") List<String> excludedUserIds);
 
     @Select("<script>"
             + "SELECT * FROM Users WHERE 1=1"
@@ -23,7 +34,29 @@ public interface LeftMapper {
             + "<if test='nbti2 != null'>AND user_nbti LIKE CONCAT('%', #{nbti2}, '%')</if>"
             + "<if test='nbti3 != null'>AND user_nbti LIKE CONCAT('%', #{nbti3}, '%')</if>"
             + "<if test='nbti4 != null'>AND user_nbti LIKE CONCAT('%', #{nbti4}, '%')</if>"
-            + "ORDER BY RAND() LIMIT 1"
+            + "<if test='excludedUserIds != null and !excludedUserIds.isEmpty()'>"
+            + "AND user_id NOT IN "
+            + "<foreach item='id' collection='excludedUserIds' open='(' separator=',' close=')'>"
+            + "#{id}"
+            + "</foreach>"
+            + "</if>"
+            + "ORDER BY RAND() LIMIT 12"
             + "</script>")
-    User recommendUserByNbti(@Param("nbti1") String nbti1, @Param("nbti2") String nbti2, @Param("nbti3") String nbti3, @Param("nbti4") String nbti4);
+    List<User> recommendUserByNbti(@Param("nbti1") String nbti1,
+                                   @Param("nbti2") String nbti2,
+                                   @Param("nbti3") String nbti3,
+                                   @Param("nbti4") String nbti4,
+                                   @Param("excludedUserIds") List<String> excludedUserIds);
+
+    @Select("<script>"
+            + "SELECT * FROM Users WHERE user_id != #{user_id} "
+            + "<if test='excludedUserIds != null and !excludedUserIds.isEmpty()'>"
+            + "AND user_id NOT IN "
+            + "<foreach item='id' collection='excludedUserIds' open='(' separator=',' close=')'>"
+            + "#{id}"
+            + "</foreach>"
+            + "</if>"
+            + "ORDER BY user_fame DESC LIMIT 12"
+            + "</script>")
+    List<User> recommendUserByFame(@Param("user_id") String user_id, @Param("excludedUserIds") List<String> excludedUserIds);
 }

@@ -22,6 +22,7 @@ export const deductCoins = async (user_id, amount) => {
       user_id,
       amount,
     })
+    console.log('Remaining Coins:', response.data.remainingCoins) // API 응답 확인
     return response.data.remainingCoins
   } catch (error) {
     console.error('Failed to use coins:', error)
@@ -44,10 +45,13 @@ export const addCoins = async (user_id, amount) => {
 }
 
 // 유저를 추천받는 API 호출
-export const recommendUser = async (user_id) => {
+export const recommendUser = async (user_id, excludedUserIds = []) => {
   try {
     const response = await axios.get(`${API_URL}/recommend`, {
-      params: { user_id },
+      params: {
+        user_id,
+        excludedUserIds: excludedUserIds.join(','),
+      },
     })
     return response.data
   } catch (error) {
@@ -57,15 +61,20 @@ export const recommendUser = async (user_id) => {
 }
 
 // NBTI 필터링된 유저를 추천받는 API 호출
-export const recommendUserByNbti = async (user_id, nbti) => {
+export const recommendUserByNbti = async (
+  userId,
+  nbti,
+  excludedUserIds = []
+) => {
   try {
     const response = await axios.get(`${API_URL}/recommend/nbti`, {
       params: {
-        user_id,
+        user_id: userId,
         nbti1: nbti.nbti1,
         nbti2: nbti.nbti2,
         nbti3: nbti.nbti3,
         nbti4: nbti.nbti4,
+        excludedUserIds: excludedUserIds.join(','),
       },
     })
     return response.data
@@ -75,27 +84,18 @@ export const recommendUserByNbti = async (user_id, nbti) => {
   }
 }
 
-// NBTI 필터링된 유저 리스트를 추천받는 API 호출
-export const recommendUsersByNbti = async (
-  user_id,
-  nbti1,
-  nbti2,
-  nbti3,
-  nbti4
-) => {
+// 유명한 유저를 추천받는 API 호출
+export const recommendUserByFame = async (user_id, excludedUserIds = []) => {
   try {
-    const response = await axios.get(`${API_URL}/recommend/nbti`, {
+    const response = await axios.get(`${API_URL}/recommend/fame`, {
       params: {
         user_id,
-        nbti1,
-        nbti2,
-        nbti3,
-        nbti4,
+        excludedUserIds: excludedUserIds.join(','),
       },
     })
     return response.data
   } catch (error) {
-    console.error('Failed to recommend users by NBTI:', error)
+    console.error('Failed to recommend user by fame:', error)
     throw error
   }
 }
