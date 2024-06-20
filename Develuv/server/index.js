@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
       })
       .then(function (response) {
         let allMessages = response.data;
-        console.log(allMessages);
+        console.log("대화기록 로드 완료");
         socket.emit("receive_message", allMessages);
       })
       .catch(function (error) {
@@ -43,7 +43,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", (data) => {
-    console.log(data);
+    console.log("받은 메세지", data);
+    socket.to(data.room_id).emit("receive_message", data);
     axios
       .post("http://localhost:8080/chat/send", {
         room_id: data.room_id,
@@ -51,26 +52,25 @@ io.on("connection", (socket) => {
         message_content: data.message_content,
       })
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
       })
       .catch(function (error) {
         console.error(error);
       });
-    socket.emit("receive_message", data);
   });
 
   socket.on("disconnect", () => {
-    axios
-      .post("http://localhost:8080/chat/send", {
-        key1: "disconnect임",
-        key2: socket.id + "가 나갔나봄 ㅇㅇ",
-      })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    // axios
+    //   .post("http://localhost:8080/chat/send", {
+    //     key1: "disconnect임",
+    //     key2: socket.id + "가 나갔나봄 ㅇㅇ",
+    //   })
+    //   .then(function (response) {
+    //     console.log(response.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.error(error);
+    //   });
     console.log(`${socket.id}가 접속을 끊었습니다`);
   });
 });

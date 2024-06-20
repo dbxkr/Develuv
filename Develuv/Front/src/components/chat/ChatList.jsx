@@ -119,8 +119,10 @@ function ChatList() {
             <p>참가자가 없습니다</p>
           )}
         </div>
+        {roomId ? (
+          <Chat roomId={roomId} myId={user.id} oppoId={oppoId} />
+        ) : null}
       </div>
-      {roomId ? <Chat roomId={roomId} myId={user.id} oppoId={oppoId} /> : null}
     </div>
   );
 }
