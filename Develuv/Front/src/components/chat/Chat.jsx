@@ -4,12 +4,8 @@ import Message from "./Message";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid"; // uuid 모듈 가져오기
 
-const socket = io.connect("http://localhost:4000");
-
-const userAvatars = {
-  user1: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-  user2: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-};
+const socket = io.connect("http://175.209.41.173:4000");
+// const socket = io.connect("http://localhost:4000");
 
 function Chat({ myId, oppoId, roomId }) {
   const user_id = myId; // 테스트용 사용자 이름

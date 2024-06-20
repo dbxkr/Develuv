@@ -13,7 +13,7 @@ const port = 4000;
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3500",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -22,11 +22,6 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data.room_id);
     console.log(`${data.user_id}유저가 ${data.room_id}번 방에 입장했습니다`);
-
-    // let noti = {
-    //   message: `${data.user_id} 유저가 방에 입장했습니다`,
-    //   author: "알림",
-    // };
     axios
       .post("http://localhost:8080/chat/join", {
         room_id: data.room_id,
@@ -75,4 +70,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(port, () => console.log(`server running on port ${port}`));
+server.listen(port, "0,0,0,0", () =>
+  console.log(`server running on port ${port}`)
+);
