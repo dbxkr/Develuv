@@ -5,10 +5,19 @@ import {
   deductCoins,
   recommendUser,
   recommendUserByNbti,
+  recommendUserByFame,
 } from './api'
 import icon from '../../assets/money.png'
 
-const Modal = ({ type, closeModal, userId }) => {
+const Modal = ({
+  type,
+  closeModal,
+  userId,
+  setMatchType,
+  excludedUserIds = [], // 기본값으로 빈 배열을 설정
+  setExcludedUserIds,
+  setMatchList, // 매칭 리스트를 설정하는 함수 추가
+}) => {
   const [isNbtiSelection, setIsNbtiSelection] = useState(false)
   const [nbti, setNbti] = useState({
     nbti1: '',
@@ -16,7 +25,6 @@ const Modal = ({ type, closeModal, userId }) => {
     nbti3: '',
     nbti4: '',
   })
-  const [recommendedUser, setRecommendedUser] = useState(null)
   const [coins, setCoins] = useState(0)
   const [noUserFound, setNoUserFound] = useState(false)
 
@@ -29,29 +37,78 @@ const Modal = ({ type, closeModal, userId }) => {
         console.error('Error fetching user coins:', error)
       }
     }
-
     fetchUserCoins()
   }, [userId])
 
   const handleCoinUse = async () => {
+    // 결제 확인 메시지를 사용자에게 표시
+    const confirmPayment = window.confirm('결제하시겠습니까?')
+    if (!confirmPayment) return // 사용자가 결제를 확인하지 않으면 함수 종료
+
     try {
+      // 코인을 차감하는 API 호출
       const remainingCoins = await deductCoins(userId, 1000)
-      setCoins(remainingCoins)
-      if (type === 'nbti') {
-        setIsNbtiSelection(true)
-      } else {
-        const user = await recommendUser(userId)
-        setRecommendedUser(user)
+      setCoins(remainingCoins) // 차감된 후 남은 코인 상태 업데이트
+
+      // 남은 코인이 1000 미만인 경우 결제 중단 및 경고 메시지 표시
+      if (remainingCoins < 1000) {
+        alert('코인이 부족합니다.')
+        return
+      }
+
+      // 'onceMore' 타입인 경우
+      if (type === 'onceMore') {
+        // 추천 유저를 가져오는 API 호출
+        const users = await recommendUser(userId, excludedUserIds)
+        if (users && users.length > 0) {
+          // 추천 유저가 있는 경우
+          setNoUserFound(false) // 유저를 찾지 못한 상태를 false로 설정
+          setMatchType('rematch') // 매칭 타입을 'rematch'로 설정
+          // 제외된 유저 ID 목록 업데이트
+          setExcludedUserIds((prevIds) => [
+            ...prevIds,
+            ...users.map((user) => user.user_id),
+          ])
+          setMatchList(users) // 매칭 리스트에 추천 유저 리스트 설정
+          closeModal() // 모달 창 닫기
+        } else {
+          setNoUserFound(true) // 추천 유저가 없는 경우 상태 업데이트
+        }
+      }
+      // 'topUser' 타입인 경우
+      else if (type === 'topUser') {
+        // 유명한 유저를 가져오는 API 호출
+        const users = await recommendUserByFame(userId, excludedUserIds)
+        if (users && users.length > 0) {
+          // 유명한 유저가 있는 경우
+          setNoUserFound(false) // 유저를 찾지 못한 상태를 false로 설정
+          setMatchType('fame') // 매칭 타입을 'fame'으로 설정
+          // 제외된 유저 ID 목록 업데이트
+          setExcludedUserIds((prevIds) => [
+            ...prevIds,
+            ...users.map((user) => user.user_id),
+          ])
+          setMatchList(users) // 매칭 리스트에 유명한 유저 리스트 설정
+          closeModal() // 모달 창 닫기
+        } else {
+          setNoUserFound(true) // 유명한 유저가 없는 경우 상태 업데이트
+        }
+      }
+      // 'nbti' 타입인 경우
+      else if (type === 'nbti') {
+        setIsNbtiSelection(true) // NBTI 선택 모드로 전환
       }
     } catch (error) {
+      // API 호출 중 오류 발생 시 처리
       if (
         error.response &&
         error.response.data &&
         error.response.data.message === 'Insufficient coins'
       ) {
-        alert('코인이 부족합니다.')
+        alert('코인이 부족합니다.') // 코인이 부족한 경우 경고 메시지 표시
       } else {
-        console.error('Failed to use coins:', error)
+        console.error('Failed to use coins:', error) // 기타 오류 콘솔에 출력
+        console.log('Error details:', error.response ? error.response : error) // 오류 세부 정보 콘솔에 출력
       }
     }
   }
@@ -66,10 +123,16 @@ const Modal = ({ type, closeModal, userId }) => {
 
   const handleNbtiSubmit = async () => {
     try {
-      const user = await recommendUserByNbti(userId, nbti)
-      if (user) {
-        setRecommendedUser(user)
+      const users = await recommendUserByNbti(userId, nbti, excludedUserIds)
+      if (users && users.length > 0) {
         setNoUserFound(false)
+        setMatchType('nbti')
+        setExcludedUserIds((prevIds) => [
+          ...prevIds,
+          ...users.map((user) => user.user_id),
+        ])
+        setMatchList(users) // 매칭 리스트에 유저 리스트를 설정
+        closeModal()
       } else {
         setNoUserFound(true)
       }
@@ -83,6 +146,7 @@ const Modal = ({ type, closeModal, userId }) => {
         alert('코인이 부족합니다.')
       } else {
         console.error('Failed to use coins:', error)
+        console.log('Error details:', error.response ? error.response : error)
       }
     }
   }
@@ -108,16 +172,9 @@ const Modal = ({ type, closeModal, userId }) => {
             <button className="modal-button" onClick={closeModal}>
               뒤로가기
             </button>
-            {recommendedUser && (
-              <div>
-                <h4>추천된 유저:</h4>
-                <p>{recommendedUser.user_name}</p>
-                <p>{recommendedUser.user_nbti}</p>
-              </div>
-            )}
             {noUserFound && (
               <div>
-                <p>해당 NBTI에 맞는 유저를 찾지 못했습니다.</p>
+                <p>해당 조건에 맞는 유저를 찾지 못했습니다.</p>
               </div>
             )}
           </>
