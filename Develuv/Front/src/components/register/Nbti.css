@@ -2,7 +2,6 @@
   text-align: center;
   margin-top: 170px;
   margin-bottom: 40px;
-  
 }
 
 /* 'vs' 폰트 위치 조정 */
@@ -83,7 +82,6 @@
   align-items: center;
   margin-top: 20px;
   padding-top: 200px; /* 헤더와 같은 높이만큼의 공간을 확보 */
-
 }
 
 .progress-line {

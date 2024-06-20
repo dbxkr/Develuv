@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
-import Chat from "./components/chat/Chat";
 
 function App() {
   const url = "http://localhost:8080/";
@@ -70,7 +69,6 @@ function App() {
 
   return (
     <div>
-      <Chat />
       {/* <div>
         id:
         <input type="text" name="userId" id="id" />

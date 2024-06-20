@@ -5,6 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   const login = (id, name) => {
     setIsLoggedIn(true);
@@ -30,11 +31,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+
+    setUser({ id: "", name: "" });
     if (storedUser) {
       const { id, name } = JSON.parse(storedUser);
       setUser({ id, name });
+      setIsLoggedIn(true);
     }
+    setLoading(false); // 로딩 완료
   }, []);
+
+  // 로딩 중이면 아무것도 렌더링하지 않음
+  if (loading) {
+    return null;
+  }
 
   return (
     <AuthContext.Provider

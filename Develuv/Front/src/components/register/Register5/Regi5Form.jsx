@@ -1,13 +1,12 @@
 import "./Regi5Form.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 //유저정보 추가를 위해 이전 페이지에서 사용자 id 정보 가져오기
-function Regi5Form({ user_id }) {
-  //임의 id 입력...
-  user_id = "hhy";
+function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
   const navigate = useNavigate();
+  console.log("formData", formData);
 
   // 리스트에 들어갈 문자열들
   const proLangs = [
@@ -57,62 +56,118 @@ function Regi5Form({ user_id }) {
   const [selDateStyle, setSelDateStyle] = useState("");
   const [selJong, setSelJong] = useState("");
   const [selEdu, setSelEdu] = useState("");
+  const client_id = import.meta.env.VITE_GOOGLE_DRIVE_CLIENT_ID;
+  const secret_key = import.meta.env.VITE_GOOGLE_DRIVE_SECRET_KEY;
+
+  const [accessToken, setAccessToken] = useState(
+    import.meta.env.VITE_GOOGLE_DRIVE_API_KEY
+  );
+  const refreshToken = import.meta.env.VITE_GOOGLE_DRIVE_REFRESH_TOKEN;
+
+  const refreshAccessToken = async () => {
+    try {
+      const response = await axios.post("https://oauth2.googleapis.com/token", {
+        client_id,
+        client_secret: secret_key,
+        refresh_token: refreshToken,
+        grant_type: "refresh_token",
+      });
+      setAccessToken(response.data.access_token);
+    } catch (error) {
+      console.error("Error refreshing access token", error);
+    }
+  };
 
   // 선택시 state 변환
 
-  const plClicked = (lang) => {
-    setSelPL(lang);
+  const plClicked = (type) => {
+    setSelPL(type);
+    setFormData({ ...formData, user_pro_lang: type });
   };
   const alClicked = (type) => {
     setSelAlchol(type);
+    setFormData({ ...formData, user_drink: type });
   };
   const smClicked = (type) => {
     setSelSmoke(type);
+    setFormData({ ...formData, user_smoke: type });
   };
   const dsClicked = (type) => {
     setSelDateStyle(type);
   };
   const jongClicked = (type) => {
     setSelJong(type);
+    setFormData({ ...formData, user_religion: type });
   };
   const eduClicked = (type) => {
     setSelEdu(type);
+    setFormData({ ...formData, user_edu: type });
   };
   const navigateToPrevious = () => {
-    navigate('/register/4');
+    setProgress(progress - 1);
   };
+
+  //토큰 새로 발행
+  useEffect(() => {
+    refreshAccessToken();
+  }, []);
+
   // 제출
-  const url = "http://localhost:8080/register/additional";
+  const signupUrl = "http://localhost:8080/user/signup"; // 회원가입 url
+  const folderId = "1MTa41ozlOhsVe5ID--NZ8Br_xii27knL"; // 업로드하려는 폴더의 ID
   const submitAO = () => {
-    // alert(
-    //   "PL : " +
-    //     selPL +
-    //     " al : " +
-    //     selAlchol +
-    //     " sm  : " +
-    //     selSmoke +
-    //     " ds : " +
-    //     selDateStyle +
-    //     " jong : " +
-    //     selJong +
-    //     " edu : " +
-    //     selEdu
-    // );
+    const imgData = new FormData(); // FormData 객체 생성
+    imgData.append(
+      "metadata",
+      new Blob(
+        [
+          JSON.stringify({
+            name: image.name, // 파일 이름과 확장자
+            mimeType: image.type, // 파일 MIME 타입
+            parents: [folderId], // 업로드하려는 폴더의 ID
+          }),
+        ],
+        { type: "application/json" }
+      )
+    );
+    imgData.append("file", image); // 파일 데이터 추가
+
+    console.log(accessToken);
+    console.log(image.type);
     axios
-      .post(url, {
-        user_id: user_id,
-        user_pro_lang: selPL,
-        user_drink: selAlchol,
-        user_smoke: selSmoke,
-        dating_style: selDateStyle,
-        user_religion: selJong,
-        user_edu: selEdu,
-      })
-      .then((res) => {
-        console.log(res);
+      .post(
+        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+        imgData,
+        {
+          headers: {
+            "Content-Type": "multipart/related",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("File uploaded successfully");
+        const fileId = response.data.id;
+        const imgUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`;
+        const signUpData = { ...formData, user_profile: imgUrl };
+        console.log("imgUrl", imgUrl);
+        console.log("after set imgUrl", signUpData);
+        axios
+          .post(signupUrl, signUpData)
+          .then((res) => {
+            alert(res.data); // 서버에서 반환된 메시지를 알림으로 표시
+            navigate("/");
+          })
+          .catch((error) => {
+            console.error("Error signing up:", error);
+            alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+          });
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error uploading image:", error);
+        alert(
+          "서버에 이미지를 업로드 중 오류가 발생했습니다. 다시 시도해주세요."
+        );
       });
   };
 
@@ -120,13 +175,6 @@ function Regi5Form({ user_id }) {
     <div
     // className={"container"}
     >
-      {/*프로그레스 바*/}
-      <div className="progress-container">
-        <div className="progress-line">
-          <div className="progress-circle fifth" />
-        </div>
-      </div>
-
       <div className={"tt"}>Additional Options</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -236,7 +284,11 @@ function Regi5Form({ user_id }) {
       </div>
       {/* 이전 다음 페이지로 넘어가기*/}
       <div>
-        <button type={"button"} onClick={navigateToPrevious} className={"before_btn"}>
+        <button
+          type={"button"}
+          onClick={navigateToPrevious}
+          className={"before_btn"}
+        >
           이전
         </button>
         <button type={"button"} onClick={submitAO} className={"after_btn"}>
