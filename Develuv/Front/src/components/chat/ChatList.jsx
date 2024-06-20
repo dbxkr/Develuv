@@ -73,7 +73,7 @@ function ChatList() {
   return (
     <div className="main-chat">
       <div className="chat-container">
-        {/* <button 
+        {/* <button
           onClick={chatRoomTest}
           className="small-button"
           style={{ marginBottom: "10px" }} // 버튼 아래 여백 추가

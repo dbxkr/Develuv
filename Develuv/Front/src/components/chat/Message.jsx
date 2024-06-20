@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Message = ({ oneMessage, user_id }) => {
-  const [who, setWho] = useState("me");
-  console.log("el : ", oneMessage);
+const Message = (props) => {
+  const message = props.message;
+  const user_id = props.user_id;
+  console.log("el : ", message);
 
+  // 나, 상대방 채팅의 css 를 따로 처리하기 위한 분리 작업
+  const [who, setWho] = useState("me");
   useEffect(() => {
-    setWho(user_id === oneMessage.user_id ? "me" : "other");
-  }, [user_id, oneMessage.user_id]);
+    setWho(user_id === message.user_id ? "me" : "other");
+  }, [user_id, message.user_id]);
 
   return (
     <MessageContainer who={who}>
-      {who === "other" && <Avatar src={oneMessage.avatar} />}
+      {who === "other" && <Avatar src={message.avatar} />}
       <MessageWrapper who={who}>
-        {who === "other" && <Author who={who}>{oneMessage.user_id}</Author>}
+        {who === "other" && <Author who={who}>{message.user_id}</Author>}
         <MessageBody who={who}>
-          <MessageText>{oneMessage.message_content}</MessageText>
+          <MessageText>{message.message_content}</MessageText>
         </MessageBody>
-        <Time who={who}>{oneMessage.time}</Time>
+        <Time who={who}>{message.time}</Time>
       </MessageWrapper>
     </MessageContainer>
   );

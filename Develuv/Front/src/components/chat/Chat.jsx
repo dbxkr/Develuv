@@ -74,7 +74,7 @@ function Chat() {
         <RoomBody>
           <MessageBox>
             {messageList.map((el) => (
-              <Message oneMessage={el} user_id={user_id} key={uuidv4()} />
+              <Message message={el} user_id={user_id} key={uuidv4()} />
             ))}
             <div ref={messageBottomRef} />
           </MessageBox>
