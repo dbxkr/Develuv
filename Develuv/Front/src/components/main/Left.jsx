@@ -3,7 +3,7 @@ import Modal from './Modal'
 import './Left.css'
 import icon from '../../assets/money.png' // PNG 이미지 파일 import
 import icon2 from '../../assets/money.svg' // SVG 이미지 파일 import
-
+//버튼 클릭시 모달 창 오픈
 const Left = ({ setMatchType, setMatchList, setExcludedUserIds }) => {
   // setExcludedUserIds 추가
   const [isModalOpen, setIsModalOpen] = useState(false)
