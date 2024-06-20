@@ -41,6 +41,9 @@
   margin-top: 120px;
   margin-right: 1000px;
 }
+.chat-list::-webkit-scrollbar {
+  display: none;
+}
 
 .chat-item {
   display: flex;
