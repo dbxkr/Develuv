@@ -11,9 +11,9 @@ const userAvatars = {
   user2: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
 };
 
-function Chat() {
-  const user_id = "hhy"; // 테스트용 사용자 이름
-  const room_id = "1"; // 테스트용 방 이름
+function Chat({ myId, oppoId, roomId }) {
+  const user_id = myId; // 테스트용 사용자 이름
+  const room_id = roomId; // 테스트용 방 이름
 
   const inputRef = useRef();
   const [messageList, setMessageList] = useState([]);
