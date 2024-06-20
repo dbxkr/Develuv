@@ -1,3 +1,4 @@
+/* chat.css */
 .main-chat {
   display: flex;
   flex-direction: column;
@@ -40,6 +41,7 @@
   padding: 20px;
   overflow-y: auto;
   margin-right: 800px;
+  margin-top: 100px;
 }
 .chat-list::-webkit-scrollbar {
   display: none;

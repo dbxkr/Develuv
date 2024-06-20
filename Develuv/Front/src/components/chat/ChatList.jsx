@@ -4,6 +4,7 @@ import { useAuth } from "../../AuthProvider";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./chat.css"; // CSS 파일 임포트
+import Chat from "./Chat";
 
 const customStyles = {
   content: {
@@ -25,12 +26,15 @@ function ChatList() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null); // 선택된 채팅방 상태
   const [participants, setParticipants] = useState([]); // 같은 room_id에 있는 상대방 목록 상태
+  const [roomId, setRoomId] = useState(null);
+  const [oppoId, setOppoId] = useState(null);
+
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const chatUrl = "http://localhost:8080/chatlists/";
   const participantUrl = "http://localhost:8080/chatlists/room/participants/";
 
-  const chatRoomTest = async () => {
+  const chatRoomLoad = async () => {
     try {
       const res = await axios.get(chatUrl + "user/" + user.id);
       console.log("Rooms:", res.data); // 확인용 로그
@@ -62,7 +66,7 @@ function ChatList() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      chatRoomTest();
+      chatRoomLoad();
     }
   }, [isLoggedIn]);
 
@@ -74,7 +78,7 @@ function ChatList() {
     <div className="main-chat">
       <div className="chat-container">
         {/* <button 
-          onClick={chatRoomTest}
+          onClick={chatRoomLoad}
           className="small-button"
           style={{ marginBottom: "10px" }} // 버튼 아래 여백 추가
         >
@@ -84,7 +88,19 @@ function ChatList() {
           {participants.length > 0 ? (
             <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
               {participants.map((participant, index) => (
-                <li key={index} className="chat-item">
+                <li
+                  key={index}
+                  className="chat-item"
+                  onClick={() => {
+                    if (roomId == null || roomId !== participant.roomId) {
+                      setRoomId(participant.roomId);
+                      setOppoId(participant.userId);
+                    } else {
+                      setRoomId(null);
+                      setOppoId(null);
+                    }
+                  }}
+                >
                   <div className="chat-avatar">
                     <img src={`https://via.placeholder.com/50`} alt="avatar" />
                   </div>
@@ -104,6 +120,7 @@ function ChatList() {
           )}
         </div>
       </div>
+      {roomId ? <Chat roomId={roomId} myId={user.id} oppoId={oppoId} /> : null}
     </div>
   );
 }
