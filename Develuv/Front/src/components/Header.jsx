@@ -204,9 +204,9 @@ function Header() {
             zIndex: "1001", // 헤더의 z-index보다 높게 설정
           }}
         >
-          <ul style={{ listStyle: "none", padding: "20px 0", margin: "0" }}>
+          <ul style={{ listStyle: "none", padding: "20px 0", margin: "0", textAlign: "center" }}>
             {user && (
-              <li>
+              <li style={{ display: "flex", justifyContent: "center" }}>
                 <Link
                   to={`/mypage/${user.id}`}
                   style={{
@@ -221,7 +221,7 @@ function Header() {
               </li>
             )}
             {user && (
-              <li>
+              <li style={{ display: "flex", justifyContent: "center" }}>
                 <Link
                   to="/main"
                   style={{
@@ -235,7 +235,7 @@ function Header() {
                 </Link>
               </li>
             )}
-            <li>
+            <li style={{ display: "flex", justifyContent: "center" }}>
               <Link
                 to="/"
                 style={{
@@ -249,6 +249,7 @@ function Header() {
               </Link>
             </li>
           </ul>
+
           <div
             style={{
               display: "flex",
