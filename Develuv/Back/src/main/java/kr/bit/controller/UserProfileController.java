@@ -3,8 +3,10 @@ package kr.bit.controller;
 import kr.bit.dto.UserProfileDto;
 import kr.bit.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/edit-profile")
@@ -29,5 +31,16 @@ public class UserProfileController {
         return ResponseEntity.noContent().build();
     }
 
-    // 필요한 다른 메서드 추가
+    @PostMapping("/upload-profile-image/{userId}")
+    public ResponseEntity<String> uploadProfileImage(@PathVariable String userId, @RequestParam("profileImage") MultipartFile profileImage) {
+        try {
+            // 프로필 이미지 저장 로직
+            String imageUrl = userProfileService.uploadProfileImage(userId, profileImage);
+            return ResponseEntity.ok(imageUrl);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile image: " + e.getMessage());
+        }
+    }
+
+
 }

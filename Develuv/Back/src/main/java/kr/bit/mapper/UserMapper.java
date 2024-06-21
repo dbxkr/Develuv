@@ -39,6 +39,9 @@ public interface UserMapper {
     @Select("select user_name from users where user_id=#{user_id}")
     String findUserNameById(@Param("user_id") String user_id);
 
-    @Update("UPDATE users SET user_pw = #{user_pw}, user_phone = #{user_phone}, user_job = #{user_job}, user_address = #{user_address} WHERE user_id = #{user_id}")
+    @Update("UPDATE users SET user_pw = #{user_pw}, user_phone = #{user_phone}, user_job = #{user_job}, user_address = #{user_address}, user_profile=#{user_profile} WHERE user_id = #{user_id}")
     void updateUserProfile(UserDto userDto);
+
+    @Update("UPDATE users SET user_profile = #{user_profile} WHERE user_id = #{user_id}")
+    void updateUserProfileImage(@Param("user_id") String userId, @Param("user_profile") String userProfile);
 }
