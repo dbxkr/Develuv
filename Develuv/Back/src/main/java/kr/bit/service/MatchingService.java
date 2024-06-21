@@ -79,8 +79,6 @@ public class MatchingService {
         double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
         double d = r * c;
 
-        System.out.println(d);
-
         return d;
 
     }
