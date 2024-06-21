@@ -1,0 +1,148 @@
+.mypage-container {
+  display: flex;
+  padding: 20px;
+}
+
+.profile-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  margin-right: 250px;
+}
+
+.profile-picture img {
+  width: 310px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-top: 40px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-start; /* 버튼들을 왼쪽으로 정렬 */
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%; /* 버튼들이 컨테이너의 전체 너비를 차지하도록 설정 */
+  margin-top: 30px;
+  margin-left: 150px;
+}
+
+.button-group button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #00356d;
+  color: #f1eded;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#start-chat-btn,
+#edit-profile-btn {
+  background-color: #00356d;
+  color: #f1eded;
+  padding: 8px 17px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  width: 140px;
+}
+
+.info-section {
+  flex: 2;
+  padding-left: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 중앙 정렬 */
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: -20px;
+}
+
+.skills,
+.extra-info {
+  display: flex;
+  flex-wrap: wrap;
+}
+.skills {
+  margin-bottom: 10px;
+}
+.skills span {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #f1eded;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 90px;
+  height: 20px;
+}
+
+.extra-info span {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  background-color: #f1eded;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  width: calc(25% - 20px); /* 한 줄에 4개씩 배치 */
+  box-sizing: border-box;
+  margin-top: 10px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+.extra-info span::before {
+  content: '# ';
+  margin-right: 5px;
+  width: 100px;
+  height: 20px;
+}
+
+.nbti-lang {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 115px;
+  height: 20px;
+}
+
+.nbti-lang span {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #f1eded;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100px;
+  height: 20px;
+}
+/* 추가: nbti-lang과 skills를 한 줄에 배치 */
+.info-row-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.info-row-inline .nbti-lang {
+  margin-right: 20px;
+  margin-right: 12px; /* 여백 줄임 */
+}
+
+.info-row-inline .skills {
+  flex: 1;
+}
