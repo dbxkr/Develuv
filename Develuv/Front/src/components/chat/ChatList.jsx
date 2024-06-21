@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./chat.css"; // CSS 파일 임포트
 import Chat from "./Chat";
+import styled from "styled-components";
 
 const customStyles = {
   content: {
@@ -76,15 +77,54 @@ function ChatList() {
   }
 
   return (
-    <div className="main-chat">
-      <div className="chat-container">
-        {/* <button 
+    <ChatComponents>
+      <div className="main-chat">
+        <div className="chat-container">
+          {/* <button
           onClick={chatRoomLoad}
           className="small-button"
           style={{ marginBottom: "10px" }} // 버튼 아래 여백 추가
         >
           채팅방 가져오기
         </button> */}
+          <div className="chat-list">
+            {participants.length > 0 ? (
+              <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+                {participants.map((participant, index) => (
+                  <li
+                    key={index}
+                    className="chat-item"
+                    onClick={() => {
+                      if (roomId == null || roomId !== participant.roomId) {
+                        setRoomId(participant.roomId);
+                        setOppoId(participant.userId);
+                      } else {
+                        setRoomId(null);
+                        setOppoId(null);
+                      }
+                    }}
+                  >
+                    <div className="chat-avatar">
+                      <img
+                        src={`https://via.placeholder.com/50`}
+                        alt="avatar"
+                      />
+                    </div>
+                    <div className="chat-info">
+                      <p className="chat-name">{participant.name}</p>
+                      <p className="chat-message">How are you today?</p>
+                    </div>
+                    <div className="chat-meta">
+                      <div className="chat-time">2분전</div>
+                      <div className="chat-notification">3</div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>참가자가 없습니다</p>
+            )}
+          </div>
         <div className="chat-list">
           {participants.length > 0 ? (
             <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
@@ -122,6 +162,8 @@ function ChatList() {
             <p>참가자가 없습니다</p>
           )}
         </div>
+      </div>
+      <div>
         {roomId ? (
           <Chat
             roomId={roomId}
@@ -136,3 +178,7 @@ function ChatList() {
 }
 
 export default ChatList;
+
+const ChatComponents = styled.div`
+  display: flex;
+`;
