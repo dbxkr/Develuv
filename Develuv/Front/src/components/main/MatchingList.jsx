@@ -1,16 +1,12 @@
 import MatchingItem from "./MatchingItem.jsx";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import "./MatchingItem.css";
 import axios from "axios";
 
-const MatchingList = ({
-  matchList,
-  matchType,
-  setMatchList,
-  setMatchType,
-  user_id,
-}) => {
+
+const MatchingList = ({matchList, matchType, setMatchList, setMatchType, user_id,}) => {
   const address = useRef("");
+  const distance = useRef(0.0);
 
   useEffect(() => {
     axios
@@ -21,13 +17,18 @@ const MatchingList = ({
       })
       .then((response) => {
         address.current = response.data;
-        console.log(address.current);
         getMatchList();
+        // returnDistance("서울 강남구 도곡로 159", "서울 강남구 도곡로 249");
+        // testGeopoint();
       })
       .catch((error) => {
         console.log("error get address => ", error);
       });
+    if (distance !== 0) {
+      console.log(distance.current);
+    }
   }, [matchType]);
+
 
   function getMatchList() {
     const formData = new FormData();
@@ -44,6 +45,7 @@ const MatchingList = ({
         .then((response) => {
           setMatchList(response.data);
           console.log(matchList);
+          testGeopoint();
         })
         .catch((error) => {
           console.error("Error getList normal => ", error);
@@ -71,6 +73,23 @@ const MatchingList = ({
           console.error("Error getList fame => ", error);
         });
     }
+  }
+
+  function testGeopoint() {
+    console.log("axios 호출전");
+    const formdata = new FormData();
+    // let inaddress = JSON.parse("서울시 강남구 도곡로 143")
+    let inaddress = "서울시 강남구 도곡로 143";
+
+    formdata.append("saddress", inaddress);
+    axios
+      .post("http://localhost:8080/matching/geopoint", formdata)
+      .then((response) => {
+        console.log("받은 좌표값: " + response.data);
+      })
+      .catch((error) => {
+        console.log("error get geopoint => ", error);
+      });
   }
 
   return (

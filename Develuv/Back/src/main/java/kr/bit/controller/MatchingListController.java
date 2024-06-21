@@ -1,7 +1,10 @@
 package kr.bit.controller;
 
+
 import kr.bit.dto.MatchingListDTO;
 import kr.bit.mapper.MatchingListMapper;
+import kr.bit.service.MatchingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,11 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 public class MatchingListController {
 
     @Autowired
     MatchingListMapper matchingListMapper;
+
+    @Autowired
+    MatchingService matchingService;
 
     @RequestMapping("/matchingList")
     public List<MatchingListDTO> matchingList(@RequestParam("searchAdr") String searchAdr){
@@ -43,6 +50,20 @@ public class MatchingListController {
         if(reAddress != null){
             return reAddress;
         }
-        return "서울시 강남구";
+        return null;
     }
+
+
+    @RequestMapping("/matching/geopoint")
+    public Float geoPoint(@RequestParam("saddress") String saddress){
+        System.out.println(saddress);
+        Float[] res = matchingService.getCoodr(saddress);
+        Float[] res2 = matchingService.getCoodr("서울시강남구도곡로143");
+
+        log.info("거리는 : " + matchingService.getDistance(res, res2)*1000 +"m");
+
+        return res[0];
+    }
+
+
 }
