@@ -1,10 +1,6 @@
 package kr.bit.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.bit.dto.Regi3DTO;
-import kr.bit.mapper.Regi3Mapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,24 +16,6 @@ import java.util.UUID;
 @Slf4j
 @RestController
 public class RegisterRestControllerCh {
-    @Autowired
-    private Regi3Mapper regi3Mapper;
-
-    @RequestMapping("/regi3submit")
-    public String regi3submit(@RequestParam String id,
-                              @RequestParam String name,
-                              @RequestParam String gender,
-                              @RequestParam String job,
-                              @RequestParam String addr) {
-        System.out.println(id + " " + name + " " + gender + " " + job + " " + addr);
-
-        Regi3DTO regi3DTO = new Regi3DTO(id, name, gender, job, addr);
-
-        regi3Mapper.updateRegi3(regi3DTO);
-
-        return id + "," + name + "," + gender + "," + job + "," + addr;
-    }
-
 
 
     private String uploadPath="/src/main/resources/imgs/";

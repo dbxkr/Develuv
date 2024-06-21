@@ -22,6 +22,7 @@ export const deductCoins = async (user_id, amount) => {
       user_id,
       amount,
     })
+    console.log('Remaining Coins:', response.data.remainingCoins) // API 응답 확인
     return response.data.remainingCoins
   } catch (error) {
     console.error('Failed to use coins:', error)
@@ -44,10 +45,13 @@ export const addCoins = async (user_id, amount) => {
 }
 
 // 유저를 추천받는 API 호출
-export const recommendUser = async (user_id) => {
+export const recommendUser = async (user_id, excludedUserIds = []) => {
   try {
     const response = await axios.get(`${API_URL}/recommend`, {
-      params: { user_id },
+      params: {
+        user_id,
+        excludedUserIds: excludedUserIds.join(','),
+      },
     })
     return response.data
   } catch (error) {
@@ -57,7 +61,11 @@ export const recommendUser = async (user_id) => {
 }
 
 // NBTI 필터링된 유저를 추천받는 API 호출
-export const recommendUserByNbti = async (userId, nbti) => {
+export const recommendUserByNbti = async (
+  userId,
+  nbti,
+  excludedUserIds = []
+) => {
   try {
     const response = await axios.get(`${API_URL}/recommend/nbti`, {
       params: {
@@ -66,11 +74,28 @@ export const recommendUserByNbti = async (userId, nbti) => {
         nbti2: nbti.nbti2,
         nbti3: nbti.nbti3,
         nbti4: nbti.nbti4,
+        excludedUserIds: excludedUserIds.join(','),
       },
     })
     return response.data
   } catch (error) {
     console.error('Failed to recommend user by NBTI:', error)
+    throw error
+  }
+}
+
+// 유명한 유저를 추천받는 API 호출
+export const recommendUserByFame = async (user_id, excludedUserIds = []) => {
+  try {
+    const response = await axios.get(`${API_URL}/recommend/fame`, {
+      params: {
+        user_id,
+        excludedUserIds: excludedUserIds.join(','),
+      },
+    })
+    return response.data
+  } catch (error) {
+    console.error('Failed to recommend user by fame:', error)
     throw error
   }
 }

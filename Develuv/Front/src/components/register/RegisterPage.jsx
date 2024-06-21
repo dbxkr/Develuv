@@ -10,6 +10,7 @@ import { redirect, useLocation } from "react-router-dom";
 
 function RegisterPage() {
   const [progress, setProgress] = useState(1);
+  const [userIdAvailable, setUserIdAvailable] = useState(null);
   const [formData, setFormData] = useState({
     user_id: "",
     user_pw: "",
@@ -55,6 +56,9 @@ function RegisterPage() {
     user_phone: false,
   });
 
+  const [image, setImage] = useState();
+  const [imgPreview, setImgPreview] = useState();
+
   const { state } = useLocation();
 
   return (
@@ -72,6 +76,8 @@ function RegisterPage() {
           setFormErrors={setFormErrors}
           fieldTouched={fieldTouched}
           setFieldTouched={setFieldTouched}
+          userIdAvailable={userIdAvailable}
+          setUserIdAvailable={setUserIdAvailable}
         />
       )}
       {progress == 3 && (
@@ -80,11 +86,9 @@ function RegisterPage() {
           setProgress={setProgress}
           formData={formData}
           setFormData={setFormData}
-          state={state}
-          formErrors={formErrors}
-          setFormErrors={setFormErrors}
-          fieldTouched={fieldTouched}
-          setFieldTouched={setFieldTouched}
+          setImage={setImage}
+          imgPreview={imgPreview}
+          setImgPreview={setImgPreview}
         />
       )}
       {progress == 4 && (
@@ -93,11 +97,6 @@ function RegisterPage() {
           setProgress={setProgress}
           formData={formData}
           setFormData={setFormData}
-          state={state}
-          formErrors={formErrors}
-          setFormErrors={setFormErrors}
-          fieldTouched={fieldTouched}
-          setFieldTouched={setFieldTouched}
         />
       )}
       {progress == 5 && (
@@ -106,11 +105,7 @@ function RegisterPage() {
           setProgress={setProgress}
           formData={formData}
           setFormData={setFormData}
-          state={state}
-          formErrors={formErrors}
-          setFormErrors={setFormErrors}
-          fieldTouched={fieldTouched}
-          setFieldTouched={setFieldTouched}
+          image={image}
         />
       )}
       {(progress < 1 || progress > 5) && <redirect to="/" />}

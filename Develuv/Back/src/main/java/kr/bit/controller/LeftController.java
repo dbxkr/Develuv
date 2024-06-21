@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,15 +37,24 @@ public class LeftController {
     }
 
     @GetMapping("/recommend")
-    public User recommendUser(@RequestParam("user_id") String user_id) {
-        return leftService.recommendUser(user_id);
+    public List<User> recommendUser(@RequestParam("user_id") String user_id,
+                                    @RequestParam("excludedUserIds") List<String> excludedUserIds) {
+        return leftService.recommendUser(user_id, excludedUserIds);
     }
 
     @GetMapping("/recommend/nbti")
-    public User recommendUserByNbti(@RequestParam("nbti1") String nbti1,
-                                    @RequestParam("nbti2") String nbti2,
-                                    @RequestParam("nbti3") String nbti3,
-                                    @RequestParam("nbti4") String nbti4) {
-        return leftService.recommendUserByNbti(nbti1, nbti2, nbti3, nbti4);
+    public List<User> recommendUserByNbti(@RequestParam("user_id") String user_id,
+                                          @RequestParam("nbti1") String nbti1,
+                                          @RequestParam("nbti2") String nbti2,
+                                          @RequestParam("nbti3") String nbti3,
+                                          @RequestParam("nbti4") String nbti4,
+                                          @RequestParam("excludedUserIds") List<String> excludedUserIds) {
+        return leftService.recommendUserByNbti(nbti1, nbti2, nbti3, nbti4, excludedUserIds);
+    }
+
+    @GetMapping("/recommend/fame")
+    public List<User> recommendUserByFame(@RequestParam("user_id") String user_id,
+                                          @RequestParam("excludedUserIds") List<String> excludedUserIds) {
+        return leftService.recommendUserByFame(user_id, excludedUserIds);
     }
 }
