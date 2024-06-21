@@ -125,9 +125,6 @@ function ChatList() {
             )}
           </div>
         </div>
-        {roomId ? (
-          <Chat roomId={roomId} myId={user.id} oppoId={oppoId} />
-        ) : null}
       </div>
       <div>
         {roomId ? (

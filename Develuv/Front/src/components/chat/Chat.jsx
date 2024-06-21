@@ -3,9 +3,9 @@ import { useRef, useState, useEffect } from "react";
 import Message from "./Message";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid"; // uuid 모듈 가져오기
-import "./chatstyle.css";
 
-const socket = io.connect("http://localhost:4000");
+// const socket = io.connect("http://localhost:4000");
+const socket = io.connect("http://175.209.41.173:4000");
 
 const userAvatars = {
   user1: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
@@ -87,7 +87,7 @@ function Chat({ myId, oppoId, roomId }) {
   // messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
 
   return (
-    <PageContainer style={{ width: "50%" }}>
+    <PageContainer>
       <RoomContainer>
         <RoomHeader>
           <RoomTitle>{otherUser}</RoomTitle>
@@ -108,63 +108,34 @@ function Chat({ myId, oppoId, roomId }) {
             placeholder="메세지를 입력해주세요"
             onKeyPress={(event) => {
               event.key === "Enter" && sendMessage();
+              window.scrollTo(0, 0);
             }}
           />
           <ChatButton onClick={sendMessage}>▹</ChatButton>
-          <ChatButton onClick={joinRoom}>?</ChatButton>
         </ChatInputBox>
       </RoomContainer>
     </PageContainer>
-    // <div className="PageContainer">
-    //   <div className="RoomContainer">
-    //     <div className="RoomHeader">
-    //       <div className="RoomHeader">{otherUser}</div>
-    //       <div className="RoomBody">
-    //         <div className="MessageBox">
-    //           {messageList.map((el) => (
-    //             <Message message={el} user_id={user_id} key={uuidv4()} />
-    //           ))}
-    //           <div ref={messageBottomRef} />
-    //         </div>
-    //       </div>
-    //       <div className="ChatInputBox">
-    //         <input
-    //           className="ChatInput"
-    //           type="text"
-    //           ref={inputRef}
-    //           placeholder="메시지를 입력해주세요"
-    //           onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-    //         />
-    //       </div>
-    //       <button className="ChatButton" onClick={sendMessage}>
-    //         ▹
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }
 
 export default Chat;
 
 const PageContainer = styled.div`
-  background-color: #eeefee; /* 웹페이지 전체 배경색 */
-  margin-top: 100px;
-  width: 100%;
-  height: 100vh;
+  background-color: #f7f7f7; /* 웹페이지 전체 배경색 */
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 8%;
 `;
 
 const RoomContainer = styled.div`
-  width: 500px; /* 채팅방 너비 */
-  height: 700px; /* 채팅방 높이 */
-  background-color: #ffffff; /* 채팅방 내 배경색 */
-  border-radius: 6px;
+  width: 450px; /* 채팅방 너비 */
+  max-height: 900px; /* 채팅방 높이 */
+  min-height: 450px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const RoomHeader = styled.div`
@@ -205,13 +176,15 @@ const ChatInputBox = styled.div`
   height: 50px;
   border-top: 1px solid #eeefee;
   display: flex;
+  align-items: center; /* 내부 요소들을 세로 가운데 정렬 */
   border-radius: 0 0 6px 6px;
   background-color: #ffffff;
+  position: relative;
+  padding: 0 10px; /* 좌우 padding 추가 */
 `;
 
 const ChatInput = styled.input`
-  height: 100%;
-  flex: 85%;
+  flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
   border: 0;
   padding: 0 0.7em;
   font-size: 1em;
@@ -225,14 +198,17 @@ const ChatButton = styled.button`
   display: grid;
   place-items: center;
   cursor: pointer;
-  flex: 15%;
   height: 100%;
+  padding: 0 10px; /* 좌우 padding 추가 */
   background: transparent;
   outline: none;
-  font-size: 25px;
+  font-size: 20px;
   transition: all 0.5s;
   color: lightgray;
   opacity: 0.5;
+  position: absolute;
+  top: -40%;
+  right: 2%;
   &:hover {
     background: #3d4a79;
     transition: all 0.5s;

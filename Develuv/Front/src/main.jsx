@@ -19,8 +19,8 @@ import Mypage from "./components/mypage/Mypage.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <BrowserRouter>
+      <Header />
       <div>
-        <Header />
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/callback/:provider" element={<LoginCallback />} />
