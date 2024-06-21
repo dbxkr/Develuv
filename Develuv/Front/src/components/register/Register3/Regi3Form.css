@@ -163,3 +163,14 @@
   background-color: #1d4289;
   color: white;
 }
+
+
+.regi3_address_div input {
+  border: 1px solid whitesmoke;
+  border-radius: 5px 0px 0px 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 450;
+  margin-bottom: 10px;
+  width: 380px;
+}

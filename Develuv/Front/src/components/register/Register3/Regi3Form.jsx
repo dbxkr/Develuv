@@ -1,39 +1,40 @@
 import "./Regi3Form.css";
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import DaumPostCode from "./DaumPostCode.jsx";
+
 
 function Regi3Form({
-  progress,
-  setProgress,
-  formData,
-  setFormData,
-  imgPreview,
-  setImgPreview,
-  setImage,
-}) {
+                     progress,
+                     setProgress,
+                     formData,
+                     setFormData,
+                     imgPreview,
+                     setImgPreview,
+                     setImage,
+                   }) {
   const navigate = useNavigate();
 
   const genders = [
-    { type: "male", title: "남자" },
-    { type: "female", title: "여자" },
+    {type: "male", title: "남자"},
+    {type: "female", title: "여자"},
   ];
 
   const [selGen, setSelGen] = useState("");
   const onChangeName = (e) => {
-    setFormData({ ...formData, user_name: e.target.value });
+    setFormData({...formData, user_name: e.target.value});
   };
 
   const onChangeJob = (e) => {
-    setFormData({ ...formData, user_job: e.target.value });
+    setFormData({...formData, user_job: e.target.value});
   };
   const onChangeAddr = (e) => {
-    setFormData({ ...formData, user_address: e.target.value });
+    setFormData({...formData, user_address: e.target.value});
   };
 
   const genClicked = (type) => {
     setSelGen(type);
-    setFormData({ ...formData, user_gender: type });
+    setFormData({...formData, user_gender: type});
   };
 
   const regi3Submit = () => {
@@ -86,7 +87,7 @@ function Regi3Form({
         ))}
       </div>
 
-      <hr className={"half_hr"} />
+      <hr className={"half_hr"}/>
 
       <div className={"sub_title"}>
         언제든지 변경이 가능하며 매칭을 위해 필요한 정보입니다.
@@ -105,24 +106,28 @@ function Regi3Form({
 
       {/* 주소 이후엔 daum 지도 api 사용 */}
       <div className={"form_label"}>주소</div>
-      <input
-        className={"regi3_in"}
-        onChange={onChangeAddr}
-        // onKeyDown={onEnter}
-        value={formData.user_address}
-        type={"text"}
-        placeholder={"주소 입력"}
-      />
+      <div className={"regi3_address_div"}>
+
+        <input
+          className={"regi3_in"}
+          onChange={onChangeAddr}
+          // onKeyDown={onEnter}
+          value={formData.user_address}
+          type={"text"}
+          placeholder={"주소 입력"}
+        />
+        <DaumPostCode formData={formData} setFormData={setFormData}/>
+      </div>
 
       <div>
         {imgPreview && (
           <img
             src={imgPreview}
             alt="Preview"
-            style={{ width: "300px", height: "auto" }}
+            style={{width: "300px", height: "auto"}}
           />
         )}
-        <input type="file" onChange={handleImageUpload} />
+        <input type="file" onChange={handleImageUpload}/>
       </div>
       <div>
         <button

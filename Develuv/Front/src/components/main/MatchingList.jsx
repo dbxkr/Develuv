@@ -2,6 +2,7 @@ import MatchingItem from './MatchingItem.jsx'
 import { useEffect, useRef, useState } from 'react'
 import './MatchingItem.css'
 import axios from 'axios'
+import DaumPostCode from "../register/Register3/DaumPostCode.jsx";
 
 const MatchingList = ({
   matchList,
@@ -28,7 +29,7 @@ const MatchingList = ({
         },
       })
       .then((response) => {
-        address.current = response.data
+        address.current = response.data.returnAddress
         console.log(address.current)
         getMatchList()
       })
@@ -52,7 +53,7 @@ const MatchingList = ({
         .then((response) => {
           setMatchList(response.data)
           console.log(matchList)
-          testGeopoint();
+          testGeopoint(address.current);
         })
         .catch((error) => {
           console.error('Error getList normal => ', error)
@@ -110,24 +111,27 @@ const MatchingList = ({
     }
   }
 
-  function testGeopoint() {
+  function testGeopoint(user_address) {
     console.log("axios 호출전");
     const formdata = new FormData();
-    let inaddress = "서울시강남구도곡로143";
+    let inaddress = "서울강남구도산대로118";
 
     formdata.append("saddress", inaddress);
     axios
-      .get("http://localhost:8080/matching/geopoint?saddress="+inaddress)
+      .get(`http://localhost:8080/matching/geopoint?saddress=${user_address}`)
       .then((response) => {
-        console.log("받은 좌표값: " + response.data);
+        console.log("거리값 : " + response.data+"m");
       })
       .catch((error) => {
         console.log("error get geopoint => ", error);
       });
   }
 
+  const {formData, setFormData} = useState();
+
   return (
     <div className={'MatchingList'}>
+      <DaumPostCode formData={formData} setFormData={setFormData}/>
       <div className={'MatchingItems'}>
         {matchList.map((item) => (
           <MatchingItem
