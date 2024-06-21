@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid"; // uuid 모듈 가져오기
 const socket = io.connect("http://175.209.41.173:4000");
 // const socket = io.connect("http://localhost:4000");
 
-function Chat({ myId, oppoId, roomId }) {
+function Chat({ myId, oppoId, roomId, oppoName }) {
   const user_id = myId; // 테스트용 사용자 이름
   const room_id = roomId; // 테스트용 방 이름
 
@@ -86,7 +86,7 @@ function Chat({ myId, oppoId, roomId }) {
     <PageContainer style={{ width: "50%" }}>
       <RoomContainer>
         <RoomHeader>
-          <RoomTitle>{otherUser}</RoomTitle>
+          <RoomTitle>{oppoName}</RoomTitle>
         </RoomHeader>
         <RoomBody>
           <MessageBox>

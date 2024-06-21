@@ -28,6 +28,7 @@ function ChatList() {
   const [participants, setParticipants] = useState([]); // 같은 room_id에 있는 상대방 목록 상태
   const [roomId, setRoomId] = useState(null);
   const [oppoId, setOppoId] = useState(null);
+  const [oppoName, setOppoName] = useState(null);
 
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
@@ -95,9 +96,11 @@ function ChatList() {
                     if (roomId == null || roomId !== participant.roomId) {
                       setRoomId(participant.roomId);
                       setOppoId(participant.userId);
+                      setOppoName(participant.name);
                     } else {
                       setRoomId(null);
                       setOppoId(null);
+                      setOppoName(null);
                     }
                   }}
                 >
@@ -120,7 +123,12 @@ function ChatList() {
           )}
         </div>
         {roomId ? (
-          <Chat roomId={roomId} myId={user.id} oppoId={oppoId} />
+          <Chat
+            roomId={roomId}
+            myId={user.id}
+            oppoId={oppoId}
+            oppoName={oppoName}
+          />
         ) : null}
       </div>
     </div>
