@@ -34,17 +34,29 @@ function ChatList() {
   const navigate = useNavigate();
   const chatUrl = "http://localhost:8080/chatlists/";
   const participantUrl = "http://localhost:8080/chatlists/room/participants/";
+  const chatStatusUrl = "http://localhost:8080/chatlists/room/chatstatus";
 
   const chatRoomLoad = async () => {
     try {
+      //채팅방 리스트 가져오기
       const res = await axios.get(chatUrl + "user/" + user.id);
       console.log("Rooms:", res.data); // 확인용 로그
       const rooms = res.data.map((item) => item.roomId);
       const participantsData = [];
 
       for (const roomId of rooms) {
+        //방별로 참가자 정보(user_id, user_name)를 가져옴
         const res = await axios.get(participantUrl + roomId);
         console.log(`Participants for room ${roomId}:`, res.data); // 확인용 로그
+
+        //방별 상태 가져오기 (로그인한 유저를 기준으로 안읽은 채팅 수 = unread, 제일 최근에 받은 채팅 = recentMsg)
+        const chatStatus = await axios.get(chatStatusUrl, {
+          params: {
+            room_id: roomId,
+            user_id: user.id,
+          },
+        });
+
         res.data.forEach((participant) => {
           // 데이터 구조를 확인하여 roomId와 userId를 설정
           if (participant.user_id !== user.id) {
@@ -53,6 +65,9 @@ function ChatList() {
               roomId,
               userId: participant.user_id,
               name: participant.user_name,
+              unread: chatStatus.data.unreadCnt,
+              recentMsg: chatStatus.data.message_content,
+              recentTime: chatStatus.data.message_time,
             });
           }
         });
@@ -65,11 +80,45 @@ function ChatList() {
     }
   };
 
+  // 채팅방을 클릭하면 쌓여있는 알림을 읽도록 한다.
+  const readMsgURL = "http://localhost:8080/chatlists/room/readmessage";
+  const readMsg = async () => {
+    console.log("채팅방 클릭했어?", roomId, oppoId);
+    try {
+      const response = await axios.post(readMsgURL, {
+        room_id: roomId,
+        user_id: user.id,
+      });
+
+      // participants 상태 업데이트
+      setParticipants((prevParticipants) => {
+        return prevParticipants.map((participant) => {
+          if (participant.roomId === roomId) {
+            return {
+              ...participant,
+              unread: 0, // 해당 roomId의 unread를 0으로 설정
+            };
+          }
+          return participant;
+        });
+      });
+
+      console.log(response.data); // 성공적으로 응답을 받았을 때의 처리 (옵션)
+    } catch (error) {
+      console.error("오류 발생:", error);
+      // 오류 처리
+    }
+  };
+
   useEffect(() => {
     if (isLoggedIn) {
       chatRoomLoad();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    readMsg();
+  }, [roomId, oppoId]);
 
   function selectChat(chat) {
     setSelectedChat(chat);
@@ -87,7 +136,7 @@ function ChatList() {
           채팅방 가져오기
         </button> */}
           <div className="chat-list">
-            {participants.length > 0 ? (
+            {participants.length > 0 ? ( //paritipants : roomId, userId, name 값 갖고 있음
               <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
                 {participants.map((participant, index) => (
                   <li
@@ -96,7 +145,7 @@ function ChatList() {
                     onClick={() => {
                       if (roomId == null || roomId !== participant.roomId) {
                         setRoomId(participant.roomId);
-                        setOppoId(participant.userId);
+                        setOppoId(participant.name);
                       } else {
                         setRoomId(null);
                         setOppoId(null);
@@ -111,17 +160,19 @@ function ChatList() {
                     </div>
                     <div className="chat-info">
                       <p className="chat-name">{participant.name}</p>
-                      <p className="chat-message">How are you today?</p>
+                      <p className="chat-message">{participant.recentMsg}</p>
                     </div>
                     <div className="chat-meta">
-                      <div className="chat-time">2분전</div>
-                      <div className="chat-notification">3</div>
+                      <div className="chat-time">{participant.recentTime}</div>
+                      <div className="chat-notification">
+                        {participant.unread}
+                      </div>
                     </div>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p>참가자가 없습니다</p>
+              <p>대화방이 없습니다</p>
             )}
           </div>
         </div>

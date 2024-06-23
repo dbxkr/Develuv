@@ -14,8 +14,8 @@ body {
 
 .chat-container {
   position: relative;
-  top: 70px;
-  left: 10px;
+  top: 30%;
+  left: 5%;
   flex-direction: column;
   /* margin-top: 20px; */
   /* height: calc(100% - 20px); */
