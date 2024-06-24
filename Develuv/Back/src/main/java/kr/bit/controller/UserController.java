@@ -2,6 +2,7 @@ package kr.bit.controller;
 
 import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
+import kr.bit.dto.social.GoogleLoginDTO;
 import kr.bit.dto.social.KakaoLoginDTO;
 import kr.bit.dto.social.NaverLoginDTO;
 import kr.bit.dto.UserDto;
@@ -80,6 +81,14 @@ public class UserController {
         kakaoLoginDTO.setMember(userService.findById(kakaoLoginDTO.getId()));
         Map<String, Object> data = new HashMap<>();
         data.put("kakao",kakaoLoginDTO);
+        return data;
+    }
+
+    @PostMapping("/sns/google")
+    public Map<String,Object> snsGoogle(@RequestBody GoogleLoginDTO googleLoginDTO) {
+        googleLoginDTO.setMember(userService.findById(googleLoginDTO.getId()));
+        Map<String, Object> data = new HashMap<>();
+        data.put("google",googleLoginDTO);
         return data;
     }
 

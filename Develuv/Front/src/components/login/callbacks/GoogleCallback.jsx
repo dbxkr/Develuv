@@ -7,35 +7,39 @@ function GoogleCallback() {
 
     useEffect(() => {
         const handleGoogleCallback = async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const google_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-            const google_key = import.meta.env.VITE_GOOGLE_SECRET_KEY;
-            const code = urlParams.get('code');
-            if (code) {
-                try {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const code = urlParams.get('code');
+                const googleClientId = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID;
+                const googleClientSecret = import.meta.env.REACT_APP_GOOGLE_SECRET_KEY;
+                if (code) {
+                    
                     // Exchange authorization code for access token
-                    const response = await axios.post('https://oauth2.googleapis.com/token', {
+                    const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
                         code: code,
-                        client_id: google_id,
-                        client_secret: google_key,
-                        redirect_uri: 'http://localhost:8080/login/oauth2/code/google', // Must match the configured redirect URI
+                        client_id: googleClientId,
+                        client_secret: googleClientSecret,
+                        redirect_uri: 'http://localhost:8080/Callback',
                         grant_type: 'authorization_code',
                     });
-                    console.log('Access Token:', response.data.access_token);
+
+                    console.log('Access Token :',tokenResponse.data.access_token);
 
                     // Use the access token to fetch user information from Google API
                     const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo', {
                         headers: {
-                            Authorization: `Bearer ${response.data.access_token}`,
+                            Authorization: `Bearer ${tokenResponse.data.access_token}`,
                         },
                     });
-                    console.log('User Info:', userInfoResponse.data);
 
-                    // Redirect to mainPage after successful login
-                    history.push('/MainPage');
-                } catch (error) {
-                    console.error('Error fetching Google token:', error);
+                    const userInfo = userInfoResponse.data;
+                    console.log('User Info:', userInfo);
+
+                } else {
+                    console.error('No authorization code received.');
                 }
+            } catch (error) {
+                console.error('Error fetching Google token:', error);
             }
         };
 
