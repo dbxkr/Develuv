@@ -54,7 +54,7 @@ function Regi3Form({
   };
 
   return (
-    <div>
+    <div className={"Regi3Form"}>
       <div className={"tt"}>Essential Information</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -94,42 +94,48 @@ function Regi3Form({
       </div>
 
       {/* 직업 select로 바꿀 예정 */}
-      <div className={"form_label"}>직업</div>
-      <input
-        className={"regi3_in"}
-        onChange={onChangeJob}
-        // onKeyDown={onEnter}
-        value={formData.user_job}
-        type={"text"}
-        placeholder={"직업 입력"}
-      />
-
-      {/* 주소 이후엔 daum 지도 api 사용 */}
-      <div className={"form_label"}>주소</div>
-      <div className={"regi3_address_div"}>
-
+      <div className={"regi3_form"}>
+        <div className={"form_label"}>직업</div>
         <input
           className={"regi3_in"}
-          onChange={onChangeAddr}
+          onChange={onChangeJob}
           // onKeyDown={onEnter}
-          value={formData.user_address}
+          value={formData.user_job}
           type={"text"}
-          placeholder={"주소 입력"}
+          placeholder={"직업 입력"}
         />
-        <DaumPostCode formData={formData} setFormData={setFormData}/>
+
+        {/* 주소 이후엔 daum 지도 api 사용 */}
+
+      </div>
+      <div className={"regi3_form"}>
+
+        <div className={"form_label"}>주소</div>
+        <div className={"regi3_address_div"}>
+
+          <input
+            className={"addr_in"}
+            onChange={onChangeAddr}
+            // onKeyDown={onEnter}
+            value={formData.user_address}
+            type={"text"}
+            placeholder={"주소 입력"}
+          />
+          <DaumPostCode formData={formData} setFormData={setFormData}/>
+        </div>
       </div>
 
-      <div>
+      <div className={"img_div"}>
         {imgPreview && (
           <img
             src={imgPreview}
             alt="Preview"
-            style={{width: "300px", height: "auto"}}
+            style={{width: "300px", height: "300px"}}
           />
         )}
-        <input type="file" onChange={handleImageUpload}/>
+        <input className={"regi3_img_in"} type="file" onChange={handleImageUpload}/>
       </div>
-      <div>
+      <div className={"pre_next_div"}>
         <button
           type={"button"}
           onClick={() => {
