@@ -204,7 +204,14 @@ function Header() {
             zIndex: "1001", // 헤더의 z-index보다 높게 설정
           }}
         >
-          <ul style={{ listStyle: "none", padding: "20px 0", margin: "0", textAlign: "center" }}>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: "20px 0",
+              margin: "0",
+              textAlign: "center",
+            }}
+          >
             {user && (
               <li style={{ display: "flex", justifyContent: "center" }}>
                 <Link
