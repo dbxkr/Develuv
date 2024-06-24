@@ -190,4 +190,8 @@ export default ChatList;
 
 const ChatComponents = styled.div`
   display: flex;
+  position: fixed;
+  top: 115px;
+  left: 5%;
+  align-items: flex-start;
 `;

@@ -112,9 +112,11 @@ function Chat({ myId, oppoId, roomId }) {
   // 방 나가기 (디비에서 삭제)
   const removeUrl = "http://localhost:8080/chatlists/exit";
   function removeRoom() {
-    axios.post(removeUrl, { room_id: roomId });
-    console.log(`${roomId} 번 방 삭제 완료`);
-    window.location.reload();
+    if (window.confirm("해당 대화방을 나가고 대화기록을 삭제하시겠습니까?")) {
+      axios.post(removeUrl, { room_id: roomId });
+      console.log(`${roomId} 번 방 삭제 완료`);
+      window.location.reload();
+    }
   }
 
   return (
@@ -159,7 +161,6 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 17%;
 `;
 
 const RoomContainer = styled.div`
@@ -195,6 +196,7 @@ const RoomBody = styled.div`
   background: #ffffff;
   position: relative;
   overflow-y: auto;
+  height: 70vh;
 `;
 
 const MessageBox = styled.div`

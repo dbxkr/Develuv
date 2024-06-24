@@ -41,14 +41,12 @@ body {
 .chat-list {
   width: 80%;
   max-width: 500px;
-  max-height: 80%;
+  height: 77vh;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   overflow-y: auto;
-  margin-right: 00px;
-  /* margin-top: 100px; */
 }
 .chat-list::-webkit-scrollbar {
   display: none;
