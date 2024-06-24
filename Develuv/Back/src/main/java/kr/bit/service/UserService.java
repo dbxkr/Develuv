@@ -176,7 +176,8 @@ public class UserService {
     public String findNameById(String user_id){
         return userMapper.findUserNameById(user_id);
     }
-    public UserDto getUserById(String user_id) {
-        return userMapper.getUserById(user_id);
+
+    public UserDto findUserById(String user_id) {
+        return userMapper.findUserById(user_id);
     }
 }

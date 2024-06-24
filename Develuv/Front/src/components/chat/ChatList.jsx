@@ -29,6 +29,7 @@ function ChatList() {
   const [participants, setParticipants] = useState([]); // 같은 room_id에 있는 상대방 목록 상태
   const [roomId, setRoomId] = useState(null);
   const [oppoId, setOppoId] = useState(null);
+  const [oppoProfile, setOppoProfile] = useState(null);
 
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ function ChatList() {
   const chatRoomLoad = async () => {
     try {
       //채팅방 리스트 가져오기
-      const res = await axios.get(chatUrl + "user/" + user.id);
+      const res = await axios.get(chatUrl + "user/" + user.user_id);
       console.log("Rooms:", res.data); // 확인용 로그
       const rooms = res.data.map((item) => item.roomId);
       const participantsData = [];
@@ -53,18 +54,19 @@ function ChatList() {
         const chatStatus = await axios.get(chatStatusUrl, {
           params: {
             room_id: roomId,
-            user_id: user.id,
+            user_id: user.user_id,
           },
         });
 
         res.data.forEach((participant) => {
           // 데이터 구조를 확인하여 roomId와 userId를 설정
-          if (participant.user_id !== user.id) {
+          if (participant.user_id !== user.user_id) {
             // 자신의 user_id가 아닌 경우에만 추가
             participantsData.push({
               roomId,
               userId: participant.user_id,
               name: participant.user_name,
+              profile: participant.user_profile,
               unread: chatStatus.data.unreadCnt,
               recentMsg: chatStatus.data.message_content,
               recentTime: chatStatus.data.message_time,
@@ -87,7 +89,7 @@ function ChatList() {
     try {
       const response = await axios.post(readMsgURL, {
         room_id: roomId,
-        user_id: user.id,
+        user_id: user.user_id,
       });
 
       // participants 상태 업데이트
@@ -146,17 +148,16 @@ function ChatList() {
                       if (roomId == null || roomId !== participant.roomId) {
                         setRoomId(participant.roomId);
                         setOppoId(participant.name);
+                        setOppoProfile(participant.profile);
                       } else {
                         setRoomId(null);
                         setOppoId(null);
+                        setOppoProfile(null);
                       }
                     }}
                   >
                     <div className="chat-avatar">
-                      <img
-                        src={`https://via.placeholder.com/50`}
-                        alt="avatar"
-                      />
+                      <img src={participant.profile} alt="avatar" />
                     </div>
                     <div className="chat-info">
                       <p className="chat-name">{participant.name}</p>
@@ -179,7 +180,12 @@ function ChatList() {
       </div>
       <div>
         {roomId ? (
-          <Chat roomId={roomId} myId={user.id} oppoId={oppoId} />
+          <Chat
+            roomId={roomId}
+            myId={user.user_id}
+            oppoId={oppoId}
+            oppoProfile={oppoProfile}
+          />
         ) : null}
       </div>
     </ChatComponents>

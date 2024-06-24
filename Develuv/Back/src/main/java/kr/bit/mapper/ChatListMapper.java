@@ -16,7 +16,7 @@ public interface ChatListMapper {
             "WHERE cl.user_id = #{userId}")
     List<ChatListDTO> getChatListsByUserId(@Param("userId") String userId);
 
-    @Select("SELECT u.user_id AS user_id, u.user_name AS user_name " +
+    @Select("SELECT u.user_id AS user_id, u.user_name AS user_name, u.user_profile as user_profile " +
             "FROM chatlists cl " +
             "JOIN users u ON cl.user_id = u.user_id " +
             "WHERE cl.room_id = #{roomId}")

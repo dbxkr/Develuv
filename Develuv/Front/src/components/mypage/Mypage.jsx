@@ -21,31 +21,33 @@ const Mypage = () => {
   const [quiz, setQuiz] = useState("");
   const [memo, setMemo] = useState("");
   const navigate = useNavigate();
-  const isMyPage = user.id === params.user_id;
+  const isMyPage = user.user_id === params.user_id;
   const springUrl = "http://localhost:8080";
 
   useEffect(() => {
-    axios
-      .get(`${springUrl}/user/info/${params.user_id}`)
-      .then((response) => {
-        console.log("response", response);
-        setUserInfo(response.data);
+    if (isMyPage) {
+      setBlur(0); // 자신의 마이페이지일 때 블러 초기화
+      setUserInfo({ ...user });
+    } else {
+      axios
+        .post(`${springUrl}/user/info?user_id=${params.user_id}`)
+        .then((response) => {
+          console.log("response", response);
+          setUserInfo(response.data);
 
-        // 로컬 스토리지에서 값 가져오기
-        setInstagram(localStorage.getItem(`instagram_${params.user_id}`) || "");
-        setGithub(localStorage.getItem(`github_${params.user_id}`) || "");
-        setQuiz(localStorage.getItem(`quiz_${params.user_id}`) || "");
-        setMemo(localStorage.getItem(`memo_${params.user_id}`) || "");
-
-        if (isMyPage) {
-          setBlur(0); // 자신의 마이페이지일 때 블러 초기화
-        } else {
+          // 로컬 스토리지에서 값 가져오기
+          setInstagram(
+            localStorage.getItem(`instagram_${params.user_id}`) || ""
+          );
+          setGithub(localStorage.getItem(`github_${params.user_id}`) || "");
+          setQuiz(localStorage.getItem(`quiz_${params.user_id}`) || "");
+          setMemo(localStorage.getItem(`memo_${params.user_id}`) || "");
           setBlur(10); // 다른 사용자의 마이페이지일 때 블러 적용
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
   }, [params.user_id, isMyPage]);
 
   const calculateAge = (birthDate) => {
@@ -65,7 +67,7 @@ const Mypage = () => {
   const startChat = () => {
     axios
       .get(
-        `${springUrl}/chatlists/start?myId=${user.id}&oppoId=${params.user_id}`
+        `${springUrl}/chatlists/start?myId=${user.user_id}&oppoId=${params.user_id}`
       )
       .then((res) => {
         console.log(res);

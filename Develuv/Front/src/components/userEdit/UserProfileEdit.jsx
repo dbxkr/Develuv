@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useAuth } from "../../AuthProvider";
 import { useNavigate } from "react-router-dom";
@@ -6,13 +6,15 @@ import ImageUpload from "../imgupload"; // 이미지 업로드 컴포넌트 임�
 
 const UserProfileEdit = () => {
   const { user } = useAuth();
-  const [userId, setUserId] = useState(user.id);
+  const [userId, setUserId] = useState(user.user_id);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState(user.phone || "");
   const [job, setJob] = useState(user.job || "");
   const [address, setAddress] = useState(user.address || "");
-  const [profileImageUrl, setProfileImageUrl] = useState(user.profileImage || ""); // 프로필 이미지 URL 상태 추가
+  const [profileImageUrl, setProfileImageUrl] = useState(
+    user.profileImage || ""
+  ); // 프로필 이미지 URL 상태 추가
   const image = useRef();
   const navigate = useNavigate();
   const client_id = import.meta.env.VITE_GOOGLE_DRIVE_CLIENT_ID;
@@ -41,10 +43,7 @@ const UserProfileEdit = () => {
     refreshAccessToken();
   }, []);
 
-  const uploadFile = () => {
-    
-  };
-
+  const uploadFile = () => {};
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -70,9 +69,9 @@ const UserProfileEdit = () => {
     // 이미지 업로드 후 이미지 URL을 상태에 설정
     setProfileImageUrl(imageUrl);
   };
-  const handleImageChange = (e)=>{
-    image.current = e.target.files[0]
-  }
+  const handleImageChange = (e) => {
+    image.current = e.target.files[0];
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,7 +83,7 @@ const UserProfileEdit = () => {
     const folderId = "1MTa41ozlOhsVe5ID--NZ8Br_xii27knL"; // 업로드하려는 폴더의 ID
 
     const formData = new FormData(); // FormData 객체 생성
-    console.log(image)
+    console.log(image);
     formData.append(
       "metadata",
       new Blob(
@@ -116,25 +115,33 @@ const UserProfileEdit = () => {
       .then((response) => {
         console.log("File uploaded successfully");
         const fileId = response.data.id;
-        setProfileImageUrl(`https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`);
+        setProfileImageUrl(
+          `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`
+        );
         const userData = {
-            user_id: userId,
-            user_pw: password,
-            user_phone: phone,
-            user_job: job,
-            user_address: address,
-            user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`
-          };
-          try {
-            // 프로필 정보 업데이트
-            axios.put(`http://localhost:8080/api/edit-profile/${user.id}`, userData);
-            alert("프로필이 성공적으로 업데이트 되었습니다.");
-            navigate("/mypage/Mypage"); // 성공 시 마이페이지로 이동
-          } catch (error) {
-            console.error("프로필 업데이트 오류:", error);
-            alert(`프로필 업데이트 실패: ${error.response?.data?.message || error.message}`);
-          }
-      
+          user_id: userId,
+          user_pw: password,
+          user_phone: phone,
+          user_job: job,
+          user_address: address,
+          user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`,
+        };
+        try {
+          // 프로필 정보 업데이트
+          axios.put(
+            `http://localhost:8080/api/edit-profile/${user.user_id}`,
+            userData
+          );
+          alert("프로필이 성공적으로 업데이트 되었습니다.");
+          navigate("/mypage/Mypage"); // 성공 시 마이페이지로 이동
+        } catch (error) {
+          console.error("프로필 업데이트 오류:", error);
+          alert(
+            `프로필 업데이트 실패: ${
+              error.response?.data?.message || error.message
+            }`
+          );
+        }
       });
   };
 
@@ -153,12 +160,20 @@ const UserProfileEdit = () => {
         <br />
         <label>
           비밀번호:
-          <input type="password" value={password} onChange={handlePasswordChange} />
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
         </label>
         <br />
         <label>
           비밀번호 확인:
-          <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+          />
         </label>
         <br />
         <label>
@@ -178,18 +193,24 @@ const UserProfileEdit = () => {
         <br />
         <label>
           프로필 사진:
-          <input type="file" accept="image/*" onChange={handleImageChange}/>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
         </label>
         <br />
         {profileImageUrl && (
           <div>
-            <img src={profileImageUrl} alt="프로필 미리보기" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+            <img
+              src={profileImageUrl}
+              alt="프로필 미리보기"
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            />
           </div>
         )}
         <ImageUpload onImageUpload={handleImageUpload} />
         <br />
         <button type="submit">저장</button>
-        <button type="button" onClick={handleCancel}>취소</button>
+        <button type="button" onClick={handleCancel}>
+          취소
+        </button>
       </form>
     </div>
   );

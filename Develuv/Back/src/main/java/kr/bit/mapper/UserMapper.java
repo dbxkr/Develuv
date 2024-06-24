@@ -12,8 +12,6 @@ public interface UserMapper {
 
     @Select("select user_id from users where user_email = #{user_email}")
     String findId(UserFindIdDTO userFindIdDTO);
-    @Select("SELECT user_id, user_name, user_birth, user_gender, user_profile, user_job, user_address, user_nbti, user_pro_lang, user_drink, user_smoke, user_religion, user_edu FROM users WHERE user_id = #{user_id}")
-    UserDto getUserById(@Param("user_id") String user_id);
 
     @Select("SELECT user_id FROM users WHERE user_id = #{user_id}")
     String findById(String user_id);

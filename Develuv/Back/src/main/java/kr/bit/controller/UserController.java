@@ -120,8 +120,8 @@ public class UserController {
         return map;
     }
 
-    @GetMapping("/info/{user_id}")
-    public UserDto getUserById(@PathVariable String user_id) {
-        return userService.getUserById(user_id);
+    @PostMapping("/info")
+    public UserDto getUserById(@RequestParam String user_id) {
+        return userService.findUserById(user_id);
     }
 }
