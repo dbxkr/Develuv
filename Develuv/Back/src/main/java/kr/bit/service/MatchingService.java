@@ -72,23 +72,22 @@ public class MatchingService {
         Double[] po1 = getCoodr(address1);
         Double[] po2 = getCoodr(address2);
 
-//        double dLat = degToRad(po1[0]-po2[0]);
-//        double dLng = degToRad(po1[1]-po2[1]);
-//
-//        int r =6371;
-//        double a = (Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(degToRad(po1[0])) * Math.cos(degToRad(po2[0])) * Math.sin(dLng/2) * Math.sin(dLng/2));
-//        double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-//        double d = r * c;
-
-
         double theta = po1[1] - po2[1];
-        double dist = Math.sin(degToRad(po1[0]))* Math.sin(degToRad(po2[0]))
-                + Math.cos(degToRad(po1[0]))*Math.cos(degToRad(po2[0]))*Math.cos(degToRad(theta));
+        double dist = Math.sin(degToRad(po1[0])) * Math.sin(degToRad(po2[0]))
+                + Math.cos(degToRad(po1[0])) * Math.cos(degToRad(po2[0])) * Math.cos(degToRad(theta));
         dist = Math.acos(dist);
         dist = radToDeg(dist);
-        dist = dist * 60*1.1515*1609.344;
+        dist = dist * 60 * 1.1515 * 1609.344;
 
         return dist; //단위 meter
 
     }
+        //        double dLat = degToRad(po1[0]-po2[0]);
+        //        double dLng = degToRad(po1[1]-po2[1]);
+        //
+        //        int r =6371;
+        //        double a = (Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(degToRad(po1[0])) * Math.cos(degToRad(po2[0])) * Math.sin(dLng/2) * Math.sin(dLng/2));
+        //        double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+        //        double d = r * c;
+    //}
 }
