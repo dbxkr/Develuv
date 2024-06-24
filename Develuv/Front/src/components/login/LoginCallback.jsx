@@ -90,7 +90,73 @@ const LoginCallback = (props) => {
   };
 
   const prov_google = async (code) => {
-    console.log("google");
+    const res = axios.post(
+      "https://oauth2.googleapis.com/token",
+      {
+        grant_type: "authorization_code",
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        client_secret: import.meta.env.VITE_GOOGLE_SECRET_KEY,
+        redirect_uri: "http://localhost:3500/callback/google",
+        code: code,
+      },
+      {
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+      }
+    );
+    return res;
+  };
+
+  const access_google = async (res) => {
+    if (res) {
+      const access_token = res.data.access_token;
+      const user = await axios.get(`https://www.googleapis.com/oauth2/v2/userinfo`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+      });
+      return { user, access_token };
+    }
+  };
+
+  const send_user_google = async ({ user, access_token }) => {
+    console.log(user);
+    const data = {
+      id: user.data.id,
+      access_token: access_token,
+    };
+    axios
+      .post(serverUrl + "/google", data)
+      .then((res) => {
+        console.log(res);
+        if (!res.data.google.member) {
+          if (
+            window.confirm(
+              "구글로 회원가입 하지 않았습니다. 구글 계정으로 회원가입을 진행할까요?"
+            )
+          ) {
+            navigate("/register", {
+              state: {
+                provider: "google",
+                user: data,
+                access_token: access_token,
+              },
+            });
+          } else {
+            navigate("/");
+          }
+        } else {
+          localStorage.setItem(
+            "google.access_token",
+            JSON.stringify(access_token)
+          );
+          login(res.data.google.id);
+          navigate("/");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const prov_naver = async (code) => {
@@ -166,7 +232,14 @@ const LoginCallback = (props) => {
         .catch((err) => console.log(err));
     }
     if (match.params.provider === "google") {
-      prov_google(code);
+      prov_google(code)
+      .then((res)=>{
+        console.log("google res",res)
+        access_google(res).then((res)=>{
+          send_user_google(res);
+        })
+      })
+      .catch((err)=>console.log(err));
     }
 
     // 요청이 성공하면 navigate('/main')
