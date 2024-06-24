@@ -34,7 +34,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/modal" element={<Modal />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/edit-profile" element={<UserProfileEdit />} />
-
         </Routes>
       </div>
     </BrowserRouter>

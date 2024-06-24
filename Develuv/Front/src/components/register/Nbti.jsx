@@ -40,7 +40,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
   }, [nbti]);
 
   const checkNbtiValidity = () => {
-    const allSelected = nbti.every((value) => value !== "");
+    const allSelected = nbti.length === 4;
     setIsValid(allSelected);
   };
 

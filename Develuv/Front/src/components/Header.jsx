@@ -87,7 +87,7 @@ function Header() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          position: "fixed",
+          position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
