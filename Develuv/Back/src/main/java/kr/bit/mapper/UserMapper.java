@@ -4,7 +4,6 @@ import kr.bit.dto.UserDto;
 import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
 import kr.bit.dto.UserLoginDTO;
-import kr.bit.model.User;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -12,6 +11,7 @@ public interface UserMapper {
 
     @Select("select user_id from users where user_email = #{user_email}")
     String findId(UserFindIdDTO userFindIdDTO);
+
     @Select("SELECT user_id, user_name, user_birth, user_gender, user_profile, user_job, user_address, user_nbti, user_pro_lang, user_drink, user_smoke, user_religion, user_edu FROM users WHERE user_id = #{user_id}")
     UserDto getUserById(@Param("user_id") String user_id);
 
@@ -27,8 +27,9 @@ public interface UserMapper {
     @Select("SELECT COUNT(*) > 0 FROM Users WHERE user_id = #{userId}")
     boolean existsById(@Param("userId") String userId);
 
-    @Select("select * from users where user_id=#{user_id} and user_pw=#{user_pw}")
-    UserLoginDTO login(@Param("user_id") String user_id, @Param("user_pw") String user_pw);
+    @Select("select * from users where user_id=#{user_id}")
+    UserLoginDTO login(@Param("user_id") String user_id);
+
 
     @Select("SELECT COUNT(*) > 0 FROM Users WHERE user_email = #{email}")
     boolean existsByEmail(@Param("email") String email);
@@ -44,6 +45,4 @@ public interface UserMapper {
 
     @Update("UPDATE users SET user_profile = #{user_profile} WHERE user_id = #{user_id}")
     void updateUserProfileImage(@Param("user_id") String userId, @Param("user_profile") String userProfile);
-
-
 }
