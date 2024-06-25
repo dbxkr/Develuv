@@ -20,16 +20,22 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
-    socket.join(data.room_id);
-    console.log(`${data.user_id}유저가 ${data.room_id}번 방에 입장했습니다`);
+    socket.join(data.roomId);
+    console.log(`${data.userId}유저가 ${data.roomId}번 방에 입장했습니다`);
+
+    // let noti = {
+    //   message: `${data.user_id} 유저가 방에 입장했습니다`,
+    //   author: "알림",
+    // };
     axios
       .post("http://localhost:8080/chat/join", {
-        room_id: data.room_id,
-        user_id: data.user_id,
+        room_id: data.roomId,
+        user_id: data.userId,
       })
       .then(function (response) {
         let allMessages = response.data;
         console.log("대화기록 로드 완료");
+        console.log(allMessages);
         socket.emit("receive_message", allMessages);
       })
       .catch(function (error) {

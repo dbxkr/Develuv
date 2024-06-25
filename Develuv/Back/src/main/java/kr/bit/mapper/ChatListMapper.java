@@ -1,11 +1,9 @@
 package kr.bit.mapper;
 
 import kr.bit.dto.ChatListDTO;
+import kr.bit.dto.ChatStatusDTO;
 import kr.bit.dto.UserDto;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public interface ChatListMapper {
             "WHERE cl.user_id = #{userId}")
     List<ChatListDTO> getChatListsByUserId(@Param("userId") String userId);
 
-    @Select("SELECT u.user_id AS user_id, u.user_name AS user_name " +
+    @Select("SELECT u.user_id AS user_id, u.user_name AS user_name, u.user_profile as user_profile " +
             "FROM chatlists cl " +
             "JOIN users u ON cl.user_id = u.user_id " +
             "WHERE cl.room_id = #{roomId}")
@@ -46,4 +44,29 @@ public interface ChatListMapper {
 
     @Insert("INSERT into chatlists (room_id, user_id) values (#{roomId}, #{userId})")
     void insertIntoChatlists(@Param("roomId") String roomId, @Param("userId") String userId);
+
+    @Select("select message_content, message_time " +
+            "from chatmessage " +
+            "where room_id = #{room_id} " +
+            "order by message_time desc limit 1")
+    ChatStatusDTO getRecentMsg(ChatStatusDTO dto);
+
+    @Select("select count(message_read) " +
+            "from chatmessage " +
+            "where room_id = #{room_id} and user_id not in (#{user_id}) and message_read = 0")
+    Integer getUnreadCnt(ChatStatusDTO dto);
+
+    @Update("update chatmessage " +
+            "set message_read = 1 " +
+            "where room_id = #{room_id} and user_id not in (#{user_id})")
+    void updateReadMessage(ChatStatusDTO chatStatusDTO);
+
+    @Delete("delete from chatlists where room_id = #{room_id}")
+    void exitChatlist(ChatStatusDTO chatStatusDTO);
+
+    @Delete("delete from chatmessage where room_id = #{room_id}")
+    void exitChatmessage(ChatStatusDTO chatStatusDTO);
+
+    @Delete("delete from chatroom where room_id = #{room_id}")
+    void exitChatroom(ChatStatusDTO chatStatusDTO);
 }

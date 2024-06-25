@@ -14,8 +14,13 @@ const MatchingItem = ({
       <div className={"matching_item_profile"}>
         <Link to={`/mypage/${user_id}`}>
           <img
-            src={reactimg}
-            style={{ width: "180px", height: "180px" }}
+            src={user_profile}
+            style={{
+              width: "180px",
+              height: "180px",
+              borderRadius: "15px",
+              border: "1px solid black",
+            }}
             alt="User Profile"
           />
         </Link>

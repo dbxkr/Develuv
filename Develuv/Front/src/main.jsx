@@ -16,12 +16,13 @@ import Matching from "./components/main/Matching.jsx";
 import Modal from "./components/main/Modal.jsx";
 import Mypage from "./components/mypage/Mypage.jsx";
 import UserQuiz from "./components/mypage/UserQuiz.jsx";
+import UserProfileEdit from "./components/userEdit/UserProfileEdit.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <BrowserRouter>
+      <Header />
       <div>
-        <Header />
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/callback/:provider" element={<LoginCallback />} />
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path={"/mypage/:user_id/quiz"} element={<UserQuiz/>}/>
           <Route path="/modal" element={<Modal />} />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/edit-profile" element={<UserProfileEdit />} />
         </Routes>
       </div>
     </BrowserRouter>

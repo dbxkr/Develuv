@@ -3,11 +3,18 @@ import { useRef, useState, useEffect } from "react";
 import Message from "./Message";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid"; // uuid 모듈 가져오기
+import axios from "axios";
 
-const socket = io.connect("http://175.209.41.173:4000");
 // const socket = io.connect("http://localhost:4000");
+const socket = io.connect("http://175.209.41.173:4000");
 
-function Chat({ myId, oppoId, roomId }) {
+const userAvatars = {
+  user1: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
+  user2: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+};
+
+function Chat({ myId, oppoId, roomId, oppoProfile }) {
+  const [isRoomDeleted, setIsRoomDeleted] = useState();
   const user_id = myId; // 테스트용 사용자 이름
   const room_id = roomId; // 테스트용 방 이름
 
@@ -51,11 +58,29 @@ function Chat({ myId, oppoId, roomId }) {
     }
   };
 
-  // 마우스 스크롤을 스무스하게 움직인다...
+  //메시지 입력하는 동안 받은 메시지의 읽음 처리
   useEffect(() => {
-    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("mgslist", messageList);
+    readMsg();
   }, [messageList]);
+
+  const readMsgURL = "http://localhost:8080/chatlists/room/readmessage";
+  const readMsg = async () => {
+    console.log("메시지 읽음 처리 !! ");
+    try {
+      const response = await axios.post(readMsgURL, {
+        room_id: roomId,
+        user_id: user_id,
+      });
+    } catch (error) {
+      console.error("오류 발생:", error);
+      // 오류 처리
+    }
+  };
+
+  // useEffect(() => {
+  //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  //   console.log("mgslist", messageList);
+  // }, [messageList]);
 
   useEffect(() => {
     if (user_id !== "" && room_id !== "") {
@@ -64,8 +89,10 @@ function Chat({ myId, oppoId, roomId }) {
       console.log("소켓연결실패");
     }
   }, []);
+
   useEffect(() => {
     const receiveMessageHandler = (data) => {
+      console.log("받은채팅", data);
       console.log("받음ㅇㅇ", Array.isArray(data));
 
       if (Array.isArray(data)) {
@@ -82,17 +109,35 @@ function Chat({ myId, oppoId, roomId }) {
   const otherUser = oppoId;
   // messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
 
+  // 방 나가기 (디비에서 삭제)
+  const removeUrl = "http://localhost:8080/chatlists/exit";
+  function removeRoom() {
+    if (window.confirm("해당 대화방을 나가고 대화기록을 삭제하시겠습니까?")) {
+      axios.post(removeUrl, { room_id: roomId });
+      console.log(`${roomId} 번 방 삭제 완료`);
+      window.location.reload();
+    }
+  }
+
   return (
-    <PageContainer style={{ width: "50%" }}>
+    <PageContainer>
       <RoomContainer>
         <RoomHeader>
-          <RoomTitle>{otherUser}</RoomTitle>
+          <RoomTitle>
+            {otherUser} <button onClick={removeRoom}> X </button>
+          </RoomTitle>
         </RoomHeader>
         <RoomBody>
           <MessageBox>
             {messageList &&
               messageList.map((el) => (
-                <Message oneMessage={el} user_id={user_id} key={uuidv4()} />
+                <Message
+                  oneMessage={el}
+                  user_id={user_id}
+                  key={uuidv4()}
+                  oppoProfile={oppoProfile}
+                  oppoId={oppoId}
+                />
               ))}
             <div ref={messageBottomRef} />
           </MessageBox>
@@ -104,10 +149,10 @@ function Chat({ myId, oppoId, roomId }) {
             placeholder="메세지를 입력해주세요"
             onKeyPress={(event) => {
               event.key === "Enter" && sendMessage();
+              // window.scrollTo(0, 0);
             }}
           />
           <ChatButton onClick={sendMessage}>▹</ChatButton>
-          <ChatButton onClick={joinRoom}>?</ChatButton>
         </ChatInputBox>
       </RoomContainer>
     </PageContainer>
@@ -117,22 +162,20 @@ function Chat({ myId, oppoId, roomId }) {
 export default Chat;
 
 const PageContainer = styled.div`
-  background-color: #eeefee; /* 웹페이지 전체 배경색 */
-  width: 100%;
-  height: 100vh;
+  background-color: #f7f7f7; /* 웹페이지 전체 배경색 */
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
 `;
 
 const RoomContainer = styled.div`
-  width: 500px; /* 채팅방 너비 */
-  height: 300px; /* 채팅방 높이 */
-  background-color: #ffffff; /* 채팅방 내 배경색 */
-  border-radius: 6px;
+  width: 450px; /* 채팅방 너비 */
+  max-height: 900px; /* 채팅방 높이 */
+  min-height: 450px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const RoomHeader = styled.div`
@@ -159,6 +202,7 @@ const RoomBody = styled.div`
   background: #ffffff;
   position: relative;
   overflow-y: auto;
+  max-height: 70vh;
 `;
 
 const MessageBox = styled.div`
@@ -173,13 +217,15 @@ const ChatInputBox = styled.div`
   height: 50px;
   border-top: 1px solid #eeefee;
   display: flex;
+  align-items: center; /* 내부 요소들을 세로 가운데 정렬 */
   border-radius: 0 0 6px 6px;
   background-color: #ffffff;
+  position: relative;
+  padding: 0 10px; /* 좌우 padding 추가 */
 `;
 
 const ChatInput = styled.input`
-  height: 100%;
-  flex: 85%;
+  flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
   border: 0;
   padding: 0 0.7em;
   font-size: 1em;
@@ -193,14 +239,17 @@ const ChatButton = styled.button`
   display: grid;
   place-items: center;
   cursor: pointer;
-  flex: 15%;
   height: 100%;
+  padding: 0 10px; /* 좌우 padding 추가 */
   background: transparent;
   outline: none;
-  font-size: 25px;
+  font-size: 20px;
   transition: all 0.5s;
   color: lightgray;
   opacity: 0.5;
+  position: absolute;
+  top: -40%;
+  right: 2%;
   &:hover {
     background: #3d4a79;
     transition: all 0.5s;

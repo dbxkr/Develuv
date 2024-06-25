@@ -1,6 +1,7 @@
 package kr.bit.service;
 
 import kr.bit.dto.ChatListDTO;
+import kr.bit.dto.ChatStatusDTO;
 import kr.bit.dto.UserDto;
 import kr.bit.mapper.ChatListMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,30 @@ public class ChatListService {
 
     public void joinExistingChatRoom(String roomId, String myId) {
         chatListMapper.insertIntoChatlists(roomId,myId);
+    }
+
+    public ChatStatusDTO getChatStatus(ChatStatusDTO chatStatusDTO) {
+        ChatStatusDTO dto = chatListMapper.getRecentMsg(chatStatusDTO);
+        int unreadCnt = chatListMapper.getUnreadCnt(chatStatusDTO);
+
+        if(dto == null) {
+            chatStatusDTO.setUnreadCnt(unreadCnt);
+            return chatStatusDTO;
+        } else {
+            chatStatusDTO.setMessage_content(dto.getMessage_content());
+            chatStatusDTO.setMessage_time(dto.getMessage_time());
+            chatStatusDTO.setUnreadCnt(unreadCnt);
+            return chatStatusDTO;
+        }
+    }
+
+    public void updateReadMessage(ChatStatusDTO chatStatusDTO) {
+        chatListMapper.updateReadMessage(chatStatusDTO);
+    }
+
+    public void exitRoom(ChatStatusDTO chatStatusDTO) {
+        chatListMapper.exitChatlist(chatStatusDTO);
+        chatListMapper.exitChatmessage(chatStatusDTO);
+        chatListMapper.exitChatroom(chatStatusDTO);
     }
 }

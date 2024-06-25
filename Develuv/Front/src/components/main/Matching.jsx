@@ -1,5 +1,4 @@
 import MatchingList from "./MatchingList.jsx";
-import HeadBar from "../Navigate/HeadBar.jsx";
 import { useEffect, useRef, useState } from "react";
 import Left from "./Left.jsx";
 
