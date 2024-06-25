@@ -180,4 +180,7 @@ public class UserService {
     public UserDto findUserById(String user_id) {
         return userMapper.findUserById(user_id);
     }
+    public UserDto findOtherUserById(String user_id, String my_id) {
+        return userMapper.findOtherUserById(user_id, my_id);
+    }
 }

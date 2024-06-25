@@ -12,13 +12,16 @@
 
 .profile-picture {
   margin-top: 100px;
-
+  display: flex;
+  align-items: center;
+  width: 310px;
+  height: 420px;
   margin-right: 50px; /* 프로필 사진과 정보 섹션 사이의 간격 조정 */
 }
 
 .profile-picture img {
-  width: 310px;
-  height: 420px;
+  width: 100%;
+  height: auto;
   object-fit: cover;
   border-radius: 15px;
   margin-top: 40px;

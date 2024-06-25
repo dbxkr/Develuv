@@ -29,7 +29,7 @@ const SignupStep2 = ({
   }, [formData, fieldTouched]);
 
   if (state && state.user != null) {
-    console.log(state);
+    console.log("state", state);
     setUserIdAvailable(true);
     formData.user_provider_id = state.provider;
     formData.user_id = state.user.id;
@@ -41,6 +41,11 @@ const SignupStep2 = ({
       formData.user_name = state.user.name;
       formData.user_birth = state.user.birthyear + "-" + state.user.birthday;
       formData.user_phone = state.user.mobile;
+    }
+    if (state.provider === "google") {
+      formData.user_name = state.user.name;
+      formData.user_email = state.user.email;
+      formData.user_profile = state.user.profile;
     }
   }
   useEffect(() => {
@@ -317,9 +322,15 @@ const SignupStep2 = ({
             onFocus={handleFocus}
             onBlur={handleBlur}
             className="with-button-input"
-            readOnly={state && state.provider === "naver" ? true : false}
+            readOnly={
+              state &&
+              (state.provider === "naver" || state.provider === "google")
+                ? true
+                : false
+            }
             style={
-              state && state.provider === "naver"
+              state &&
+              (state.provider === "naver" || state.provider === "google")
                 ? { backgroundColor: "lightgray" }
                 : null
             }
@@ -328,7 +339,8 @@ const SignupStep2 = ({
             type="button"
             className="check-button"
             onClick={
-              state && state.provider === "naver"
+              state &&
+              (state.provider === "naver" || state.provider === "google")
                 ? null
                 : handleSendVerificationCode
             }
@@ -376,9 +388,15 @@ const SignupStep2 = ({
             name="user_name"
             placeholder="이름"
             value={formData.user_name}
-            readOnly={state && state.provider === "naver" ? true : false}
+            readOnly={
+              state &&
+              (state.provider === "naver" || state.provider === "google")
+                ? true
+                : false
+            }
             style={
-              state && state.provider === "naver"
+              state &&
+              (state.provider === "naver" || state.provider === "google")
                 ? { backgroundColor: "lightgray" }
                 : null
             }

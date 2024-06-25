@@ -11,6 +11,7 @@ function Regi3Form({
   imgPreview,
   setImgPreview,
   setImage,
+  state,
 }) {
   const navigate = useNavigate();
 
@@ -53,7 +54,13 @@ function Regi3Form({
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <div className={"tt"}>Essential Information</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -114,10 +121,23 @@ function Regi3Form({
         placeholder={"주소 입력"}
       />
 
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {imgPreview && (
           <img
             src={imgPreview}
+            alt="Preview"
+            style={{ width: "300px", height: "auto" }}
+          />
+        )}
+        {formData.user_profile.includes("googleusercontent") && (
+          <img
+            src={formData.user_profile}
             alt="Preview"
             style={{ width: "300px", height: "auto" }}
           />

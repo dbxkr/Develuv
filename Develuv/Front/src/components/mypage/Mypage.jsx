@@ -23,14 +23,17 @@ const Mypage = () => {
   const navigate = useNavigate();
   const isMyPage = user.user_id === params.user_id;
   const springUrl = "http://localhost:8080";
+  const blurLevel = [50, 70, 90, 140, 4000];
 
   useEffect(() => {
     if (isMyPage) {
-      setBlur(0); // 자신의 마이페이지일 때 블러 초기화
+      setBlur(4); // 자신의 마이페이지일 때 블러 초기화
       setUserInfo({ ...user });
     } else {
       axios
-        .post(`${springUrl}/user/info?user_id=${params.user_id}`)
+        .post(
+          `${springUrl}/user/otherInfo?user_id=${params.user_id}&my_id=${user.user_id}`
+        )
         .then((response) => {
           console.log("response", response);
           setUserInfo(response.data);
@@ -42,7 +45,7 @@ const Mypage = () => {
           setGithub(localStorage.getItem(`github_${params.user_id}`) || "");
           setQuiz(localStorage.getItem(`quiz_${params.user_id}`) || "");
           setMemo(localStorage.getItem(`memo_${params.user_id}`) || "");
-          setBlur(10); // 다른 사용자의 마이페이지일 때 블러 적용
+          setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
@@ -117,9 +120,14 @@ const Mypage = () => {
       <div className="profile-section">
         <div className="profile-picture">
           <img
-            src={userInfo.user_profile}
+            src={
+              userInfo.user_profile + blurLevel[blur + 0] + "&blur=AW2$zxORd"
+            }
             alt="Profile"
-            style={{ filter: `blur(${blur}px)` }}
+            // style={{ filter: `blur(${blur}px)` }}
+            onContextMenu={(event) => {
+              event.preventDefault();
+            }}
           />
         </div>
         {!isMyPage && (

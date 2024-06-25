@@ -34,6 +34,13 @@ public interface UserMapper {
     @Select("SELECT * from users where user_id=#{user_id}")
     UserDto findUserById(@Param("user_id") String user_id);
 
+    @Select("SELECT * " +
+            "from users " +
+            "left join (select oppo_id, blur, quiz from opponent where user_id = #{my_id}) o " +
+            "on o.oppo_id = user_id " +
+            "where user_id=#{user_id}")
+    UserDto findOtherUserById(@Param("user_id") String user_id, @Param("my_id") String my_id);
+
     @Select("select user_name from users where user_id=#{user_id}")
     String findUserNameById(@Param("user_id") String user_id);
 
