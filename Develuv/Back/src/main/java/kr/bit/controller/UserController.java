@@ -2,6 +2,7 @@ package kr.bit.controller;
 
 import kr.bit.dto.UserFindIdDTO;
 import kr.bit.dto.UserFindPwDTO;
+import kr.bit.dto.UserLoginDTO;
 import kr.bit.dto.social.GoogleLoginDTO;
 import kr.bit.dto.social.KakaoLoginDTO;
 import kr.bit.dto.social.NaverLoginDTO;
@@ -28,7 +29,6 @@ public class UserController {
         Map<String, String> data = new HashMap<>();
         String id = userService.findId(userFindIdDTO);
         data.put("아이디", id);
-
         return data;
     }
 
@@ -58,14 +58,18 @@ public class UserController {
         Map<String, String> data = new HashMap<>();
         String pw = userService.findPw(userFindPwDTO);
         data.put("비번", pw);
-
         return data;
     }
 
     @GetMapping("/login")
-    public Map<String, Object> longin(@RequestParam String user_id, @RequestParam String user_pw) {
+    public Map<String, Object> login(@RequestParam String user_id, @RequestParam String user_pw) {
         Map<String, Object> data = new HashMap<>();
-        data.put("user_info", userService.login(user_id, user_pw));
+        UserLoginDTO userLoginDTO = userService.login(user_id, user_pw);
+        if (userLoginDTO == null) {
+            data.put("user_info", null);
+        } else {
+            data.put("user_info", userLoginDTO);
+        }
         return data;
     }
 
@@ -87,10 +91,10 @@ public class UserController {
     }
 
     @PostMapping("/sns/google")
-    public Map<String,Object> snsGoogle(@RequestBody GoogleLoginDTO googleLoginDTO) {
+    public Map<String, Object> snsGoogle(@RequestBody GoogleLoginDTO googleLoginDTO) {
         googleLoginDTO.setMember(userService.findById(googleLoginDTO.getId()));
         Map<String, Object> data = new HashMap<>();
-        data.put("google",googleLoginDTO);
+        data.put("google", googleLoginDTO);
         return data;
     }
 

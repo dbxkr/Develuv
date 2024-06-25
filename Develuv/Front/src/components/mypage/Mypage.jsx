@@ -90,23 +90,47 @@ const Mypage = () => {
   };
 
   const handleInstagramChange = (e) => {
-    setInstagram(e.target.value);
-    localStorage.setItem(`instagram_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setInstagram(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { instagram: newValue })
+      .catch((error) => {
+        console.error("Error updating Instagram:", error);
+      });
   };
 
   const handleGithubChange = (e) => {
-    setGithub(e.target.value);
-    localStorage.setItem(`github_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setGithub(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { github: newValue })
+      .catch((error) => {
+        console.error("Error updating GitHub:", error);
+      });
   };
 
   const handleQuizChange = (e) => {
-    setQuiz(e.target.value);
-    localStorage.setItem(`quiz_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setQuiz(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { quiz: newValue })
+      .catch((error) => {
+        console.error("Error updating Quiz:", error);
+      });
   };
 
   const handleMemoChange = (e) => {
-    setMemo(e.target.value);
-    localStorage.setItem(`memo_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setMemo(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { memo: newValue })
+      .catch((error) => {
+        console.error("Error updating Memo:", error);
+      });
   };
 
   if (!userInfo) {
@@ -200,7 +224,7 @@ const Mypage = () => {
                 onChange={handleMemoChange}
               />
             ) : (
-              <span>{memo}</span>
+              <span>{userInfo.memo}</span>
             )}
           </div>
         </div>
@@ -232,7 +256,7 @@ const Mypage = () => {
                 onChange={handleInstagramChange}
               />
             ) : (
-              <span>{instagram}</span>
+              <span>{userInfo.instagram}</span>
             )}
           </div>
           <div className="social-row">
@@ -245,7 +269,7 @@ const Mypage = () => {
                 onChange={handleGithubChange}
               />
             ) : (
-              <span>{github}</span>
+              <span>{userInfo.github}</span>
             )}
           </div>
           <div className="social-row">

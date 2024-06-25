@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
+import { useNavigate } from "react-router-dom";
 
 const SignupStep2 = ({
   setProgress,
@@ -27,7 +28,6 @@ const SignupStep2 = ({
       validatePasswordConfirm(formData.user_pw, formData.user_pw_confirm);
     if (fieldTouched.user_email) validateEmail(formData.user_email);
   }, [formData, fieldTouched]);
-
   if (state && state.user != null) {
     console.log("state", state);
     setUserIdAvailable(true);
@@ -48,9 +48,24 @@ const SignupStep2 = ({
       formData.user_profile = state.user.profile;
     }
   }
+
   useEffect(() => {
-    console.log(state);
-  }, []);
+    if (state && state.user != null) {
+      console.log(state);
+      setUserIdAvailable(true);
+      formData.user_provider_id = state.provider;
+      formData.user_id = state.user.id;
+      formData.user_pw = state.provider;
+      formData.user_pw_confirm = state.provider;
+      if (state.provider === "naver") {
+        formData.user_email = state.user.email;
+        formData.verification_code = state.user.provider;
+        formData.user_name = state.user.name;
+        formData.user_birth = state.user.birthyear + "-" + state.user.birthday;
+        formData.user_phone = state.user.mobile;
+      }
+    }
+  }, [state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -136,25 +151,20 @@ const SignupStep2 = ({
   const handleSendVerificationCode = async () => {
     if (!formErrors.user_email) {
       try {
-        const response = await axios
-          .post(
-            `http://localhost:8080/user/sendVerificationCode?email=${formData.user_email}`
-          )
-          .then((res) => {
-            console.log(res);
-            if (
-              res.data.msg === "이미 가입된 이메일입니다." ||
-              res.data.msg ===
-                "메일 전송에 실패했습니다. 주소를 다시 확인해주세요."
-            ) {
-              setShowVerificationField(false); // 이미 가입된 이메일일 경우 필드 숨김
-            } else {
-              setShowVerificationField(true); // 인증 번호 입력 필드 표시
-            }
-            alert(res.data.msg); // 서버에서 보낸 메시지 알림
-          });
-
-        // console.log(response.data) // 응답 데이터를 로그로 출력
+        const response = await axios.post(
+          `http://localhost:8080/user/sendVerificationCode?email=${formData.user_email}`
+        );
+        console.log(response);
+        if (
+          response.data.msg === "이미 가입된 이메일입니다." ||
+          response.data.msg ===
+            "메일 전송에 실패했습니다. 주소를 다시 확인해주세요."
+        ) {
+          setShowVerificationField(false); // 이미 가입된 이메일일 경우 필드 숨김
+        } else {
+          setShowVerificationField(true); // 인증 번호 입력 필드 표시
+        }
+        alert(response.data.msg); // 서버에서 보낸 메시지 알림
       } catch (error) {
         console.error("Error sending verification code:", error);
       }
@@ -176,6 +186,11 @@ const SignupStep2 = ({
     }
   };
 
+  // const hashPassword = async (password) => {
+  //   const salt = await bcrypt.genSalt(10)
+  //   return await bcrypt.hash(password, salt)
+  // }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -185,7 +200,6 @@ const SignupStep2 = ({
       "user_pw",
       "user_pw_confirm",
       "user_email",
-      // "verification_code",
       "user_name",
       "user_birth",
       "user_phone",
@@ -225,18 +239,22 @@ const SignupStep2 = ({
       alert("입력한 필드에 오류가 있습니다. 다시 확인해주세요.");
       return;
     }
+    // 비밀번호 해싱
+    // const hashedPassword = await hashPassword(formData.user_pw)
+    console.log("Original Password: ", formData.user_pw); // 원래 비밀번호 출력
+    // console.log('Hashed Password: ', hashedPassword) // 해싱된 비밀번호 출력
+
+    try {
+      const response = await axios.post("http://localhost:8080/user/signup", {
+        ...formData,
+      });
+      alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
+    } catch (error) {
+      console.error("Error signing up:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
 
     setProgress(3);
-    // try {
-    // const response = await axios.post(
-    //   "http://localhost:8080/user/signup",
-    //   formData
-    // );
-    // alert(response.data); // 서버에서 반환된 메시지를 알림으로 표시
-    // } catch (error) {
-    //   console.error("Error signing up:", error);
-    //   alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
-    // }
   };
 
   return (
