@@ -2,7 +2,9 @@ import MatchingItem from './MatchingItem.jsx'
 import { useEffect, useRef, useState } from 'react'
 import './MatchingItem.css'
 import axios from 'axios'
-
+//매칭 항목 리스트 표시
+//선택된 매칭 타입에 따라 매칭 리스트 필터링
+//매칭 리스트 가져오는 역할
 const MatchingList = ({
   matchList,
   matchType,

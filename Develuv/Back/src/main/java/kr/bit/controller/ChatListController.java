@@ -1,6 +1,8 @@
 package kr.bit.controller;
 
+import kr.bit.dto.ChatDTO;
 import kr.bit.dto.ChatListDTO;
+import kr.bit.dto.ChatStatusDTO;
 import kr.bit.dto.UserDto;
 import kr.bit.service.ChatListService;
 import kr.bit.service.UserService;
@@ -40,6 +42,20 @@ public class ChatListController {
         return chatListService.getUsersByRoomId(roomId);
     }
 
+    @GetMapping("/room/chatstatus")
+    public ChatStatusDTO getChatStatus(@RequestParam String room_id, @RequestParam String user_id) {
+        ChatStatusDTO chatStatusDTO = new ChatStatusDTO();
+        chatStatusDTO.setRoom_id(room_id);
+        chatStatusDTO.setUser_id(user_id);
+        return chatListService.getChatStatus(chatStatusDTO);
+    }
+
+    @PostMapping("/room/readmessage")
+    public void updateReadMessage(@RequestBody ChatStatusDTO chatStatusDTO) {
+        System.out.println("정보 잘 받아옴?"+ chatStatusDTO);
+        chatListService.updateReadMessage(chatStatusDTO);
+    }
+
     @GetMapping("/start")
     public Map<String, Object> start(@RequestParam String myId, @RequestParam String oppoId) {
         Map<String, Object> data = new HashMap<>();
@@ -65,5 +81,10 @@ public class ChatListController {
         data.put("oppoId", oppoId);
         data.put("roomId", roomId);
         return data;
+    }
+
+    @PostMapping("/exit")
+    public void exit(@RequestBody ChatStatusDTO chatStatusDTO) {
+        chatListService.exitRoom(chatStatusDTO);
     }
 }

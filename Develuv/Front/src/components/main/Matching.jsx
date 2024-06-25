@@ -12,7 +12,7 @@ const Matching = () => {
 
   return (
     <div className={"Matching"}>
-      <HeadBar user_id={user_id} />
+      {/* <HeadBar user_id={user_id} /> */}
       <Left
         userId={user_id}
         setMatchType={setMatchType}

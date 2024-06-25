@@ -3,16 +3,18 @@ import { useRef, useState, useEffect } from "react";
 import Message from "./Message";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid"; // uuid 모듈 가져오기
+import axios from "axios";
 
-<<<<<<< HEAD
-const socket = io.connect("http://175.209.41.173:4000");
-// const socket = io.connect("http://localhost:4000");
-=======
 // const socket = io.connect("http://localhost:4000");
 const socket = io.connect("http://175.209.41.173:4000");
->>>>>>> 56b0fe6f45ae8cc0552d52e9313b719f842a1db7
 
-function Chat({ myId, oppoId, roomId, oppoName }) {
+const userAvatars = {
+  user1: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
+  user2: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+};
+
+function Chat({ myId, oppoId, roomId, oppoProfile }) {
+  const [isRoomDeleted, setIsRoomDeleted] = useState();
   const user_id = myId; // 테스트용 사용자 이름
   const room_id = roomId; // 테스트용 방 이름
 
@@ -56,10 +58,29 @@ function Chat({ myId, oppoId, roomId, oppoName }) {
     }
   };
 
+  //메시지 입력하는 동안 받은 메시지의 읽음 처리
   useEffect(() => {
-    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("mgslist", messageList);
+    readMsg();
   }, [messageList]);
+
+  const readMsgURL = "http://localhost:8080/chatlists/room/readmessage";
+  const readMsg = async () => {
+    console.log("메시지 읽음 처리 !! ");
+    try {
+      const response = await axios.post(readMsgURL, {
+        room_id: roomId,
+        user_id: user_id,
+      });
+    } catch (error) {
+      console.error("오류 발생:", error);
+      // 오류 처리
+    }
+  };
+
+  // useEffect(() => {
+  //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  //   console.log("mgslist", messageList);
+  // }, [messageList]);
 
   useEffect(() => {
     if (user_id !== "" && room_id !== "") {
@@ -68,8 +89,10 @@ function Chat({ myId, oppoId, roomId, oppoName }) {
       console.log("소켓연결실패");
     }
   }, []);
+
   useEffect(() => {
     const receiveMessageHandler = (data) => {
+      console.log("받은채팅", data);
       console.log("받음ㅇㅇ", Array.isArray(data));
 
       if (Array.isArray(data)) {
@@ -86,17 +109,35 @@ function Chat({ myId, oppoId, roomId, oppoName }) {
   const otherUser = oppoId;
   // messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
 
+  // 방 나가기 (디비에서 삭제)
+  const removeUrl = "http://localhost:8080/chatlists/exit";
+  function removeRoom() {
+    if (window.confirm("해당 대화방을 나가고 대화기록을 삭제하시겠습니까?")) {
+      axios.post(removeUrl, { room_id: roomId });
+      console.log(`${roomId} 번 방 삭제 완료`);
+      window.location.reload();
+    }
+  }
+
   return (
     <PageContainer>
       <RoomContainer>
         <RoomHeader>
-          <RoomTitle>{oppoName}</RoomTitle>
+          <RoomTitle>
+            {otherUser} <button onClick={removeRoom}> X </button>
+          </RoomTitle>
         </RoomHeader>
         <RoomBody>
           <MessageBox>
             {messageList &&
               messageList.map((el) => (
-                <Message oneMessage={el} user_id={user_id} key={uuidv4()} />
+                <Message
+                  oneMessage={el}
+                  user_id={user_id}
+                  key={uuidv4()}
+                  oppoProfile={oppoProfile}
+                  oppoId={oppoId}
+                />
               ))}
             <div ref={messageBottomRef} />
           </MessageBox>
@@ -108,7 +149,7 @@ function Chat({ myId, oppoId, roomId, oppoName }) {
             placeholder="메세지를 입력해주세요"
             onKeyPress={(event) => {
               event.key === "Enter" && sendMessage();
-              window.scrollTo(0, 0);
+              // window.scrollTo(0, 0);
             }}
           />
           <ChatButton onClick={sendMessage}>▹</ChatButton>
@@ -126,7 +167,6 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 8%;
 `;
 
 const RoomContainer = styled.div`
@@ -162,6 +202,7 @@ const RoomBody = styled.div`
   background: #ffffff;
   position: relative;
   overflow-y: auto;
+  max-height: 70vh;
 `;
 
 const MessageBox = styled.div`

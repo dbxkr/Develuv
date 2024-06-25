@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Message = ({ oneMessage, user_id }) => {
+const Message = ({ oneMessage, user_id, oppoProfile, oppoId }) => {
   const [who, setWho] = useState("me");
   console.log("el : ", oneMessage[0]);
-
   useEffect(() => {
     setWho(user_id === oneMessage.user_id ? "me" : "other");
   }, [user_id, oneMessage.user_id]);
 
   return (
     <MessageContainer who={who}>
-      {who === "other" && <Avatar src={oneMessage.avatar} />}
+      {who === "other" && <Avatar src={oppoProfile} />}
+      {/* <MessageRead>{oneMessage.message_read ? null : 1}</MessageRead> */}
       <MessageWrapper who={who}>
-        {who === "other" && <Author who={who}>{oneMessage.user_id}</Author>}
+        {who === "other" && <Author who={who}>{oppoId}</Author>}
         <MessageBody who={who}>
           <MessageText>{oneMessage.message_content}</MessageText>
         </MessageBody>
@@ -50,6 +50,10 @@ const MessageBody = styled.div`
 `;
 
 const MessageText = styled.p`
+  margin: 0;
+`;
+
+const MessageRead = styled.p`
   margin: 0;
 `;
 

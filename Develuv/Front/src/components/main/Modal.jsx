@@ -8,7 +8,7 @@ import {
   recommendUserByFame,
 } from './api'
 import icon from '../../assets/money.png'
-
+//결제 확인 nbti 선택 상위 유저 리스트 설정 기능 처리
 const Modal = ({
   type,
   closeModal,
