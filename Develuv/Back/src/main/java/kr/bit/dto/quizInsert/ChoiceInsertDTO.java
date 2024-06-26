@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ChoiceInsertDTO {
+    private int q_id;
     private int c_num;
     private String content;
 }

@@ -153,7 +153,7 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
       <div className={"choice_div"}>
         {choices.map((choice, index) => (
           <div key={choice.c_num} className={"choice_input_div"}>
-            <button type={"button"} onClick={() => onClickAnswer(choice.c_num)}> ㅇ</button>
+            <button className={"choice_btn"} type={"button"} onClick={() => onClickAnswer(choice.c_num)}> ㅇ</button>
             <textarea
               ref={el => textareaRefs.current[index] = el}
               className={"choice_input"}

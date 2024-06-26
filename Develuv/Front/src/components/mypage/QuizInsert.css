@@ -76,10 +76,11 @@
     border: none;
     resize: none;
     margin: 0 10px 0 0;
-    min-width: 95%;
+    min-width: 90%;
     height: auto;
     overflow: hidden;
     font-size: 15px;
+    align-items: center;
 }
 
 .choice_input{
