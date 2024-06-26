@@ -7,24 +7,27 @@ const QuizInsert = ({user_id}) => {
   const [qForm, setQForm] = useState(
     Array(5).fill({
         quiz:'',
-        answer:1,
+        answer:0,
         choices:[{c_num:1,content:''}]
     }));
   const [qInPage,setQInPage] = useState(1);
 
-
+  // QuizInsert에서의 formData 업데이트
   function updateQForm(page,qsForm) {
+    console.log("quiz formData 업데이트",qForm);
     setQForm(prevState => {
       const newState = [...prevState];
       newState[page-1] = {user_id,...qsForm};
       return newState;
     });
-    console.log(qForm);
-    console.log(qForm[page-1]);
+    const returnState = [...qForm];
+    returnState[page-1] = {user_id, ...qsForm};
+    console.log("새로운 스테이트 출력~~",returnState);
+    return returnState;
   }
 
   return (
-
+    // 각 질문 페이지 Item들 출력
     <div className={"QuizInsert"}>
       {qInPage==1 && <QuizInsertItem page={qInPage}
                                      qnum={1}
