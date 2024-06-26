@@ -78,10 +78,10 @@ const LoginCallback = (props) => {
             navigate("/");
           }
         } else {
-          localStorage.setItem(
-            "kakao.access_token",
-            JSON.stringify(access_token)
-          );
+          // localStorage.setItem(
+          //   "kakao.access_token",
+          //   JSON.stringify(access_token)
+          // );
           login(res.data.kakao.id, res.data.kakao.nickname);
           navigate("/");
         }
@@ -129,6 +129,9 @@ const LoginCallback = (props) => {
     const data = {
       id: user.data.id,
       access_token: access_token,
+      name: user.data.family_name + " " + user.data.given_name,
+      email: user.data.email,
+      profile: user.data.picture,
     };
     axios
       .post(serverUrl + "/google", data)
@@ -151,10 +154,10 @@ const LoginCallback = (props) => {
             navigate("/");
           }
         } else {
-          localStorage.setItem(
-            "google.access_token",
-            JSON.stringify(access_token)
-          );
+          // localStorage.setItem(
+          //   "google.access_token",
+          //   JSON.stringify(access_token)
+          // );
           login(res.data.google.id, "name");
           navigate("/");
         }

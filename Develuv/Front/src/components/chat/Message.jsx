@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Message = ({ oneMessage, user_id, oppoProfile, oppoId }) => {
+const Message = ({ oneMessage, user_id, oppoProfile, oppoId, blur }) => {
   const [who, setWho] = useState("me");
-  console.log("el : ", oneMessage[0]);
+  // console.log("el : ", oneMessage[0]);
   useEffect(() => {
     setWho(user_id === oneMessage.user_id ? "me" : "other");
   }, [user_id, oneMessage.user_id]);
+  const blurLevel = [50, 70, 90, 140, 4000];
 
   return (
     <MessageContainer who={who}>
-      {who === "other" && <Avatar src={oppoProfile} />}
+      {who === "other" && (
+        <Avatar
+          src={oppoProfile + blurLevel[blur] + "&blur=QU2/^23ZzX"}
+          onContextMenu={(event) => {
+            event.preventDefault();
+          }}
+        />
+      )}
       {/* <MessageRead>{oneMessage.message_read ? null : 1}</MessageRead> */}
       <MessageWrapper who={who}>
         {who === "other" && <Author who={who}>{oppoId}</Author>}
