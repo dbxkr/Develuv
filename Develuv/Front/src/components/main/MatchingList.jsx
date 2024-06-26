@@ -2,6 +2,7 @@ import MatchingItem from './MatchingItem.jsx'
 import { useEffect, useRef, useState } from 'react'
 import './MatchingItem.css'
 import axios from 'axios'
+
 //매칭 항목 리스트 표시
 //선택된 매칭 타입에 따라 매칭 리스트 필터링
 //매칭 리스트 가져오는 역할
@@ -30,7 +31,7 @@ const MatchingList = ({
         },
       })
       .then((response) => {
-        address.current = response.data
+        address.current = response.data.returnAddress
         console.log(address.current)
         getMatchList()
       })
@@ -54,6 +55,7 @@ const MatchingList = ({
         .then((response) => {
           setMatchList(response.data)
           console.log(matchList)
+          testGeopoint(address.current);
         })
         .catch((error) => {
           console.error('Error getList normal => ', error)
@@ -110,6 +112,24 @@ const MatchingList = ({
         })
     }
   }
+
+  function testGeopoint(user_address) {
+    console.log("axios 호출전");
+    const formdata = new FormData();
+    let inaddress = "서울강남구도산대로118";
+
+    formdata.append("saddress", inaddress);
+    axios
+      .get(`http://localhost:8080/matching/geopoint?saddress=${user_address}`)
+      .then((response) => {
+        console.log("거리값 : " + response.data+"m");
+      })
+      .catch((error) => {
+        console.log("error get geopoint => ", error);
+      });
+  }
+
+  const {formData, setFormData} = useState();
 
   return (
     <div className={'MatchingList'}>
