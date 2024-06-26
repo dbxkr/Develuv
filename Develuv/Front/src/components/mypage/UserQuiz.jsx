@@ -16,7 +16,7 @@ const UserQuiz = () => {
 
   return (
     <div className={"UserQuiz"}>
-      {(idVal===page_id?<QuizInsert/>:<QuizInsert/>)}
+      {(idVal===page_id?<QuizInsert user_id={idVal}/>:<QuizInsert/>)}
     </div>
   )
 }
