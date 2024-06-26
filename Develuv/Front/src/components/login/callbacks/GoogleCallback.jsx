@@ -29,7 +29,7 @@ function GoogleCallback() {
 
           // Use the access token to fetch user information from Google API
           const userInfoResponse = await axios.get(
-            "https://www.googleapis.com/oauth2/v2/userinfo",
+            'https://www.googleapis.com/oauth2/v2/userinfo',
             {
               headers: {
                 Authorization: `Bearer ${tokenResponse.data.access_token}`,
@@ -45,7 +45,7 @@ function GoogleCallback() {
       } catch (error) {
         console.error("Error fetching Google token:", error);
       }
-    };
+    }
 
     handleGoogleCallback();
   }, [history]);
@@ -55,7 +55,7 @@ function GoogleCallback() {
       <h2>Google Login Callback</h2>
       <p>Processing your login...</p>
     </div>
-  );
+  )
 }
 
-export default GoogleCallback;
+export default GoogleCallback

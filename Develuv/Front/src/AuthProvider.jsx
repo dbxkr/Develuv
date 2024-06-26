@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       .post(`http://localhost:8080/user/info?user_id=${id}`)
       .then((response) => {
         console.log("response", response);
-        setUser(response.data);
+        setUser({ ...response.data });
         setIsLoggedIn(true);
         // setUser({ id, name });
         localStorage.setItem("user", JSON.stringify({ id, name }));
@@ -44,15 +44,17 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) {
       const { id, name } = JSON.parse(storedUser);
       login(id, name);
+    } else {
+      setUser({ user_id: "" });
     }
   }, []);
 
   useEffect(() => {
-    if (user && isLoggedIn) {
-      console.log(user);
+    if (user) {
+      console.log("user", user);
       setLoading(false); // 로딩 완료
     }
-  }, [user, isLoggedIn]);
+  }, [user]);
 
   // 로딩 중이면 아무것도 렌더링하지 않음
   if (loading) {

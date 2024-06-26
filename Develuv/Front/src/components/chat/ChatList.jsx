@@ -24,12 +24,14 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 function ChatList() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null); // 선택된 채팅방 상태
   const [participants, setParticipants] = useState([]); // 같은 room_id에 있는 상대방 목록 상태
   const [roomId, setRoomId] = useState(null);
   const [oppoId, setOppoId] = useState(null);
   const [oppoProfile, setOppoProfile] = useState(null);
+  const [blur, setBlur] = useState(0);
+  const blurLevel = [50, 70, 90, 140, 4000];
 
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
@@ -47,7 +49,9 @@ function ChatList() {
 
       for (const roomId of rooms) {
         //방별로 참가자 정보(user_id, user_name)를 가져옴
-        const res = await axios.get(participantUrl + roomId);
+        const res = await axios.get(
+          participantUrl + roomId + "?myId=" + user.user_id
+        );
         console.log(`Participants for room ${roomId}:`, res.data); // 확인용 로그
 
         //방별 상태 가져오기 (로그인한 유저를 기준으로 안읽은 채팅 수 = unread, 제일 최근에 받은 채팅 = recentMsg)
@@ -57,21 +61,18 @@ function ChatList() {
             user_id: user.user_id,
           },
         });
+        console.log(res);
 
-        res.data.forEach((participant) => {
-          // 데이터 구조를 확인하여 roomId와 userId를 설정
-          if (participant.user_id !== user.user_id) {
-            // 자신의 user_id가 아닌 경우에만 추가
-            participantsData.push({
-              roomId,
-              userId: participant.user_id,
-              name: participant.user_name,
-              profile: participant.user_profile,
-              unread: chatStatus.data.unreadCnt,
-              recentMsg: chatStatus.data.message_content,
-              recentTime: chatStatus.data.message_time,
-            });
-          }
+        // 자신의 user_id가 아닌 경우에만 추가
+        participantsData.push({
+          roomId,
+          userId: res.data.user_id,
+          name: res.data.user_name,
+          profile: res.data.user_profile,
+          blur: res.data.blur,
+          unread: chatStatus.data.unreadCnt,
+          recentMsg: chatStatus.data.message_content,
+          recentTime: chatStatus.data.message_time,
         });
       }
 
@@ -149,15 +150,28 @@ function ChatList() {
                         setRoomId(participant.roomId);
                         setOppoId(participant.name);
                         setOppoProfile(participant.profile);
+                        setBlur(participant.blur);
                       } else {
                         setRoomId(null);
                         setOppoId(null);
                         setOppoProfile(null);
+                        setBlur(10);
                       }
                     }}
                   >
                     <div className="chat-avatar">
-                      <img src={participant.profile} alt="avatar" />
+                      <img
+                        src={
+                          participant.profile +
+                          blurLevel[participant.blur] +
+                          "&blur=1ONM#WN"
+                        }
+                        alt="avatar"
+                        style={{ filter: `blur(${participant.blur / 4}px)` }}
+                        onContextMenu={(event) => {
+                          event.preventDefault();
+                        }}
+                      />
                     </div>
                     <div className="chat-info">
                       <p className="chat-name">{participant.name}</p>
@@ -185,6 +199,7 @@ function ChatList() {
             myId={user.user_id}
             oppoId={oppoId}
             oppoProfile={oppoProfile}
+            blur={blur}
           />
         ) : null}
       </div>

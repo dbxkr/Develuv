@@ -6,14 +6,13 @@
   text-align: center;
   width: 80%;
   position: relative;
-
 }
-.progress-container {
+/* .progress-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-}
+} */
 
 .progress-line {
   position: relative;
@@ -45,15 +44,14 @@
 }
 
 .progress-circle.third::after {
-  content: '3';
+  content: "3";
 }
 .progress-circle.fifth::after {
-  content: '5';
+  content: "5";
 }
 
 .Regi3Form div {
   margin-bottom: 10px;
-  
 }
 
 .Regi3Form .tt {

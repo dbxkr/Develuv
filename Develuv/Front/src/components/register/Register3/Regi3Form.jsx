@@ -5,14 +5,15 @@ import DaumPostCode from "./DaumPostCode.jsx";
 
 
 function Regi3Form({
-                     progress,
-                     setProgress,
-                     formData,
-                     setFormData,
-                     imgPreview,
-                     setImgPreview,
-                     setImage,
-                   }) {
+  progress,
+  setProgress,
+  formData,
+  setFormData,
+  imgPreview,
+  setImgPreview,
+  setImage,
+  state,
+}) {
   const navigate = useNavigate();
 
   const genders = [
@@ -54,7 +55,11 @@ function Regi3Form({
   };
 
   return (
-    <div className={"Regi3Form"}>
+    <div className={"Regi3Form"} style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    }}>
       <div className={"tt"}>Essential Information</div>
       <div className={"gray_font"}>Please enter the information</div>
       <div className={"sub_title"}>
@@ -109,10 +114,8 @@ function Regi3Form({
 
       </div>
       <div className={"regi3_form"}>
-
         <div className={"form_label"}>주소</div>
         <div className={"regi3_address_div"}>
-
           <input
             className={"addr_in"}
             onChange={onChangeAddr}
@@ -125,7 +128,13 @@ function Regi3Form({
         </div>
       </div>
 
-      <div className={"img_div"}>
+      <div className={"img_div"}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {imgPreview && (
           <img
             src={imgPreview}
@@ -133,7 +142,16 @@ function Regi3Form({
             style={{width: "300px", height: "300px"}}
           />
         )}
+
         <input className={"regi3_img_in"} type="file" onChange={handleImageUpload}/>
+        {formData.user_profile.includes("googleusercontent") && (
+          <img
+            src={formData.user_profile}
+            alt="Preview"
+            style={{ width: "300px", height: "auto" }}
+          />
+        )}
+        {/*<input type="file" onChange={handleImageUpload} />*/}
       </div>
       <div className={"pre_next_div"}>
         <button
