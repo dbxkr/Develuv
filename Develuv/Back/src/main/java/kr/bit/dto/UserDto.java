@@ -24,4 +24,7 @@ public class UserDto {
     private String user_smoke;
     private String user_religion;
     private String user_edu;
+    private String user_instagram;
+    private String user_git;
+    private int blur=0;
 }

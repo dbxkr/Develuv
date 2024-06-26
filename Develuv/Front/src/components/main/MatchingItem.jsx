@@ -1,5 +1,5 @@
-import reactimg from '../../assets/react.svg'
-import { Link } from 'react-router-dom'
+import reactimg from "../../assets/react.svg";
+import { Link } from "react-router-dom";
 
 const MatchingItem = ({
   user_id,
@@ -9,24 +9,33 @@ const MatchingItem = ({
   user_adress,
   user_profile,
 }) => {
+  const blurLevel = [50, 70, 90, 140, 4000];
   return (
-    <div className={'MatchingItem'}>
-      <div className={'matching_item_profile'}>
+    <div className={"MatchingItem"}>
+      <div className={"matching_item_profile"}>
         <Link to={`/mypage/${user_id}`}>
           <img
-            src={reactimg}
-            style={{ width: '180px', height: '180px' }}
+            src={user_profile + blurLevel[0] + "&blur=QU2/^23ZzX"}
+            style={{
+              width: "180px",
+              height: "180px",
+              borderRadius: "15px",
+              border: "1px solid black",
+            }}
             alt="User Profile"
+            onContextMenu={(event) => {
+              event.preventDefault();
+            }}
           />
         </Link>
       </div>
-      <div className={'matching_item_name'}>
+      <div className={"matching_item_name"}>
         {user_name}, 나이, {user_gender}
       </div>
-      <div className={'matching_item_nbti'}>NBTI: {user_nbti}</div>
-      <div className={'matching_item_adr'}>{user_adress}</div>
+      <div className={"matching_item_nbti"}>NBTI: {user_nbti}</div>
+      <div className={"matching_item_adr"}>{user_adress}</div>
     </div>
-  )
-}
+  );
+};
 
-export default MatchingItem
+export default MatchingItem;

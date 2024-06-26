@@ -16,11 +16,14 @@ public interface ChatListMapper {
             "WHERE cl.user_id = #{userId}")
     List<ChatListDTO> getChatListsByUserId(@Param("userId") String userId);
 
-    @Select("SELECT u.user_id AS user_id, u.user_name AS user_name " +
-            "FROM chatlists cl " +
-            "JOIN users u ON cl.user_id = u.user_id " +
-            "WHERE cl.room_id = #{roomId}")
-    List<UserDto> getParticipantsByRoomId(@Param("roomId") String roomId);
+    @Select("SELECT ucl.user_id AS user_id, ucl.user_name AS user_name, ucl.user_profile as user_profile, o.blur as blur " +
+            "FROM (select cl.room_id, u.user_id, u.user_name, u.user_profile " +
+            "from chatlists cl " +
+            "JOIN users u ON cl.user_id = u.user_id) ucl " +
+            "JOin (select oppo_id, blur from opponent where user_id = #{myId}) o " +
+            "on ucl.user_id = o.oppo_id "+
+            "WHERE ucl.room_id = #{roomId}")
+    UserDto getParticipantsByRoomId(@Param("roomId") String roomId, @Param("myId") String myId);
 
     @Select("SELECT u.user_id AS userId, u.user_name AS userName " +
             "FROM users u " +
@@ -69,4 +72,7 @@ public interface ChatListMapper {
 
     @Delete("delete from chatroom where room_id = #{room_id}")
     void exitChatroom(ChatStatusDTO chatStatusDTO);
+
+    @Insert("Insert into opponent (user_id, oppo_id, blur, quiz) values (#{myId}, #{oppoId}, 0, 0)")
+    void setOppo(@Param("myId") String myId,@Param("oppoId") String oppoId);
 }

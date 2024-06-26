@@ -21,31 +21,36 @@ const Mypage = () => {
   const [quiz, setQuiz] = useState("");
   const [memo, setMemo] = useState("");
   const navigate = useNavigate();
-  const isMyPage = user.id === params.user_id;
+  const isMyPage = user.user_id === params.user_id;
   const springUrl = "http://localhost:8080";
+  const blurLevel = [50, 70, 90, 140, 4000];
 
   useEffect(() => {
-    axios
-      .get(`${springUrl}/user/info/${params.user_id}`)
-      .then((response) => {
-        console.log("response", response);
-        setUserInfo(response.data);
+    if (isMyPage) {
+      setBlur(4); // 자신의 마이페이지일 때 블러 초기화
+      setUserInfo({ ...user });
+    } else {
+      axios
+        .post(
+          `${springUrl}/user/otherInfo?user_id=${params.user_id}&my_id=${user.user_id}`
+        )
+        .then((response) => {
+          console.log("response", response);
+          setUserInfo(response.data);
 
-        // 로컬 스토리지에서 값 가져오기
-        setInstagram(localStorage.getItem(`instagram_${params.user_id}`) || "");
-        setGithub(localStorage.getItem(`github_${params.user_id}`) || "");
-        setQuiz(localStorage.getItem(`quiz_${params.user_id}`) || "");
-        setMemo(localStorage.getItem(`memo_${params.user_id}`) || "");
-
-        if (isMyPage) {
-          setBlur(0); // 자신의 마이페이지일 때 블러 초기화
-        } else {
-          setBlur(10); // 다른 사용자의 마이페이지일 때 블러 적용
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
+          // 로컬 스토리지에서 값 가져오기
+          setInstagram(
+            localStorage.getItem(`instagram_${params.user_id}`) || ""
+          );
+          setGithub(localStorage.getItem(`github_${params.user_id}`) || "");
+          setQuiz(localStorage.getItem(`quiz_${params.user_id}`) || "");
+          setMemo(localStorage.getItem(`memo_${params.user_id}`) || "");
+          setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
   }, [params.user_id, isMyPage]);
 
   const calculateAge = (birthDate) => {
@@ -65,7 +70,7 @@ const Mypage = () => {
   const startChat = () => {
     axios
       .get(
-        `${springUrl}/chatlists/start?myId=${user.id}&oppoId=${params.user_id}`
+        `${springUrl}/chatlists/start?myId=${user.user_id}&oppoId=${params.user_id}`
       )
       .then((res) => {
         console.log(res);
@@ -85,23 +90,47 @@ const Mypage = () => {
   };
 
   const handleInstagramChange = (e) => {
-    setInstagram(e.target.value);
-    localStorage.setItem(`instagram_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setInstagram(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { instagram: newValue })
+      .catch((error) => {
+        console.error("Error updating Instagram:", error);
+      });
   };
 
   const handleGithubChange = (e) => {
-    setGithub(e.target.value);
-    localStorage.setItem(`github_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setGithub(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { github: newValue })
+      .catch((error) => {
+        console.error("Error updating GitHub:", error);
+      });
   };
 
   const handleQuizChange = (e) => {
-    setQuiz(e.target.value);
-    localStorage.setItem(`quiz_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setQuiz(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { quiz: newValue })
+      .catch((error) => {
+        console.error("Error updating Quiz:", error);
+      });
   };
 
   const handleMemoChange = (e) => {
-    setMemo(e.target.value);
-    localStorage.setItem(`memo_${params.user_id}`, e.target.value); // 로컬 스토리지에 저장
+    const newValue = e.target.value;
+    setMemo(newValue);
+    // Save to backend
+    axios
+      .put(`${springUrl}/user/info/${user.id}`, { memo: newValue })
+      .catch((error) => {
+        console.error("Error updating Memo:", error);
+      });
   };
 
   if (!userInfo) {
@@ -115,9 +144,14 @@ const Mypage = () => {
       <div className="profile-section">
         <div className="profile-picture">
           <img
-            src={userInfo.user_profile}
+            src={
+              userInfo.user_profile + blurLevel[blur + 0] + "&blur=AW2$zxORd"
+            }
             alt="Profile"
-            style={{ filter: `blur(${blur}px)` }}
+            // style={{ filter: `blur(${blur}px)` }}
+            onContextMenu={(event) => {
+              event.preventDefault();
+            }}
           />
         </div>
         {!isMyPage && (
@@ -190,7 +224,7 @@ const Mypage = () => {
                 onChange={handleMemoChange}
               />
             ) : (
-              <span>{memo}</span>
+              <span>{userInfo.memo}</span>
             )}
           </div>
         </div>
@@ -222,7 +256,7 @@ const Mypage = () => {
                 onChange={handleInstagramChange}
               />
             ) : (
-              <span>{instagram}</span>
+              <span>{userInfo.instagram}</span>
             )}
           </div>
           <div className="social-row">
@@ -235,7 +269,7 @@ const Mypage = () => {
                 onChange={handleGithubChange}
               />
             ) : (
-              <span>{github}</span>
+              <span>{userInfo.github}</span>
             )}
           </div>
           <div className="social-row">

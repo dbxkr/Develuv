@@ -13,7 +13,7 @@ const userAvatars = {
   user2: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
 };
 
-function Chat({ myId, oppoId, roomId }) {
+function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
   const [isRoomDeleted, setIsRoomDeleted] = useState();
   const user_id = myId; // 테스트용 사용자 이름
   const room_id = roomId; // 테스트용 방 이름
@@ -52,6 +52,7 @@ function Chat({ myId, oppoId, roomId }) {
         message_content: currentMsg,
         message_time: now.toISOString().slice(0, 19).replace("T", " "),
       };
+      console.log("messageData", messageData);
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
       inputRef.current.value = "";
@@ -131,7 +132,14 @@ function Chat({ myId, oppoId, roomId }) {
           <MessageBox>
             {messageList &&
               messageList.map((el) => (
-                <Message oneMessage={el} user_id={user_id} key={uuidv4()} />
+                <Message
+                  oneMessage={el}
+                  user_id={user_id}
+                  key={uuidv4()}
+                  oppoProfile={oppoProfile}
+                  oppoId={oppoId}
+                  blur={blur}
+                />
               ))}
             <div ref={messageBottomRef} />
           </MessageBox>
@@ -196,7 +204,7 @@ const RoomBody = styled.div`
   background: #ffffff;
   position: relative;
   overflow-y: auto;
-  height: 70vh;
+  max-height: 70vh;
 `;
 
 const MessageBox = styled.div`

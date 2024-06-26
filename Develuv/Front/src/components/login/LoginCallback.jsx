@@ -78,10 +78,10 @@ const LoginCallback = (props) => {
             navigate("/");
           }
         } else {
-          localStorage.setItem(
-            "kakao.access_token",
-            JSON.stringify(access_token)
-          );
+          // localStorage.setItem(
+          //   "kakao.access_token",
+          //   JSON.stringify(access_token)
+          // );
           login(res.data.kakao.id, res.data.kakao.nickname);
           navigate("/");
         }
@@ -111,12 +111,15 @@ const LoginCallback = (props) => {
   const access_google = async (res) => {
     if (res) {
       const access_token = res.data.access_token;
-      const user = await axios.get(`https://www.googleapis.com/oauth2/v2/userinfo`, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-        },
-      });
+      const user = await axios.get(
+        `https://www.googleapis.com/oauth2/v2/userinfo`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          },
+        }
+      );
       return { user, access_token };
     }
   };
@@ -126,6 +129,9 @@ const LoginCallback = (props) => {
     const data = {
       id: user.data.id,
       access_token: access_token,
+      name: user.data.family_name + " " + user.data.given_name,
+      email: user.data.email,
+      profile: user.data.picture,
     };
     axios
       .post(serverUrl + "/google", data)
@@ -148,11 +154,11 @@ const LoginCallback = (props) => {
             navigate("/");
           }
         } else {
-          localStorage.setItem(
-            "google.access_token",
-            JSON.stringify(access_token)
-          );
-          login(res.data.google.id);
+          // localStorage.setItem(
+          //   "google.access_token",
+          //   JSON.stringify(access_token)
+          // );
+          login(res.data.google.id, "name");
           navigate("/");
         }
       })
@@ -233,13 +239,13 @@ const LoginCallback = (props) => {
     }
     if (match.params.provider === "google") {
       prov_google(code)
-      .then((res)=>{
-        console.log("google res",res)
-        access_google(res).then((res)=>{
-          send_user_google(res);
+        .then((res) => {
+          console.log("google res", res);
+          access_google(res).then((res) => {
+            send_user_google(res);
+          });
         })
-      })
-      .catch((err)=>console.log(err));
+        .catch((err) => console.log(err));
     }
 
     // 요청이 성공하면 navigate('/main')
