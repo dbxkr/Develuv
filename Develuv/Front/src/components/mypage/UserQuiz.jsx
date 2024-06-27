@@ -1,5 +1,6 @@
-import {useParams} from "react-router-dom";
-import QuizInsert from "./QuizInsert.jsx";
+import { useParams } from "react-router-dom";
+import QuizForm from "./QuizForm";
+import QuizInsert from "./QuizInsert";
 
 const UserQuiz = () => {
   const qParams = useParams();
@@ -7,7 +8,7 @@ const UserQuiz = () => {
   let usesss = localStorage.getItem("user");
   let idVal;
 
-  if(usesss) {
+  if (usesss) {
     const userObject = JSON.parse(usesss);
     idVal = userObject.id;
   }
@@ -16,9 +17,10 @@ const UserQuiz = () => {
 
   return (
     <div className={"UserQuiz"}>
-      {(idVal===page_id?<QuizInsert user_id={idVal}/>:<QuizInsert/>)}
+      {idVal === page_id ? <QuizInsert /> : <QuizForm userId={page_id} />}
+      {/* {idVal === page_id ? <QuizInsert /> : <QuizForm userId={page_id} />} */}
     </div>
-  )
-}
+  );
+};
 
-export default UserQuiz
+export default UserQuiz;
