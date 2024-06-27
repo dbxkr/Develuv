@@ -16,6 +16,7 @@ import Matching from "./components/main/Matching.jsx";
 import Modal from "./components/main/Modal.jsx";
 import Mypage from "./components/mypage/Mypage.jsx";
 import UserProfileEdit from "./components/userEdit/UserProfileEdit.jsx";
+import Nahhh from "./components/notfound/nahhh.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/modal" element={<Modal />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/edit-profile" element={<UserProfileEdit />} />
+          <Route path="/nahhh" element={<Nahhh />} />
         </Routes>
       </div>
     </BrowserRouter>

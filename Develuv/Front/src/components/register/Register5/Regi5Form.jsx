@@ -148,7 +148,7 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
       .then((response) => {
         console.log("File uploaded successfully");
         const fileId = response.data.id;
-        const imgUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`;
+        const imgUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s`;
         const signUpData = { ...formData, user_profile: imgUrl };
         console.log("imgUrl", imgUrl);
         console.log("after set imgUrl", signUpData);

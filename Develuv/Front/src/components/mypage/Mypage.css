@@ -142,7 +142,6 @@
 .social-row input {
   margin-left: 10px;
   padding: 5px;
-  border: 1px solid #ccc;
   border-radius: 5px;
   width: 100px;
   height: 30px;
@@ -151,4 +150,30 @@
 .social-row span {
   margin-left: 10px;
   padding: 5px;
+}
+
+.n-focus {
+  background-color: transparent;
+  border: none;
+}
+
+.profile-change {
+  display: flex;
+  gap: 3px;
+}
+
+.profile-change input,
+.profile-change button {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.profile-change button {
+  background-color: transparent;
+  color: black;
+  opacity: 50%;
+  font-size: 15px;
+  padding: 5px;
+}
+.profile-change button:hover {
+  background-color: aquamarine;
 }

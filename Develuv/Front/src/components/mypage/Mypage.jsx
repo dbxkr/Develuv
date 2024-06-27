@@ -16,14 +16,14 @@ const Mypage = () => {
   const { user } = useAuth();
   const [blur, setBlur] = useState(0);
   const [userInfo, setUserInfo] = useState(null);
-  const [instagram, setInstagram] = useState("");
-  const [github, setGithub] = useState("");
   const [quiz, setQuiz] = useState("");
-  const [memo, setMemo] = useState("");
   const navigate = useNavigate();
   const isMyPage = user.user_id === params.user_id;
   const springUrl = "http://localhost:8080";
   const blurLevel = [50, 70, 90, 140, 4000];
+  const [git, setGit] = useState(user.user_git);
+  const [memo, setMemo] = useState(user.user_memo);
+  const [focused, setFocused] = useState(null);
 
   useEffect(() => {
     if (isMyPage) {
@@ -37,14 +37,6 @@ const Mypage = () => {
         .then((response) => {
           console.log("response", response);
           setUserInfo(response.data);
-
-          // 로컬 스토리지에서 값 가져오기
-          setInstagram(
-            localStorage.getItem(`instagram_${params.user_id}`) || ""
-          );
-          setGithub(localStorage.getItem(`github_${params.user_id}`) || "");
-          setQuiz(localStorage.getItem(`quiz_${params.user_id}`) || "");
-          setMemo(localStorage.getItem(`memo_${params.user_id}`) || "");
           setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
         })
         .catch((error) => {
@@ -81,33 +73,35 @@ const Mypage = () => {
       });
   };
 
-  const handleBlur = (e) => {
-    setBlur(e.target.value);
-  };
-
   const goToEditProfile = () => {
     navigate("/edit-profile");
   };
 
-  const handleInstagramChange = (e) => {
-    const newValue = e.target.value;
-    setInstagram(newValue);
-    // Save to backend
-    axios
-      .put(`${springUrl}/user/info/${user.id}`, { instagram: newValue })
-      .catch((error) => {
-        console.error("Error updating Instagram:", error);
-      });
-  };
-
   const handleGithubChange = (e) => {
     const newValue = e.target.value;
-    setGithub(newValue);
-    // Save to backend
+    setGit(newValue);
+  };
+  const handleMemoChange = (e) => {
+    const newValue = e.target.value;
+    setMemo(newValue);
+  };
+
+  const updateProfile = (e) => {
+    let newValue;
+    console.log(e);
+    if (e === "memo") {
+      newValue = memo;
+    } else if (e === "git") {
+      newValue = git;
+    }
     axios
-      .put(`${springUrl}/user/info/${user.id}`, { github: newValue })
+      .post(`${springUrl}/user/updateOneProfile`, {
+        type: e,
+        value: newValue,
+        user_id: user.user_id,
+      })
       .catch((error) => {
-        console.error("Error updating GitHub:", error);
+        console.error("Error updating Instagram:", error);
       });
   };
 
@@ -116,20 +110,9 @@ const Mypage = () => {
     setQuiz(newValue);
     // Save to backend
     axios
-      .put(`${springUrl}/user/info/${user.id}`, { quiz: newValue })
+      .put(`${springUrl}/user/info/${user.user_id}`, { quiz: newValue })
       .catch((error) => {
         console.error("Error updating Quiz:", error);
-      });
-  };
-
-  const handleMemoChange = (e) => {
-    const newValue = e.target.value;
-    setMemo(newValue);
-    // Save to backend
-    axios
-      .put(`${springUrl}/user/info/${user.id}`, { memo: newValue })
-      .catch((error) => {
-        console.error("Error updating Memo:", error);
       });
   };
 
@@ -154,14 +137,7 @@ const Mypage = () => {
             }}
           />
         </div>
-        {!isMyPage && (
-          <input
-            type="number"
-            onChange={handleBlur}
-            placeholder="Set blur level"
-            className="blur-input"
-          />
-        )}
+
         <div className="button-group">
           {isMyPage ? (
             <button id="edit-profile-btn" onClick={goToEditProfile}>
@@ -216,15 +192,34 @@ const Mypage = () => {
               className="icon" // 아이콘 스타일을 위한 클래스
             />
             {isMyPage ? (
-              <input
-                type="text"
-                placeholder="메모 (30자까지 입력 가능합니다)"
-                value={memo}
-                maxLength={30} // 메모를 30자로 제한
-                onChange={handleMemoChange}
-              />
+              <div className="profile-change">
+                <input
+                  type="text"
+                  placeholder="메모 (30자까지 입력 가능합니다)"
+                  value={memo}
+                  maxLength={30} // 메모를 30자로 제한
+                  onChange={handleMemoChange}
+                  onFocus={() => {
+                    setFocused("memo");
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      setFocused(null);
+                    }, 100);
+                  }}
+                  className={focused === "memo" ? null : "n-focus"}
+                />
+                <button
+                  style={focused === "memo" ? null : { display: "none" }}
+                  onClick={() => {
+                    updateProfile("memo");
+                  }}
+                >
+                  수정
+                </button>
+              </div>
             ) : (
-              <span>{userInfo.memo}</span>
+              <span>{userInfo.user_memo}</span>
             )}
           </div>
         </div>
@@ -247,29 +242,35 @@ const Mypage = () => {
         </div>
         <div className="social-section">
           <div className="social-row">
-            <img src={instagramIcon} alt="Instagram" className="icon" />
-            {isMyPage ? (
-              <input
-                type="text"
-                placeholder="Instagram ID"
-                value={instagram}
-                onChange={handleInstagramChange}
-              />
-            ) : (
-              <span>{userInfo.instagram}</span>
-            )}
-          </div>
-          <div className="social-row">
             <img src={githubIcon} alt="GitHub" className="icon" />
             {isMyPage ? (
-              <input
-                type="text"
-                placeholder="GitHub ID"
-                value={github}
-                onChange={handleGithubChange}
-              />
+              <div className="profile-change">
+                <input
+                  type="text"
+                  placeholder="깃 주소"
+                  value={git}
+                  onChange={handleGithubChange}
+                  onFocus={() => {
+                    setFocused("git");
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      setFocused(null);
+                    }, 100);
+                  }}
+                  className={focused === "git" ? null : "n-focus"}
+                />
+                <button
+                  style={focused === "git" ? null : { display: "none" }}
+                  onClick={() => {
+                    updateProfile("git");
+                  }}
+                >
+                  수정
+                </button>
+              </div>
             ) : (
-              <span>{userInfo.github}</span>
+              <span>{userInfo.user_git}</span>
             )}
           </div>
           <div className="social-row">
