@@ -1,0 +1,111 @@
+.QuizInsertItem{
+    border: 1px solid black;
+    position: fixed;
+    top: 180px;
+    width: 80%;
+    left: 10%;
+}
+
+.QuizInsertItem .progress_c{
+    display: flex;
+    gap: 40px;
+    margin: 0 0 30px 0;
+}
+
+.QuizInsertItem .progress_c .progress_font {
+    border-radius: 100%;
+    background-color: #D9D9D9;
+    color: black;
+    min-width: 40px;
+    min-height: 40px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    padding: 0 0 0 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.QuizInsertItem .progress_c .progress_font_sel {
+    border-radius: 100%;
+    background-color: #2B3662;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    align-items: center;
+    color: white;
+    padding: 0 0 0 0;
+    font-size: 25px;
+}
+
+.QuizInsertItem .qinput_div{
+    margin: 0 0 20px 0;
+}
+
+.QuizInsertItem .qinput_div .quiz{
+    background-color: ghostwhite;
+    border: none;
+    padding: 15px 20px;
+    font-size: 20px;
+    outline: none;
+}
+
+.QuizInsertItem .qinput_div .qinput:focus{
+    outline: none;
+}
+
+.QuizInsertItem .choice_div {
+    height: auto;
+}
+
+.QuizInsertItem .choice_div .choice_input_div{
+    display: flex;
+    align-items: center;
+    border: 1px solid #303F7B;
+    background-color: white;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    height: auto;
+
+}
+
+.QuizInsertItem .choice_div .choice_input_div .choice_input{
+    border: none;
+    resize: none;
+    margin: 0 10px 0 0;
+    min-width: 90%;
+    height: auto;
+    overflow: hidden;
+    font-size: 15px;
+    align-items: center;
+}
+
+.choice_input{
+    border: none;
+    resize: none;
+    margin: 0 10px 0 0;
+    min-width: 95%;
+    height: auto;
+    overflow: hidden;
+    font-size: 15px;
+}
+.QuizInsertItem .choice_div .choice_input_div .choice_input:focus{
+    border: none;
+    outline: none;
+}
+
+.QuizInsertItem .choice_div .choice_input_div .choice_btn {
+    min-width: 30px;
+    max-width: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    text-align: center;
+    align-items: center;
+    text-justify-trim: 0;
+}
