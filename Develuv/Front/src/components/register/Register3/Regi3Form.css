@@ -1,5 +1,7 @@
-.container {
+
+.Regi3Form {
   margin-top: 50px;
+  margin-bottom: 100px;
   margin-left: 10%;
   text-align: center;
   width: 80%;
@@ -17,6 +19,10 @@
   width: 70%;
   height: 4px;
   background-color: #cccccc;
+}
+
+.gbtn_div{
+  display: flex;
 }
 
 .progress-circle {
@@ -44,11 +50,11 @@
   content: "5";
 }
 
-.container div {
+.Regi3Form div {
   margin-bottom: 10px;
 }
 
-.container .tt {
+.Regi3Form .tt {
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: 600;
@@ -79,7 +85,7 @@
 }
 
 .half_hr {
-  width: 50%;
+  width: 380px;
   margin-bottom: 20px;
   color: whitesmoke;
 }
@@ -128,36 +134,69 @@
   width: 380px;
 }
 
-.before_btn {
+.pre_next_div .before_btn {
   position: fixed;
   bottom: 50px;
   left: 40px;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: white;
+  background-color: #1d4289;
+  color: white;
   border: 1px solid darkgray;
   font-size: 20px;
   font-weight: 300;
 }
 
-.after_btn {
+.pre_next_div .after_btn {
   position: fixed;
   bottom: 50px;
   right: 40px;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: white;
+  background-color: #1d4289;
+  color: white;
+
   border: 1px solid darkgray;
   font-size: 20px;
   font-weight: 300;
 }
 
-.after_btn:hover {
-  background-color: #1d4289;
-  color: white;
+.pre_next_div .after_btn:hover {
+  background-color: white;
+  color: black;
 }
 
-.before_btn:hover {
-  background-color: #1d4289;
-  color: white;
+.pre_next_div .before_btn:hover {
+  background-color: white;
+  color: black;
+}
+
+.regi3_address_div {
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  width: 380px;
+
+}
+
+.regi3_form{
+  width: 400px;
+}
+
+.regi3_address_div .addr_in {
+  border: 1px solid whitesmoke;
+  border-radius: 5px 0px 0px 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 450;
+  width: 330px;
+  margin-top: 20px;
+}
+
+.img_div{
+
+}
+
+.regi3_img_in{
+  width: 300px;
 }
