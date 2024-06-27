@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ImageUpload from "../imgupload"; // 이미지 업로드 컴포넌트 임포트
 
 const UserProfileEdit = () => {
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const [userId, setUserId] = useState(user.user_id);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -124,7 +124,7 @@ const UserProfileEdit = () => {
           user_phone: phone,
           user_job: job,
           user_address: address,
-          user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`,
+          user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s`,
         };
         try {
           // 프로필 정보 업데이트
@@ -133,8 +133,8 @@ const UserProfileEdit = () => {
             userData
           );
           alert("프로필이 성공적으로 업데이트 되었습니다.");
-          navigate("/mypage/Mypage"); // 성공 시 마이페이지로 이동
-        } catch (error) {
+          window.location.href = `/mypage/${user.user_id}`; // 성공 시 마이페이지로 이동
+          } catch (error) {
           console.error("프로필 업데이트 오류:", error);
           alert(
             `프로필 업데이트 실패: ${
@@ -146,7 +146,7 @@ const UserProfileEdit = () => {
   };
 
   const handleCancel = () => {
-    navigate("/mypage"); // 변경사항 없이 마이페이지로 이동
+    navigate(`/mypage/${user.user_id}`); // 성공 시 마이페이지로 이동
   };
 
   return (

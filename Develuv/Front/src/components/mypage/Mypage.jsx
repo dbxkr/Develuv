@@ -21,29 +21,32 @@ const Mypage = () => {
   const isMyPage = user.user_id === params.user_id;
   const springUrl = "http://localhost:8080";
   const blurLevel = [50, 70, 90, 140, 4000];
-  const [git, setGit] = useState(user.user_git);
-  const [memo, setMemo] = useState(user.user_memo);
+  const [git, setGit] = useState(user.user_git || ""); // 빈 문자열로 초기화
+  const [memo, setMemo] = useState(user.user_memo || ""); // 빈 문자열로 초기화
   const [focused, setFocused] = useState(null);
 
-  useEffect(() => {
-    if (isMyPage) {
-      setBlur(4); // 자신의 마이페이지일 때 블러 초기화
-      setUserInfo({ ...user });
-    } else {
-      axios
-        .post(
+  const fetchUserInfo = async () => {
+    try {
+      if (isMyPage) {
+        setBlur(4); // 자신의 마이페이지일 때 블러 초기화
+        setUserInfo({ ...user });
+        console.log("내 페이지 정보",user)
+      } else {
+        const response = await axios.post(
           `${springUrl}/user/otherInfo?user_id=${params.user_id}&my_id=${user.user_id}`
-        )
-        .then((response) => {
-          console.log("response", response);
-          setUserInfo(response.data);
-          setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-        });
+        );
+        console.log("response", response);
+        setUserInfo(response.data);
+        setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
-  }, [params.user_id, isMyPage]);
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, [params.user_id, isMyPage]); // 사용자 정보가 변경될 때마다 다시 로드
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -128,10 +131,9 @@ const Mypage = () => {
         <div className="profile-picture">
           <img
             src={
-              userInfo.user_profile + blurLevel[blur + 0] + "&blur=AW2$zxORd"
+              userInfo.user_profile + blurLevel[blur + 0]
             }
             alt="Profile"
-            // style={{ filter: `blur(${blur}px)` }}
             onContextMenu={(event) => {
               event.preventDefault();
             }}
@@ -157,7 +159,7 @@ const Mypage = () => {
               <img
                 src={userIcon}
                 alt="User"
-                className="icon" // 아이콘 스타일을 위한 클래스
+                className="icon"
               />
               {userInfo.user_name} ({age})
               <span
@@ -173,7 +175,7 @@ const Mypage = () => {
             <img
               src={locationIcon}
               alt="Location"
-              className="icon" // 아이콘 스타일을 위한 클래스
+              className="icon"
             />
             <p>{userInfo.user_address}</p>
           </div>
@@ -181,7 +183,7 @@ const Mypage = () => {
             <img
               src={jobIcon}
               alt="Job"
-              className="icon" // 아이콘 스타일을 위한 클래스
+              className="icon"
             />
             <p>{userInfo.user_job}</p>
           </div>
@@ -189,7 +191,7 @@ const Mypage = () => {
             <img
               src={memoIcon}
               alt="Memo"
-              className="icon" // 아이콘 스타일을 위한 클래스
+              className="icon"
             />
             {isMyPage ? (
               <div className="profile-change">
@@ -197,7 +199,7 @@ const Mypage = () => {
                   type="text"
                   placeholder="메모 (30자까지 입력 가능합니다)"
                   value={memo}
-                  maxLength={30} // 메모를 30자로 제한
+                  maxLength={30}
                   onChange={handleMemoChange}
                   onFocus={() => {
                     setFocused("memo");
