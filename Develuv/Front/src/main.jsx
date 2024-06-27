@@ -16,6 +16,7 @@ import Matching from "./components/main/Matching.jsx";
 import Modal from "./components/main/Modal.jsx";
 import Mypage from "./components/mypage/Mypage.jsx";
 import UserQuiz from "./components/mypage/UserQuiz.jsx";
+import QuizForm from "./components/mypage/QuizForm.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
