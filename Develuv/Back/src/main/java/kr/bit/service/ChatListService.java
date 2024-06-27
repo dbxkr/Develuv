@@ -23,13 +23,11 @@ public class ChatListService {
         return chatListMapper.getChatListsByUserId(userId);
     }
 
-    public List<UserDto> getParticipantsByRoomId(String roomId) {
-        List<UserDto> participants = chatListMapper.getParticipantsByRoomId(roomId);
+    public UserDto getParticipantsByRoomId(String roomId, String myId) {
+        UserDto participants = chatListMapper.getParticipantsByRoomId(roomId, myId);
 
         // 데이터를 콘솔에 출력
-        for (UserDto participant : participants) {
-            System.out.println("Participant - User ID: " + participant.getUser_id() + ", User Name: " + participant.getUser_name());
-        }
+        System.out.println("Participant - " + participants);
 
         return participants;
     }
@@ -79,5 +77,9 @@ public class ChatListService {
         chatListMapper.exitChatlist(chatStatusDTO);
         chatListMapper.exitChatmessage(chatStatusDTO);
         chatListMapper.exitChatroom(chatStatusDTO);
+    }
+
+    public void setOppo(String myId, String oppoId) {
+        chatListMapper.setOppo(myId, oppoId);
     }
 }

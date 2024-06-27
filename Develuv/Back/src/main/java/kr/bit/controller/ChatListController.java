@@ -1,9 +1,6 @@
 package kr.bit.controller;
 
-import kr.bit.dto.ChatDTO;
-import kr.bit.dto.ChatListDTO;
-import kr.bit.dto.ChatStatusDTO;
-import kr.bit.dto.UserDto;
+import kr.bit.dto.*;
 import kr.bit.service.ChatListService;
 import kr.bit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +30,8 @@ public class ChatListController {
     }
 
     @GetMapping("/room/participants/{roomId}")
-    public List<UserDto> getParticipantsByRoomId(@PathVariable String roomId) {
-        return chatListService.getParticipantsByRoomId(roomId);
+    public UserDto getParticipantsByRoomId(@PathVariable String roomId, @RequestParam String myId) {
+        return chatListService.getParticipantsByRoomId(roomId, myId);
     }
 
     @GetMapping("/room/users/{roomId}")
@@ -71,6 +68,11 @@ public class ChatListController {
                 //기존의 채팅방이 없다면
                 roomId = String.join("_", userIds);
                 String roomName = userService.findNameById(myId)+"_"+userService.findNameById(oppoId);
+                try{
+                    chatListService.setOppo(myId, oppoId);
+                    chatListService.setOppo(oppoId, myId);
+                }catch (Exception e) {
+                }
                 chatListService.createNewChatRoom(roomId, roomName, myId, oppoId);
             }else{
                 chatListService.joinExistingChatRoom(roomId, myId);

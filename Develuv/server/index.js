@@ -13,7 +13,7 @@ const port = 4000;
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3500",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -76,4 +76,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(port, () => console.log(`server running on port ${port}`));
+server.listen(port, "0,0,0,0", () =>
+  console.log(`server running on port ${port}`)
+);

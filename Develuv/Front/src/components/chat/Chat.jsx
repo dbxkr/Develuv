@@ -13,7 +13,7 @@ const userAvatars = {
   user2: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
 };
 
-function Chat({ myId, oppoId, roomId }) {
+function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
   const [isRoomDeleted, setIsRoomDeleted] = useState();
   const user_id = myId; // 테스트용 사용자 이름
   const room_id = roomId; // 테스트용 방 이름
@@ -52,6 +52,7 @@ function Chat({ myId, oppoId, roomId }) {
         message_content: currentMsg,
         message_time: now.toISOString().slice(0, 19).replace("T", " "),
       };
+      console.log("messageData", messageData);
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
       inputRef.current.value = "";
@@ -112,9 +113,11 @@ function Chat({ myId, oppoId, roomId }) {
   // 방 나가기 (디비에서 삭제)
   const removeUrl = "http://localhost:8080/chatlists/exit";
   function removeRoom() {
-    axios.post(removeUrl, { room_id: roomId });
-    console.log(`${roomId} 번 방 삭제 완료`);
-    window.location.reload();
+    if (window.confirm("해당 대화방을 나가고 대화기록을 삭제하시겠습니까?")) {
+      axios.post(removeUrl, { room_id: roomId });
+      console.log(`${roomId} 번 방 삭제 완료`);
+      window.location.reload();
+    }
   }
 
   return (
@@ -129,7 +132,14 @@ function Chat({ myId, oppoId, roomId }) {
           <MessageBox>
             {messageList &&
               messageList.map((el) => (
-                <Message oneMessage={el} user_id={user_id} key={uuidv4()} />
+                <Message
+                  oneMessage={el}
+                  user_id={user_id}
+                  key={uuidv4()}
+                  oppoProfile={oppoProfile}
+                  oppoId={oppoId}
+                  blur={blur}
+                />
               ))}
             <div ref={messageBottomRef} />
           </MessageBox>
@@ -159,7 +169,6 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 17%;
 `;
 
 const RoomContainer = styled.div`
@@ -195,6 +204,7 @@ const RoomBody = styled.div`
   background: #ffffff;
   position: relative;
   overflow-y: auto;
+  max-height: 70vh;
 `;
 
 const MessageBox = styled.div`

@@ -16,7 +16,8 @@ import Matching from "./components/main/Matching.jsx";
 import Modal from "./components/main/Modal.jsx";
 import Mypage from "./components/mypage/Mypage.jsx";
 import UserQuiz from "./components/mypage/UserQuiz.jsx";
-import QuizForm from "./components/mypage/QuizForm.jsx";
+import UserProfileEdit from "./components/userEdit/UserProfileEdit.jsx";
+import Nahhh from "./components/notfound/nahhh.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -35,6 +36,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path={"/mypage/:user_id/quiz"} element={<UserQuiz />} />
           <Route path="/modal" element={<Modal />} />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/edit-profile" element={<UserProfileEdit />} />
+          <Route path="/nahhh" element={<Nahhh />} />
         </Routes>
       </div>
     </BrowserRouter>

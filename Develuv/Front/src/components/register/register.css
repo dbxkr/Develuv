@@ -11,7 +11,7 @@
   border: 2px solid #000000; /* 박스 테두리 */
   border-radius: 10px; /* 박스 테두리 둥글게 */
   padding: 10px; /* 내부 여백 */
-  margin-top: 200px; /* 상단 간격 조정 */
+  margin-top: 40px; /* 상단 간격 조정 */
   margin-bottom: 40px; /* 하단 간격 조정 */
 
   width: 150%; /* 너비 조정 */
@@ -33,7 +33,7 @@
   display: flex;
   flex-direction: row; /* 요소들을 가로로 배열 */
   flex-wrap: wrap; /* 요소들이 넘칠 경우 다음 줄로 이동 */
-  justify-content: center; /* 가운데 정렬 */
+  position: center; /* 가운데 정렬 */
   gap: 30px; /* 버튼 간격을 조정 */
 }
 
@@ -49,7 +49,7 @@
   text-decoration: none;
   font-size: 16px;
   width: 100px;
-  margin-bottom: 50px; /* 상단 간격 조정 */
+  margin-bottom: 110px; /* 상단 간격 조정 */
 }
 
 .radio-like-button:hover,
@@ -71,7 +71,8 @@
 .submit-button {
   background-color: #00356d;
   color: #ffffff;
-  margin-top: 30px; /* 위쪽 간격 조정 */
+  margin-top: 20px; /* 위쪽 간격 조정 */
+  margin-left: 65px;
 }
 
 .submit-button:hover {
@@ -90,21 +91,24 @@
   font-weight: bold;
 }
 
-.progress-container {
+.progress-container1 {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
 
-.progress-line {
+.progress-line1 {
   position: relative;
   width: 500px; /* 적절한 너비 지정 */
   height: 4px; /* 선의 두께 */
-  background-color: #cccccc; /* 선의 색상 */
+  background-color: #cccccc; /* 선의 색상
+   */
+  margin-top: -125px;
+  margin-bottom: 40px;
 }
 
-.progress-circle {
+.progress-circle1 {
   position: absolute;
   width: 30px; /* 동그라미의 지름 */
   height: 30px; /* 동그라미의 지름 */
@@ -119,18 +123,21 @@
   font-weight: bold;
 }
 
-.progress-circle:nth-child(1) {
+.progress-circle1:nth-child(1) {
   left: 0; /* 첫 번째 동그라미의 위치 */
 }
+.progress-circle1:nth-child(1)::after {
+  content: '1'; /* 1번 동그라미에 텍스트 추가 */
+}
 
-.progress-circle:last-child {
+.progress-circle1:last-child {
   background-color: #cccccc; /* 마지막 동그라미의 색상 */
   right: 0; /* 다섯 번째 동그라미의 위치 */
 }
-.progress-circle:last-child::after {
-  content: "5"; /* 마지막 동그라미에 텍스트 추가 */
+.progress-circle1:last-child::after {
+  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
 }
-
+/*---------------------------2page--------------------------------------------*/
 .error-message {
   margin-top: 20px;
   color: red;
@@ -159,7 +166,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .progress-line {
@@ -167,6 +174,7 @@
   width: 500px;
   height: 4px;
   background-color: #cccccc;
+  margin-top: -205px;
 }
 
 .progress-circle {
@@ -189,13 +197,13 @@
 
 .copy {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: -50px;
 }
 
 .sign-up {
   font-size: 24px;
   font-weight: bold;
-  margin-top: 40px; /* 상단 간격 조정 */
+  margin-top: -140px; /* 상단 간격 조정 */
 }
 
 .welcome-to-bluv {
@@ -213,8 +221,8 @@
   display: flex;
   justify-content: space-between;
   gap: 10px; /* 버튼과 입력 필드 사이에 여백 추가 */
-  margin-top: 30px; /* 상단 간격 조정 */
-  margin-bottom: 30px; /* 하단 간격 조정 */
+  margin-top: 20px; /* 상단 간격 조정 */
+  margin-bottom: 20px; /* 하단 간격 조정 */
   align-items: center;
   padding: auto;
 }
@@ -262,18 +270,28 @@ input.with-button-input {
   margin: 20px 0;
 }
 
-.submit-button {
+.submit-button2 {
   width: 100%;
   padding: 8px 16px;
-  background-color: #00356d;
+  background-color: #00356d; /* 다크 블루 색상 */
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  margin-top: 0px; /* 위쪽 간격 조정 */
+  margin-left: 0px;
 }
 
-input[type="date"] {
+.submit-button2:hover {
+  background-color: #002a56; /* 마우스 오버 시 더 어두운 색상 */
+}
+
+.submit-button2:active {
+  background-color: #001f40; /* 클릭 시 더 어두운 색상 */
+}
+
+input[type='date'] {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -287,7 +305,32 @@ input[type="date"] {
   margin-top: 3px;
   position: absolute;
   top: 95%; /* 필드 아래에 위치 */
-  left: 60px;
+  left: 105px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+
+.error-message3 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 92%; /* 필드 아래에 위치 */
+  left: 95px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+.error-message4 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 80%; /* 필드 아래에 위치 */
+  left: 105px;
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   background: none; /* 배경색 제거 */
   border: none; /* 경계선 제거 */
@@ -299,8 +342,8 @@ input[type="date"] {
   margin-top: 3px;
   color: green;
   position: absolute;
-  top: 38px;
-  left: 80px; /* 왼쪽 여백 조정 */
+  top: 35px;
+  left: 120px; /* 왼쪽 여백 조정 */
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
 }
 
@@ -311,7 +354,7 @@ input[type="date"] {
   color: green; /* 텍스트 색상 */
 
   position: absolute;
-  top: 520px; /* 적절한 위치 조정 */
+  top: 478px; /* 적절한 위치 조정 */
   left: 170px; /* 왼쪽 여백 조정 */
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   text-align: center;
@@ -321,7 +364,7 @@ input[type="date"] {
   margin-top: 170px;
   margin-bottom: 40px;
 }
-
+/*----------------------------------3page---------------------------------------------*/
 /* 'vs' 폰트 위치 조정 */
 .container-button-center {
   padding: 100px;
@@ -335,11 +378,11 @@ input[type="date"] {
   justify-content: center;
 }
 
-.container-button input[type="radio"] {
+.container-button input[type='radio'] {
   display: none;
 }
 
-.container-button input[type="radio"] + label {
+.container-button input[type='radio'] + label {
   display: inline-block;
   width: 300px;
   height: 50px;
@@ -351,7 +394,7 @@ input[type="date"] {
   background-color: #f7f8fc;
 }
 
-.container-button input[type="radio"]:checked + label {
+.container-button input[type='radio']:checked + label {
   color: white;
   background-color: #00356d;
 }
@@ -406,12 +449,12 @@ input[type="date"] {
   position: relative;
   width: 500px; /* 적절한 너비 지정 */
   height: 4px; /* 선의 두께 */
-  background-color: #00356d; /* 선의 색상 */
+  /* background-color: #00356d; /* 선의 색상 */
   z-index: 10;
 }
 
 .progress-circle-fourth::after {
-  content: "4"; /* 4번 동그라미에 텍스트 추가 */
+  content: '4'; /* 4번 동그라미에 텍스트 추가 */
 }
 
 .progress-circle-fifth {
@@ -419,7 +462,7 @@ input[type="date"] {
   width: 30px; /* 동그라미의 지름 */
   height: 30px; /* 동그라미의 지름 */
   border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
-  background-color: #00356d; /* 동그라미의 색상 */
+  background-color: #cccccc; /* 동그라미의 색상 */
   top: -13px; /* 선 위에 위치하도록 조정 */
   transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
   display: flex;
@@ -431,5 +474,5 @@ input[type="date"] {
 }
 
 .progress-circle-fifth::after {
-  content: "5"; /* 마지막 동그라미에 텍스트 추가 */
+  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
 }

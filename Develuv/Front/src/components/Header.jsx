@@ -34,7 +34,7 @@ function Header() {
   const { isLoggedIn, user, logout } = useAuth();
   const needLogin = ["/chat", "/main", "/mypage"];
   useEffect(() => {
-    if (needLogin.includes(location.pathname)) {
+    if (needLogin.some((path) => location.pathname.includes(path))) {
       if (!isLoggedIn) {
         alert("로그인 해");
         navigate("/");
@@ -148,7 +148,7 @@ function Header() {
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Link
-                  to={`/mypage/${user.id}`}
+                  to={`/mypage/${user.user_id}`}
                   style={{ color: "white", marginRight: "20px" }}
                 >
                   {user.name}
@@ -202,13 +202,21 @@ function Header() {
             color: "white",
             transition: "left 0.3s ease",
             zIndex: "1001", // 헤더의 z-index보다 높게 설정
+            opacity: 0.8,
           }}
         >
-          <ul style={{ listStyle: "none", padding: "20px 0", margin: "0" }}>
-            {user && (
-              <li>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: "20px 0",
+              margin: "0",
+              textAlign: "center",
+            }}
+          >
+            {user && user.user_id && (
+              <li style={{ display: "flex", justifyContent: "center" }}>
                 <Link
-                  to={`/mypage/${user.id}`}
+                  to={`/mypage/${user.user_id}`}
                   style={{
                     color: "white",
                     textDecoration: "none",
@@ -220,8 +228,8 @@ function Header() {
                 </Link>
               </li>
             )}
-            {user && (
-              <li>
+            {user && user.user_id && (
+              <li style={{ display: "flex", justifyContent: "center" }}>
                 <Link
                   to="/main"
                   style={{
@@ -235,7 +243,22 @@ function Header() {
                 </Link>
               </li>
             )}
-            <li>
+            {user && user.user_id && (
+              <li style={{ display: "flex", justifyContent: "center" }}>
+                <Link
+                  to="/chat"
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    marginBottom: "20px",
+                    display: "block",
+                  }}
+                >
+                  채팅
+                </Link>
+              </li>
+            )}
+            <li style={{ display: "flex", justifyContent: "center" }}>
               <Link
                 to="/"
                 style={{
@@ -249,6 +272,7 @@ function Header() {
               </Link>
             </li>
           </ul>
+
           <div
             style={{
               display: "flex",
@@ -258,7 +282,7 @@ function Header() {
               padding: "20px 0",
             }}
           >
-            {user && (
+            {user && user.user_id && (
               <button
                 className="loginBtn"
                 onClick={handleLogout}
