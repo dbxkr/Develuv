@@ -17,8 +17,11 @@ const UserQuiz = () => {
 
   return (
     <div className={"UserQuiz"}>
-      {idVal === page_id ? <QuizInsert /> : <QuizForm userId={page_id} />}
-      {/* {idVal === page_id ? <QuizInsert /> : <QuizForm userId={page_id} />} */}
+      {idVal === page_id ? (
+        <QuizInsert user_id={idVal} />
+      ) : (
+        <QuizForm userId={page_id} />
+      )}
     </div>
   );
 };

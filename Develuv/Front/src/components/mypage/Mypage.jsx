@@ -275,7 +275,11 @@ const Mypage = () => {
           </div>
           <div className="social-row">
             <img src={quizIcon} alt="Quiz" className="icon" />
-            <span onClick={() => navigate("/myquiz")}>My Quiz</span>
+            <span
+              onClick={() => navigate("/mypage/" + userInfo.user_id + "/quiz")}
+            >
+              My Quiz
+            </span>
           </div>
         </div>
       </div>
