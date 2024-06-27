@@ -1,12 +1,9 @@
 package kr.bit.controller;
 
-import kr.bit.dto.UserFindIdDTO;
-import kr.bit.dto.UserFindPwDTO;
-import kr.bit.dto.UserLoginDTO;
+import kr.bit.dto.*;
 import kr.bit.dto.social.GoogleLoginDTO;
 import kr.bit.dto.social.KakaoLoginDTO;
 import kr.bit.dto.social.NaverLoginDTO;
-import kr.bit.dto.UserDto;
 import kr.bit.model.User;
 import kr.bit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +73,9 @@ public class UserController {
     @PostMapping("/sns/naver")
     public Map<String, Object> snsNaver(@RequestBody NaverLoginDTO naverLoginDTO) {
         String header = "Bearer " + naverLoginDTO.getCode();
+        if(!naverLoginDTO.getProvider().equals("naver")) {
+            return null;
+        }
         naverLoginDTO.setMember(userService.findById(naverLoginDTO.getId()));
         Map<String, Object> data = new HashMap<>();
         data.put("naver", naverLoginDTO);
@@ -84,6 +84,9 @@ public class UserController {
 
     @PostMapping("/sns/kakao")
     public Map<String, Object> snsKakao(@RequestBody KakaoLoginDTO kakaoLoginDTO) {
+        if(!kakaoLoginDTO.getProvider().equals("kakao")) {
+            return null;
+        }
         kakaoLoginDTO.setMember(userService.findById(kakaoLoginDTO.getId()));
         Map<String, Object> data = new HashMap<>();
         data.put("kakao", kakaoLoginDTO);
@@ -92,6 +95,9 @@ public class UserController {
 
     @PostMapping("/sns/google")
     public Map<String, Object> snsGoogle(@RequestBody GoogleLoginDTO googleLoginDTO) {
+        if(!googleLoginDTO.getProvider().equals("google")) {
+            return null;
+        }
         googleLoginDTO.setMember(userService.findById(googleLoginDTO.getId()));
         Map<String, Object> data = new HashMap<>();
         data.put("google", googleLoginDTO);
@@ -131,5 +137,11 @@ public class UserController {
     @PostMapping("/otherInfo")
     public UserDto getOtherUserById(@RequestParam String user_id, @RequestParam String my_id) {
         return userService.findOtherUserById(user_id, my_id);
+    }
+
+    @PostMapping("/updateOneProfile")
+    public void updateOneProfile(@RequestBody UserProfileUpdate userDto) {
+        userService.updateOneProfile(userDto);
+
     }
 }
