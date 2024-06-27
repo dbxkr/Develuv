@@ -1,9 +1,6 @@
 package kr.bit.mapper;
 
-import kr.bit.dto.UserDto;
-import kr.bit.dto.UserFindIdDTO;
-import kr.bit.dto.UserFindPwDTO;
-import kr.bit.dto.UserLoginDTO;
+import kr.bit.dto.*;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -52,4 +49,13 @@ public interface UserMapper {
 
     @Update("UPDATE users SET user_profile = #{user_profile} WHERE user_id = #{user_id}")
     void updateUserProfileImage(@Param("user_id") String userId, @Param("user_profile") String userProfile);
+
+    @Update("UPDATE users set user_git = #{value} where user_id = #{user_id}")
+    void updateProfileGit(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_instagram = #{value} where user_id = #{user_id}")
+    void updateProfileInstagram(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_memo = #{value} where user_id = #{user_id}")
+    void updateProfileMemo(UserProfileUpdate userProfileUpdate);
 }

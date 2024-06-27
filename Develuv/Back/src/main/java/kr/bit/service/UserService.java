@@ -1,9 +1,6 @@
 package kr.bit.service;
 
-import kr.bit.dto.UserFindIdDTO;
-import kr.bit.dto.UserFindPwDTO;
-import kr.bit.dto.UserLoginDTO;
-import kr.bit.dto.UserDto;
+import kr.bit.dto.*;
 import kr.bit.mapper.UserMapper;
 import kr.bit.model.User;
 import org.mindrot.jbcrypt.BCrypt;
@@ -162,5 +159,14 @@ public class UserService {
     }
     public UserDto findOtherUserById(String user_id, String my_id) {
         return userMapper.findOtherUserById(user_id, my_id);
+    }
+
+    public void updateOneProfile(UserProfileUpdate userProfileUpdate) {
+        String type = userProfileUpdate.getType();
+        if(type.equals("git")){
+            userMapper.updateProfileGit(userProfileUpdate);
+        }else if(type.equals("memo")){
+            userMapper.updateProfileMemo(userProfileUpdate);
+        }
     }
 }
