@@ -116,7 +116,7 @@ const UserProfileEdit = () => {
         console.log("File uploaded successfully");
         const fileId = response.data.id;
         setProfileImageUrl(
-          `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`
+          `https://drive.google.com/thumbnail?id=${fileId}&sz=s`
         );
         const userData = {
           user_id: userId,

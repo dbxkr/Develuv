@@ -121,7 +121,7 @@ function Header() {
 
         {isLoggedIn && (
           <>
-            <div
+            {/* <div
               className="center-container"
               style={{ display: "flex", alignItems: "center" }}
             >
@@ -131,7 +131,7 @@ function Header() {
               <Link to="/main" style={{ color: "white" }}>
                 매칭(테스트)
               </Link>
-            </div>
+            </div> */}
 
             <div
               className="right-container"
@@ -141,19 +141,19 @@ function Header() {
                 marginRight: "50px",
               }}
             >
-              <div className="chat_btn" style={{ marginRight: "50px" }}>
+              {/* <div className="chat_btn" style={{ marginRight: "50px" }}>
                 <Link to="/chat">
                   <img src={chatBtn} alt="Chat" />
                 </Link>
-              </div>
+              </div> */}
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Link
                   to={`/mypage/${user.user_id}`}
                   style={{ color: "white", marginRight: "20px" }}
                 >
-                  {user.name}
+                  {user.user_name}님 환영합니다
                 </Link>
-                <button
+                {/* <button
                   className="loginBtn"
                   onClick={handleLogout}
                   style={{
@@ -166,13 +166,13 @@ function Header() {
                   }}
                 >
                   로그아웃
-                </button>
+                </button> */}
               </div>
             </div>
           </>
         )}
 
-        {!isLoggedIn && location.pathname === "/" && (
+        {/* {!isLoggedIn && location.pathname === "/" && (
           <button
             className="loginBtn"
             onClick={openModal}
@@ -187,7 +187,7 @@ function Header() {
           >
             로그인
           </button>
-        )}
+        )} */}
 
         {/* 왼쪽에서 슬라이드 창 */}
         <div
@@ -282,7 +282,7 @@ function Header() {
               padding: "20px 0",
             }}
           >
-            {user && user.user_id && (
+            {user && user.user_id ? (
               <button
                 className="loginBtn"
                 onClick={handleLogout}
@@ -296,6 +296,21 @@ function Header() {
                 }}
               >
                 로그아웃
+              </button>
+            ) : (
+              <button
+                className="loginBtn"
+                onClick={openModal}
+                style={{
+                  backgroundColor: "white",
+                  color: "#00356d",
+                  padding: "5px 10px",
+                  border: "none",
+                  borderRadius: "5px",
+                  width: "80%",
+                }}
+              >
+                로그인
               </button>
             )}
           </div>

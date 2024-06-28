@@ -167,7 +167,9 @@ function ChatList() {
                           "&blur=1ONM#WN"
                         }
                         alt="avatar"
-                        style={{ filter: `blur(${participant.blur / 4}px)` }}
+                        style={{
+                          filter: `blur(${(4 - participant.blur) * 2}px)`,
+                        }}
                         onContextMenu={(event) => {
                           event.preventDefault();
                         }}

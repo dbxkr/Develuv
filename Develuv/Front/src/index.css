@@ -59,7 +59,10 @@ button:focus-visible {
 .routes {
   padding-top: 110px;
 }
-
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
 /* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

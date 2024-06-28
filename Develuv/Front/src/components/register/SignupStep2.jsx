@@ -47,6 +47,8 @@ const SignupStep2 = ({
       formData.user_email = state.user.email;
       formData.user_profile = state.user.profile;
     }
+  } else {
+    formData.provider = "develuv";
   }
   useEffect(() => {
     console.log(state);
