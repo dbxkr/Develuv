@@ -24,20 +24,7 @@ const MatchingList = ({
       // 이미 matchList가 설정되어 있으면 새로 데이터를 가져오지 않음
       return
     }
-    axios
-      .get('http://localhost:8080/matchingList/getUserAdr', {
-        params: {
-          user_id: user_id,
-        },
-      })
-      .then((response) => {
-        address.current = response.data.returnAddress
-        console.log(address.current)
-        getMatchList()
-      })
-      .catch((error) => {
-        console.log('error get address => ', error)
-      })
+    getMatchList();
   }, [matchType])
 
   function getMatchList() {
@@ -45,17 +32,16 @@ const MatchingList = ({
     if (matchType === 'normal') {
       // 일반 매칭 검색
       console.log('before call List address : ' + address.current)
-      formData.append('searchAdr', address.current)
+      // formData.append('user_id', user_id)
       axios
-        .get('http://localhost:8080/matchingList', {
+        .get('http://localhost:8080/matching/kdtree', {
           params: {
-            searchAdr: address.current,
+            user_id: user_id,
           },
         })
         .then((response) => {
           setMatchList(response.data)
           console.log(matchList)
-          testGeopoint(address.current);
         })
         .catch((error) => {
           console.error('Error getList normal => ', error)
@@ -80,11 +66,12 @@ const MatchingList = ({
     } else if (matchType === 'nbti') {
       // 선택한 nbti로 검색
       console.log(matchType)
-      formData.append('searchAdr', address.current)
+      // formData.append('searchAdr', address.current)
       axios
-        .get('http://localhost:8080/matchingList/nbti', {
+        .get('http://localhost:8080/matching/kdtree/nbti', {
           params: {
-            searchAdr: address.current,
+            user_id: user_id,
+            nbti: "BOMD"
           },
         })
         .then((response) => {
@@ -98,9 +85,9 @@ const MatchingList = ({
       // 유명한순
       formData.append('searchAdr', address.current)
       axios
-        .get('http://localhost:8080/matchingList/fame', {
+        .get('http://localhost:8080/matching/kdtree/famous', {
           params: {
-            searchAdr: address.current,
+            user_id: user_id,
           },
         })
         .then((response) => {
@@ -113,21 +100,6 @@ const MatchingList = ({
     }
   }
 
-  function testGeopoint(user_address) {
-    console.log("axios 호출전");
-    const formdata = new FormData();
-    let inaddress = "서울강남구도산대로118";
-
-    formdata.append("saddress", inaddress);
-    axios
-      .get(`http://localhost:8080/matching/geopoint?saddress=${user_address}`)
-      .then((response) => {
-        console.log("거리값 : " + response.data+"m");
-      })
-      .catch((error) => {
-        console.log("error get geopoint => ", error);
-      });
-  }
 
   const {formData, setFormData} = useState();
 

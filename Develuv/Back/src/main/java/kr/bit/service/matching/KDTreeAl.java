@@ -1,4 +1,4 @@
-package kr.bit;
+package kr.bit.service.matching;
 
 import org.jscience.mathematics.number.Float64;
 import org.jscience.mathematics.vector.Float64Vector;
@@ -103,7 +103,7 @@ public class KDTreeAl {
             if (target.get(root.axis).compareTo(root.point.get(root.axis)) >= 0) {
                 nextBest = root.right;
                 otherSide = root.left;
-                
+
             }
 
             nearestNeighborsRec(nextBest, target, n, pq);

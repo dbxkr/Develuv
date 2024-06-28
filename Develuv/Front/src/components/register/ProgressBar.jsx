@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const ProgressBar = ({ progress }) => {
   return (
@@ -15,7 +15,7 @@ const ProgressBar = ({ progress }) => {
         <div className="progress-circle-fifth" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProgressBar;
+export default ProgressBar

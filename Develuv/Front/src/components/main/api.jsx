@@ -1,14 +1,15 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8080/api/left'
+const API_URL = 'http://localhost:8080/api/tokens'
 
 // 사용자 코인 확인 API 호출
 export const getUserCoins = async (user_id) => {
   try {
-    const response = await axios.get(`${API_URL}/coins`, {
+    const response = await axios.get(`${API_URL}`, {
       params: { user_id },
     })
-    return response.data.coins
+    console.log('token', response)
+    return response.data.token
   } catch (error) {
     console.error('Failed to fetch user coins:', error)
     throw error
@@ -18,12 +19,13 @@ export const getUserCoins = async (user_id) => {
 // 사용자 코인을 차감하는 API 호출
 export const deductCoins = async (user_id, amount) => {
   try {
-    const response = await axios.post(`${API_URL}/coin/use`, {
+    const response = await axios.post(`${API_URL}/deduct`, {
       user_id,
       amount,
     })
-    console.log('Remaining Coins:', response.data.remainingCoins) // API 응답 확인
-    return response.data.remainingCoins
+    // console.log('Remaining Coins:', response.data.remainingCoins) // API 응답 확인
+    // API로부터 받은 남은 토큰 잔액 반환
+    return response.data.token
   } catch (error) {
     console.error('Failed to use coins:', error)
     throw error
@@ -33,7 +35,7 @@ export const deductCoins = async (user_id, amount) => {
 // 관리용 코인 추가 API 호출
 export const addCoins = async (user_id, amount) => {
   try {
-    const response = await axios.post(`${API_URL}/admin/add-coins`, {
+    const response = await axios.post(`${API_URL}/admin/add`, {
       user_id,
       amount,
     })

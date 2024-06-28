@@ -11,7 +11,7 @@
   border: 2px solid #000000; /* 박스 테두리 */
   border-radius: 10px; /* 박스 테두리 둥글게 */
   padding: 10px; /* 내부 여백 */
-  margin-top: 40px; /* 상단 간격 조정 */
+  margin-top: 50px; /* 상단 간격 조정 */
   margin-bottom: 40px; /* 하단 간격 조정 */
 
   width: 150%; /* 너비 조정 */
@@ -71,7 +71,7 @@
 .submit-button {
   background-color: #00356d;
   color: #ffffff;
-  margin-top: 20px; /* 위쪽 간격 조정 */
+  margin-top: -60px; /* 위쪽 간격 조정 */
   margin-left: 65px;
 }
 
@@ -104,7 +104,7 @@
   height: 4px; /* 선의 두께 */
   background-color: #cccccc; /* 선의 색상
    */
-  margin-top: -125px;
+  margin-top: 30px;
   margin-bottom: 40px;
 }
 
@@ -138,6 +138,9 @@
   content: '5'; /* 마지막 동그라미에 텍스트 추가 */
 }
 /*---------------------------2page--------------------------------------------*/
+.signup2container {
+  position: relative;
+}
 .error-message {
   margin-top: 20px;
   color: red;
@@ -161,49 +164,64 @@
   max-width: 600px;
   margin: auto;
 }
-
-.progress-container {
+.progress-container2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
 }
 
-.progress-line {
-  position: relative;
-  width: 500px;
-  height: 4px;
-  background-color: #cccccc;
-  margin-top: -205px;
+.progress-line2 {
+  position: fixed;
+  top: 155px; /* 선의 상단 위치를 지정 */
+  left: 50%; /* 브라우저 중앙에 위치하도록 */
+  transform: translateX(-50%); /* 중앙 정렬을 위해 왼쪽으로 50% 이동 */
+  width: 500px; /* 적절한 너비 지정 */
+  height: 4px; /* 선의 두께 */
+  background-color: #cccccc; /* 선의 색상 */
 }
-
-.progress-circle {
+.progress-circle2 {
   position: absolute;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   background-color: #00356d;
   top: -13px;
+  transition: background-color 0.3s;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white; /* 숫자 색상 */
+  font-weight: bold; /* 숫자 두께 */
+}
+
+.progress-circle2.second {
+  left: calc(25% - 15px);
+}
+
+.progress-circle2.second::after {
+  content: '2';
   color: white;
   font-weight: bold;
 }
 
-.progress-circle.fifth {
-  right: 0; /* 다섯 번째 동그라미의 위치 */
+.progress-circle2:last-child {
+  background-color: #cccccc;
+  right: 0;
+}
+
+.progress-circle2:last-child::after {
+  content: '5';
 }
 
 .copy {
   text-align: center;
-  margin-bottom: -50px;
+  margin-bottom: 30px;
 }
 
 .sign-up {
   font-size: 24px;
   font-weight: bold;
-  margin-top: -140px; /* 상단 간격 조정 */
+  margin-top: 100px; /* 상단 간격 조정 */
 }
 
 .welcome-to-bluv {
@@ -354,8 +372,8 @@ input[type='date'] {
   color: green; /* 텍스트 색상 */
 
   position: absolute;
-  top: 478px; /* 적절한 위치 조정 */
-  left: 170px; /* 왼쪽 여백 조정 */
+  top: 365px; /* 적절한 위치 조정 */
+  left: 120px; /* 왼쪽 여백 조정 */
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   text-align: center;
 }
@@ -436,43 +454,56 @@ input[type='date'] {
     background-color: #00356d;
   } */
 
-/* 1~5단계 프로그레스 막대 */
-.progress-container {
+.signup4container {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.progress-container4 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  padding-top: 200px; /* 헤더와 같은 높이만큼의 공간을 확보 */
 }
 
-.progress-line {
+.progress-line4 {
   position: relative;
-  width: 500px; /* 적절한 너비 지정 */
-  height: 4px; /* 선의 두께 */
-  /* background-color: #00356d; /* 선의 색상 */
-  z-index: 10;
+  width: 500px;
+  height: 4px;
+  background-color: #cccccc;
+  top: 70px;
 }
 
-.progress-circle-fourth::after {
-  content: '4'; /* 4번 동그라미에 텍스트 추가 */
-}
-
-.progress-circle-fifth {
+.progress-circle4 {
   position: absolute;
-  width: 30px; /* 동그라미의 지름 */
-  height: 30px; /* 동그라미의 지름 */
-  border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
-  background-color: #cccccc; /* 동그라미의 색상 */
-  top: -13px; /* 선 위에 위치하도록 조정 */
-  transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #00356d;
+  top: -13px;
+  transition: background-color 0.3s;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white; /* 텍스트 색상 */
+  color: white;
   font-weight: bold;
-  right: 0; /* 다섯 번째 동그라미의 위치 */
 }
 
-.progress-circle-fifth::after {
-  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
+.progress-circle4.fourth {
+  left: calc(75% - 15px);
+}
+
+.progress-circle4.fourth::after {
+  content: '4';
+}
+
+.progress-circle4.fifth {
+  left: calc(100% - 15px);
+  background-color: #cccccc;
+}
+
+.progress-circle4.fifth::after {
+  content: '5';
 }
