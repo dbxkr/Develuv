@@ -10,36 +10,37 @@ function ImgMdSwitch({ imgRoute }) {
     setView((prevView) => (prevView === "image" ? "markdown" : "image"));
   };
   return (
-    <div>
-      <div
-        style={{
-          width: "180px",
-          height: "180px",
-          borderRadius: "15px",
-          border: "1px solid black",
-        }}
-      >
-        {view === "image" && <ImgViewer imgRoute={imgRoute} />}
-        {view === "markdown" && (
-          <MarkdownViewer
-            lang={"python"}
-            text={'print("hello wolrd")'}
-            style={{ Height: "100%", overflow: "auto" }}
-          />
-        )}
-        <button
+    <div
+      style={{
+        width: "180px",
+        height: "180px",
+        borderRadius: "15px",
+        border: "1px solid black",
+      }}
+      onClick={toggleView}
+    >
+      {view === "image" && (
+        <img
+          src={imgRoute}
           style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            backgroundColor: "transparent",
-            color: "black",
+            width: "100%",
+            height: "100%",
+            borderRadius: "15px",
+            border: "1px solid black",
           }}
-          onClick={toggleView}
-        >
-          전환
-        </button>
-      </div>
+          alt="User Profile"
+          onContextMenu={(event) => {
+            event.preventDefault();
+          }}
+        />
+      )}
+      {view === "markdown" && (
+        <MarkdownViewer
+          lang={"python"}
+          text={'print("hello wolrd")'}
+          style={{ Height: "100%", overflow: "auto" }}
+        />
+      )}
     </div>
   );
 }

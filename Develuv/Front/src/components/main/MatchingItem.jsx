@@ -1,6 +1,5 @@
 import reactimg from "../../assets/react.svg";
 import { Link } from "react-router-dom";
-import ImgMdSwitch from "./detail/ImgMdSwitch";
 
 const MatchingItem = ({
   user_id,
@@ -24,12 +23,6 @@ const MatchingItem = ({
               border: "1px solid black",
             }}
             alt="User Profile"
-            onContextMenu={(event) => {
-              event.preventDefault();
-            }}
-          />
-          <ImgMdSwitch
-            imgRoute={user_profile + blurLevel[0] + "&blur=QU2/^23ZzX"}
             onContextMenu={(event) => {
               event.preventDefault();
             }}
