@@ -184,7 +184,7 @@ const Mypage = () => {
   }
 
   const age = calculateAge(userInfo.user_birth);
-  const tempB = 4;
+  const tempB = 0;
 
   return (
     <div className="mypage-container">
