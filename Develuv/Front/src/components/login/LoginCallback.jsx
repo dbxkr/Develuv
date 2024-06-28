@@ -56,6 +56,7 @@ const LoginCallback = (props) => {
       id: user.data.id,
       nickname: user.data.kakao_account.profile.nickname,
       access_token: access_token,
+      provider: "kakao",
     };
     axios
       .post(serverUrl + "/kakao", data)
@@ -132,6 +133,7 @@ const LoginCallback = (props) => {
       name: user.data.family_name + " " + user.data.given_name,
       email: user.data.email,
       profile: user.data.picture,
+      provider: "google",
     };
     axios
       .post(serverUrl + "/google", data)

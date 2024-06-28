@@ -47,6 +47,21 @@ export const AuthProvider = ({ children }) => {
     } else {
       setUser({ user_id: "" });
     }
+    // 개발자도구 실행 감지.
+    // console.log(
+    //   Object.defineProperties(new Error(), {
+    //     toString: {
+    //       value() {
+    //         new Error().stack.includes("toString@") && alert("Safari devtools");
+    //       },
+    //     },
+    //     message: {
+    //       get() {
+    //         document.location.href = "http://localhost:3500/nahhh";
+    //       },
+    //     },
+    //   })
+    // );
   }, []);
 
   useEffect(() => {

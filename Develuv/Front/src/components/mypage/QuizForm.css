@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  height: 600px;
+  /* background-color: lightskyblue; */
+}
+
+.modal {
+  flex-direction: column;
+  width: 400px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 0 5px #cccccc;
+}
+
+/* 프로그레스 바 */
+.progress-line-gray {
+  position: relative;
+  margin-top: 50px;
+  width: 500px;
+  height: 5px;
+  background-color: #cccccc;
+  z-index: 0;
+}
+
+.progress-line-blue {
+  position: absolute;
+  background-color: #00356d;
+  height: 5px;
+  z-index: 10;
+}
+
+.total-quiz-number {
+  /* 동그라미 위치 조절 */
+  position: absolute;
+  top: -13px;
+  right: 0;
+  /* 동그라미를 동그랗게(?) 하기 */
+  background-color: #cccccc;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.current-quiz-number {
+  /* 동그라미 위치 조절 */
+  position: absolute;
+  top: -13px;
+  /* 동그라미를 동그랗게(?) 하기 */
+  background-color: #00356d;
+  color: white;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  z-index: 20;
+}
+
+.quiz-div {
+  height: 500px;
+  width: 500px;
+}
+
+.children-container {
+  margin: 5px 50px;
+  box-shadow: none;
+  text-align: left;
+}
+
+.choice-label {
+  display: flex;
+  gap: 30px;
+  padding: 15px;
+}
+
+.choice-input {
+  margin: 0;
+  width: 1rem;
+  display: block;
+}
