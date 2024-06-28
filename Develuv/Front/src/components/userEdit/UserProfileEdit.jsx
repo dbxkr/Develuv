@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ImageUpload from "../imgupload"; // 이미지 업로드 컴포넌트 임포트
 
 const UserProfileEdit = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth(); // useAuth에서 setUser를 가져옵니다.
   const [userId, setUserId] = useState(user.user_id);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,7 +13,7 @@ const UserProfileEdit = () => {
   const [job, setJob] = useState(user.job || "");
   const [address, setAddress] = useState(user.address || "");
   const [profileImageUrl, setProfileImageUrl] = useState(
-    user.profileImage || ""
+    user.user_profile || ""
   ); // 프로필 이미지 URL 상태 추가
   const image = useRef();
   const navigate = useNavigate();
@@ -43,8 +43,6 @@ const UserProfileEdit = () => {
     refreshAccessToken();
   }, []);
 
-  const uploadFile = () => {};
-
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -69,6 +67,7 @@ const UserProfileEdit = () => {
     // 이미지 업로드 후 이미지 URL을 상태에 설정
     setProfileImageUrl(imageUrl);
   };
+
   const handleImageChange = (e) => {
     image.current = e.target.files[0];
   };
@@ -76,10 +75,16 @@ const UserProfileEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!password || !phone || !job || !address) {
+      alert("비밀번호, 휴대전화, 직업, 지역을 모두 입력해주세요.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
     }
+
     const folderId = "1MTa41ozlOhsVe5ID--NZ8Br_xii27knL"; // 업로드하려는 폴더의 ID
 
     const formData = new FormData(); // FormData 객체 생성
@@ -101,8 +106,8 @@ const UserProfileEdit = () => {
 
     console.log(accessToken);
     console.log(image.current.type);
-    axios
-      .post(
+    try {
+      const response = await axios.post(
         "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
         formData,
         {
@@ -111,42 +116,47 @@ const UserProfileEdit = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         }
-      )
-      .then((response) => {
-        console.log("File uploaded successfully");
-        const fileId = response.data.id;
-        setProfileImageUrl(
-          `https://drive.google.com/thumbnail?id=${fileId}&sz=s`
-        );
-        const userData = {
-          user_id: userId,
-          user_pw: password,
-          user_phone: phone,
-          user_job: job,
-          user_address: address,
-          user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s4000`,
-        };
-        try {
-          // 프로필 정보 업데이트
-          axios.put(
-            `http://localhost:8080/api/edit-profile/${user.user_id}`,
-            userData
-          );
-          alert("프로필이 성공적으로 업데이트 되었습니다.");
-          navigate("/mypage/Mypage"); // 성공 시 마이페이지로 이동
-        } catch (error) {
-          console.error("프로필 업데이트 오류:", error);
-          alert(
-            `프로필 업데이트 실패: ${
-              error.response?.data?.message || error.message
-            }`
-          );
-        }
+      );
+      console.log("File uploaded successfully");
+      const fileId = response.data.id;
+      setProfileImageUrl(
+        `https://drive.google.com/thumbnail?id=${fileId}&sz=s`
+      );
+      const userData = {
+        user_id: userId,
+        user_pw: password,
+        user_phone: phone,
+        user_job: job,
+        user_address: address,
+        user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s`,
+      };
+
+      await axios.put(
+        `http://localhost:8080/api/edit-profile/${user.user_id}`,
+        userData
+      );
+      alert("프로필이 성공적으로 업데이트 되었습니다.");
+      // 사용자 정보를 업데이트
+      setUser({
+        ...user,
+        phone,
+        job,
+        address,
+        user_profile: userData.user_profile,
       });
+      navigate(`/mypage/${user.user_id}`); // 성공 시 마이페이지로 이동
+    } catch (error) {
+      console.error("프로필 업데이트 오류:", error);
+      alert(
+        `프로필 업데이트 실패: ${
+          error.response?.data?.message || error.message
+        }`
+      );
+    }
   };
 
   const handleCancel = () => {
-    navigate("/mypage"); // 변경사항 없이 마이페이지로 이동
+    navigate(`/mypage/${user.user_id}`); // 변경사항 없이 마이페이지로 이동
   };
 
   return (

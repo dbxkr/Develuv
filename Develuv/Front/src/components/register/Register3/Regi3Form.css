@@ -1,31 +1,32 @@
-
-.Regi3Form {
+.container {
   margin-top: 50px;
-  margin-bottom: 100px;
   margin-left: 10%;
   text-align: center;
   width: 80%;
   position: relative;
 }
-/* .progress-container {
+.signForm {
+  position: relative;
+}
+
+.signup3container {
+  position: fixed;
+}
+.progress-container3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-} */
+}
 
-.progress-line {
+.progress-line3 {
   position: relative;
-  width: 70%;
+  width: 500px;
   height: 4px;
   background-color: #cccccc;
+  top: -650px;
 }
 
-.gbtn_div{
-  display: flex;
-}
-
-.progress-circle {
+.progress-circle3 {
   position: absolute;
   width: 30px;
   height: 30px;
@@ -39,25 +40,38 @@
   color: white;
   font-weight: bold;
 }
-.progress-circle.third {
-  left: 50%;
+
+.progress-circle3.third {
+  left: calc(60% - 15px);
 }
 
-.progress-circle.third::after {
-  content: "3";
-}
-.progress-circle.fifth::after {
-  content: "5";
+.progress-circle3.third::after {
+  content: '3';
 }
 
-.Regi3Form div {
+.progress-circle3.fifth {
+  left: calc(100% - 15px);
+  background-color: #cccccc;
+}
+
+.progress-circle3.fifth::after {
+  content: '5';
+}
+
+.container div {
   margin-bottom: 10px;
 }
 
-.Regi3Form .tt {
+/*.container .tt {
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: 600;
+}*/
+
+.container .tt {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 100px; /* 상단 간격 조정 */
 }
 
 .gray_font {
@@ -85,7 +99,7 @@
 }
 
 .half_hr {
-  width: 380px;
+  width: 50%;
   margin-bottom: 20px;
   color: whitesmoke;
 }
@@ -134,69 +148,36 @@
   width: 380px;
 }
 
-.pre_next_div .before_btn {
-  position: fixed;
+.before_btn {
+  position: relative;
   bottom: 50px;
   left: 40px;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: #1d4289;
-  color: white;
+  background-color: white;
   border: 1px solid darkgray;
   font-size: 20px;
   font-weight: 300;
 }
 
-.pre_next_div .after_btn {
-  position: fixed;
+.after_btn {
+  position: relative;
   bottom: 50px;
   right: 40px;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: #1d4289;
-  color: white;
-
+  background-color: white;
   border: 1px solid darkgray;
   font-size: 20px;
   font-weight: 300;
 }
 
-.pre_next_div .after_btn:hover {
-  background-color: white;
-  color: black;
+.after_btn:hover {
+  background-color: #1d4289;
+  color: white;
 }
 
-.pre_next_div .before_btn:hover {
-  background-color: white;
-  color: black;
-}
-
-.regi3_address_div {
-  margin-left: 10px;
-  display: flex;
-  justify-content: center;
-  width: 380px;
-
-}
-
-.regi3_form{
-  width: 400px;
-}
-
-.regi3_address_div .addr_in {
-  border: 1px solid whitesmoke;
-  border-radius: 5px 0px 0px 5px;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: 450;
-  width: 330px;
-  margin-top: 20px;
-}
-
-.img_div{
-
-}
-
-.regi3_img_in{
-  width: 300px;
+.before_btn:hover {
+  background-color: #1d4289;
+  color: white;
 }

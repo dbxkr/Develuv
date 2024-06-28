@@ -144,9 +144,8 @@
 .progress-circle:last-child {
   background-color: #00356d; /* 마지막 동그라미의 색상 */
   left: calc(100%); /* 두 번째 동그라미의 위치 */
-
 }
 
 .progress-circle:last-child::after {
-  content: "5"; /* 마지막 동그라미에 텍스트 추가 */
+  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
 }

@@ -63,9 +63,11 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
     setFormData({ ...formData, user_nbti: nbti })
     setProgress(progress + 1)
   }
-
   return (
     <div>
+      {/* Progress Indicator */}
+      <div className="signup4container"></div>
+
       <div className="container-header">
         <h2>NBTI</h2>
         <h4>자신의 코딩 유형을 골라주세요.</h4>
@@ -172,6 +174,16 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
         >
           다음
         </button>
+      </div>
+
+      {/* Progress Indicator */}
+      <div className="signup4container">
+        <div className="progress-container4">
+          <div className="progress-line4">
+            <div className="progress-circle4 fourth" />
+            <div className="progress-circle4 fifth" />
+          </div>
+        </div>
       </div>
     </div>
   )

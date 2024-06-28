@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
@@ -33,6 +32,8 @@ function Header() {
   const navigate = useNavigate();
   const { isLoggedIn, user, logout } = useAuth();
   const needLogin = ["/chat", "/main", "/mypage"];
+  const menuRef = useRef(null); // 메뉴 슬라이드 영역을 참조하기 위한 ref
+
   useEffect(() => {
     if (needLogin.some((path) => location.pathname.includes(path))) {
       if (!isLoggedIn) {
@@ -40,25 +41,20 @@ function Header() {
         navigate("/");
       }
     }
-  }, [location, isLoggedIn]);
+  }, [location, isLoggedIn, navigate]);
 
   useEffect(() => {
-    // // 미운트 시 네이버 유저인지 체크
-    // getNaverUser();
-    // // 마운트 시 카카오 유저인지 체크
-    // const token = localStorage.getItem("kakao.access_token");
-    // console.log("카카오 토큰 :" + token);
-    // if (token) {
-    //   getKakaoUserData(token)
-    //     .then((data) => {
-    //       setUser(data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       localStorage.removeItem("kakao.access_token");
-    //     });
-    // }
-  }, []);
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -123,12 +119,12 @@ function Header() {
           <>
             {/* <div
               className="center-container"
-              style={{ display: "flex", alignItems: "center" }}
+              style={{ display: 'flex', alignItems: 'center' }}
             >
-              <Link to="/chat" style={{ marginRight: "30px", color: "white" }}>
+              <Link to="/chat" style={{ marginRight: '30px', color: 'white' }}>
                 채팅(테스트)
               </Link>
-              <Link to="/main" style={{ color: "white" }}>
+              <Link to="/main" style={{ color: 'white' }}>
                 매칭(테스트)
               </Link>
             </div> */}
@@ -157,12 +153,12 @@ function Header() {
                   className="loginBtn"
                   onClick={handleLogout}
                   style={{
-                    backgroundColor: "white",
-                    color: "#00356d",
-                    padding: "5px 10px",
-                    border: "none",
-                    borderRadius: "5px",
-                    whiteSpace: "nowrap",
+                    backgroundColor: 'white',
+                    color: '#00356d',
+                    padding: '5px 10px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   로그아웃
@@ -177,12 +173,12 @@ function Header() {
             className="loginBtn"
             onClick={openModal}
             style={{
-              backgroundColor: "white",
-              color: "#00356d",
-              padding: "5px 10px",
-              border: "none",
-              borderRadius: "5px",
-              marginRight: "50px",
+              backgroundColor: 'white',
+              color: '#00356d',
+              padding: '5px 10px',
+              border: 'none',
+              borderRadius: '5px',
+              marginRight: '50px',
             }}
           >
             로그인
@@ -191,6 +187,7 @@ function Header() {
 
         {/* 왼쪽에서 슬라이드 창 */}
         <div
+          ref={menuRef}
           className="menu-slide"
           style={{
             position: "fixed",
