@@ -167,7 +167,9 @@ function ChatList() {
                           "&blur=1ONM#WN"
                         }
                         alt="avatar"
-                        style={{ filter: `blur(${participant.blur / 4}px)` }}
+                        style={{
+                          filter: `blur(${(4 - participant.blur) * 0.5}px)`,
+                        }}
                         onContextMenu={(event) => {
                           event.preventDefault();
                         }}
@@ -195,6 +197,7 @@ function ChatList() {
       <div>
         {roomId ? (
           <Chat
+            key={roomId}
             roomId={roomId}
             myId={user.user_id}
             oppoId={oppoId}
