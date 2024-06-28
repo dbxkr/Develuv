@@ -9,6 +9,7 @@ import instagramIcon from "../../assets/instagram.svg";
 import quizIcon from "../../assets/quiz.svg";
 import githubIcon from "../../assets/github.svg";
 import memoIcon from "../../assets/memo.svg";
+import NbtiModal from "./NbtiModal"; // Import the modal component
 import "./Mypage.css";
 
 const Mypage = () => {
@@ -25,12 +26,55 @@ const Mypage = () => {
   const [memo, setMemo] = useState(user.user_memo || ""); // 빈 문자열로 초기화
   const [focused, setFocused] = useState(null);
 
+  // State for the modal visibility
+  const [isNbtiModalVisible, setIsNbtiModalVisible] = useState(false);
+  const [nbti, setNbti] = useState(user.user_nbti || ""); // Store selected NBTI
+
+  const proLangs = [
+    { lang: "Java", title: "Java" },
+    { lang: "Python", title: "Python" },
+    { lang: "C", title: "C언어" },
+    { lang: "C++", title: "C++" },
+    { lang: "C#", title: "C#" },
+  ];
+  const alchols = [
+    { type: "never", title: "전혀" },
+    { type: "somtimes", title: "가끔" },
+    { type: "often", title: "자주" },
+    { type: "etc", title: "기타" },
+  ];
+  const smokes = [
+    { type: "nonSmoke", title: "비흡연" },
+    { type: "smoke", title: "흡연" },
+  ];
+  const datingStyles = [
+    { type: "activity", title: "액티비티" },
+    { type: "display", title: "전시" },
+    { type: "home", title: "집" },
+    { type: "gourme", title: "맛집탐방" },
+    { type: "coding", title: "코딩" },
+    { type: "etc", title: "기타" },
+  ];
+  const jongs = [
+    { type: "none", title: "무교" },
+    { type: "christan", title: "기독교" },
+    { type: "catholic", title: "가톨릭" },
+    { type: "buddism", title: "불교" },
+    { type: "etc", title: "기타" },
+  ];
+  const educations = [
+    { type: "highschool", title: "고등학교" },
+    { type: "bachelor", title: "대학교" },
+    { type: "master", title: "대학원" },
+    { type: "doctor", title: "박사" },
+    { type: "etc", title: "기타" },
+  ];
   const fetchUserInfo = async () => {
     try {
       if (isMyPage) {
         setBlur(4); // 자신의 마이페이지일 때 블러 초기화
         setUserInfo({ ...user });
-        console.log("내 페이지 정보",user)
+        console.log("내 페이지 정보", user);
       } else {
         const response = await axios.post(
           `${springUrl}/user/otherInfo?user_id=${params.user_id}&my_id=${user.user_id}`
@@ -89,24 +133,57 @@ const Mypage = () => {
     setMemo(newValue);
   };
 
-  const updateProfile = (e) => {
-    let newValue;
-    console.log(e);
-    if (e === "memo") {
-      newValue = memo;
-    } else if (e === "git") {
-      newValue = git;
-    }
+  const updateProfile = (type, newValue) => {
     axios
       .post(`${springUrl}/user/updateOneProfile`, {
-        type: e,
+        type: type,
         value: newValue,
         user_id: user.user_id,
       })
+      .then(() => {
+        fetchUserInfo(); // Refresh user info after update
+        alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
+        if (type === "nbti") {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            user_nbti: newValue,
+          }));
+        } else if (type === "proLang") {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            user_pro_lang: newValue,
+          }));
+        }else if (type === "drink") {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            user_drink: newValue,
+          }));
+        }else if (type === "smoke") {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            user_smoke: newValue,
+          }));
+        }else if (type === "religion") {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            user_religion: newValue,
+          }));
+        }else if (type === "edu") {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            user_edu: newValue,
+          }));
+        }
+        setIsNbtiModalVisible(false); // 모달 창 닫기
+        window.location.href = `/mypage/${user.user_id}`; // 성공 시 마이페이지로 이동
+
+      })
       .catch((error) => {
-        console.error("Error updating Instagram:", error);
+        console.error("Error updating profile:", error);
+        alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
       });
   };
+
 
   const handleQuizChange = (e) => {
     const newValue = e.target.value;
@@ -117,6 +194,130 @@ const Mypage = () => {
       .catch((error) => {
         console.error("Error updating Quiz:", error);
       });
+  };
+
+  const handleProLangChange = (newLang) => {
+    axios
+      .post(`${springUrl}/user/updateOneProfile`, {
+        type: "proLang",
+        value: newLang,
+        user_id: user.user_id,
+      })
+      .then(() => {
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          user_pro_lang: newLang,
+        }));
+        alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+        alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
+      });
+  };
+
+
+  const handleDrinkChange = (newDrink) => {
+    axios
+    .post(`${springUrl}/user/updateOneProfile`, {
+      type: "drink",
+      value: newDrink,
+      user_id: user.user_id,
+    })
+    .then(() => {
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        user_drink: newDrink,
+      }));
+      alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
+      alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
+    });  
+  };
+
+  const handleSmokeChange = (newSmoke) => {
+    axios
+    .post(`${springUrl}/user/updateOneProfile`, {
+      type: "smoke",
+      value: newSmoke,
+      user_id: user.user_id,
+    })
+    .then(() => {
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        user_smoke: newSmoke,
+      }));
+      alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
+      alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
+    });  };
+
+  const handleReligionChange = (newReligion) => {
+    axios
+    .post(`${springUrl}/user/updateOneProfile`, {
+      type: "religion",
+      value: newReligion,
+      user_id: user.user_id,
+    })
+    .then(() => {
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        user_religion: newReligion,
+      }));
+      alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
+      alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
+    });  };
+
+  const handleEduChange = (newEdu) => {
+    axios
+    .post(`${springUrl}/user/updateOneProfile`, {
+      type: "edu",
+      value: newEdu,
+      user_id: user.user_id,
+    })
+    .then(() => {
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        user_edu: newEdu,
+      }));
+      alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
+      alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
+    });  
+  };
+
+  const handleNbtiChange = (newNbti) => {
+    axios
+      .post(`${springUrl}/user/updateOneProfile`, {
+        type: "nbti",
+        value: newNbti,
+        user_id: user.user_id,
+      })
+      .then(() => {
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          user_nbti: newNbti,
+        }));
+        alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+        alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
+      });
+  };
+  
+
+  const toggleNbtiModal = () => {
+    setIsNbtiModalVisible(!isNbtiModalVisible);
   };
 
   if (!userInfo) {
@@ -130,9 +331,7 @@ const Mypage = () => {
       <div className="profile-section">
         <div className="profile-picture">
           <img
-            src={
-              userInfo.user_profile + blurLevel[blur + 0]
-            }
+            src={userInfo.user_profile + blurLevel[blur + 0]}
             alt="Profile"
             onContextMenu={(event) => {
               event.preventDefault();
@@ -156,11 +355,7 @@ const Mypage = () => {
         <div className="info-group">
           <div className="info-row">
             <h2>
-              <img
-                src={userIcon}
-                alt="User"
-                className="icon"
-              />
+              <img src={userIcon} alt="User" className="icon" />
               {userInfo.user_name} ({age})
               <span
                 className={`gender-icon ${
@@ -172,27 +367,15 @@ const Mypage = () => {
             </h2>
           </div>
           <div className="info-row">
-            <img
-              src={locationIcon}
-              alt="Location"
-              className="icon"
-            />
+            <img src={locationIcon} alt="Location" className="icon" />
             <p>{userInfo.user_address}</p>
           </div>
           <div className="info-row">
-            <img
-              src={jobIcon}
-              alt="Job"
-              className="icon"
-            />
+            <img src={jobIcon} alt="Job" className="icon" />
             <p>{userInfo.user_job}</p>
           </div>
           <div className="info-row">
-            <img
-              src={memoIcon}
-              alt="Memo"
-              className="icon"
-            />
+            <img src={memoIcon} alt="Memo" className="icon" />
             {isMyPage ? (
               <div className="profile-change">
                 <input
@@ -214,7 +397,7 @@ const Mypage = () => {
                 <button
                   style={focused === "memo" ? null : { display: "none" }}
                   onClick={() => {
-                    updateProfile("memo");
+                    updateProfile("user_memo", memo);
                   }}
                 >
                   수정
@@ -227,21 +410,104 @@ const Mypage = () => {
         </div>
         <div className="info-group">
           <div className="info-row">
-            <span className="info-tag">{userInfo.user_nbti}</span>
-            {userInfo.user_pro_lang &&
-              userInfo.user_pro_lang.split(",").map((lang, index) => (
-                <span className="info-tag" key={index}>
-                  {lang}
-                </span>
-              ))}
+            <div onClick={toggleNbtiModal}>
+              <span className="info-tag">{userInfo.user_nbti}</span>
+            </div>
+            <div>
+              {isMyPage ? (
+                <select
+                  className="info-tag"
+                  onChange={(e) => handleProLangChange(e.target.value)}
+                  value={userInfo.user_pro_lang}
+                >
+                  {proLangs.map((lang, index) => (
+                    <option key={index} value={lang.lang}>
+                      {lang.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                userInfo.user_pro_lang &&
+                userInfo.user_pro_lang.split(",").map((lang, index) => (
+                  <span className="info-tag" key={index}>
+                    {lang}
+                  </span>
+                ))
+              )}
+            </div>
           </div>
           <div className="extra-info">
-            <span className="info-tag">{userInfo.user_drink}</span>
-            <span className="info-tag">{userInfo.user_smoke}</span>
-            <span className="info-tag">{userInfo.user_religion}</span>
-            <span className="info-tag">{userInfo.user_edu}</span>
+            <div>
+              {isMyPage ? (
+                <select
+                  className="info-tag"
+                  onChange={(e) => handleDrinkChange(e.target.value)}
+                  value={userInfo.user_drink}
+                >
+                  {alchols.map((drink, index) => (
+                    <option key={index} value={drink.type}>
+                      {drink.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span className="info-tag">{userInfo.user_drink}</span>
+              )}
+            </div>
+            <div>
+              {isMyPage ? (
+                <select
+                  className="info-tag"
+                  onChange={(e) => handleSmokeChange(e.target.value)}
+                  value={userInfo.user_smoke}
+                >
+                  {smokes.map((smoke, index) => (
+                    <option key={index} value={smoke.type}>
+                      {smoke.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span className="info-tag">{userInfo.user_smoke}</span>
+              )}
+            </div>
+            <div>
+              {isMyPage ? (
+                <select
+                  className="info-tag"
+                  onChange={(e) => handleReligionChange(e.target.value)}
+                  value={userInfo.user_religion}
+                >
+                  {jongs.map((religion, index) => (
+                    <option key={index} value={religion.type}>
+                      {religion.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span className="info-tag">{userInfo.user_religion}</span>
+              )}
+            </div>
+            <div>
+              {isMyPage ? (
+                <select
+                  className="info-tag"
+                  onChange={(e) => handleEduChange(e.target.value)}
+                  value={userInfo.user_edu}
+                >
+                  {educations.map((edu, index) => (
+                    <option key={index} value={edu.type}>
+                      {edu.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span className="info-tag">{userInfo.user_edu}</span>
+              )}
+            </div>
           </div>
         </div>
+
         <div className="social-section">
           <div className="social-row">
             <img src={githubIcon} alt="GitHub" className="icon" />
@@ -265,7 +531,7 @@ const Mypage = () => {
                 <button
                   style={focused === "git" ? null : { display: "none" }}
                   onClick={() => {
-                    updateProfile("git");
+                    updateProfile("user_git", git);
                   }}
                 >
                   수정
@@ -285,6 +551,13 @@ const Mypage = () => {
           </div>
         </div>
       </div>
+
+      {/* Include the NBTI Modal */}
+      <NbtiModal
+        isVisible={isNbtiModalVisible}
+        onClose={toggleNbtiModal}
+        onUpdate={(newNbti) => handleNbtiChange(newNbti)}
+      />
     </div>
   );
 };

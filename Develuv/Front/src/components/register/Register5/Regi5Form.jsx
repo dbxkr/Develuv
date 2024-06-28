@@ -43,8 +43,8 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
   ];
   const educations = [
     { type: "highschool", title: "고등학교" },
-    { type: "bachelor", title: "대학교" },
-    { type: "master", title: "대학원" },
+    { type: "university", title: "대학교" },
+    { type: "Graduate school", title: "대학원" },
     { type: "doctor", title: "박사" },
     { type: "etc", title: "기타" },
   ];
