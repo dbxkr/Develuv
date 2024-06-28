@@ -1,8 +1,9 @@
 package kr.bit.mapper;
 
 import kr.bit.dto.MatchingListDTO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import kr.bit.dto.UserDto;
+import kr.bit.dto.matching.LatLonDTO;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -25,4 +26,38 @@ public interface MatchingListMapper {
 
     @Select("SELECT user_address from users where user_id=#{user_id}")
     String findAddressById(String user_id);
+
+
+
+    // 같은 도시내에 50명만 긁어오기
+    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
+            "from users where user_city=#{user_city} limit 50")
+    List<MatchingListDTO> findMatchingListByCity(String user_city);
+
+    // 같은 도시 + 지정한 NBTI 유저 50명만 긁어오기
+    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
+            "from users where user_city=#{user_city} and user_nbti=#{user_nbti} limit 50")
+    List<MatchingListDTO> findMatchingListByCityAndNbti(@Param("user_city")String user_city, @Param("user_nbti")String user_nbti);
+
+    // 같은 도시내에 인기많은 사람 50명 긁어오기
+    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
+            "from users where user_city=#{user_city} order by user_heart desc limit 50")
+    List<MatchingListDTO> findMatchingListByCityAndFame(String user_city);
+
+
+    @Insert("insert into latlon (user_id, city, latitude, longitude) values (#{user_id},#{city},#{latitude},#{longitude})")
+    void insertLatLon (LatLonDTO latlon);
+
+    @Select("select * from latlon where user_id = #{user_id}")
+    LatLonDTO findLatLonByUserId(String user_id);
+
+    @Select("select * from latlon where city = #{city} limit 50")
+    List<LatLonDTO> findLatLonByCity(String city);
+
+    @Select("select * from users where user_id like 'user%'")
+    List<UserDto> findUserAddress();
+
+    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
+            "from users where user_id=#{user_id}")
+    MatchingListDTO findMatchingUserById(String user_id);
 }
