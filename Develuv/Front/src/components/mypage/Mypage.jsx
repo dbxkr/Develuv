@@ -14,7 +14,7 @@ import "./Mypage.css";
 
 const Mypage = () => {
   const params = useParams();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const [blur, setBlur] = useState(0);
   const [userInfo, setUserInfo] = useState(null);
   const [quiz, setQuiz] = useState("");
@@ -71,7 +71,8 @@ const Mypage = () => {
   const fetchUserInfo = async () => {
     try {
       if (isMyPage) {
-        setBlur(4); // 자신의 마이페이지일 때 블러 초기화
+        login(user.user_id, "");
+        setBlur(4);
         setUserInfo({ ...user });
         console.log("내 페이지 정보", user);
       } else {
@@ -191,7 +192,9 @@ const Mypage = () => {
         <div className="profile-picture">
           <img
             src={
-              userInfo.user_profile + blurLevel[blur + 0] + "&blur=AW2$zxORd"
+              userInfo.user_profile +
+              blurLevel[blur + tempB] +
+              "&blur=AW2$zxORd"
             }
             alt="Profile"
             onContextMenu={(event) => {
