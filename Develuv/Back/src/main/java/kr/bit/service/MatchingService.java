@@ -37,15 +37,13 @@ public class MatchingService {
     }
 
     // 맨처음 도시로 리스트 가져오기
-    public List<MatchingListDTO> findMatchingListByCity(String user_city, String user_id){
+    public List<MatchingListDTO> findMatchingListByCity(String user_id){
 
-        System.out.println("받은 city 값 : "+ user_city + " userId : " +user_id);
-
+        LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
+        List<LatLonDTO> cityUserList = matchingListMapper.findLatLonByCity(userLatLon.getCity());
         KDTree kdTree = new KDTree(2);
 
-        List<LatLonDTO> cityUserList = matchingListMapper.findLatLonByCity(user_city);
-        LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
-
+        System.out.println("받은 city 값 : "+ userLatLon.getCity() + " userId : " +user_id);
         System.out.println("찾은 유저의 latlon 값 개수 "+cityUserList.size());
 
         int cnt =0;
@@ -72,6 +70,70 @@ public class MatchingService {
             result.add(matchingListDTO);
         }
 
+        return result;
+    }
+
+    // nbti로 매칭 리스트 가져오기
+    public List<MatchingListDTO> findMatchingListByNbti(String user_id, String nbti) {
+        LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
+        List<String> nbtiUsers = matchingListMapper.findUserByNbti(userLatLon.getCity(), nbti);
+        List<LatLonDTO> nbtiUserList = new ArrayList<>();
+
+        for(String user : nbtiUsers){
+            LatLonDTO fLatlon = matchingListMapper.findLatLonByUserId(user);
+            nbtiUserList.add(fLatlon);
+        }
+
+        KDTree kdTree = new KDTree(2);
+
+        for(LatLonDTO latLon : nbtiUserList){ kdTree.insert(latLon); }
+
+        Vector<Float64> target = Float64Vector.valueOf(userLatLon.getLatitude(), userLatLon.getLongitude());
+        // 12개의 최근접 이웃 찾기
+        List<LatLonDTO> neighbors = kdTree.nearestNeighbors(target, 12);
+        List<MatchingListDTO> result = new ArrayList<>();
+
+        for(LatLonDTO latLon : neighbors){
+            System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
+            MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            result.add(matchingListDTO);
+        }
+
+        return result;
+    }
+
+    // nbti로 매칭 리스트 가져오기
+    public List<MatchingListDTO> findMatchingListByFame(String user_id) {
+        LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
+        System.out.println("유명한 사람들 아이디 가져오기");
+        List<String> famousUsers = matchingListMapper.findUserByFame(userLatLon.getCity());
+
+        List<LatLonDTO> famousUserList = new ArrayList<>();
+
+        System.out.println("리스트에 담기");
+
+        for(String user : famousUsers){
+            LatLonDTO fLatlon = matchingListMapper.findLatLonByUserId(user);
+            famousUserList.add(fLatlon);
+        }
+
+        for (LatLonDTO latLon : famousUserList) {
+            System.out.println(latLon.getUser_id()+"=" +latLon.getLatitude() + " : " + latLon.getLongitude());
+        }
+
+        System.out.println("트리 넣기 전");
+        KDTree kdTree = new KDTree(2);
+        for(LatLonDTO latLon : famousUserList){ kdTree.insert(latLon); }
+
+        Vector<Float64> target = Float64Vector.valueOf(userLatLon.getLatitude(), userLatLon.getLongitude());
+        // 12개의 최근접 이웃 찾기
+        List<LatLonDTO> neighbors = kdTree.nearestNeighbors(target, 12);
+        List<MatchingListDTO> result = new ArrayList<>();
+        for(LatLonDTO latLon : neighbors){
+            System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
+            MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            result.add(matchingListDTO);
+        }
         return result;
     }
 

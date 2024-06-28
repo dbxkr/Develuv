@@ -29,20 +29,21 @@ public interface MatchingListMapper {
 
 
 
+    // 주소들 긁어오기
     // 같은 도시내에 50명만 긁어오기
     @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
             "from users where user_city=#{user_city} limit 50")
     List<MatchingListDTO> findMatchingListByCity(String user_city);
 
     // 같은 도시 + 지정한 NBTI 유저 50명만 긁어오기
-    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
-            "from users where user_city=#{user_city} and user_nbti=#{user_nbti} limit 50")
-    List<MatchingListDTO> findMatchingListByCityAndNbti(@Param("user_city")String user_city, @Param("user_nbti")String user_nbti);
+    @Select("select user_id " +
+            "from users where user_address like concat('%',#{user_city},'%') and user_nbti=#{user_nbti} limit 50")
+    List<String> findUserByNbti(@Param("user_city")String user_city, @Param("user_nbti")String user_nbti);
 
     // 같은 도시내에 인기많은 사람 50명 긁어오기
-    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
-            "from users where user_city=#{user_city} order by user_heart desc limit 50")
-    List<MatchingListDTO> findMatchingListByCityAndFame(String user_city);
+    @Select("select user_id " +
+            "from users where user_address like concat('%',#{user_city},'%') order by user_heart desc limit 50")
+    List<String> findUserByFame(String user_city);
 
 
     @Insert("insert into latlon (user_id, city, latitude, longitude) values (#{user_id},#{city},#{latitude},#{longitude})")
