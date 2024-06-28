@@ -20,9 +20,8 @@ const Mypage = () => {
   const navigate = useNavigate();
   const isMyPage = user.user_id === params.user_id;
   const springUrl = "http://localhost:8080";
-  const blurLevel = [50, 70, 90, 140, 4000];
-  const [git, setGit] = useState(user.user_git);
-  const [memo, setMemo] = useState(user.user_memo);
+  const blurLevel = [50, 70, 90, 140, 4000, 4000, 4000, 4000, 4000];
+  const [newValue, setNewValue] = useState(null);
   const [focused, setFocused] = useState(null);
 
   useEffect(() => {
@@ -77,23 +76,12 @@ const Mypage = () => {
     navigate("/edit-profile");
   };
 
-  const handleGithubChange = (e) => {
-    const newValue = e.target.value;
-    setGit(newValue);
-  };
-  const handleMemoChange = (e) => {
-    const newValue = e.target.value;
-    setMemo(newValue);
+  const handleInputChange = (e) => {
+    setNewValue(e.target.value);
   };
 
   const updateProfile = (e) => {
-    let newValue;
-    console.log(e);
-    if (e === "memo") {
-      newValue = memo;
-    } else if (e === "git") {
-      newValue = git;
-    }
+    setFocused(null);
     axios
       .post(`${springUrl}/user/updateOneProfile`, {
         type: e,
@@ -121,6 +109,7 @@ const Mypage = () => {
   }
 
   const age = calculateAge(userInfo.user_birth);
+  const tempB = 4;
 
   return (
     <div className="mypage-container">
@@ -128,7 +117,9 @@ const Mypage = () => {
         <div className="profile-picture">
           <img
             src={
-              userInfo.user_profile + blurLevel[blur + 0] + "&blur=AW2$zxORd"
+              userInfo.user_profile +
+              blurLevel[blur + tempB] +
+              "&blur=AW2$zxORd"
             }
             alt="Profile"
             // style={{ filter: `blur(${blur}px)` }}
@@ -203,11 +194,6 @@ const Mypage = () => {
                   onFocus={() => {
                     setFocused("memo");
                   }}
-                  onBlur={() => {
-                    setTimeout(() => {
-                      setFocused(null);
-                    }, 100);
-                  }}
                   className={focused === "memo" ? null : "n-focus"}
                 />
                 <button
@@ -253,11 +239,6 @@ const Mypage = () => {
                   onChange={handleInputChange}
                   onFocus={() => {
                     setFocused("git");
-                  }}
-                  onBlur={() => {
-                    setTimeout(() => {
-                      setFocused(null);
-                    }, 100);
                   }}
                   className={focused === "git" ? null : "n-focus"}
                 />
