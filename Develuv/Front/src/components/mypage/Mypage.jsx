@@ -124,7 +124,7 @@ const Mypage = () => {
   };
 
   const handleInputChange = (e) => {
-    newValue.current = e;
+    newValue.current = e.target.value;
   };
 
   const updateProfile = (e) => {
@@ -132,14 +132,13 @@ const Mypage = () => {
     axios
       .post(`${springUrl}/user/updateOneProfile`, {
         type: e,
-        value: newValue,
+        value: newValue.current,
         user_id: user.user_id,
       })
       .then(() => {
         fetchUserInfo(); // Refresh user info after update
-        alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
         setIsNbtiModalVisible(false); // 모달 창 닫기
-        window.location.href = `/mypage/${user.user_id}`; // 성공 시 마이페이지로 이동
+        // window.location.href = `/mypage/${user.user_id}`; // 성공 시 마이페이지로 이동
       })
       .catch((error) => {
         console.error("Error updating profile:", error);
@@ -168,7 +167,6 @@ const Mypage = () => {
           ...prevUserInfo,
           user_nbti: newNbti,
         }));
-        alert("정보가 성공적으로 업데이트되었습니다."); // 성공 메시지 표시
       })
       .catch((error) => {
         console.error("Error updating profile:", error);
@@ -280,7 +278,7 @@ const Mypage = () => {
                     newValue.current = e.target.value;
                     updateProfile("proLang");
                   }}
-                  value={userInfo.user_pro_lang}
+                  defaultValue={userInfo.user_pro_lang}
                 >
                   {proLangs.map((lang, index) => (
                     <option key={index} value={lang.lang}>
@@ -307,7 +305,7 @@ const Mypage = () => {
                     newValue.current = e.target.value;
                     updateProfile("drink");
                   }}
-                  value={userInfo.user_drink}
+                  defaultValue={userInfo.user_drink}
                 >
                   {alchols.map((drink, index) => (
                     <option key={index} value={drink.type}>
@@ -327,7 +325,7 @@ const Mypage = () => {
                     newValue.current = e.target.value;
                     updateProfile("smoke");
                   }}
-                  value={userInfo.user_smoke}
+                  defaultValue={userInfo.user_smoke}
                 >
                   {smokes.map((smoke, index) => (
                     <option key={index} value={smoke.type}>
@@ -347,7 +345,7 @@ const Mypage = () => {
                     newValue.current = e.target.value;
                     updateProfile("religion");
                   }}
-                  value={userInfo.user_religion}
+                  defaultValue={userInfo.user_religion}
                 >
                   {jongs.map((religion, index) => (
                     <option key={index} value={religion.type}>
@@ -367,7 +365,7 @@ const Mypage = () => {
                     newValue.current = e.target.value;
                     updateProfile("edu");
                   }}
-                  value={userInfo.user_edu}
+                  defaultValue={userInfo.user_edu}
                 >
                   {educations.map((edu, index) => (
                     <option key={index} value={edu.type}>
