@@ -1,7 +1,9 @@
 package kr.bit.controller;
 
 import kr.bit.dto.ChatDTO;
+import kr.bit.dto.UnblurDTO;
 import kr.bit.mapper.ChatMapper;
+import kr.bit.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ public class ChatController {
 
     @Autowired
     private ChatMapper chatMapper;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/join")
     public List<ChatDTO> chat(@RequestBody ChatDTO chatDTO) {
@@ -40,6 +44,17 @@ public class ChatController {
         //디비에 insert.
         int result = chatMapper.saveChat(chatDTO);
         System.out.println("디비 저장 됨??? = " + result);
+    }
+
+    @PostMapping("/unblur")
+    public void unblur(@RequestBody UnblurDTO unblurDTO) {
+        chatMapper.unblur(unblurDTO);
+        tokenService.deductTokens(unblurDTO.getMyId(), 1000);
+    }
+
+    @PostMapping("/blur")
+    public void blur(@RequestBody UnblurDTO unblurDTO) {
+        chatMapper.blur(unblurDTO);
     }
 
 }

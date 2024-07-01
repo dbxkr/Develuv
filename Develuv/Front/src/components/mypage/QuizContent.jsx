@@ -5,7 +5,6 @@ const QuizContent = ({ page, quiz, answer, ans, qId, setAnswer }) => {
   console.log("현재 페이지 : ", page);
   console.log(`${page} 페이지 문제 확인: ${quiz}의 답은 ${answer}란다:)`);
   const [choices, setChoices] = useState([]);
-  const radioRef = useRef();
 
   // q_id 로 해당 문제의 선택지 가져오기
   useEffect(() => {
@@ -22,34 +21,32 @@ const QuizContent = ({ page, quiz, answer, ans, qId, setAnswer }) => {
     getChoices();
   }, [qId]);
 
+  // 페이지가 변경될 때마다 라디오 버튼의 선택 상태 초기화
   useEffect(() => {
-    if (radioRef !== undefined) {
-      console.log("라디오버튼 상태 !!", radioRef.checked);
-    }
-  });
+    const radioButtons = document.querySelectorAll(`input[name="ch_${qId}"]`);
+    radioButtons.forEach((radio) => (radio.checked = false));
+  }, [page, qId]);
 
   // 선택지를 라디오 버튼으로 만들기...
   const printChoices = () => {
     return choices.map((el) => (
       <div key={el.c_num}>
         <div className="choice-container">
-          <label className="choice-label" htmlFor={`choice_${el.c_num}`}>
+          <label className="choice-label" htmlFor={`choice_${qId}_${el.c_num}`}>
             <input
               className="choice-input"
-              ref={radioRef}
               type="radio"
-              name="ch"
-              //   value={el.c_num}
-              id={`choice_${el.c_num}`}
+              name={`ch_${qId}`}
+              id={`choice_${qId}_${el.c_num}`}
+              value={el.c_num}
               // 선택한 라디오 버튼의 번호를 부모 컴포넌트 ans에 저장
               onClick={(e) => {
-                if (e.target.value == answer) {
+                if (parseInt(e.target.value) === answer) {
                   ans.current[page - 1] = true;
-                }
-                if (e.target.value != answer) {
+                } else {
                   ans.current[page - 1] = false;
                 }
-                setAnswer(ans.current);
+                setAnswer([...ans.current]);
                 console.log("정답상황: ", ans.current);
               }}
             />

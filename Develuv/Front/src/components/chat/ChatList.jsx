@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import "./chat.css"; // CSS 파일 임포트
 import Chat from "./Chat";
 import styled from "styled-components";
+import DetailedInfo from "./DetailedInfo";
 
 const customStyles = {
   content: {
@@ -25,12 +26,13 @@ Modal.setAppElement("#root");
 
 function ChatList() {
   // const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedChat, setSelectedChat] = useState(null); // 선택된 채팅방 상태
   const [participants, setParticipants] = useState([]); // 같은 room_id에 있는 상대방 목록 상태
   const [roomId, setRoomId] = useState(null);
-  const [oppoId, setOppoId] = useState(null);
+  const [oppoName, setoppoName] = useState(null);
+  const [oppoId, setoppoId] = useState(null);
   const [oppoProfile, setOppoProfile] = useState(null);
   const [blur, setBlur] = useState(0);
+  const [dInfo, setDInfo] = useState(false);
   const blurLevel = [50, 70, 90, 140, 4000];
 
   const { user, isLoggedIn } = useAuth();
@@ -86,7 +88,7 @@ function ChatList() {
   // 채팅방을 클릭하면 쌓여있는 알림을 읽도록 한다.
   const readMsgURL = "http://localhost:8080/chatlists/room/readmessage";
   const readMsg = async () => {
-    console.log("채팅방 클릭했어?", roomId, oppoId);
+    console.log("채팅방 클릭했어?", roomId, oppoName);
     try {
       const response = await axios.post(readMsgURL, {
         room_id: roomId,
@@ -121,11 +123,7 @@ function ChatList() {
 
   useEffect(() => {
     readMsg();
-  }, [roomId, oppoId]);
-
-  function selectChat(chat) {
-    setSelectedChat(chat);
-  }
+  }, [roomId, oppoName]);
 
   return (
     <ChatComponents>
@@ -148,27 +146,29 @@ function ChatList() {
                     onClick={() => {
                       if (roomId == null || roomId !== participant.roomId) {
                         setRoomId(participant.roomId);
-                        setOppoId(participant.name);
+                        setoppoName(participant.name);
+                        setoppoId(participant.userId);
                         setOppoProfile(participant.profile);
                         setBlur(participant.blur);
+                        setDInfo(false);
                       } else {
                         setRoomId(null);
-                        setOppoId(null);
+                        setoppoId(null);
+                        setoppoName(null);
                         setOppoProfile(null);
                         setBlur(10);
+                        setDInfo(false);
                       }
                     }}
                   >
                     <div className="chat-avatar">
                       <img
                         src={
-                          participant.profile +
-                          blurLevel[participant.blur] +
-                          "&blur=1ONM#WN"
+                          participant.profile + "4000" + `&blur=1ONM#WN?${blur}`
                         }
                         alt="avatar"
                         style={{
-                          filter: `blur(${(4 - participant.blur) * 0.5}px)`,
+                          filter: `blur(${(4 - participant.blur) * 0.8}px)`,
                         }}
                         onContextMenu={(event) => {
                           event.preventDefault();
@@ -200,12 +200,15 @@ function ChatList() {
             key={roomId}
             roomId={roomId}
             myId={user.user_id}
-            oppoId={oppoId}
+            oppoName={oppoName}
             oppoProfile={oppoProfile}
             blur={blur}
+            setDInfo={setDInfo}
+            dInfo={dInfo}
           />
         ) : null}
       </div>
+      <div>{dInfo ? <DetailedInfo oppoId={oppoId} /> : null}</div>
     </ChatComponents>
   );
 }
