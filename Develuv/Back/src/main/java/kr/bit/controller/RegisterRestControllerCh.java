@@ -1,6 +1,10 @@
 package kr.bit.controller;
 
+import kr.bit.dto.LatLonRegisterDTO;
+import kr.bit.dto.UserDto;
+import kr.bit.service.MatchingService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +21,8 @@ import java.util.UUID;
 @RestController
 public class RegisterRestControllerCh {
 
+    @Autowired
+    MatchingService matchingService;
 
     private String uploadPath="/src/main/resources/imgs/";
 
@@ -41,5 +47,12 @@ public class RegisterRestControllerCh {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @RequestMapping("/api/register/latlon")
+    public String registerLatLon(@RequestBody LatLonRegisterDTO latlon) {
+        matchingService.insertCoodr(latlon.getUser_address(), latlon.getCity(), latlon.getUser_id());
+
+        return "register latlon success";
     }
 }

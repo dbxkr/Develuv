@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 //유저정보 추가를 위해 이전 페이지에서 사용자 id 정보 가져오기
-function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
+function Regi5Form({ formData, setFormData, progress, setProgress, image, city}) {
   const navigate = useNavigate();
   console.log("formData", formData);
 
@@ -127,7 +127,7 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
             parents: [folderId], // 업로드하려는 폴더의 ID
           }),
         ],
-        { type: "application/json" }
+        {type: "application/json"}
       )
     );
     imgData.append("file", image); // 파일 데이터 추가
@@ -149,14 +149,15 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
         console.log("File uploaded successfully");
         const fileId = response.data.id;
         const imgUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s`;
-        const signUpData = { ...formData, user_profile: imgUrl };
+        const signUpData = {...formData, user_profile: imgUrl};
         console.log("imgUrl", imgUrl);
         console.log("after set imgUrl", signUpData);
         axios
           .post(signupUrl, signUpData)
-          .then((res) => {
-            alert(res.data); // 서버에서 반환된 메시지를 알림으로 표시
-            navigate("/");
+          .then(async (res) => {
+            await submitCity();
+            await alert(res.data); // 서버에서 반환된 메시지를 알림으로 표시
+            await navigate("/");
           })
           .catch((error) => {
             console.error("Error signing up:", error);
@@ -170,6 +171,17 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
         );
       });
   };
+
+  async function submitCity(){
+    const cityData = { user_address: formData.user_address, city: city, user_id:formData.user_id}
+    console.log(cityData)
+    axios
+      .post('http://localhost:8080/api/register/latlon',cityData).then((res)=> {
+        console.log(res.data);
+    }).catch((err)=> {
+      console.log("insert latlon err",err);
+    })
+  }
 
   return (
     <div
@@ -294,6 +306,7 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image }) {
         <button type={"button"} onClick={submitAO} className={"after_btn"}>
           제출
         </button>
+        {/*<button type={"button"} onClick={submitCity} className={"after_btn"}>테스트 주소 넣기</button>*/}
       </div>
     </div>
   );
