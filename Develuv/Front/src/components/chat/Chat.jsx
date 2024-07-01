@@ -122,7 +122,7 @@ function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
 
   // 채팅창 띄울때 자동으로 맨 아래로 내려버림
   useEffect(() => {
-    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageBottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messageList]);
 
   return (
