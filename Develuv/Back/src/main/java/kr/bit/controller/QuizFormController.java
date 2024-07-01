@@ -38,8 +38,20 @@ public class QuizFormController {
         QuizOppoDTO quizOppoDTO = new QuizOppoDTO();
         quizOppoDTO.setUser_id(user_id);
         quizOppoDTO.setOppo_id(oppo_id);
-        int result = userQuizMapper.getQuizCount(quizOppoDTO);
-        return result;
+        QuizOppoDTO quizBlurCount = userQuizMapper.getQuizBlurCount(quizOppoDTO);
+        return quizBlurCount.getQuiz();
+    }
+
+    @PostMapping("/quiz/reward")
+    public int getReward(@RequestBody QuizOppoDTO quizOppoDTO) {
+        QuizOppoDTO quizBlurCount = userQuizMapper.getQuizBlurCount(quizOppoDTO);
+        // 만약 받아온 유저의 블러 레벨이 4(최대치) 상태이면 언블러 리워드를 적용하지 않는다.
+        if(quizBlurCount.getBlur() >= 4) {
+            return quizBlurCount.getBlur();
+        } else {
+            userQuizMapper.updateBlur(quizOppoDTO);
+            return quizBlurCount.getBlur() + 1;
+        }
     }
 
 }

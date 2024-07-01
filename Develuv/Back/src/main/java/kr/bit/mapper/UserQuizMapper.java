@@ -18,6 +18,10 @@ public interface UserQuizMapper {
     @Update("update opponent set quiz = 1 where user_id = #{user_id} and oppo_id = #{oppo_id}")
     public void updateQuizCount(QuizOppoDTO quizOppoDTO);
 
-    @Select("select quiz from opponent where user_id = #{user_id} and oppo_id = #{oppo_id}")
-    public int getQuizCount(QuizOppoDTO quizOppoDTO);
+    @Select("select * from opponent where user_id = #{user_id} and oppo_id = #{oppo_id}")
+    public QuizOppoDTO getQuizBlurCount(QuizOppoDTO quizOppoDTO);
+
+    @Update("update opponent set blur = blur + 1 " +
+            "where user_id = #{user_id} and oppo_id = #{oppo_id}")
+    public void updateBlur(QuizOppoDTO quizOppoDTO);
 }
