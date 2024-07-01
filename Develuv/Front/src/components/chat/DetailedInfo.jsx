@@ -89,8 +89,8 @@ function DetailedInfo({ oppoId }) {
         <ProfileContainer>
           <ImgContainer>
             <OppoImg
-              src={userInfo.user_profile + blurLevel[blur] + "&blur=TN1q/^23"}
-              style={{ filter: `blur(${(4 - blur) * 2}px)` }}
+              src={userInfo.user_profile + "4000" + `&blur=TN1q/^23${blur}`}
+              style={{ filter: `blur(${(4 - blur) * 2.5}px)` }}
             />
           </ImgContainer>
           <Link to={"/mypage/" + userInfo.user_id}>

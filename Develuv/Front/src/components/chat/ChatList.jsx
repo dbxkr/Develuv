@@ -164,13 +164,11 @@ function ChatList() {
                     <div className="chat-avatar">
                       <img
                         src={
-                          participant.profile +
-                          blurLevel[participant.blur] +
-                          `&blur=1ONM#WN?${blur}`
+                          participant.profile + "4000" + `&blur=1ONM#WN?${blur}`
                         }
                         alt="avatar"
                         style={{
-                          filter: `blur(${(4 - participant.blur) * 0.5}px)`,
+                          filter: `blur(${(4 - participant.blur) * 0.8}px)`,
                         }}
                         onContextMenu={(event) => {
                           event.preventDefault();

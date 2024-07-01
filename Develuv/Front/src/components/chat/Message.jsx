@@ -21,11 +21,11 @@ const Message = ({
     <MessageContainer who={who}>
       {who === "other" && (
         <Avatar
-          src={oppoProfile + blurLevel[blur] + "&blur=QU2/^23ZzX"}
+          src={oppoProfile + "4000" + "&blur=QU2/^23ZzX"}
           onContextMenu={(event) => {
             event.preventDefault();
           }}
-          style={{ filter: `blur(${(4 - blur) * 0.5}px)` }}
+          style={{ filter: `blur(${(4 - blur) * 0.8}px)` }}
           onClick={() => {
             if (dInfo) {
               setDInfo(false);
