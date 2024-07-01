@@ -1,7 +1,7 @@
 import {useDaumPostcodePopup} from "react-daum-postcode";
 import "./DaumPostCode.css"
 
-const DaumPostCode = ({formData,setFormData}) => {
+const DaumPostCode = ({formData,setFormData,setCity}) => {
   const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
   const open = useDaumPostcodePopup(postcodeScriptUrl);
 
@@ -9,6 +9,17 @@ const DaumPostCode = ({formData,setFormData}) => {
     let fullAddress = data.address;
     let extraAddress = '';
     let localAddress = data.sido + data.sigungu;
+    let city= "";
+
+    if(data.sido==='서울' || data.sido==='대구' || data.sido==='부산'
+    || data.sido === '울산' || data.sido==='인천' || data.sido ==='대전' || data.sido==='광주') {
+      city = data.sido+'시';
+    } else if(data.sido==='세종특별자치시'){
+      city = data.sido;
+    }
+    else {
+      city = data.sigungu.split(' ')[0];
+    }
 
     fullAddress = localAddress +fullAddress;
 
@@ -20,6 +31,7 @@ const DaumPostCode = ({formData,setFormData}) => {
     fullAddress = fullAddress.replace(/ /g, '');
 
     setFormData({...formData, user_address: fullAddress}); // setAddress를 호출하여 부모 컴포넌트의 상태를 업데이트
+    setCity(city);
   };
 
   const handleClick = () => {

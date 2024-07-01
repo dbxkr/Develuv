@@ -31,8 +31,7 @@ const MatchingList = ({
     const formData = new FormData()
     if (matchType === 'normal') {
       // 일반 매칭 검색
-      console.log('before call List address : ' + address.current)
-      // formData.append('user_id', user_id)
+
       axios
         .get('http://localhost:8080/matching/kdtree', {
           params: {

@@ -140,6 +140,13 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
         <div className={`${page === 3 ? "progress_font_sel" : "progress_font"}`}>3</div>
         <div className={`${page === 4 ? "progress_font_sel" : "progress_font"}`}>4</div>
         <div className={`${page === 5 ? "progress_font_sel" : "progress_font"}`}>5</div>
+        <button className={"pns_qin_btn"}
+                type={"button"}
+                onClick={onSubmit}
+                style={{position: "fixed", right: "10%", top: "130px"}}
+        >
+          제출
+        </button>
       </div>
 
       {/* 질문 입력창 */}
@@ -192,13 +199,12 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
             다음
           </button>
       }
-      <button className={"pns_qin_btn"}
-              type={"button"}
-              onClick={onSubmit}
-              style={{float: "right"}}
-      >
-        제출
-      </button>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+           className="bi bi-check-circle-fill" viewBox="0 0 16 16" style={{color:"blue"}}>
+        <path
+          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+      </svg>
+
     </div>
   )
 }

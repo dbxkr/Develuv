@@ -33,6 +33,7 @@ public class MatchingService {
     public void insertCoodr(String address, String city , String user_id) {
         Double[] coodr = getCoodr(address);
         LatLonDTO inLatLon = new LatLonDTO(user_id, city, coodr[0], coodr[1]);
+        System.out.println("user_id: " + user_id +"\nuser_address: " + address + "\ncity: " + city);
         matchingListMapper.insertLatLon(inLatLon);
     }
 
@@ -40,7 +41,7 @@ public class MatchingService {
     public List<MatchingListDTO> findMatchingListByCity(String user_id){
 
         LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
-        List<LatLonDTO> cityUserList = matchingListMapper.findLatLonByCity(userLatLon.getCity());
+        List<LatLonDTO> cityUserList = matchingListMapper.findLatLonByCity(userLatLon);
         KDTree kdTree = new KDTree(2);
 
         System.out.println("받은 city 값 : "+ userLatLon.getCity() + " userId : " +user_id);
@@ -62,6 +63,34 @@ public class MatchingService {
         System.out.println("최근접 이웃 12 명의 위도 경도");
         System.out.println(neighbors.size());
 
+        List<MatchingListDTO> result = new ArrayList<>();
+
+        for(LatLonDTO latLon : neighbors){
+            System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
+            MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            result.add(matchingListDTO);
+        }
+
+        return result;
+    }
+
+    // 랜덤 리스트 가져오기
+    public List<MatchingListDTO> findMatchingListByRandom(String user_id){
+
+        LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
+        List<LatLonDTO> cityUserList = matchingListMapper.findLatLonByRandom(userLatLon);
+        KDTree kdTree = new KDTree(2);
+
+        int cnt =0;
+        for(LatLonDTO latLon : cityUserList){
+            kdTree.insert(latLon);
+            cnt++;
+        }
+
+        Vector<Float64> target = Float64Vector.valueOf(userLatLon.getLatitude(), userLatLon.getLongitude());
+
+        // 12개의 최근접 이웃 찾기
+        List<LatLonDTO> neighbors = kdTree.nearestNeighbors(target, 12);
         List<MatchingListDTO> result = new ArrayList<>();
 
         for(LatLonDTO latLon : neighbors){
