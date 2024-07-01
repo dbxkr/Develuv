@@ -132,9 +132,15 @@ public class MatchingListController {
         return result;
     }
 
+    @RequestMapping("/matching/kdtree/random")
+    public List<MatchingListDTO> kdtreeRandom(@RequestParam("user_id") String user_id) {
+        List<MatchingListDTO> result = null;
+        result = matchingService.findMatchingListByRandom(user_id);
+        return result;
+    }
+
     @RequestMapping("/matching/kdtree/famous")
     public List<MatchingListDTO> kdtreeFamous(@RequestParam("user_id") String user_id) {
-        LatLonDTO userLatlon = matchingListMapper.findLatLonByUserId(user_id);
         List<MatchingListDTO> result = new ArrayList<>();
         result = matchingService.findMatchingListByFame(user_id);
 
@@ -144,7 +150,6 @@ public class MatchingListController {
     @RequestMapping("/matching/kdtree/nbti")
     public List<MatchingListDTO> kdtreeNbti(@RequestParam("user_id") String user_id,
                                             @RequestParam("nbti") String nbti) {
-        LatLonDTO userLatlon = matchingListMapper.findLatLonByUserId(user_id);
         List<MatchingListDTO> result = new ArrayList<>();
         result = matchingService.findMatchingListByNbti(user_id, nbti);
 
