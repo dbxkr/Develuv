@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Message = ({ oneMessage, user_id, oppoProfile, oppoId, blur }) => {
+const Message = ({
+  oneMessage,
+  user_id,
+  oppoProfile,
+  oppoName,
+  blur,
+  setDInfo,
+  dInfo,
+}) => {
   const [who, setWho] = useState("me");
   // console.log("el : ", oneMessage[0]);
   useEffect(() => {
@@ -18,11 +26,18 @@ const Message = ({ oneMessage, user_id, oppoProfile, oppoId, blur }) => {
             event.preventDefault();
           }}
           style={{ filter: `blur(${(4 - blur) * 0.5}px)` }}
+          onClick={() => {
+            if (dInfo) {
+              setDInfo(false);
+            } else {
+              setDInfo(true);
+            }
+          }}
         />
       )}
       {/* <MessageRead>{oneMessage.message_read ? null : 1}</MessageRead> */}
       <MessageWrapper who={who}>
-        {who === "other" && <Author who={who}>{oppoId}</Author>}
+        {who === "other" && <Author who={who}>{oppoName}</Author>}
         <MessageBody who={who}>
           <MessageText>{oneMessage.message_content}</MessageText>
         </MessageBody>
