@@ -5,17 +5,22 @@ import icon from '../../assets/money.png' // PNG 이미지 파일 import
 import icon2 from '../../assets/money.svg' // SVG 이미지 파일 import
 import { useAuth } from '../../AuthProvider'
 //버튼 클릭시 모달 창 오픈
-const Left = ({ setMatchType, setMatchList, setExcludedUserIds }) => {
-  // setExcludedUserIds 추가
+
+const Left = ({
+  setMatchType,
+  setMatchList,
+  setExcludedUserIds,
+  setUserNbti,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalType, setModalType] = useState('')
   const { user } = useAuth()
-
+  // 모달 열기
   const openModal = (type) => {
     setModalType(type)
     setIsModalOpen(true)
   }
-
+  // 모달 닫기
   const closeModal = () => {
     setIsModalOpen(false)
   }
@@ -41,12 +46,12 @@ const Left = ({ setMatchType, setMatchList, setExcludedUserIds }) => {
           closeModal={closeModal}
           userId={user.user_id}
           setMatchType={setMatchType}
-          setMatchList={setMatchList} // 추가
-          setExcludedUserIds={setExcludedUserIds} // 추가
+          setMatchList={setMatchList} // 매칭 리스트 설정 함수 추가
+          setExcludedUserIds={setExcludedUserIds}
+          setUserNbti={setUserNbti} // nbti 설정 함수 추가
         />
       )}
     </div>
   )
 }
-
 export default Left

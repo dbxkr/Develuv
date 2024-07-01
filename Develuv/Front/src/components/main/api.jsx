@@ -23,7 +23,7 @@ export const deductCoins = async (user_id, amount) => {
       user_id,
       amount,
     })
-    // console.log('Remaining Coins:', response.data.remainingCoins) // API 응답 확인
+    console.log('Remaining Coins:', response.data.token) // API 응답 확인
     // API로부터 받은 남은 토큰 잔액 반환
     return response.data.token
   } catch (error) {
@@ -63,19 +63,18 @@ export const recommendUser = async (user_id, excludedUserIds = []) => {
 }
 
 // NBTI 필터링된 유저를 추천받는 API 호출
+// 클라이언트 측에서 NBTI 정보를 하나의 문자열로 합쳐서 서버에 전송
 export const recommendUserByNbti = async (
   userId,
   nbti,
   excludedUserIds = []
 ) => {
   try {
+    const nbtiString = `${nbti.nbti1}${nbti.nbti2}${nbti.nbti3}${nbti.nbti4}` // NBTI를 문자열로 합침
     const response = await axios.get(`${API_URL}/recommend/nbti`, {
       params: {
         user_id: userId,
-        nbti1: nbti.nbti1,
-        nbti2: nbti.nbti2,
-        nbti3: nbti.nbti3,
-        nbti4: nbti.nbti4,
+        user_nbti: nbtiString, // 수정된 부분
         excludedUserIds: excludedUserIds.join(','),
       },
     })
@@ -85,7 +84,6 @@ export const recommendUserByNbti = async (
     throw error
   }
 }
-
 // 유명한 유저를 추천받는 API 호출
 export const recommendUserByFame = async (user_id, excludedUserIds = []) => {
   try {

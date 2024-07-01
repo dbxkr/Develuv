@@ -12,6 +12,7 @@ const MatchingList = ({
   setMatchList,
   setMatchType,
   user_id,
+  user_nbti, // nbti 값을 props로 전달받기
 }) => {
   const address = useRef('')
 
@@ -24,7 +25,7 @@ const MatchingList = ({
       // 이미 matchList가 설정되어 있으면 새로 데이터를 가져오지 않음
       return
     }
-    getMatchList();
+    getMatchList()
   }, [matchType])
 
   function getMatchList() {
@@ -71,7 +72,7 @@ const MatchingList = ({
         .get('http://localhost:8080/matching/kdtree/nbti', {
           params: {
             user_id: user_id,
-            nbti: "BOMD"
+            nbti: user_nbti, //요거 props 받은거로 바꿔주기
           },
         })
         .then((response) => {
@@ -100,8 +101,7 @@ const MatchingList = ({
     }
   }
 
-
-  const {formData, setFormData} = useState();
+  const { formData, setFormData } = useState()
 
   return (
     <div className={'MatchingList'}>

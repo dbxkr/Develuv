@@ -17,6 +17,7 @@ const Modal = ({
   excludedUserIds = [], // 기본값으로 빈 배열을 설정
   setExcludedUserIds,
   setMatchList, // 매칭 리스트를 설정하는 함수 추가
+  setUserNbti, // nbti 값을 props로 전달받기
 }) => {
   const [isNbtiSelection, setIsNbtiSelection] = useState(false)
   const [nbti, setNbti] = useState({
@@ -113,6 +114,7 @@ const Modal = ({
     }
   }
 
+  // NBTI 변경 핸들러
   const handleNbtiChange = (e) => {
     const { name, value } = e.target
     setNbti((prevNbti) => ({
@@ -126,6 +128,9 @@ const Modal = ({
       const users = await recommendUserByNbti(userId, nbti, excludedUserIds)
       if (users && users.length > 0) {
         setNoUserFound(false)
+        // nbti 세팅 (usesatate 나 useRef 변수 설정 ex setNbti("BOMD") or nbti.current="BOMD")
+        const combinedNbti = `${nbti.nbti1}${nbti.nbti2}${nbti.nbti3}${nbti.nbti4}`
+        setUserNbti(combinedNbti)
         setMatchType('nbti')
         setExcludedUserIds((prevIds) => [
           ...prevIds,
