@@ -60,6 +60,12 @@
   font-size: 16px;
   width: 140px;
 }
+.info-row-select {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
 
 .info-section {
   flex: 2;
@@ -74,6 +80,7 @@
   display: flex;
   align-items: center;
   margin-bottom: -13px; /* 줄 간격 조정 */
+  flex-wrap: wrap; /* 줄 바꿈을 허용하여 아이템들이 잘리지 않도록 함 */
 }
 .info-row h2 {
   display: flex;
@@ -103,17 +110,19 @@
 }
 
 .info-tag,
-.extra-info span {
+.extra-info span,
+select.info-tag {
   margin-right: 10px;
-  padding: 5px 10px;
+  padding: 10px;
   background-color: #f1eded;
   border: 1px solid #ccc;
   border-radius: 15px;
   width: auto;
-  height: 18px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center; /* 텍스트 가운데 정렬 */
+  font-size: 16px; /* 글자 크기를 키워 가독성을 높입니다 */
 }
 
 .extra-info {
@@ -176,4 +185,16 @@
 }
 .profile-change button:hover {
   background-color: aquamarine;
+}
+select.info-tag {
+  padding: 10px;
+  font-size: 16px; /* 글자 크기를 키워 가독성을 높입니다 */
+  background-color: #f1eded;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  width: auto; /* 드롭다운 메뉴의 너비를 자동으로 설정 */
+  height: 40px; /* 드롭다운 메뉴의 높이를 키웁니다 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

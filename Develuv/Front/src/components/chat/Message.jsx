@@ -17,7 +17,7 @@ const Message = ({ oneMessage, user_id, oppoProfile, oppoId, blur }) => {
           onContextMenu={(event) => {
             event.preventDefault();
           }}
-          style={{ filter: `blur(${(4 - blur) * 2}px)` }}
+          style={{ filter: `blur(${(4 - blur) * 0.5}px)` }}
         />
       )}
       {/* <MessageRead>{oneMessage.message_read ? null : 1}</MessageRead> */}

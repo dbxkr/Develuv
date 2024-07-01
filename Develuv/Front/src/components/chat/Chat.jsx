@@ -106,7 +106,7 @@ function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
     return () => {
       socket.off("receive_message", receiveMessageHandler);
     };
-  }, [socket]);
+  }, [socket, oppoId]);
   const otherUser = oppoId;
   // messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
 

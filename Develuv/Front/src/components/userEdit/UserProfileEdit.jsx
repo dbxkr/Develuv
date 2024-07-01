@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ImageUpload from "../imgupload"; // 이미지 업로드 컴포넌트 임포트
 
 const UserProfileEdit = () => {
-  const { user, setUser } = useAuth(); // useAuth에서 setUser를 가져옵니다.
+  const { user } = useAuth();
   const [userId, setUserId] = useState(user.user_id);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -107,43 +107,48 @@ const UserProfileEdit = () => {
     console.log(accessToken);
     console.log(image.current.type);
     try {
-      const response = await axios.post(
-        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/related",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log("File uploaded successfully");
-      const fileId = response.data.id;
-      setProfileImageUrl(
-        `https://drive.google.com/thumbnail?id=${fileId}&sz=s`
-      );
-      const userData = {
-        user_id: userId,
-        user_pw: password,
-        user_phone: phone,
-        user_job: job,
-        user_address: address,
-        user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s`,
-      };
-
-      await axios.put(
-        `http://localhost:8080/api/edit-profile/${user.user_id}`,
-        userData
-      );
-      alert("프로필이 성공적으로 업데이트 되었습니다.");
-      // 사용자 정보를 업데이트
-      setUser({
-        ...user,
-        phone,
-        job,
-        address,
-        user_profile: userData.user_profile,
-      });
+      const response = await axios
+        .post(
+          "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/related",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("File uploaded successfully");
+          const fileId = response.data.id;
+          setProfileImageUrl(
+            `https://drive.google.com/thumbnail?id=${fileId}&sz=`
+          );
+          const userData = {
+            user_id: userId,
+            user_pw: password,
+            user_phone: phone,
+            user_job: job,
+            user_address: address,
+            user_profile: `https://drive.google.com/thumbnail?id=${fileId}&sz=s`,
+          };
+          try {
+            // 프로필 정보 업데이트
+            axios.put(
+              `http://localhost:8080/api/edit-profile/${user.user_id}`,
+              userData
+            );
+            alert("프로필이 성공적으로 업데이트 되었습니다.");
+            window.location.href = `/mypage/${user.user_id}`; // 성공 시 마이페이지로 이동
+          } catch (error) {
+            console.error("프로필 업데이트 오류:", error);
+            alert(
+              `프로필 업데이트 실패: ${
+                error.response?.data?.message || error.message
+              }`
+            );
+          }
+        });
       navigate(`/mypage/${user.user_id}`); // 성공 시 마이페이지로 이동
     } catch (error) {
       console.error("프로필 업데이트 오류:", error);
@@ -156,7 +161,7 @@ const UserProfileEdit = () => {
   };
 
   const handleCancel = () => {
-    navigate(`/mypage/${user.user_id}`); // 변경사항 없이 마이페이지로 이동
+    navigate(`/mypage/${user.user_id}`); // 성공 시 마이페이지로 이동
   };
 
   return (
