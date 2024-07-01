@@ -13,7 +13,7 @@ const userAvatars = {
   user2: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
 };
 
-function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
+function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
   const [isRoomDeleted, setIsRoomDeleted] = useState();
   const user_id = myId; // 테스트용 사용자 이름
   const room_id = roomId; // 테스트용 방 이름
@@ -77,6 +77,10 @@ function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
       // 오류 처리
     }
   };
+  const scrollToBottom = () => {
+    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(scrollToBottom, [messageList]);
 
   // useEffect(() => {
   //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -106,8 +110,8 @@ function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
     return () => {
       socket.off("receive_message", receiveMessageHandler);
     };
-  }, [socket, oppoId]);
-  const otherUser = oppoId;
+  }, [socket, oppoName]);
+  const otherUser = oppoName;
   // messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
 
   // 방 나가기 (디비에서 삭제)
@@ -119,6 +123,11 @@ function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
       window.location.reload();
     }
   }
+
+  // 채팅창 띄울때 자동으로 맨 아래로 내려버림
+  useEffect(() => {
+    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageList]);
 
   return (
     <PageContainer>
@@ -137,11 +146,13 @@ function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
                   user_id={user_id}
                   key={uuidv4()}
                   oppoProfile={oppoProfile}
-                  oppoId={oppoId}
+                  oppoName={oppoName}
                   blur={blur}
+                  setDInfo={setDInfo}
+                  dInfo={dInfo}
                 />
               ))}
-            <div ref={messageBottomRef} />
+            <div ref={messageBottomRef}></div>
           </MessageBox>
         </RoomBody>
         <ChatInputBox>
@@ -165,19 +176,36 @@ export default Chat;
 
 const PageContainer = styled.div`
   background-color: #f7f7f7; /* 웹페이지 전체 배경색 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  position: relative;
 `;
 
 const RoomContainer = styled.div`
   width: 450px; /* 채팅방 너비 */
-  max-height: 900px; /* 채팅방 높이 */
-  min-height: 450px;
+  max-height: 1200px; /* 채팅방 높이 */
+  min-height: 500px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 `;
 
 const RoomHeader = styled.div`
@@ -205,6 +233,9 @@ const RoomBody = styled.div`
   position: relative;
   overflow-y: auto;
   max-height: 70vh;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const MessageBox = styled.div`

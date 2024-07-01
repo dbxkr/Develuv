@@ -1,8 +1,10 @@
 package kr.bit.mapper;
 
 import kr.bit.dto.ChatDTO;
+import kr.bit.dto.UnblurDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -20,4 +22,10 @@ public interface ChatMapper {
     @Insert("insert into chatmessage " +
             "values (#{message_id}, #{room_id}, #{user_id}, #{message_content}, current_time(), 0);")
     public int saveChat(ChatDTO chatDTO);
+
+    @Update("update opponent set blur = blur + 1 where user_id=#{myId} and oppo_id=#{oppoId}")
+    public void unblur(UnblurDTO unblurDTO);
+
+    @Update("update opponent set blur = blur - 1 where user_id=#{myId} and oppo_id=#{oppoId}")
+    public void blur(UnblurDTO unblurDTO);
 }

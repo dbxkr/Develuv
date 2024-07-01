@@ -19,23 +19,63 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("join_room", (data) => {
-    socket.join(data.roomId);
-    console.log(`${data.userId}유저가 ${data.roomId}번 방에 입장했습니다`);
+  // 모든 채팅방 리스트 가져오기
+  socket.on("request_chatlists", (data) => {
+    console.log("뭘 받고있는거임..?", data);
+    axios
+      .get("http://localhost:8080/chatlists/user/" + data)
+      .then((res) => {
+        console.log("받아온 데이터:", res.data);
+        socket.emit("receive_chatlists", res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
-    // let noti = {
-    //   message: `${data.user_id} 유저가 방에 입장했습니다`,
-    //   author: "알림",
-    // };
+  // 채팅방의 참가자 정보 가져오기
+  socket.on("request_participants", (data) => {
+    console.log("자 뭘 가져왔니?", data);
+    axios
+      .get(
+        "http://localhost:8080/chatlists/room/participants/" +
+          data.roomId +
+          "?myId=" +
+          data.userId
+      )
+      .then((res) => {
+        console.log(res.data);
+        socket.emit("receive_participants", res.data);
+      });
+  });
+
+  // 방 상태 가져오기 (안읽은 채팅 수, 제일 최근에 받은 채팅)
+  socket.on("request_chatStatus", (data) => {
+    axios
+      .get("http://localhost:8080/chatlists/room/chatstatus", {
+        params: {
+          room_id: data.roomId,
+          user_id: data.userId,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        socket.emit("receive_chatStatus", res.data);
+      });
+  });
+
+  // 모든 대화기록 가져오기
+  socket.on("join_room", (data) => {
+    socket.join(data.room_id);
+    console.log(`${data.user_id}유저가 ${data.room_id}번 방에 입장했습니다`);
     axios
       .post("http://localhost:8080/chat/join", {
-        room_id: data.roomId,
-        user_id: data.userId,
+        room_id: data.room_id,
+        user_id: data.user_id,
       })
       .then(function (response) {
         let allMessages = response.data;
         console.log("대화기록 로드 완료");
-        console.log(allMessages);
         socket.emit("receive_message", allMessages);
       })
       .catch(function (error) {
@@ -43,6 +83,7 @@ io.on("connection", (socket) => {
       });
   });
 
+  // 메시지 보내기
   socket.on("send_message", (data) => {
     console.log("받은 메세지", data);
     socket.to(data.room_id).emit("receive_message", data);
@@ -76,6 +117,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(port, "0,0,0,0", () =>
+server.listen(port, "0.0.0.0", () =>
   console.log(`server running on port ${port}`)
 );

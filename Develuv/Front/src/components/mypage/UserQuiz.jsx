@@ -20,7 +20,7 @@ const UserQuiz = () => {
       {idVal === page_id ? (
         <QuizInsert user_id={idVal} />
       ) : (
-        <QuizForm userId={page_id} />
+        <QuizForm userId={page_id} myId={idVal} />
       )}
     </div>
   );

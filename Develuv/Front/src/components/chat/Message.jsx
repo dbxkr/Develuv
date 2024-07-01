@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Message = ({ oneMessage, user_id, oppoProfile, oppoId, blur }) => {
+const Message = ({
+  oneMessage,
+  user_id,
+  oppoProfile,
+  oppoName,
+  blur,
+  setDInfo,
+  dInfo,
+}) => {
   const [who, setWho] = useState("me");
   // console.log("el : ", oneMessage[0]);
   useEffect(() => {
@@ -13,16 +21,23 @@ const Message = ({ oneMessage, user_id, oppoProfile, oppoId, blur }) => {
     <MessageContainer who={who}>
       {who === "other" && (
         <Avatar
-          src={oppoProfile + blurLevel[blur] + "&blur=QU2/^23ZzX"}
+          src={oppoProfile + "4000" + "&blur=QU2/^23ZzX"}
           onContextMenu={(event) => {
             event.preventDefault();
           }}
-          style={{ filter: `blur(${(4 - blur) * 0.5}px)` }}
+          style={{ filter: `blur(${(4 - blur) * 0.8}px)` }}
+          onClick={() => {
+            if (dInfo) {
+              setDInfo(false);
+            } else {
+              setDInfo(true);
+            }
+          }}
         />
       )}
       {/* <MessageRead>{oneMessage.message_read ? null : 1}</MessageRead> */}
       <MessageWrapper who={who}>
-        {who === "other" && <Author who={who}>{oppoId}</Author>}
+        {who === "other" && <Author who={who}>{oppoName}</Author>}
         <MessageBody who={who}>
           <MessageText>{oneMessage.message_content}</MessageText>
         </MessageBody>
