@@ -126,7 +126,9 @@ function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
 
   // 채팅창 띄울때 자동으로 맨 아래로 내려버림
   useEffect(() => {
-    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageBottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
   }, [messageList]);
 
   return (
@@ -134,7 +136,7 @@ function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
       <RoomContainer>
         <RoomHeader>
           <RoomTitle>
-            {otherUser} <button onClick={messageBottomRef}> X </button>
+            {otherUser} <button onClick={removeRoom}> X </button>
           </RoomTitle>
         </RoomHeader>
         <RoomBody>
@@ -152,7 +154,7 @@ function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
                   dInfo={dInfo}
                 />
               ))}
-            <div ref={messageBottomRef} />
+            <div ref={messageBottomRef}></div>
           </MessageBox>
         </RoomBody>
         <ChatInputBox>
@@ -176,15 +178,15 @@ export default Chat;
 
 const PageContainer = styled.div`
   background-color: #f7f7f7; /* 웹페이지 전체 배경색 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
   position: relative;
 `;
 
 const RoomContainer = styled.div`
   width: 450px; /* 채팅방 너비 */
-  max-height: 1200px; /* 채팅방 높이 */
+  max-height: 81.1vh; /* 채팅방 높이 */
   min-height: 500px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -227,21 +229,17 @@ const RoomTitle = styled.p`
 `;
 
 const RoomBody = styled.div`
-  ::-webkit-scrollbar {
-    display: none;
-  }
   flex: 1;
   border: 1px solid #ffffff;
   background: #ffffff;
   position: relative;
   overflow-y: auto;
-  max-height: 70vh;
+  max-height: 99%;
 `;
 
 const MessageBox = styled.div`
   width: 100%;
-  height: 100%;
-  overflow-y: scroll;
+  height: 99%;
   overflow-x: hidden;
   padding-top: 5px;
 `;
