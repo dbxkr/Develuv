@@ -157,7 +157,8 @@ const Mypage = () => {
       });
   };
   const handleNbtiChange = (newNbti) => {
-    axios
+    if (isMyPage){
+      axios
       .post(`${springUrl}/user/updateOneProfile`, {
         type: "nbti",
         value: newNbti,
@@ -173,6 +174,7 @@ const Mypage = () => {
         console.error("Error updating profile:", error);
         alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
       });
+    }
   };
 
   const toggleNbtiModal = () => {
