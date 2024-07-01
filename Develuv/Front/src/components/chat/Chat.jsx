@@ -124,6 +124,11 @@ function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
     }
   }
 
+  // 채팅창 띄울때 자동으로 맨 아래로 내려버림
+  useEffect(() => {
+    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageList]);
+
   return (
     <PageContainer>
       <RoomContainer>
@@ -179,8 +184,8 @@ const PageContainer = styled.div`
 
 const RoomContainer = styled.div`
   width: 450px; /* 채팅방 너비 */
-  max-height: 900px; /* 채팅방 높이 */
-  min-height: 450px;
+  max-height: 1200px; /* 채팅방 높이 */
+  min-height: 500px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;

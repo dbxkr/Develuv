@@ -21,6 +21,9 @@ public class UserService {
     UserMapper userMapper;
 
     @Autowired
+    TokenService tokenService;
+
+    @Autowired
     private JavaMailSender mailSender;
 
     private Map<String, String> verificationCodes = new HashMap<>();
@@ -155,7 +158,9 @@ public class UserService {
     }
 
     public UserDto findUserById(String user_id) {
-        return userMapper.findUserById(user_id);
+        UserDto userDto = userMapper.findUserById(user_id);
+        userDto.setToken(tokenService.getToken(user_id).getToken());
+        return userDto;
     }
     public UserDto findOtherUserById(String user_id, String my_id) {
         return userMapper.findOtherUserById(user_id, my_id);

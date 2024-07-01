@@ -4,30 +4,60 @@ import { useEffect, useRef, useState } from "react";
 import QuizContent from "./QuizContent";
 import { useNavigate } from "react-router-dom";
 
-const QuizForm = ({ userId }) => {
+const QuizForm = ({ userId, myId }) => {
+  console.log("출제자 아이디:", userId, "내 아이디:", myId);
   const navigate = useNavigate();
   const [quizes, setQuizes] = useState([]); // 모든 퀴즈를 저장
   const [answer, setAnswer] = useState([]); //유저가 선택한 정답을 저장
   const ans = useRef([]); //유저가 선택한 정답을 순서대로 넣기 위한 변수
   const [page, setPage] = useState(1); //페이지 계산을 위한 변수
   const [modal, setModal] = useState(false); //모달 띄우는 변수
-  userId = "hhy"; // 임의로 아이디 세팅
 
-  // 출제자 아이디가 변경될때마다 문제 목록 가져오기 :D
+  // 퀴즈 가져오기 함수
+  const getQuizes = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8080/quiz/user/${userId}`);
+      console.log("가져온 문제:", res.data);
+      setQuizes(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  // 퀴즈 참여 여부를 체크하는 함수
+  const check = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/quiz/check", {
+        params: {
+          user_id: myId,
+          oppo_id: userId,
+        },
+      });
+      console.log(res.data);
+      if (res.data === 1) {
+        alert("이미 참여하셨습니다😅");
+        navigate("/mypage/" + userId);
+      }
+    } catch (error) {
+      console.error("퀴즈 확인 요청 실패:", error);
+    }
+  };
+
+  // useEffect에서 순서 제어
   useEffect(() => {
-    const getQuizes = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:8080/quiz/user/" + userId
-        );
-        console.log("가져온 문제:", res.data);
-        setQuizes(res.data);
-      } catch (error) {
-        console.log(error);
+    const fetchData = async () => {
+      const quizesData = await getQuizes();
+      if (quizesData && quizesData.length > 0) {
+        await check();
+      } else {
+        alert("퀴즈를 출제하지 않은 유저입니다🤯");
+        navigate("/mypage/" + userId);
       }
     };
 
-    getQuizes();
+    fetchData();
   }, [userId]);
 
   // 퀴즈 값을 받아왔을 때만 렌더링하게 만든다..
@@ -44,7 +74,7 @@ const QuizForm = ({ userId }) => {
         />
       );
     } else {
-      return <p>Loading...</p>; // 데이터가 로드되지 않았을 때 로딩 상태 표시
+      return <p> ... Loading ...</p>; // 데이터가 로드되지 않았을 때 로딩 상태 표시
     }
   };
 
@@ -66,16 +96,31 @@ const QuizForm = ({ userId }) => {
   const onSubmit = () => {
     console.log("최종선택: ", answer);
     // 채점 전에, 값을 전부 선택하지 않으면 경고와 함께 진행되지 않도록 세팅.
+    let check = 0;
     for (let i = 0; i < quizes.length; i++) {
       if (answer[i] !== true && answer[i] !== false) {
-        setModal(true);
-      } else {
-        //채점 함수 호출
-        goMarking();
+        check++;
+      }
+    }
+    if (check > 0) {
+      setModal(true);
+    }
+    if (check === 0) {
+      // 채점하자 !
+      goMarking();
+      // 이미 한번 문제를 푼 유저는 다시 못 풀게 한다.
+      try {
+        axios.post("http://localhost:8080/quiz/user", {
+          user_id: myId,
+          oppo_id: userId,
+        });
+      } catch {
+        console.log("중복참여 판정ㅈ 실패...");
       }
     }
   };
 
+  // 채점하는 함수
   function goMarking() {
     //채점용 변수 선언
     let score = 0;
@@ -88,14 +133,30 @@ const QuizForm = ({ userId }) => {
     // score 숫자와 문제 수가 같으면 전부 정답이라는 뜻
     if (score === quizes.length) {
       console.log("score", score);
-      alert("🎉정답입니다🎉 언블러 1회권을 획득했습니다");
-      navigate("/mypage/:" + userId);
+      axios
+        .post("http://localhost:8080/quiz/reward", {
+          user_id: myId,
+          oppo_id: userId,
+        })
+        .then((res) => {
+          console.log("적용된 블러 레벨: ", res.data);
+          if (res.data >= 4) {
+            alert(
+              "🎉정답입니다🎉 (이미 모든 블러를 해제하셨기 때문에 언블러 리워드는 지급되지 않습니다)"
+            );
+            navigate("/mypage/" + userId);
+          } else {
+            alert("🎉정답입니다🎉 언블러 1회 적용되었습니다 😀");
+            navigate("/mypage/" + userId);
+          }
+        });
     }
     if (score !== quizes.length) {
-      alert("🥲정답이 아니네요...");
-      navigate("/mypage/:" + userId);
+      alert("🥲정답을 맞히지 못했습니다.");
+      navigate("/mypage/" + userId);
     }
   }
+
   // 모달 관련 함수
   function onModal() {
     return (
@@ -108,6 +169,7 @@ const QuizForm = ({ userId }) => {
       </div>
     );
   }
+
   function removeModal() {
     setModal(false);
   }
