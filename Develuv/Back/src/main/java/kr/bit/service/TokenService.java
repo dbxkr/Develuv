@@ -2,11 +2,14 @@ package kr.bit.service;
 
 import kr.bit.dto.CoinHistoryDTO;
 import kr.bit.dto.TokenDTO;
+import kr.bit.dto.UserDto;
 import kr.bit.mapper.TokenMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.time.LocalDate;
+
 
 @Service
 public class TokenService {
@@ -77,5 +80,6 @@ public class TokenService {
             addCoinHistory(token.getUser_id(), 2000);
             System.out.println("2000 points added to user: " + token.getUser_id());
         }
+
     }
-}
+    }

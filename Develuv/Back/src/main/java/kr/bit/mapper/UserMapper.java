@@ -1,7 +1,10 @@
 package kr.bit.mapper;
 
 import kr.bit.dto.*;
+import kr.bit.model.User;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -50,27 +53,16 @@ public interface UserMapper {
     @Update("UPDATE users SET user_profile = #{user_profile} WHERE user_id = #{user_id}")
     void updateUserProfileImage(@Param("user_id") String userId, @Param("user_profile") String userProfile);
 
-    @Update("UPDATE users SET user_git = #{value} WHERE user_id = #{user_id}")
+    @Update("UPDATE users set user_git = #{value} where user_id = #{user_id}")
     void updateProfileGit(UserProfileUpdate userProfileUpdate);
 
-    @Update("UPDATE users SET user_memo = #{value} WHERE user_id = #{user_id}")
+    @Update("UPDATE users set user_instagram = #{value} where user_id = #{user_id}")
+    void updateProfileInstagram(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_memo = #{value} where user_id = #{user_id}")
     void updateProfileMemo(UserProfileUpdate userProfileUpdate);
 
-    @Update("UPDATE users SET user_nbti = #{value} WHERE user_id = #{user_id}")
-    void updateProfileNbti(UserProfileUpdate userProfileUpdate);
 
-    @Update("UPDATE users SET user_pro_lang = #{value} WHERE user_id = #{user_id}")
-    void updateProfileProLang(UserProfileUpdate userProfileUpdate);
-
-    @Update("UPDATE users SET user_drink = #{value} WHERE user_id = #{user_id}")
-    void updateProfileDrink(UserProfileUpdate userProfileUpdate);
-
-    @Update("UPDATE users SET user_smoke = #{value} WHERE user_id = #{user_id}")
-    void updateProfileSmoke(UserProfileUpdate userProfileUpdate);
-
-    @Update("UPDATE users SET user_religion = #{value} WHERE user_id = #{user_id}")
-    void updateProfileReligion(UserProfileUpdate userProfileUpdate);
-
-    @Update("UPDATE users SET user_edu = #{value} WHERE user_id = #{user_id}")
-    void updateProfileEdu(UserProfileUpdate userProfileUpdate);
+    @Select("SELECT * FROM users WHERE user_nbti = #{nbti} AND user_id NOT IN (#{excludedUserIds})")
+    List<User> findUsersByNbti(@Param("nbti") String nbti, @Param("excludedUserIds") String excludedUserIds);
 }

@@ -1,3 +1,4 @@
+
 package kr.bit.controller;
 
 import kr.bit.dto.*;
@@ -140,12 +141,9 @@ public class UserController {
     }
 
     @PostMapping("/updateOneProfile")
-    public ResponseEntity<String> updateOneProfile(@RequestBody UserProfileUpdate userProfileUpdate) {
-        try {
-            userService.updateOneProfile(userProfileUpdate);
-            return new ResponseEntity<>("프로필이 성공적으로 업데이트되었습니다.", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("프로필 업데이트 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public void updateOneProfile(@RequestBody UserProfileUpdate userDto) {
+        userService.updateOneProfile(userDto);
+
     }
+
 }
