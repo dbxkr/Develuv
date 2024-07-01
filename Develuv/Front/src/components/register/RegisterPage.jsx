@@ -58,6 +58,7 @@ function RegisterPage() {
 
   const [image, setImage] = useState()
   const [imgPreview, setImgPreview] = useState()
+  const [city, setCity] = useState()
 
   const { state } = useLocation()
 
@@ -90,6 +91,7 @@ function RegisterPage() {
           imgPreview={imgPreview}
           setImgPreview={setImgPreview}
           state={state}
+          setCity = {setCity}
         />
       )}
       {progress == 4 && (
@@ -107,6 +109,7 @@ function RegisterPage() {
           formData={formData}
           setFormData={setFormData}
           image={image}
+          city={city}
         />
       )}
       {(progress < 1 || progress > 5) && <redirect to="/" />}
