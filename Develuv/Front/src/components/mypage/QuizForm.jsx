@@ -31,12 +31,12 @@ const QuizForm = ({ userId, myId }) => {
     try {
       const res = await axios.get("http://localhost:8080/quiz/check", {
         params: {
-          user_id: userId,
-          oppo_id: myId,
+          user_id: myId,
+          oppo_id: userId,
         },
       });
       console.log(res.data);
-      if (!res.data.allowed) {
+      if (res.data === 1) {
         alert("이미 참여하셨습니다😅");
         navigate("/mypage/" + userId);
       }
@@ -109,10 +109,14 @@ const QuizForm = ({ userId, myId }) => {
       // 채점하자 !
       goMarking();
       // 이미 한번 문제를 푼 유저는 다시 못 풀게 한다.
-      axios.post("http://localhost:8080/quiz/user", {
-        user_id: userId,
-        oppo_id: myId,
-      });
+      try {
+        axios.post("http://localhost:8080/quiz/user", {
+          user_id: myId,
+          oppo_id: userId,
+        });
+      } catch {
+        console.log("중복참여 판정ㅈ 실패...");
+      }
     }
   };
 
@@ -129,8 +133,23 @@ const QuizForm = ({ userId, myId }) => {
     // score 숫자와 문제 수가 같으면 전부 정답이라는 뜻
     if (score === quizes.length) {
       console.log("score", score);
-      alert("🎉정답입니다🎉 언블러 1회권을 획득했습니다");
-      navigate("/mypage/" + userId);
+      axios
+        .post("http://localhost:8080/quiz/reward", {
+          user_id: myId,
+          oppo_id: userId,
+        })
+        .then((res) => {
+          console.log("적용된 블러 레벨: ", res.data);
+          if (res.data >= 4) {
+            alert(
+              "🎉정답입니다🎉 (이미 모든 블러를 해제하셨기 때문에 언블러 리워드는 지급되지 않습니다)"
+            );
+            navigate("/mypage/" + userId);
+          } else {
+            alert("🎉정답입니다🎉 언블러 1회 적용되었습니다 😀");
+            navigate("/mypage/" + userId);
+          }
+        });
     }
     if (score !== quizes.length) {
       alert("🥲정답을 맞히지 못했습니다.");

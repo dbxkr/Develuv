@@ -120,6 +120,11 @@ function Chat({ myId, oppoId, roomId, oppoProfile, blur }) {
     }
   }
 
+  // 채팅창 띄울때 자동으로 맨 아래로 내려버림
+  useEffect(() => {
+    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageList]);
+
   return (
     <PageContainer>
       <RoomContainer>
@@ -165,16 +170,16 @@ export default Chat;
 
 const PageContainer = styled.div`
   background-color: #f7f7f7; /* 웹페이지 전체 배경색 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
   position: absolute;
 `;
 
 const RoomContainer = styled.div`
   width: 450px; /* 채팅방 너비 */
-  max-height: 900px; /* 채팅방 높이 */
-  min-height: 450px;
+  max-height: 1200px; /* 채팅방 높이 */
+  min-height: 500px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
