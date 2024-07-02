@@ -9,42 +9,46 @@ import { useAuth } from "../../AuthProvider";
 // const socket = io.connect("http://localhost:4000");
 const socket = io.connect("http://175.209.41.173:4000");
 
-function Chat({
-  myId,
-  oppoName,
-  roomId,
-  oppoProfile,
-  blur,
-  setDInfo,
-  dInfo,
-  oppoId,
-}) {
-  const [isRoomDeleted, setIsRoomDeleted] = useState();
-  const user_id = myId; // 테스트용 사용자 이름
-  const room_id = roomId; // 테스트용 방 이름
-  const { user } = useAuth();
+function ChatCmd({ oppoName, setDInfo, dInfo }) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const { user, isLoggedIn } = useAuth();
+  const roomId = urlParams.get("roomId");
+  const userId = user.user_id;
+
+  const chatUrl = "http://localhost:8080/chatlists/";
+  const participantUrl = "http://localhost:8080/chatlists/room/participants/";
+  const chatStatusUrl = "http://localhost:8080/chatlists/room/chatstatus";
 
   const inputRef = useRef();
   const [messageList, setMessageList] = useState([]);
+  const [oppo, setOppo] = useState({ userId: urlParams.get("oppoId") });
   const messageBottomRef = useRef(null);
 
-  // 소켓 연결
-  const joinRoom = (e) => {
-    e.preventDefault();
-    if (user_id !== "" && room_id !== "") {
-      socket.emit("join_room", { room_id, user_id });
-    } else {
-      console.log("소켓연결실패");
-    }
-  };
+  const loadRoomInfo = async () => {
+    const res = await axios.get(participantUrl + roomId + "?myId=" + userId);
+    console.log(`Participants for room ${roomId}:`, res.data); // 확인용 로그
 
-  // 소켓이 연결되거나 유저가 채팅을 보낼 때 messageList 에 반영
-  // socket.on("start_message", (data) => {
-  //   setMessageList((list) => [...list, data[0]]);
-  // });
-  // socket.on("receive_message", (data) => {
-  //   setMessageList((list) => [...list, data[0]]);
-  // });
+    //방별 상태 가져오기 (로그인한 유저를 기준으로 안읽은 채팅 수 = unread, 제일 최근에 받은 채팅 = recentMsg)
+    const chatStatus = await axios.get(chatStatusUrl, {
+      params: {
+        room_id: roomId,
+        user_id: userId,
+      },
+    });
+    console.log(res);
+
+    // 자신의 user_id가 아닌 경우에만 추가
+    setOppo({
+      roomId,
+      userId: res.data.user_id,
+      name: res.data.user_name,
+      profile: res.data.user_profile,
+      blur: res.data.blur,
+      unread: chatStatus.data.unreadCnt,
+      recentMsg: chatStatus.data.message_content,
+      recentTime: chatStatus.data.message_time,
+    });
+  };
 
   // 유저가 채팅을 보낼 때 로직
   const sendMessage = async () => {
@@ -53,8 +57,8 @@ function Chat({
       let now = new Date();
       now.setHours(now.getHours() + 9);
       const messageData = {
-        room_id: room_id,
-        user_id: user_id,
+        room_id: roomId,
+        user_id: userId,
         message_content: currentMsg,
         message_time: now.toISOString().slice(0, 19).replace("T", " "),
       };
@@ -68,7 +72,14 @@ function Chat({
   //메시지 입력하는 동안 받은 메시지의 읽음 처리
   useEffect(() => {
     readMsg();
-  }, [messageList]);
+    console.log(oppo);
+  }, [messageList, oppo]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadRoomInfo();
+    }
+  }, []);
 
   const readMsgURL = "http://localhost:8080/chatlists/room/readmessage";
   const readMsg = async () => {
@@ -76,7 +87,7 @@ function Chat({
     try {
       const response = await axios.post(readMsgURL, {
         room_id: roomId,
-        user_id: user_id,
+        user_id: userId,
       });
     } catch (error) {
       console.error("오류 발생:", error);
@@ -89,7 +100,7 @@ function Chat({
 
   const openSingleChat = () => {
     const newWindow = window.open(
-      `http://localhost:3500/singlechat?roomId=${roomId}&oppoId=${oppoId}`,
+      `http://localhost:3500/singlechat/${roomId}/${userId}`,
       "_blank",
       "resizable=no"
     );
@@ -98,26 +109,13 @@ function Chat({
 
   useEffect(scrollToBottom, [messageList]);
 
-  // useEffect(() => {
-  //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  //   console.log("mgslist", messageList);
-  // }, [messageList]);
-
-  useEffect(() => {
-    if (user_id !== "" && room_id !== "") {
-      socket.emit("join_room", { room_id, user_id });
-    } else {
-      console.log("소켓연결실패");
-    }
-  }, []);
-
   useEffect(() => {
     const receiveMessageHandler = (data) => {
       console.log("받은채팅", data);
       console.log("받음ㅇㅇ", Array.isArray(data));
 
       if (Array.isArray(data)) {
-        if (data[0].room_id != null && data[0].room_id == roomId) {
+        if (data[0] != null && data[0].room_id == roomId) {
           setMessageList((list) => [...list, ...data]);
         }
       } else {
@@ -130,8 +128,7 @@ function Chat({
     return () => {
       socket.off("receive_message", receiveMessageHandler);
     };
-  }, [socket, oppoName]);
-  const otherUser = oppoName;
+  }, [socket]);
   // messageList.find((msg) => msg.user_id !== user_id)?.user_id || "상대방";
 
   // 방 나가기 (디비에서 삭제)
@@ -149,12 +146,16 @@ function Chat({
     messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messageList]);
 
+  if (oppo == null) {
+    return <div>loading</div>;
+  }
+
   return (
     <PageContainer>
       <RoomContainer>
         <RoomHeader>
           <RoomTitle>
-            {otherUser} <button onClick={removeRoom}> X </button>
+            {oppo.user_name} <button onClick={removeRoom}> X </button>
           </RoomTitle>
         </RoomHeader>
         <RoomBody>
@@ -163,11 +164,11 @@ function Chat({
               messageList.map((el) => (
                 <Message
                   oneMessage={el}
-                  user_id={user_id}
+                  user_id={userId}
                   key={uuidv4()}
-                  oppoProfile={oppoProfile}
-                  oppoName={oppoName}
-                  blur={blur}
+                  oppoProfile={oppo.profile}
+                  oppoName={oppo.name}
+                  blur={oppo.blur}
                   setDInfo={setDInfo}
                   dInfo={dInfo}
                 />
@@ -193,7 +194,7 @@ function Chat({
   );
 }
 
-export default Chat;
+export default ChatCmd;
 
 const PageContainer = styled.div`
   background-color: #f7f7f7; /* 웹페이지 전체 배경색 */

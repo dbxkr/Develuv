@@ -17,24 +17,121 @@ import Mypage from "./components/mypage/Mypage.jsx";
 import UserQuiz from "./components/mypage/UserQuiz.jsx";
 import UserProfileEdit from "./components/userEdit/UserProfileEdit.jsx";
 import Nahhh from "./components/notfound/nahhh.jsx";
+import ChatCmd from "./components/chat/ChatCmd.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <BrowserRouter>
-      <Header />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/callback/:provider" element={<LoginCallback />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/chat" element={<ChatList />} />
-        <Route path="/chatroom" element={<Chat />} />
-        <Route path={"/main"} element={<Matching />} />
-        <Route path={"/mypage/:user_id"} element={<Mypage />} />
-        <Route path={"/mypage/:user_id/quiz"} element={<UserQuiz />} />
-        <Route path="/modal" element={<Modal />} />
-        <Route path="/*" element={<NotFound />} />
-        <Route path="/edit-profile" element={<UserProfileEdit />} />
-        <Route path="/nahhh" element={<Nahhh />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Header />
+              <LoginPage />
+            </>
+          }
+        />
+        <Route
+          path="/callback/:provider"
+          element={
+            <>
+              <Header />
+              <LoginCallback />
+            </>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <>
+              <Header />
+              <RegisterPage />
+            </>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <>
+              <Header />
+              <ChatList />
+            </>
+          }
+        />
+        <Route
+          path="/chatroom"
+          element={
+            <>
+              <Header />
+              <Chat />
+            </>
+          }
+        />
+        <Route
+          path={"/main"}
+          element={
+            <>
+              <Header />
+              <Matching />
+            </>
+          }
+        />
+        <Route
+          path={"/mypage/:user_id"}
+          element={
+            <>
+              <Header />
+              <Mypage />
+            </>
+          }
+        />
+        <Route
+          path={"/mypage/:user_id/quiz"}
+          element={
+            <>
+              <Header />
+              <UserQuiz />
+            </>
+          }
+        />
+        <Route
+          path="/modal"
+          element={
+            <>
+              <Header />
+              <Modal />
+            </>
+          }
+        />
+        <Route
+          path="/*"
+          element={
+            <>
+              <Header />
+              <NotFound />
+            </>
+          }
+        />
+        <Route
+          path="/edit-profile"
+          element={
+            <>
+              <Header />
+              <UserProfileEdit />
+            </>
+          }
+        />
+        <Route
+          path="/nahhh"
+          element={
+            <>
+              <Header />
+              <Nahhh />
+            </>
+          }
+        />
+        <Route path={"/singlechat"} element={<ChatCmd />} />
       </Routes>
     </BrowserRouter>
   </AuthProvider>
