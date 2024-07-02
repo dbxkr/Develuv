@@ -126,11 +126,11 @@ function DetailedInfo({ oppoId }) {
           </BlurLevel>
         </InfoBody>
         <CodeBody flipped={flipped}>
+          <div style={{ textAlign: "center" }}>
+            {userInfo.user_code.split("##")[0]}
+          </div>
           {userInfo.user_code.includes("##") ? (
             <CodeBlock>
-              <div style={{ textAlign: "center" }}>
-                {userInfo.user_code.split("##")[0]}
-              </div>
               <MarkDownViewer
                 lang={userInfo.user_code.split("##")[0]}
                 text={userInfo.user_code.split("##")[1].replace(/\\n/g, "\n")}
@@ -220,6 +220,7 @@ const CodeBody = styled.div`
   backface-visibility: hidden;
   transform: rotateY(180deg);
   display: flex;
+  flex-direction: column;
   flex: 1;
   border: 1px solid #ffffff;
   background: #ffffff;
@@ -227,6 +228,9 @@ const CodeBody = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const FlipButton = styled.button`
@@ -248,5 +252,7 @@ const FlipButton = styled.button`
 `;
 
 const CodeBlock = styled.div`
-  max-height: 60%;
+  max-height: 70%;
+  width: 80%;
+  overflow: scroll;
 `;
