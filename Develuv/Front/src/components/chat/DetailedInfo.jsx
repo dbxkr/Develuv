@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useAuth } from "../../AuthProvider";
 import { Link } from "react-router-dom";
+import MarkDownViewer from "../main/detail/MarkdownViewer";
 
 function DetailedInfo({ oppoId }) {
   const [userInfo, setUserInfo] = useState();
@@ -10,6 +11,7 @@ function DetailedInfo({ oppoId }) {
   const blurLevel = [50, 70, 90, 140, 4000];
   const [blur, setBlur] = useState(0);
   const { user } = useAuth();
+  const [flipped, setFlipped] = useState(false);
 
   const fetchUserInfo = async () => {
     try {
@@ -79,48 +81,74 @@ function DetailedInfo({ oppoId }) {
     }
   };
 
+  function swapFlip() {
+    if (flipped) {
+      setFlipped(false);
+    } else {
+      setFlipped(true);
+    }
+  }
+
   if (userInfo == null) {
     return <div>loadgin...</div>;
   }
 
   return (
-    <InfoContainer>
-      <InfoBody>
-        <ProfileContainer>
-          <ImgContainer>
-            <OppoImg
-              src={userInfo.user_profile + "4000" + `&blur=TN1q/^23${blur}`}
-              style={{ filter: `blur(${(4 - blur) * 2.5}px)` }}
-            />
-          </ImgContainer>
-          <Link to={"/mypage/" + userInfo.user_id}>
-            <ProfileButton>마이 페이지로 이동</ProfileButton>
-          </Link>
-        </ProfileContainer>
-        <BlurLevel>
-          <div>
-            {Array.from({ length: blur }, (_, i) => (
-              <span key={i}>❤️</span>
-            ))}
-            {Array.from({ length: 4 - blur }, (_, i) => (
-              <span key={i}>🤍</span>
-            ))}
+    <div>
+      <FlipButton onClick={swapFlip}>🔄</FlipButton>
+      <InfoContainer flipped={flipped}>
+        <InfoBody>
+          <ProfileContainer>
+            <ImgContainer>
+              <OppoImg
+                src={userInfo.user_profile + "4000" + `&blur=TN1q/^23${blur}`}
+                style={{ filter: `blur(${(4 - blur) * 2.5}px)` }}
+              />
+            </ImgContainer>
+            <Link to={"/mypage/" + userInfo.user_id}>
+              <ProfileButton>마이 페이지로 이동</ProfileButton>
+            </Link>
+          </ProfileContainer>
+          <BlurLevel>
+            <div>
+              {Array.from({ length: blur }, (_, i) => (
+                <span key={i}>❤️</span>
+              ))}
+              {Array.from({ length: 4 - blur }, (_, i) => (
+                <span key={i}>🤍</span>
+              ))}
+            </div>
+            <div>
+              <ProfileButton onClick={spendToken}>
+                블러 단계 높이기+
+              </ProfileButton>
+            </div>
+          </BlurLevel>
+        </InfoBody>
+        <CodeBody flipped={flipped}>
+          <div style={{ textAlign: "center" }}>
+            {userInfo.user_code.split("##")[0]}
           </div>
-          <div>
-            <ProfileButton onClick={spendToken}>
-              블러 단계 높이기+
-            </ProfileButton>
-            <ProfileButton onClick={degrade}>블러 단계 낮추기-</ProfileButton>
-          </div>
-        </BlurLevel>
-      </InfoBody>
-    </InfoContainer>
+          {userInfo.user_code.includes("##") ? (
+            <CodeBlock>
+              <MarkDownViewer
+                lang={userInfo.user_code.split("##")[0]}
+                text={userInfo.user_code.split("##")[1].replace(/\\n/g, "\n")}
+              />
+            </CodeBlock>
+          ) : (
+            <div>해당 유저가 아직 코드를 설정하지 않았습니다.</div>
+          )}
+        </CodeBody>
+      </InfoContainer>
+    </div>
   );
 }
 
 export default DetailedInfo;
 
 const InfoContainer = styled.div`
+  position: relative;
   margin-top: 2px;
   width: 650px;
   max-height: 900px;
@@ -130,17 +158,25 @@ const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 30px;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  ${(props) =>
+    props.flipped &&
+    `
+      transform: rotateY(180deg);
+    `}
 `;
 
 const InfoBody = styled.div`
   flex: 1;
   border: 1px solid #ffffff;
   background: #ffffff;
-  position: relative;
-  overflow-y: auto;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   border-radius: 5px;
   display: flex;
+  position: absolute;
+  backface-visibility: hidden;
 `;
 
 const ProfileContainer = styled.div`
@@ -177,4 +213,46 @@ const BlurLevel = styled.div`
 `;
 const ProfileButton = styled.button`
   width: auto;
+`;
+
+const CodeBody = styled.div`
+  position: absolute;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: 1px solid #ffffff;
+  background: #ffffff;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const FlipButton = styled.button`
+  position: absolute;
+  z-index: 100;
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  background-color: transparent;
+  background-color: transparent;
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    border: none; /* 테두리 제거 */
+    outline: none; /* 아웃라인 제거 */
+  }
+  left: 95%;
+`;
+
+const CodeBlock = styled.div`
+  max-height: 70%;
+  width: 80%;
+  overflow: scroll;
 `;

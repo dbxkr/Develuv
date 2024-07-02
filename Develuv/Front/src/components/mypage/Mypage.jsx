@@ -157,22 +157,24 @@ const Mypage = () => {
       });
   };
   const handleNbtiChange = (newNbti) => {
-    axios
-      .post(`${springUrl}/user/updateOneProfile`, {
-        type: "nbti",
-        value: newNbti,
-        user_id: user.user_id,
-      })
-      .then(() => {
-        setUserInfo((prevUserInfo) => ({
-          ...prevUserInfo,
-          user_nbti: newNbti,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error updating profile:", error);
-        alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
-      });
+    if (isMyPage) {
+      axios
+        .post(`${springUrl}/user/updateOneProfile`, {
+          type: "nbti",
+          value: newNbti,
+          user_id: user.user_id,
+        })
+        .then(() => {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            user_nbti: newNbti,
+          }));
+        })
+        .catch((error) => {
+          console.error("Error updating profile:", error);
+          alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
+        });
+    }
   };
 
   const toggleNbtiModal = () => {
@@ -270,10 +272,15 @@ const Mypage = () => {
         </div>
         <div className="info-group">
           <div className="info-row">
-            <div onClick={toggleNbtiModal}>
-              <span className="info-tag">{userInfo.user_nbti}</span>
+            <div className="tooltip-container">
+              <div onClick={isMyPage ? toggleNbtiModal : null}>
+                <span className={`info-tag ${isMyPage ? "clickable" : ""}`}>
+                  {userInfo.user_nbti}
+                </span>
+              </div>
+              <span className="tooltip-text">{isMyPage ? "NBTI" : `NBTI`}</span>
             </div>
-            <div>
+            <div className="tooltip-container">
               {isMyPage ? (
                 <select
                   className="info-tag"
@@ -297,10 +304,11 @@ const Mypage = () => {
                   </span>
                 ))
               )}
+              <span className="tooltip-text">선호하는 언어</span>
             </div>
           </div>
           <div className="extra-info">
-            <div>
+            <div className="tooltip-container">
               {isMyPage ? (
                 <select
                   className="info-tag"
@@ -319,8 +327,9 @@ const Mypage = () => {
               ) : (
                 <span className="info-tag">{userInfo.user_drink}</span>
               )}
+              <span className="tooltip-text">음주 빈도</span>
             </div>
-            <div>
+            <div className="tooltip-container">
               {isMyPage ? (
                 <select
                   className="info-tag"
@@ -339,8 +348,9 @@ const Mypage = () => {
               ) : (
                 <span className="info-tag">{userInfo.user_smoke}</span>
               )}
+              <span className="tooltip-text">흡연 여부</span>
             </div>
-            <div>
+            <div className="tooltip-container">
               {isMyPage ? (
                 <select
                   className="info-tag"
@@ -359,8 +369,9 @@ const Mypage = () => {
               ) : (
                 <span className="info-tag">{userInfo.user_religion}</span>
               )}
+              <span className="tooltip-text">종교</span>
             </div>
-            <div>
+            <div className="tooltip-container">
               {isMyPage ? (
                 <select
                   className="info-tag"
@@ -379,6 +390,7 @@ const Mypage = () => {
               ) : (
                 <span className="info-tag">{userInfo.user_edu}</span>
               )}
+              <span className="tooltip-text">학력</span>
             </div>
           </div>
         </div>

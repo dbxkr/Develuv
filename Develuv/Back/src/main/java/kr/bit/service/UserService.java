@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -72,19 +73,10 @@ public class UserService {
     public UserLoginDTO login(String userId, String userPw) {
         UserLoginDTO userLoginDTO = userMapper.login(userId);
         if (userLoginDTO != null) {
-            System.out.println("User found: " + userLoginDTO.getUser_id());
-            System.out.println("Stored password: " + userLoginDTO.getUser_pw());
-            System.out.println("Input password: " + userPw);
             boolean passwordMatches = BCrypt.checkpw(userPw, userLoginDTO.getUser_pw());
-            System.out.println("Password match result: " + passwordMatches);
             if (passwordMatches) {
-                System.out.println("Password matches for user: " + userLoginDTO.getUser_id());
                 return userLoginDTO;
-            } else {
-                System.out.println("Password does not match for user: " + userLoginDTO.getUser_id());
             }
-        } else {
-            System.out.println("User not found with user_id: " + userId);
         }
         return null;
     }
@@ -93,11 +85,16 @@ public class UserService {
         return userMapper.findById(user_id) != null;
     }
 
-
+    public void updateUserProfile(UserDto userDto) {
+        if (userDto.getUser_pw() != null && !userDto.getUser_pw().isEmpty()) {
+            String hashedPassword = BCrypt.hashpw(userDto.getUser_pw(), BCrypt.gensalt());
+            userDto.setUser_pw(hashedPassword);
+        }
+        userMapper.updateUserProfile(userDto);
+    }
 
     public void saveUser(UserDto userDto) {
         String hashedPassword = BCrypt.hashpw(userDto.getUser_pw(), BCrypt.gensalt());
-        System.out.println("Hashed Password (Backend): " + hashedPassword); // 해싱된 비밀번호 출력
         userDto.setUser_pw(hashedPassword);
         userMapper.save(userDto);
     }
@@ -162,28 +159,23 @@ public class UserService {
         userDto.setToken(tokenService.getToken(user_id).getToken());
         return userDto;
     }
+
     public UserDto findOtherUserById(String user_id, String my_id) {
         return userMapper.findOtherUserById(user_id, my_id);
     }
 
     public void updateOneProfile(UserProfileUpdate userProfileUpdate) {
         String type = userProfileUpdate.getType();
-        if (type.equals("git")) {
+        if(type.equals("git")){
             userMapper.updateProfileGit(userProfileUpdate);
-        } else if (type.equals("memo")) {
+        }else if(type.equals("memo")){
             userMapper.updateProfileMemo(userProfileUpdate);
-        } else if (type.equals("nbti")) {
-            userMapper.updateProfileNbti(userProfileUpdate);
-        } else if (type.equals("proLang")) {
-            userMapper.updateProfileProLang(userProfileUpdate);
-        } else if (type.equals("drink")) {
-            userMapper.updateProfileDrink(userProfileUpdate);
-        } else if (type.equals("smoke")) {
-            userMapper.updateProfileSmoke(userProfileUpdate);
-        } else if (type.equals("religion")) {
-            userMapper.updateProfileReligion(userProfileUpdate);
-        } else if (type.equals("edu")) {
-            userMapper.updateProfileEdu(userProfileUpdate);
         }
+
+
+    }
+
+    public List<User> findUsersByNbti(String nbti, String excludedUserIds) {
+        return userMapper.findUsersByNbti(nbti, excludedUserIds);
     }
 }

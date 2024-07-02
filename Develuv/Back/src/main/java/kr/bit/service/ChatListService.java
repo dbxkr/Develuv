@@ -82,4 +82,6 @@ public class ChatListService {
     public void setOppo(String myId, String oppoId) {
         chatListMapper.setOppo(myId, oppoId);
     }
+
+
 }

@@ -2,6 +2,9 @@ package kr.bit.mapper;
 
 import kr.bit.dto.QuizFormDTO;
 import kr.bit.dto.QuizOppoDTO;
+import kr.bit.dto.UserDto;
+import kr.bit.model.User;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -25,5 +28,12 @@ public interface UserQuizMapper {
             "where user_id = #{user_id} and oppo_id = #{oppo_id}")
     public void updateBlur(QuizOppoDTO quizOppoDTO);
 
-    @Select("select * from userquiz")
+    @Select("SELECT * FROM users " +
+            "WHERE user_nbti IN (#{nbti1}, #{nbti2}, #{nbti3}, #{nbti4}) " +
+            "AND user_id NOT IN (#{excludedUserIds})")
+    List<User> findUsersByNbti(@Param("nbti1") String nbti1,
+                               @Param("nbti2") String nbti2,
+                               @Param("nbti3") String nbti3,
+                               @Param("nbti4") String nbti4,
+                               @Param("excludedUserIds") String excludedUserIds);
 }
