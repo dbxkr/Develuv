@@ -255,6 +255,21 @@ function Header() {
                 </Link>
               </li>
             )}
+            {user && user.user_id && (
+              <li style={{ display: "flex", justifyContent: "center" }}>
+                <Link
+                  to="/free"
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    marginBottom: "20px",
+                    display: "block",
+                  }}
+                >
+                  무료 토큰
+                </Link>
+              </li>
+            )}
             <li style={{ display: "flex", justifyContent: "center" }}>
               <Link
                 to="/"

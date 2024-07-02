@@ -17,6 +17,8 @@ import Mypage from "./components/mypage/Mypage.jsx";
 import UserQuiz from "./components/mypage/UserQuiz.jsx";
 import UserProfileEdit from "./components/userEdit/UserProfileEdit.jsx";
 import Nahhh from "./components/notfound/nahhh.jsx";
+import FreeQuiz from "./components/freeToken/FreeQuiz.jsx";
+import FreeQuizForm from "./components/freeToken/FreeQuizForm.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -35,6 +37,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/*" element={<NotFound />} />
         <Route path="/edit-profile" element={<UserProfileEdit />} />
         <Route path="/nahhh" element={<Nahhh />} />
+        <Route path="/free" element={<FreeQuiz />} />
+        <Route path="/free/quiz" element={<FreeQuizForm />} />
       </Routes>
     </BrowserRouter>
   </AuthProvider>

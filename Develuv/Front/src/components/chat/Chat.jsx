@@ -77,10 +77,10 @@ function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
       // 오류 처리
     }
   };
-  const scrollToBottom = () => {
-    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-  useEffect(scrollToBottom, [messageList]);
+  // const scrollToBottom = () => {
+  //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
+  // useEffect(scrollToBottom, [messageList]);
 
   // useEffect(() => {
   //   messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -126,9 +126,7 @@ function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
 
   // 채팅창 띄울때 자동으로 맨 아래로 내려버림
   useEffect(() => {
-    messageBottomRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    messageBottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messageList]);
 
   return (
@@ -136,11 +134,15 @@ function Chat({ myId, oppoName, roomId, oppoProfile, blur, setDInfo, dInfo }) {
       <RoomContainer>
         <RoomHeader>
           <RoomTitle>
-            {otherUser} <button onClick={removeRoom}> X </button>
+            {otherUser}
+            <img
+              onClick={removeRoom}
+              src="./src/assets/box-arrow-left.svg"
+            ></img>
           </RoomTitle>
         </RoomHeader>
         <RoomBody>
-          <MessageBox>
+          <MessageBox ref={scroll}>
             {messageList &&
               messageList.map((el) => (
                 <Message
@@ -238,6 +240,7 @@ const RoomBody = styled.div`
 `;
 
 const MessageBox = styled.div`
+  overflow: scroll;
   width: 100%;
   height: 99%;
   overflow-x: hidden;
