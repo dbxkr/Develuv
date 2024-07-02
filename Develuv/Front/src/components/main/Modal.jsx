@@ -125,7 +125,14 @@ const Modal = ({
 
   const handleNbtiSubmit = async () => {
     try {
-      const users = await recommendUserByNbti(userId, nbti, excludedUserIds)
+      // 자신의 사용자 ID를 excludedUserIds에 포함
+      const updatedExcludedUserIds = [...excludedUserIds, userId]
+
+      const users = await recommendUserByNbti(
+        userId,
+        nbti,
+        updatedExcludedUserIds
+      ) // 여기를 수정
       if (users && users.length > 0) {
         setNoUserFound(false)
         // nbti 세팅 (usesatate 나 useRef 변수 설정 ex setNbti("BOMD") or nbti.current="BOMD")

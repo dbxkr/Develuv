@@ -30,6 +30,7 @@ const MatchingList = ({
 
   function getMatchList() {
     const formData = new FormData()
+    const updatedExcludedUserIds = [user_id] // 자신의 사용자 ID를 제외
     if (matchType === 'normal') {
       // 일반 매칭 검색
       console.log('before call List address : ' + address.current)
