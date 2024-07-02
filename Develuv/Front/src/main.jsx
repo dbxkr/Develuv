@@ -18,6 +18,8 @@ import UserQuiz from "./components/mypage/UserQuiz.jsx";
 import UserProfileEdit from "./components/userEdit/UserProfileEdit.jsx";
 import Nahhh from "./components/notfound/nahhh.jsx";
 import ChatCmd from "./components/chat/ChatCmd.jsx";
+import FreeQuiz from "./components/freeToken/FreeQuiz.jsx";
+import FreeQuizForm from "./components/freeToken/FreeQuizForm.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -128,6 +130,25 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <>
               <Header />
               <Nahhh />
+            </>
+          }
+        />
+
+        <Route
+          path="/free"
+          element={
+            <>
+              <Header />
+              <FreeQuiz />
+            </>
+          }
+        />
+        <Route
+          path="/free/quiz"
+          element={
+            <>
+              <Header />
+              <FreeQuizForm />
             </>
           }
         />

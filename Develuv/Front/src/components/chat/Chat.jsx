@@ -146,7 +146,7 @@ function Chat({
 
   // 채팅창 띄울때 자동으로 맨 아래로 내려버림
   useEffect(() => {
-    messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageBottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messageList]);
 
   return (
@@ -154,11 +154,15 @@ function Chat({
       <RoomContainer>
         <RoomHeader>
           <RoomTitle>
-            {otherUser} <button onClick={removeRoom}> X </button>
+            {otherUser}
+            <img
+              onClick={removeRoom}
+              src="./src/assets/box-arrow-left.svg"
+            ></img>
           </RoomTitle>
         </RoomHeader>
         <RoomBody>
-          <MessageBox>
+          <MessageBox ref={scroll}>
             {messageList &&
               messageList.map((el) => (
                 <Message
@@ -260,6 +264,7 @@ const RoomBody = styled.div`
 `;
 
 const MessageBox = styled.div`
+  overflow: scroll;
   width: 100%;
   height: 100%;
   overflow-y: scroll;

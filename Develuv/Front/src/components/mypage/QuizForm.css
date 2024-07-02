@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   width: 600px;
-  height: 600px;
+  height: 100%;
   /* background-color: lightskyblue; */
 }
 
@@ -63,7 +63,7 @@
 }
 
 .quiz-div {
-  height: 500px;
+  height: 100%;
   width: 500px;
 }
 
@@ -83,4 +83,11 @@
   margin: 0;
   width: 1rem;
   display: block;
+}
+
+/* 관리자 퀴즈 form 에서 쓰는 css */
+.free-quiz-container {
+  width: 100%;
+  border: 1px dashed black;
+  padding: 20px;
 }
