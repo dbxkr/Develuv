@@ -2,7 +2,6 @@ package kr.bit.service;
 
 import kr.bit.dto.*;
 import kr.bit.mapper.UserMapper;
-import kr.bit.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -73,19 +72,10 @@ public class UserService {
     public UserLoginDTO login(String userId, String userPw) {
         UserLoginDTO userLoginDTO = userMapper.login(userId);
         if (userLoginDTO != null) {
-            System.out.println("User found: " + userLoginDTO.getUser_id());
-            System.out.println("Stored password: " + userLoginDTO.getUser_pw());
-            System.out.println("Input password: " + userPw);
             boolean passwordMatches = BCrypt.checkpw(userPw, userLoginDTO.getUser_pw());
-            System.out.println("Password match result: " + passwordMatches);
             if (passwordMatches) {
-                System.out.println("Password matches for user: " + userLoginDTO.getUser_id());
                 return userLoginDTO;
-            } else {
-                System.out.println("Password does not match for user: " + userLoginDTO.getUser_id());
             }
-        } else {
-            System.out.println("User not found with user_id: " + userId);
         }
         return null;
     }
@@ -94,11 +84,16 @@ public class UserService {
         return userMapper.findById(user_id) != null;
     }
 
-
+    public void updateUserProfile(UserDto userDto) {
+        if (userDto.getUser_pw() != null && !userDto.getUser_pw().isEmpty()) {
+            String hashedPassword = BCrypt.hashpw(userDto.getUser_pw(), BCrypt.gensalt());
+            userDto.setUser_pw(hashedPassword);
+        }
+        userMapper.updateUserProfile(userDto);
+    }
 
     public void saveUser(UserDto userDto) {
         String hashedPassword = BCrypt.hashpw(userDto.getUser_pw(), BCrypt.gensalt());
-        System.out.println("Hashed Password (Backend): " + hashedPassword); // 해싱된 비밀번호 출력
         userDto.setUser_pw(hashedPassword);
         userMapper.save(userDto);
     }
@@ -163,6 +158,7 @@ public class UserService {
         userDto.setToken(tokenService.getToken(user_id).getToken());
         return userDto;
     }
+
     public UserDto findOtherUserById(String user_id, String my_id) {
         return userMapper.findOtherUserById(user_id, my_id);
     }

@@ -30,7 +30,6 @@ public interface UserMapper {
     @Select("select * from users where user_id=#{user_id}")
     UserLoginDTO login(@Param("user_id") String user_id);
 
-
     @Select("SELECT COUNT(*) > 0 FROM Users WHERE user_email = #{email}")
     boolean existsByEmail(@Param("email") String email);
 

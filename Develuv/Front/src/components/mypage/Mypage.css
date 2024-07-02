@@ -110,7 +110,6 @@
 }
 
 .info-tag,
-.extra-info span,
 select.info-tag {
   margin-right: 10px;
   padding: 10px;
@@ -123,6 +122,7 @@ select.info-tag {
   align-items: center;
   justify-content: center; /* 텍스트 가운데 정렬 */
   font-size: 16px; /* 글자 크기를 키워 가독성을 높입니다 */
+  color: black; /* 글자 색상 설정 */
 }
 
 .extra-info {
@@ -178,7 +178,7 @@ select.info-tag {
 }
 .profile-change button {
   background-color: transparent;
-  color: black;
+  color: black;  
   opacity: 50%;
   font-size: 15px;
   padding: 5px;
@@ -193,8 +193,37 @@ select.info-tag {
   border: 1px solid #ccc;
   border-radius: 15px;
   width: auto; /* 드롭다운 메뉴의 너비를 자동으로 설정 */
-  height: 40px; /* 드롭다운 메뉴의 높이를 키웁니다 */
+  height: 50px; /* 드롭다운 메뉴의 높이를 키웁니다 */
   display: flex;
   align-items: center;
   justify-content: center;
+  color: black; /* 글자 색상을 검은색으로 설정 */
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%; /* Position the tooltip above the element */
+  left: 50%;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }

@@ -1,4 +1,3 @@
-
 package kr.bit.controller;
 
 import kr.bit.dto.*;
@@ -144,6 +143,13 @@ public class UserController {
     public void updateOneProfile(@RequestBody UserProfileUpdate userDto) {
         userService.updateOneProfile(userDto);
 
+    }
+
+    @PutMapping("/edit-profile/{userId}")
+    public ResponseEntity<String> updateUserProfile(@PathVariable String userId, @RequestBody UserDto userDto) {
+        userDto.setUser_id(userId);
+        userService.updateUserProfile(userDto);
+        return ResponseEntity.ok("프로필이 성공적으로 업데이트 되었습니다.");
     }
 
 }
