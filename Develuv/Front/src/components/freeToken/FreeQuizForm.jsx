@@ -181,12 +181,20 @@ const FreeQuizForm = () => {
           </div>
         </div>
         <div className="quiz-div">{renderQuizContent()}</div>
-        <div className="button-container">
-          {page > 1 ? <button onClick={prevPage}>이전</button> : null}
+        <div className="button-container1">
+          {page > 1 ? (
+            <button className="quiz-button" onClick={prevPage}>
+              이전
+            </button>
+          ) : null}
           {page === quizes.length ? (
-            <button onClick={onSubmit}>제출</button>
+            <button className="quiz-button" onClick={onSubmit}>
+              제출
+            </button>
           ) : (
-            <button onClick={nextPage}>다음</button>
+            <button className="quiz-button" onClick={nextPage}>
+              다음
+            </button>
           )}
         </div>
       </div>

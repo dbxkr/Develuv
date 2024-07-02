@@ -27,7 +27,7 @@
   padding: 50px 0;
 }
 
-button {
+.quiz-button {
   width: 100px;
   background-color: #f5f5f5;
   color: #00356d;
