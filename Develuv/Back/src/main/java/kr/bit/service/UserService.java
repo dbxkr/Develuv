@@ -2,6 +2,7 @@ package kr.bit.service;
 
 import kr.bit.dto.*;
 import kr.bit.mapper.UserMapper;
+import kr.bit.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
