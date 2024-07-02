@@ -137,6 +137,7 @@ function Login({ closeModal }) {
   useEffect(() => {
     // 인풋 요소들 배열 초기화
     inputRefs.current = inputRefs.current.slice(0, 3);
+    inputRefs.current[0].focus();
   }, []);
 
   const handleKeyDown = (event, index) => {
