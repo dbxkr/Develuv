@@ -24,4 +24,6 @@ public interface UserQuizMapper {
     @Update("update opponent set blur = blur + 1 " +
             "where user_id = #{user_id} and oppo_id = #{oppo_id}")
     public void updateBlur(QuizOppoDTO quizOppoDTO);
+
+    @Select("select * from userquiz")
 }
