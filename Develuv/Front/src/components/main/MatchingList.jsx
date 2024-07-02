@@ -52,9 +52,9 @@ const MatchingList = ({
       console.log("before call List address : " + address.current);
       formData.append("searchAdr", address.current);
       axios
-        .get("http://localhost:8080/matchingList/rematch", {
+        .get("http://localhost:8080/matching/kdtree/random", {
           params: {
-            searchAdr: address.current,
+            user_id: user_id,
           },
         })
         .then((response) => {
