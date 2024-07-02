@@ -7,11 +7,11 @@ import ImageUpload from "../imgupload"; // 이미지 업로드 컴포넌트 임�
 const UserProfileEdit = () => {
   const { user } = useAuth();
   const [userId, setUserId] = useState(user.user_id);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState(user.phone || "");
-  const [job, setJob] = useState(user.job || "");
-  const [address, setAddress] = useState(user.address || "");
+  const [password, setPassword] = useState(user.user_pw);
+  const [confirmPassword, setConfirmPassword] = useState(user.user_pw);
+  const [phone, setPhone] = useState(user.user_phone || "");
+  const [job, setJob] = useState(user.user_job || "");
+  const [address, setAddress] = useState(user.user_address || "");
   const [profileImageUrl, setProfileImageUrl] = useState(
     user.user_profile || ""
   ); // 프로필 이미지 URL 상태 추가

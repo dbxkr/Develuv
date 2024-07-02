@@ -127,7 +127,7 @@ function DetailedInfo({ oppoId }) {
         </InfoBody>
         <CodeBody flipped={flipped}>
           {userInfo.user_code.includes("##") ? (
-            <div>
+            <CodeBlock>
               <div style={{ textAlign: "center" }}>
                 {userInfo.user_code.split("##")[0]}
               </div>
@@ -135,7 +135,7 @@ function DetailedInfo({ oppoId }) {
                 lang={userInfo.user_code.split("##")[0]}
                 text={userInfo.user_code.split("##")[1].replace(/\\n/g, "\n")}
               />
-            </div>
+            </CodeBlock>
           ) : (
             <div>해당 유저가 아직 코드를 설정하지 않았습니다.</div>
           )}
@@ -245,4 +245,8 @@ const FlipButton = styled.button`
     outline: none; /* 아웃라인 제거 */
   }
   left: 95%;
+`;
+
+const CodeBlock = styled.div`
+  max-height: 60%;
 `;

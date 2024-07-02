@@ -4,7 +4,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 //유저정보 추가를 위해 이전 페이지에서 사용자 id 정보 가져오기
-function Regi5Form({ formData, setFormData, progress, setProgress, image, city}) {
+function Regi5Form({
+  formData,
+  setFormData,
+  progress,
+  setProgress,
+  image,
+  city,
+}) {
   const navigate = useNavigate();
   console.log("formData", formData);
 
@@ -127,7 +134,7 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image, city})
             parents: [folderId], // 업로드하려는 폴더의 ID
           }),
         ],
-        {type: "application/json"}
+        { type: "application/json" }
       )
     );
     imgData.append("file", image); // 파일 데이터 추가
@@ -149,7 +156,7 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image, city})
         console.log("File uploaded successfully");
         const fileId = response.data.id;
         const imgUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s`;
-        const signUpData = {...formData, user_profile: imgUrl};
+        const signUpData = { ...formData, user_profile: imgUrl };
         console.log("imgUrl", imgUrl);
         console.log("after set imgUrl", signUpData);
         axios
@@ -172,15 +179,21 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image, city})
       });
   };
 
-  async function submitCity(){
-    const cityData = { user_address: formData.user_address, city: city, user_id:formData.user_id}
-    console.log(cityData)
+  async function submitCity() {
+    const cityData = {
+      user_address: formData.user_address,
+      city: city,
+      user_id: formData.user_id,
+    };
+    console.log(cityData);
     axios
-      .post('http://localhost:8080/api/register/latlon',cityData).then((res)=> {
+      .post("http://localhost:8080/api/register/latlon", cityData)
+      .then((res) => {
         console.log(res.data);
-    }).catch((err)=> {
-      console.log("insert latlon err",err);
-    })
+      })
+      .catch((err) => {
+        console.log("insert latlon err", err);
+      });
   }
 
   return (
@@ -189,9 +202,7 @@ function Regi5Form({ formData, setFormData, progress, setProgress, image, city})
     >
       <div className={"tt"}>Additional Options</div>
       <div className={"gray_font"}>Please enter the information</div>
-      <div className={"sub_title"}>
-        선택 정보로 다른 사람의 정보도 볼 수 있어요
-      </div>
+      <div className={"sub_title"}>선택 정보는 다른 사람도 볼 수 있어요</div>
 
       <div className="option-container">
         {/* 선호 프로그램 언어*/}

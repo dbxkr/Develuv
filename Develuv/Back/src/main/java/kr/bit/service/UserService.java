@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -168,22 +169,16 @@ public class UserService {
 
     public void updateOneProfile(UserProfileUpdate userProfileUpdate) {
         String type = userProfileUpdate.getType();
-        if (type.equals("git")) {
+        if(type.equals("git")){
             userMapper.updateProfileGit(userProfileUpdate);
-        } else if (type.equals("memo")) {
+        }else if(type.equals("memo")){
             userMapper.updateProfileMemo(userProfileUpdate);
-        } else if (type.equals("nbti")) {
-            userMapper.updateProfileNbti(userProfileUpdate);
-        } else if (type.equals("proLang")) {
-            userMapper.updateProfileProLang(userProfileUpdate);
-        } else if (type.equals("drink")) {
-            userMapper.updateProfileDrink(userProfileUpdate);
-        } else if (type.equals("smoke")) {
-            userMapper.updateProfileSmoke(userProfileUpdate);
-        } else if (type.equals("religion")) {
-            userMapper.updateProfileReligion(userProfileUpdate);
-        } else if (type.equals("edu")) {
-            userMapper.updateProfileEdu(userProfileUpdate);
         }
+
+
+    }
+
+    public List<User> findUsersByNbti(String nbti, String excludedUserIds) {
+        return userMapper.findUsersByNbti(nbti, excludedUserIds);
     }
 }

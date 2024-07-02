@@ -12,6 +12,7 @@ const MatchingList = ({
   setMatchList,
   setMatchType,
   user_id,
+  user_nbti, // nbti 값을 props로 전달받기
 }) => {
   const address = useRef("");
 
@@ -29,6 +30,7 @@ const MatchingList = ({
 
   function getMatchList() {
     const formData = new FormData();
+    const updatedExcludedUserIds = [user_id]; // 자신의 사용자 ID를 제외
     if (matchType === "normal") {
       // 일반 매칭 검색
 
@@ -70,7 +72,7 @@ const MatchingList = ({
         .get("http://localhost:8080/matching/kdtree/nbti", {
           params: {
             user_id: user_id,
-            nbti: "BOMD",
+            nbti: user_nbti, //요거 props 받은거로 바꿔주기
           },
         })
         .then((response) => {
