@@ -90,14 +90,6 @@ const FreeQuizForm = () => {
 
   // 결과 제출 함수
   const onSubmit = () => {
-    // 이미 한번 문제를 풀었으니까 다시 못 풀게 한다.
-    try {
-      axios.post("http://localhost:8080/freequiz/setuser", {
-        user_id: user.user_id,
-      });
-    } catch {
-      console.log("중복참여 판정 실패...");
-    }
     console.log("최종선택: ", answer);
     // 채점 전에, 값을 전부 선택하지 않으면 경고와 함께 진행되지 않도록 세팅.
     let check = 0;
@@ -110,6 +102,14 @@ const FreeQuizForm = () => {
       setModal(true);
     }
     if (check === 0) {
+      // 이미 한번 문제를 풀었으니까 다시 못 풀게 한다.
+      try {
+        axios.post("http://localhost:8080/freequiz/setuser", {
+          user_id: user.user_id,
+        });
+      } catch {
+        console.log("중복참여 판정 실패...");
+      }
       // 채점하자 !
       goMarking();
     }
@@ -147,7 +147,7 @@ const FreeQuizForm = () => {
   // 모달 관련 함수
   function onModal() {
     return (
-      <div className="modal">
+      <div className="quiz-modal">
         <h4>모든 항목을 선택해주세요!</h4>
         <p>선택해 주시지 않으면 채점할 수가 없어용 :(</p>
         <p>
