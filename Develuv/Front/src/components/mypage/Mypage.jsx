@@ -107,16 +107,6 @@ const Mypage = () => {
         alert("정보 업데이트 중 오류가 발생했습니다."); // 실패 메시지 표시
       });
   };
-
-  const handleQuizChange = (e) => {
-    setQuiz(e.target.value);
-    // Save to backend
-    axios
-      .put(`${springUrl}/user/info/${user.user_id}`, { quiz: e.target.value })
-      .catch((error) => {
-        console.error("Error updating Quiz:", error);
-      });
-  };
   const handleNbtiChange = (newNbti) => {
     if (isMyPage) {
       axios
