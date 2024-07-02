@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Modal from "react-modal";
 import Login from "./login/login";
 import { useAuth } from "../AuthProvider";
 import menuImg from "../assets/menubar_white.svg"; // SVG 파일을 임포트
-import chatBtn from "../assets/messenger_white.svg"; // SVG 파일을 임포트
 
-// 모달에 대한 스타일을 정의합니다.
 const customStyles = {
   content: {
-    top: "50%",
+    top: 'calc(500px)', // 헤더 바로 아래에서 보이도록 설정
     left: "50%",
     right: "auto",
     bottom: "auto",
@@ -22,17 +19,16 @@ const customStyles = {
   },
 };
 
-// 모달의 root element를 설정합니다. (App의 root element를 사용하는 것이 일반적입니다.)
 Modal.setAppElement("#root");
 
 function Header() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // 메뉴가 열려 있는지 여부를 나타내는 상태
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { isLoggedIn, user, logout } = useAuth();
   const needLogin = ["/chat", "/main", "/mypage"];
-  const menuRef = useRef(null); // 메뉴 슬라이드 영역을 참조하기 위한 ref
+  const menuRef = useRef(null);
 
   useEffect(() => {
     if (needLogin.some((path) => location.pathname.includes(path))) {
@@ -116,203 +112,133 @@ function Header() {
         </div>
 
         {isLoggedIn && (
-          <>
-            {/* <div
-              className="center-container"
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
-              <Link to="/chat" style={{ marginRight: '30px', color: 'white' }}>
-                채팅(테스트)
-              </Link>
-              <Link to="/main" style={{ color: 'white' }}>
-                매칭(테스트)
-              </Link>
-            </div> */}
-
-            <div
-              className="right-container"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginRight: "50px",
-              }}
-            >
-              {/* <div className="chat_btn" style={{ marginRight: "50px" }}>
-                <Link to="/chat">
-                  <img src={chatBtn} alt="Chat" />
-                </Link>
-              </div> */}
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Link
-                  to={`/mypage/${user.user_id}`}
-                  style={{ color: "white", marginRight: "20px" }}
-                >
-                  {user.user_name}님 환영합니다
-                </Link>
-                {/* <button
-                  className="loginBtn"
-                  onClick={handleLogout}
-                  style={{
-                    backgroundColor: 'white',
-                    color: '#00356d',
-                    padding: '5px 10px',
-                    border: 'none',
-                    borderRadius: '5px',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  로그아웃
-                </button> */}
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* {!isLoggedIn && location.pathname === "/" && (
-          <button
-            className="loginBtn"
-            onClick={openModal}
+          <div
+            className="right-container"
             style={{
-              backgroundColor: 'white',
-              color: '#00356d',
-              padding: '5px 10px',
-              border: 'none',
-              borderRadius: '5px',
-              marginRight: '50px',
+              display: "flex",
+              alignItems: "center",
+              marginRight: "50px",
             }}
           >
-            로그인
-          </button>
-        )} */}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Link
+                to={`/mypage/${user.user_id}`}
+                style={{ color: "white", marginRight: "20px" }}
+              >
+                {user.user_name}님 환영합니다
+              </Link>
+            </div>
+          </div>
+        )}
+      </header>
 
-        {/* 왼쪽에서 슬라이드 창 */}
-        <div
-          ref={menuRef}
-          className="menu-slide"
+      <div
+        ref={menuRef}
+        className={`menu-slide ${isMenuOpen ? "open" : ""}`}
+        style={{
+          position: "fixed",
+          top: "110px", // 헤더 바로 아래에 위치
+          left: isMenuOpen ? "0" : "-250px",
+          width: "250px",
+          height: "calc(100vh - 70px)",
+          background: "#001d3d",
+          color: "white",
+          transition: "left 0.3s ease",
+          zIndex: 1001,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          opacity: 0.8,
+        }}
+      >
+        <ul
           style={{
-            position: "fixed",
-            top: "110px", // 헤더 아래에 위치하도록 수정
-            left: isMenuOpen ? "0" : "-250px",
-            width: "250px",
-            height: "calc(100vh - 70px)", // 전체 화면 높이에서 헤더 높이만큼 뺀 크기로 설정
-            background: "#001d3d",
-            color: "white",
-            transition: "left 0.3s ease",
-            zIndex: "1001", // 헤더의 z-index보다 높게 설정
-            opacity: 0.8,
+            listStyle: "none",
+            padding: "20px 0",
+            margin: "0",
+            textAlign: "center",
+            flex: "1",
           }}
         >
-          <ul
-            style={{
-              listStyle: "none",
-              padding: "20px 0",
-              margin: "0",
-              textAlign: "center",
-            }}
-          >
-            {user && user.user_id && (
-              <li style={{ display: "flex", justifyContent: "center" }}>
+          {user && user.user_id && (
+            <>
+              <li style={{ marginBottom: "20px" }}>
                 <Link
                   to={`/mypage/${user.user_id}`}
-                  style={{
-                    color: "white",
-                    textDecoration: "none",
-                    marginBottom: "20px",
-                    display: "block",
-                  }}
+                  style={{ color: "white", textDecoration: "none" }}
                 >
                   마이페이지
                 </Link>
               </li>
-            )}
-            {user && user.user_id && (
-              <li style={{ display: "flex", justifyContent: "center" }}>
+              <li style={{ marginBottom: "20px" }}>
                 <Link
                   to="/main"
-                  style={{
-                    color: "white",
-                    textDecoration: "none",
-                    marginBottom: "20px",
-                    display: "block",
-                  }}
+                  style={{ color: "white", textDecoration: "none" }}
                 >
                   매칭
                 </Link>
               </li>
-            )}
-            {user && user.user_id && (
-              <li style={{ display: "flex", justifyContent: "center" }}>
+              <li style={{ marginBottom: "20px" }}>
                 <Link
                   to="/chat"
-                  style={{
-                    color: "white",
-                    textDecoration: "none",
-                    marginBottom: "20px",
-                    display: "block",
-                  }}
+                  style={{ color: "white", textDecoration: "none" }}
                 >
                   채팅
                 </Link>
               </li>
-            )}
-            <li style={{ display: "flex", justifyContent: "center" }}>
-              <Link
-                to="/"
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                  marginBottom: "20px",
-                  display: "block",
-                }}
-              >
-                홈
-              </Link>
-            </li>
-          </ul>
+            </>
+          )}
+          <li>
+            <Link
+              to="/"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              홈
+            </Link>
+          </li>
+        </ul>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "500px",
-              padding: "20px 0",
-            }}
-          >
-            {user && user.user_id ? (
-              <button
-                className="loginBtn"
-                onClick={handleLogout}
-                style={{
-                  backgroundColor: "white",
-                  color: "#00356d",
-                  padding: "5px 10px",
-                  border: "none",
-                  borderRadius: "5px",
-                  width: "80%",
-                }}
-              >
-                로그아웃
-              </button>
-            ) : (
-              <button
-                className="loginBtn"
-                onClick={openModal}
-                style={{
-                  backgroundColor: "white",
-                  color: "#00356d",
-                  padding: "5px 10px",
-                  border: "none",
-                  borderRadius: "5px",
-                  width: "80%",
-                }}
-              >
-                로그인
-              </button>
-            )}
-          </div>
+        <div
+          style={{
+            padding: "60px",
+            background: "#001d3d",
+            textAlign: "center",
+          }}
+        >
+          {user && user.user_id ? (
+            <button
+              onClick={handleLogout}
+              style={{
+                backgroundColor: "white",
+                color: "#00356d",
+                padding: "5px 10px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              로그아웃
+            </button>
+          ) : (
+            <button
+              onClick={openModal}
+              style={{
+                backgroundColor: "white",
+                color: "#00356d",
+                padding: "5px 10px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              로그인
+            </button>
+          )}
         </div>
-      </header>
+      </div>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

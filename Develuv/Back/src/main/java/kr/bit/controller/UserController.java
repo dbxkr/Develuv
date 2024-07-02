@@ -4,7 +4,6 @@ import kr.bit.dto.*;
 import kr.bit.dto.social.GoogleLoginDTO;
 import kr.bit.dto.social.KakaoLoginDTO;
 import kr.bit.dto.social.NaverLoginDTO;
-import kr.bit.model.User;
 import kr.bit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -72,7 +71,6 @@ public class UserController {
 
     @PostMapping("/sns/naver")
     public Map<String, Object> snsNaver(@RequestBody NaverLoginDTO naverLoginDTO) {
-        String header = "Bearer " + naverLoginDTO.getCode();
         if(!naverLoginDTO.getProvider().equals("naver")) {
             return null;
         }
@@ -134,6 +132,7 @@ public class UserController {
     public UserDto getUserById(@RequestParam String user_id) {
         return userService.findUserById(user_id);
     }
+
     @PostMapping("/otherInfo")
     public UserDto getOtherUserById(@RequestParam String user_id, @RequestParam String my_id) {
         return userService.findOtherUserById(user_id, my_id);
@@ -147,5 +146,12 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>("프로필 업데이트 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping("/edit-profile/{userId}")
+    public ResponseEntity<String> updateUserProfile(@PathVariable String userId, @RequestBody UserDto userDto) {
+        userDto.setUser_id(userId);
+        userService.updateUserProfile(userDto);
+        return ResponseEntity.ok("프로필이 성공적으로 업데이트 되었습니다.");
     }
 }
