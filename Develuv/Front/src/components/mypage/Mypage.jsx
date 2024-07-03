@@ -17,7 +17,6 @@ const Mypage = () => {
   const { user, login } = useAuth();
   const [blur, setBlur] = useState(0);
   const [userInfo, setUserInfo] = useState(null);
-  const [city, setCity] = useState();
   const [quiz, setQuiz] = useState("");
   const navigate = useNavigate();
   const isMyPage = user.user_id === params.user_id;
@@ -69,7 +68,6 @@ const Mypage = () => {
     { type: "doctor", title: "박사" },
     { type: "etc", title: "기타" },
   ];
-  const [latlon, setLatlon] = useState({city:""});
   const fetchUserInfo = async () => {
     try {
       if (isMyPage) {
@@ -78,12 +76,10 @@ const Mypage = () => {
         setUserInfo({ ...user });
         console.log("내 페이지 정보", user);
       } else {
-        let resLatlon;
         const response = await axios.post(
-          `${springUrl}/user/otherInfo?user_id=${params.user_id}&my_id=${user.user_id}`);
-
+          `${springUrl}/user/otherInfo?user_id=${params.user_id}&my_id=${user.user_id}`
+        );
         console.log("response", response);
-        
         setUserInfo(response.data);
         setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
       }
@@ -94,11 +90,6 @@ const Mypage = () => {
 
   useEffect(() => {
     fetchUserInfo();
-    axios.post(`http://localhost:8080/api/edit-profile/getlatlon/${params.user_id}`).then((res)=> {
-      console.log("latlon",res);
-      setLatlon(res.data)
-    })
-  
   }, [params.user_id, isMyPage]); // 사용자 정보가 변경될 때마다 다시 로드
 
   const calculateAge = (birthDate) => {
@@ -145,7 +136,6 @@ const Mypage = () => {
         value: newValue.current,
         user_id: user.user_id,
       })
-      
       .then(() => {
         fetchUserInfo(); // Refresh user info after update
         setIsNbtiModalVisible(false); // 모달 창 닫기
@@ -243,12 +233,10 @@ const Mypage = () => {
               </span>
             </h2>
           </div>
-{/*  */}
           <div className="info-row">
             <img src={locationIcon} alt="Location" className="icon" />
-            <p>{latlon.city}</p>
+            <p>{userInfo.user_address}</p>
           </div>
-
           <div className="info-row">
             <img src={jobIcon} alt="Job" className="icon" />
             <p>{userInfo.user_job}</p>
@@ -290,9 +278,7 @@ const Mypage = () => {
                   {userInfo.user_nbti}
                 </span>
               </div>
-              <span className="tooltip-text">
-                {isMyPage ? "NBTI" : `NBTI`}
-              </span>
+              <span className="tooltip-text">{isMyPage ? "NBTI" : `NBTI`}</span>
             </div>
             <div className="tooltip-container">
               {isMyPage ? (
@@ -421,6 +407,11 @@ const Mypage = () => {
                   onChange={handleInputChange}
                   onFocus={() => {
                     setFocused("git");
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      setFocused(null);
+                    }, 100);
                   }}
                   className={focused === "git" ? null : "n-focus"}
                 />

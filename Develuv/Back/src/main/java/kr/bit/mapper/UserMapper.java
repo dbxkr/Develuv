@@ -61,7 +61,38 @@ public interface UserMapper {
     @Update("UPDATE users set user_memo = #{value} where user_id = #{user_id}")
     void updateProfileMemo(UserProfileUpdate userProfileUpdate);
 
+    @Select("SELECT * FROM users WHERE user_id NOT IN (#{excludedUserIds}) LIMIT 12")
+    List<User> findUsers(@Param("userId") String userId, @Param("excludedUserIds") String excludedUserIds);
 
-    @Select("SELECT * FROM users WHERE user_nbti = #{nbti} AND user_id NOT IN (#{excludedUserIds})")
+    @Select("SELECT * FROM users WHERE user_nbti = #{nbti} AND user_id NOT IN(#{excludedUserIds}) LIMIT 12")
     List<User> findUsersByNbti(@Param("nbti") String nbti, @Param("excludedUserIds") String excludedUserIds);
+
+    @Update("update users set user_heart = user_heart+1 where user_id = #{oppoId}")
+    void increaseHeart(UnblurDTO unblurDTO);
+
+    @Select("SELECT * FROM users WHERE user_id NOT IN (#{excludedUserIds}) ORDER BY user_heart DESC LIMIT 12")
+    List<User> findFamousUsers(@Param("excludedUserIds") String excludedUserIds);
+
+
+    @Update("UPDATE users set user_nbti = #{value} where user_id = #{user_id}")
+    void updateProfileNbti(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_pro_lang = #{value} where user_id = #{user_id}")
+    void updateProfileProLang(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_drink = #{value} where user_id = #{user_id}")
+    void updateProfileDrink(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_smoke = #{value} where user_id = #{user_id}")
+    void updateProfileSmoke(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_religion = #{value} where user_id = #{user_id}")
+    void updateProfileReligion(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_edu = #{value} where user_id = #{user_id}")
+    void updateProfileEdu(UserProfileUpdate userProfileUpdate);
+
+    @Select("select * from users")
+    List<UserDto> getAll();
+
 }

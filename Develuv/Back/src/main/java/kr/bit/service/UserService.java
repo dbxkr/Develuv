@@ -166,16 +166,44 @@ public class UserService {
 
     public void updateOneProfile(UserProfileUpdate userProfileUpdate) {
         String type = userProfileUpdate.getType();
-        if(type.equals("git")){
+        if (type.equals("git")) {
             userMapper.updateProfileGit(userProfileUpdate);
-        }else if(type.equals("memo")){
+        } else if (type.equals("memo")) {
             userMapper.updateProfileMemo(userProfileUpdate);
+        }else if (type.equals("nbti")) {
+            userMapper.updateProfileNbti(userProfileUpdate);
+        }else if (type.equals("proLang")) {
+            userMapper.updateProfileProLang(userProfileUpdate);
+        }else if (type.equals("drink")) {
+            userMapper.updateProfileDrink(userProfileUpdate);
+        }else if (type.equals("smoke")) {
+            userMapper.updateProfileSmoke(userProfileUpdate);
+        }else if (type.equals("religion")) {
+            userMapper.updateProfileReligion(userProfileUpdate);
+        }else if (type.equals("edu")) {
+            userMapper.updateProfileEdu(userProfileUpdate);
         }
 
 
     }
 
+    public List<User> recommendUser(String userId, String excludedUserIds) {
+        return userMapper.findUsers(userId, excludedUserIds);
+    }
+
     public List<User> findUsersByNbti(String nbti, String excludedUserIds) {
         return userMapper.findUsersByNbti(nbti, excludedUserIds);
+    }
+
+    public void increaeHeart(UnblurDTO unblurDTO){
+        userMapper.increaseHeart(unblurDTO);
+    }
+
+    public List<User> findUsersByFame(String excludedUserIds) {
+        return userMapper.findFamousUsers(excludedUserIds);
+    }
+
+    public List<UserDto> getAll(){
+        return userMapper.getAll();
     }
 }

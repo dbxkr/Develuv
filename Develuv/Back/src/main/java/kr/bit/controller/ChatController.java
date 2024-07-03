@@ -4,6 +4,7 @@ import kr.bit.dto.ChatDTO;
 import kr.bit.dto.UnblurDTO;
 import kr.bit.mapper.ChatMapper;
 import kr.bit.service.TokenService;
+import kr.bit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ public class ChatController {
     private ChatMapper chatMapper;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/join")
     public List<ChatDTO> chat(@RequestBody ChatDTO chatDTO) {
@@ -50,6 +53,7 @@ public class ChatController {
     public void unblur(@RequestBody UnblurDTO unblurDTO) {
         chatMapper.unblur(unblurDTO);
         tokenService.deductTokens(unblurDTO.getMyId(), 1000);
+        userService.increaeHeart(unblurDTO);
     }
 
     @PostMapping("/blur")

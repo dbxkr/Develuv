@@ -1,0 +1,35 @@
+.free-token-container {
+  color: #00356d;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.free-token-header {
+  border: 2px solid #00356d;
+  width: 300px;
+  height: 130px;
+  border-radius: 50%;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 130px;
+  margin-bottom: 40px;
+}
+
+.free-token-body {
+  border: 1px solid #00356d;
+  width: 100%;
+}
+
+.free-token-content {
+  padding: 50px 0;
+}
+
+.quiz-button {
+  width: 100px;
+  background-color: #f5f5f5;
+  color: #00356d;
+  border: 1px solid #00356d;
+}

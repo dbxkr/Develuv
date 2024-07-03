@@ -1,17 +1,21 @@
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
-const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizForm, choiceForm}) => {
+const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizForm, choiceForm, hasQuiz, user_id}) => {
 
   const [quiz, setQuiz] = useState('');
   const textareaRefs = useRef([]);
-  const [choices, setChoices] = useState([{c_num: 1, content: ''}]);
+  const [choices, setChoices] = useState([{q_num:q_num,c_num: 1, content: ''}]);
   const answer = useRef(0);
   const q_num1 = useRef(q_num);
+  const navi = useNavigate();
+  const idVal = localStorage
 
   document.addEventListener('contextmenu', event => event.preventDefault());
 
   useEffect(() => {
+    console.log('page 선택지 렌더링!', choiceForm);
     setChoices(choiceForm);
     setQuiz(quizForm);
     answer.current = qFormData[page - 1].answer;
@@ -27,7 +31,7 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
   // 선택지 추가
   const addChoice = () => {
     if (choices.length < 4) {
-      const newChoice = {c_num: choices.length + 1, content: ''};
+      const newChoice = {q_num:q_num,c_num: choices.length + 1, content: ''};
       setChoices([...choices, newChoice]);
     }
   };
@@ -108,13 +112,24 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
       if (answer.current !== 0) {
         const postData = saveCurrentData();
         console.log("postdata : ",postData);
+        const arr = postData.map((item, index) => ({
+          ...item,
+          q_num: index+1,
+          choices: item.choices.map(choice=>({
+            ...choice,
+            q_num: index+1
+          }))
+        }))
+        console.log(arr);
 
-        axios.post("http://localhost:8080/api/user/quiz/register", postData)
-          .then((response) => {
-            console.log(response.data);
+        axios.post(`http://localhost:8080/api/user/quiz/register/${hasQuiz}`, arr)
+          .then(async (response) => {
+            await console.log(response.data);
+            await alert("퀴즈 업로드 완료");
+            await navi(`/mypage/${user_id}`);
           })
           .catch((error)=> {
-            console.log("좆됬어요!!");
+            console.log("error register user quiz");
           })
       } else {
         alert("정답을 선택해주세요!!");

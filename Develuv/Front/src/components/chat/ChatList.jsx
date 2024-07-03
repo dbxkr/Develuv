@@ -181,9 +181,11 @@ function ChatList() {
                     </div>
                     <div className="chat-meta">
                       <div className="chat-time">{participant.recentTime}</div>
-                      <div className="chat-notification">
-                        {participant.unread}
-                      </div>
+                      {participant.unread ? (
+                        <div className="chat-notification">
+                          {participant.unread}
+                        </div>
+                      ) : null}
                     </div>
                   </li>
                 ))}
@@ -201,6 +203,7 @@ function ChatList() {
             roomId={roomId}
             myId={user.user_id}
             oppoName={oppoName}
+            oppoId={oppoId}
             oppoProfile={oppoProfile}
             blur={blur}
             setDInfo={setDInfo}

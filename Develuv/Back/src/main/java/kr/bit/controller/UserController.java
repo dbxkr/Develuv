@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -152,4 +153,8 @@ public class UserController {
         return ResponseEntity.ok("프로필이 성공적으로 업데이트 되었습니다.");
     }
 
+    @PostMapping("/getAll")
+    public List<UserDto> getAll() {
+        return userService.getAll();
+    }
 }

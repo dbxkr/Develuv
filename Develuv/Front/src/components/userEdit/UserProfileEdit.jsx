@@ -21,11 +21,13 @@ const UserProfileEdit = () => {
   const client_id = import.meta.env.VITE_GOOGLE_DRIVE_CLIENT_ID;
   const secret_key = import.meta.env.VITE_GOOGLE_DRIVE_SECRET_KEY;
 
-  const [accessToken, setAccessToken] = useState(import.meta.env.VITE_GOOGLE_DRIVE_API_KEY);
+  const [accessToken, setAccessToken] = useState(
+    import.meta.env.VITE_GOOGLE_DRIVE_API_KEY
+  );
   const refreshToken = import.meta.env.VITE_GOOGLE_DRIVE_REFRESH_TOKEN;
 
-  const [formData, setFormData] = useState([{ user_address: '' }]);
-  const [city, setCity] = useState("");
+  const [formData, setFormData] = useState([{ user_address: "" }]);
+  const [city, setCity] = useState();
 
   const refreshAccessToken = async () => {
     try {
@@ -85,21 +87,11 @@ const UserProfileEdit = () => {
     }
   };
 
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    return regex.test(password);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!password || !phone || !job || !address) {
       alert("비밀번호, 휴대전화, 직업, 지역을 모두 입력해주세요.");
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      alert("비밀번호는 영문 + 숫자 조합으로 8자리 이상이어야 합니다.");
       return;
     }
 
@@ -144,7 +136,11 @@ const UserProfileEdit = () => {
         setProfileImageUrl(newProfileImageUrl);
       } catch (error) {
         console.error("프로필 이미지 업로드 오류:", error);
-        alert(`프로필 이미지 업로드 실패: ${error.response?.data?.message || error.message}`);
+        alert(
+          `프로필 이미지 업로드 실패: ${
+            error.response?.data?.message || error.message
+          }`
+        );
         return;
       }
     }
@@ -159,16 +155,19 @@ const UserProfileEdit = () => {
     };
 
     try {
-      await axios.put(`http://localhost:8080/user/edit-profile/${user.user_id}`, userData);
+      await axios.put(
+        `http://localhost:8080/user/edit-profile/${user.user_id}`,
+        userData
+      );
       alert("프로필이 성공적으로 업데이트 되었습니다.");
-      console.log("값들 출력"+ user.user_id+ ":"+user.user_address+ " : " + city);
-      const upLatlonData = {user_id:user.user_id, address: user.user_address, city: city}
-      await axios.post(`http://localhost:8080/api/edit-profile/update/latlon`, upLatlonData 
-    );
       window.location.href = `/mypage/${user.user_id}`;
     } catch (error) {
       console.error("프로필 업데이트 오류:", error);
-      alert(`프로필 업데이트 실패: ${error.response?.data?.message || error.message}`);
+      alert(
+        `프로필 업데이트 실패: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     }
   };
 
@@ -179,13 +178,12 @@ const UserProfileEdit = () => {
   useEffect(() => {
     console.log(formData.user_address);
     setAddress(formData.user_address);
-
   }, [formData]);
 
   return (
-    <div className="edit-member">
+    <div>
       <h2>회원정보 수정</h2>
-      <form className="edit-mypage" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <label>
           아이디:
           <input type="text" value={userId} readOnly />
@@ -193,12 +191,22 @@ const UserProfileEdit = () => {
         <br />
         <label>
           비밀번호:
-          <input type="password" value={password} onChange={handlePasswordChange} />
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            readOnly={user.user_provider == "develuv" ? false : true}
+          />
         </label>
         <br />
         <label>
           비밀번호 확인:
-          <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            readOnly={user.user_provider == "develuv" ? false : true}
+          />
         </label>
         <br />
         <label>
@@ -214,11 +222,9 @@ const UserProfileEdit = () => {
         <div className="address-container">
           <label>
             지역:
-            <div className="post_code_div" style={{ display: "flex" }}>
-              <input style={{ borderTopRightRadius: "0px", borderBottomRightRadius: "0px" }} type="text" value={address} onChange={handleAddressChange} />
-              <DaumPostCode formData={formData} setFormData={setFormData} setCity={setCity}/>
-            </div>
+            <input type="text" value={address} onChange={handleAddressChange} />
           </label>
+          <DaumPostCode formData={formData} setFormData={setFormData} />
         </div>
         <br />
         <label>
@@ -228,20 +234,31 @@ const UserProfileEdit = () => {
         <br />
         {profileImageUrl && !newImagePreview && (
           <div>
-            <img src={profileImageUrl} alt="프로필 미리보기" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+            <img
+              src={profileImageUrl}
+              alt="프로필 미리보기"
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            />
           </div>
         )}
         {newImagePreview && (
           <div>
-            <img src={newImagePreview} alt="새 프로필 미리보기" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+            <img
+              src={newImagePreview}
+              alt="새 프로필 미리보기"
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            />
           </div>
         )}
         <ImageUpload onImageUpload={handleImageUpload} />
         <br />
         <div className="button-container">
           <button type="submit">저장</button>
-          <button type="button" onClick={handleCancel}>취소</button>
+          <button type="button" onClick={handleCancel}>
+            취소
+          </button>
         </div>
+
       </form>
     </div>
   );

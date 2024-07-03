@@ -16,7 +16,7 @@ const Modal = ({
   setMatchType,
   excludedUserIds = [], // 기본값으로 빈 배열을 설정
   setExcludedUserIds,
-  setMatchList, // 매칭 리스트를 설정하는 함수 추가
+  // setMatchList, // 매칭 리스트를 설정하는 함수 추가
   setUserNbti, // nbti 값을 props로 전달받기
 }) => {
   const [isNbtiSelection, setIsNbtiSelection] = useState(false)
@@ -64,13 +64,14 @@ const Modal = ({
         if (users && users.length > 0) {
           // 추천 유저가 있는 경우
           setNoUserFound(false) // 유저를 찾지 못한 상태를 false로 설정
+          await setMatchType('')
           setMatchType('rematch') // 매칭 타입을 'rematch'로 설정
           // 제외된 유저 ID 목록 업데이트
-          setExcludedUserIds((prevIds) => [
-            ...prevIds,
-            ...users.map((user) => user.user_id),
-          ])
-          setMatchList(users) // 매칭 리스트에 추천 유저 리스트 설정
+          // setExcludedUserIds((prevIds) => [
+          //   ...prevIds,
+          //   ...users.map((user) => user.user_id),
+          // ])
+          // setMatchList(users) // 매칭 리스트에 추천 유저 리스트 설정
           closeModal() // 모달 창 닫기
         } else {
           setNoUserFound(true) // 추천 유저가 없는 경우 상태 업데이트
@@ -83,13 +84,14 @@ const Modal = ({
         if (users && users.length > 0) {
           // 유명한 유저가 있는 경우
           setNoUserFound(false) // 유저를 찾지 못한 상태를 false로 설정
-          setMatchType('fame') // 매칭 타입을 'fame'으로 설정
-          // 제외된 유저 ID 목록 업데이트
-          setExcludedUserIds((prevIds) => [
-            ...prevIds,
-            ...users.map((user) => user.user_id),
-          ])
-          setMatchList(users) // 매칭 리스트에 유명한 유저 리스트 설정
+          await setMatchType('')
+          await setMatchType('fame') // 매칭 타입을 'fame'으로 설정
+          // // 제외된  유저 ID 목록 업데이트
+          // setExcludedUserIds((prevIds) => [
+          //   ...prevIds,
+          //   ...users.map((user) => user.user_id),
+          // ])
+          // setMatchList(users) // 매칭 리스트에 유명한 유저 리스트 설정
           closeModal() // 모달 창 닫기
         } else {
           setNoUserFound(true) // 유명한 유저가 없는 경우 상태 업데이트
@@ -138,12 +140,13 @@ const Modal = ({
         // nbti 세팅 (usesatate 나 useRef 변수 설정 ex setNbti("BOMD") or nbti.current="BOMD")
         const combinedNbti = `${nbti.nbti1}${nbti.nbti2}${nbti.nbti3}${nbti.nbti4}`
         setUserNbti(combinedNbti)
+        await setMatchType('')
         setMatchType('nbti')
-        setExcludedUserIds((prevIds) => [
-          ...prevIds,
-          ...users.map((user) => user.user_id),
-        ])
-        setMatchList(users) // 매칭 리스트에 유저 리스트를 설정
+        // setExcludedUserIds((prevIds) => [
+        //   ...prevIds,
+        //   ...users.map((user) => user.user_id),
+        // ])
+        // setMatchList(users) // 매칭 리스트에 유저 리스트를 설정
         closeModal()
       } else {
         setNoUserFound(true)

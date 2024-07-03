@@ -1,22 +1,51 @@
 import axios from "axios";
-import "./QuizForm.css";
-import { useEffect, useRef, useState } from "react";
-import QuizContent from "./QuizContent";
+import "../mypage/QuizForm.css";
+import { useAuth } from "../../AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import FreeQuizContent from "./FreeQuizContent";
 
-const QuizForm = ({ userId, myId }) => {
-  console.log("출제자 아이디:", userId, "내 아이디:", myId);
+const FreeQuizForm = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [page, setPage] = useState(1); //페이지 계산을 위한 변수
   const [quizes, setQuizes] = useState([]); // 모든 퀴즈를 저장
   const [answer, setAnswer] = useState([]); //유저가 선택한 정답을 저장
   const ans = useRef([]); //유저가 선택한 정답을 순서대로 넣기 위한 변수
-  const [page, setPage] = useState(1); //페이지 계산을 위한 변수
   const [modal, setModal] = useState(false); //모달 띄우는 변수
+
+  // useEffect에서 순서 제어
+  useEffect(() => {
+    const fetchData = async () => {
+      const check = await checkCount();
+      console.log("check?", check);
+      if (check === 1) {
+        alert("오늘은 이미 참여하셨어요 🤯");
+        navigate("/free");
+      } else {
+        getQuizes();
+      }
+    };
+
+    fetchData();
+  }, [user]);
+
+  // 오늘의 퀴즈에 참여했는지 여부 조회
+  const checkCount = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/freequiz/check/${user.user_id}`
+      );
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // 퀴즈 가져오기 함수
   const getQuizes = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/quiz/user/${userId}`);
+      const res = await axios.get(`http://localhost:8080/freequiz/admin`);
       console.log("가져온 문제:", res.data);
       setQuizes(res.data);
       return res.data;
@@ -26,50 +55,17 @@ const QuizForm = ({ userId, myId }) => {
     }
   };
 
-  // 퀴즈 참여 여부를 체크하는 함수
-  const check = async () => {
-    try {
-      const res = await axios.get("http://localhost:8080/quiz/check", {
-        params: {
-          user_id: myId,
-          oppo_id: userId,
-        },
-      });
-      console.log(res.data);
-      if (res.data === 1) {
-        alert("이미 참여하셨습니다😅");
-        navigate("/mypage/" + userId);
-      }
-    } catch (error) {
-      console.error("퀴즈 확인 요청 실패:", error);
-    }
-  };
-
-  // useEffect에서 순서 제어
-  useEffect(() => {
-    const fetchData = async () => {
-      const quizesData = await getQuizes();
-      if (quizesData && quizesData.length > 0) {
-        await check();
-      } else {
-        alert("퀴즈를 출제하지 않은 유저입니다🤯");
-        navigate("/mypage/" + userId);
-      }
-    };
-
-    fetchData();
-  }, [userId]);
-
   // 퀴즈 값을 받아왔을 때만 렌더링하게 만든다..
   const renderQuizContent = () => {
     if (quizes.length > 0 && quizes[page - 1]) {
       return (
-        <QuizContent
+        <FreeQuizContent
           page={page}
           quiz={quizes[page - 1].quiz}
+          content={quizes[page - 1].content}
           answer={quizes[page - 1].answer}
           ans={ans}
-          qId={quizes[page - 1].q_id}
+          quizId={quizes[page - 1].quiz_id}
           setAnswer={setAnswer}
         />
       );
@@ -106,17 +102,16 @@ const QuizForm = ({ userId, myId }) => {
       setModal(true);
     }
     if (check === 0) {
-      // 채점하자 !
-      goMarking();
-      // 이미 한번 문제를 푼 유저는 다시 못 풀게 한다.
+      // 이미 한번 문제를 풀었으니까 다시 못 풀게 한다.
       try {
-        axios.post("http://localhost:8080/quiz/user", {
-          user_id: myId,
-          oppo_id: userId,
+        axios.post("http://localhost:8080/freequiz/setuser", {
+          user_id: user.user_id,
         });
       } catch {
-        console.log("중복참여 판정ㅈ 실패...");
+        console.log("중복참여 판정 실패...");
       }
+      // 채점하자 !
+      goMarking();
     }
   };
 
@@ -130,30 +125,22 @@ const QuizForm = ({ userId, myId }) => {
         score++;
       }
     }
-    // score 숫자와 문제 수가 같으면 전부 정답이라는 뜻
-    if (score === quizes.length) {
-      console.log("score", score);
-      axios
-        .post("http://localhost:8080/quiz/reward", {
-          user_id: myId,
-          oppo_id: userId,
-        })
-        .then((res) => {
-          console.log("적용된 블러 레벨: ", res.data);
-          if (res.data >= 4) {
-            alert(
-              "🎉정답입니다🎉 (이미 모든 블러를 해제하셨기 때문에 언블러 리워드는 지급되지 않습니다)"
-            );
-            navigate("/mypage/" + userId);
-          } else {
-            alert("🎉정답입니다🎉 언블러 1회 적용되었습니다 😀");
-            navigate("/mypage/" + userId);
-          }
-        });
-    }
-    if (score !== quizes.length) {
+    // score 개수당 1,000 토큰 지급!
+    console.log("score", score);
+    if (score === 0) {
       alert("🥲정답을 맞히지 못했습니다.");
-      navigate("/mypage/" + userId);
+      navigate("/free");
+    } else {
+      alert(
+        `🎉${score} 개의 문제를 맞혔습니다!🎉 ${
+          score * 1000
+        } 토큰이 보상으로 지급되었습니다.`
+      );
+      navigate("/free");
+      axios.post("http://localhost:8080/freequiz/reward", {
+        user_id: user.user_id,
+        quizCount: score,
+      });
     }
   }
 
@@ -194,12 +181,20 @@ const QuizForm = ({ userId, myId }) => {
           </div>
         </div>
         <div className="quiz-div">{renderQuizContent()}</div>
-        <div className="button-container">
-          {page > 1 ? <button onClick={prevPage}>이전</button> : null}
+        <div className="button-container1">
+          {page > 1 ? (
+            <button className="quiz-button" onClick={prevPage}>
+              이전
+            </button>
+          ) : null}
           {page === quizes.length ? (
-            <button onClick={onSubmit}>제출</button>
+            <button className="quiz-button" onClick={onSubmit}>
+              제출
+            </button>
           ) : (
-            <button onClick={nextPage}>다음</button>
+            <button className="quiz-button" onClick={nextPage}>
+              다음
+            </button>
           )}
         </div>
       </div>
@@ -207,4 +202,4 @@ const QuizForm = ({ userId, myId }) => {
   );
 };
 
-export default QuizForm;
+export default FreeQuizForm;
