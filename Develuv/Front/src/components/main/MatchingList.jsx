@@ -131,6 +131,7 @@ const MatchingList = ({
             user_adress={item.user_address}
             user_nbti={item.user_nbti}
             user_profile={item.user_profile}
+            user_birth={item.user_birth}
           />
         ))}
       </div>
