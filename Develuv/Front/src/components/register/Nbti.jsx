@@ -1,48 +1,49 @@
-import { useRef, useState, useEffect } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useRef, useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 
 function Nbti({ progress, setProgress, formData, setFormData }) {
   // 유저가 선택한 nbti 요소를 배열 형태로 저장
-  const [nbti, setNbti] = useState('')
-  const inputNbti = useRef(['', '', '', ''])
+  const [nbti, setNbti] = useState("");
+  const inputNbti = useRef(["", "", "", ""]);
 
   // nbti 선택 시 상태 업데이트
   const onSetNbti = (e) => {
-    if (e.target.name === 'nbti1') {
-      inputNbti.current[0] = e.target.value
+    if (e.target.name === "nbti1") {
+      inputNbti.current[0] = e.target.value;
     }
-    if (e.target.name === 'nbti2') {
-      inputNbti.current[1] = e.target.value
+    if (e.target.name === "nbti2") {
+      inputNbti.current[1] = e.target.value;
     }
-    if (e.target.name === 'nbti3') {
-      inputNbti.current[2] = e.target.value
+    if (e.target.name === "nbti3") {
+      inputNbti.current[2] = e.target.value;
     }
-    if (e.target.name === 'nbti4') {
-      inputNbti.current[3] = e.target.value
+    if (e.target.name === "nbti4") {
+      inputNbti.current[3] = e.target.value;
     }
-    setNbti(inputNbti.current.join(''))
-  }
+    setNbti(inputNbti.current.join(""));
+  };
 
   // nbti 배열의 유효성 검사를 통해 다음 버튼 활성화 여부 결정
-  const [isValid, setIsValid] = useState(false)
+  const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    checkNbtiValidity()
-  }, [nbti])
+    checkNbtiValidity();
+  }, [nbti]);
 
   const checkNbtiValidity = () => {
-    const allSelected = inputNbti.current.every((value) => value !== '')
-    setIsValid(allSelected)
-  }
+    const allSelected = inputNbti.current.every((value) => value !== "");
+    setIsValid(allSelected);
+  };
 
   // [이전] 버튼 클릭 시 이전 페이지로 이동
   const navigateToPrevious = () => {
-    setProgress(progress - 1)
-  }
+    setProgress(progress - 1);
+  };
 
   // [다음] 버튼 클릭 시 유효성 검사 후 서버에 데이터 전송 후 다음 페이지로 이동
-  const url = 'http://localhost:8080/register/nbti'
+  const url = "http://localhost:8080/register/nbti";
   const onSubmit = () => {
     // if (isValid) {
     //   axios
@@ -60,17 +61,38 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
     // } else {
     //   alert("모든 NBTI 항목을 선택해주세요.");
     // }
-    setFormData({ ...formData, user_nbti: nbti })
-    setProgress(progress + 1)
-  }
+    setFormData({ ...formData, user_nbti: nbti });
+    setProgress(progress + 1);
+  };
+
+  //NBTI 상세설명 작성 --> 툴팁으로 띄운다.
+  const description =
+    "NBTI란? MBTI 처럼 개인의 개발성향을 분류하는 Develuv 만의 심리학 도구입니다. 네 가지 기본 지표 중에서 자신의 개발 유형을 선택해주세요 !";
   return (
     <div>
       {/* Progress Indicator */}
       <div className="signup4container"></div>
 
       <div className="container-header">
-        <h2>NBTI</h2>
+        <h2>
+          NBTI
+          <img
+            src="src/assets/question-circle-fill.svg"
+            width={20}
+            height={20}
+            data-tooltip-id="tooltip"
+            data-tooltip-content={description}
+          />
+          <Tooltip
+            id="tooltip"
+            place="top"
+            style={{ fontSize: "0.7em" }}
+            backgroundColor="gray"
+            arrowColor="transparent"
+          />
+        </h2>
         <h4>자신의 코딩 유형을 골라주세요.</h4>
+        <h4>전부 선택해주셔야 다음으로 진행할 수 있습니다.</h4>
       </div>
       <div className="container-button">
         <ul>
@@ -186,7 +208,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Nbti
+export default Nbti;
