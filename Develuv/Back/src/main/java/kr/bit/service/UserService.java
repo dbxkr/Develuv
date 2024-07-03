@@ -166,13 +166,17 @@ public class UserService {
 
     public void updateOneProfile(UserProfileUpdate userProfileUpdate) {
         String type = userProfileUpdate.getType();
-        if(type.equals("git")){
+        if (type.equals("git")) {
             userMapper.updateProfileGit(userProfileUpdate);
-        }else if(type.equals("memo")){
+        } else if (type.equals("memo")) {
             userMapper.updateProfileMemo(userProfileUpdate);
         }
 
 
+    }
+
+    public List<User> recommendUser(String userId, String excludedUserIds) {
+        return userMapper.findUsers(userId, excludedUserIds);
     }
 
     public List<User> findUsersByNbti(String nbti, String excludedUserIds) {
@@ -181,5 +185,9 @@ public class UserService {
 
     public void increaeHeart(UnblurDTO unblurDTO){
         userMapper.increaseHeart(unblurDTO);
+    }
+
+    public List<User> findUsersByFame(String excludedUserIds) {
+        return userMapper.findFamousUsers(excludedUserIds);
     }
 }

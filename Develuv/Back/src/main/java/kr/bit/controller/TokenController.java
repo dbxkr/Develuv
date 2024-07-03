@@ -67,6 +67,12 @@ public class TokenController {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    @GetMapping("/tokens/recommend")
+    public List<User> recommendUser(
+            @RequestParam("user_id") String userId,
+            @RequestParam(value = "excludedUserIds", required = false) String excludedUserIds) {
+        return userService.recommendUser(userId, excludedUserIds);
+    }
 
     // NBTI 필터링된 유저를 추천받는 API
     @GetMapping("/tokens/recommend/nbti")
@@ -89,6 +95,24 @@ public class TokenController {
             return new ResponseEntity<>("Failed to recommend user by NBTI", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // 유명한 유저를 추천받는 API
+    @GetMapping("/tokens/recommend/fame")
+    public ResponseEntity<List<User>> recommendUserByFame(
+            @RequestParam String user_id,
+            @RequestParam(required = false) String excludedUserIds) {
+        try {
+            if (excludedUserIds == null || excludedUserIds.isEmpty()) {
+                excludedUserIds = "''";
+            }
+            List<User> recommendedUsers = userService.findUsersByFame(excludedUserIds);
+            if (recommendedUsers.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(recommendedUsers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
-
-
