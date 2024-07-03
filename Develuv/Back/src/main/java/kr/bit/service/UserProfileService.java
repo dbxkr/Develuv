@@ -27,7 +27,12 @@ public class UserProfileService {
         userDto.setUser_job(userProfileDto.getUser_job());
         userDto.setUser_address(userProfileDto.getUser_address());
         userDto.setUser_profile(userProfileDto.getUser_profile());
+        userDto.setUser_code(userProfileDto.getUser_code()); // 추가된 코드 업데이트
         userMapper.updateUserProfile(userDto);
+    }
+
+    public void updateUserCode(String userId, String userCode) {
+        userMapper.updateUserCode(userId, userCode);
     }
 
     public UserProfileDto getUserProfile(String userId) {
@@ -42,10 +47,12 @@ public class UserProfileService {
         userProfileDto.setUser_phone(userDto.getUser_phone());
         userProfileDto.setUser_job(userDto.getUser_job());
         userProfileDto.setUser_address(userDto.getUser_address());
-        userProfileDto.setUser_profile(userDto.getUser_profile()); // 프로필 이미지 경로 설정
+        userProfileDto.setUser_profile(userDto.getUser_profile());
+        userProfileDto.setUser_code(userDto.getUser_code()); // 코드 설정
 
         return userProfileDto;
     }
+
     public String uploadProfileImage(String userId, MultipartFile profileImage) throws IOException {
         if (profileImage.isEmpty()) {
             throw new IllegalArgumentException("프로필 이미지가 없습니다.");

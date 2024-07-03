@@ -37,6 +37,14 @@ public class MatchingService {
         matchingListMapper.insertLatLon(inLatLon);
     }
 
+    public void updateCoodr(String address, String city , String user_id) {
+        Double[] coodr = getCoodr(address);
+        LatLonDTO inLatLon = new LatLonDTO(user_id, city, coodr[0], coodr[1]);
+        System.out.println("user_id: " + user_id +"\nuser_address: " + address + "\ncity: " + city);
+        matchingListMapper.updateLatLon(inLatLon);
+    }
+
+
     // 맨처음 도시로 리스트 가져오기
     public List<MatchingListDTO> findMatchingListByCity(String user_id){
 
