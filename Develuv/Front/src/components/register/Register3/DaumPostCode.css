@@ -1,10 +1,9 @@
-.dpost_btn{
-
-    background-color: #1d4289;
-    width: 100px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    height: 32px;
+.dpost_btn {
+  background-color: #1d4289;
+  width: 100px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  height: 32px;
 }
