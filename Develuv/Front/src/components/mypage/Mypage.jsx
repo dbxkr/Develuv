@@ -10,6 +10,9 @@ import quizIcon from "../../assets/quiz.svg";
 import githubIcon from "../../assets/github.svg";
 import memoIcon from "../../assets/memo.svg";
 import NbtiModal from "./NbtiModal"; // Import the modal component
+import styled from "styled-components";
+import MarkdownEditor from "../main/detail/MarkdownEditor";
+import MarkDownViewer from "../main/detail/MarkdownViewer"; // Import the MarkDownViewer component
 import "./Mypage.css";
 
 const Mypage = () => {
@@ -18,12 +21,14 @@ const Mypage = () => {
   const [blur, setBlur] = useState(0);
   const [userInfo, setUserInfo] = useState(null);
   const [quiz, setQuiz] = useState("");
+  const [code, setCode] = useState('print("hello world")'); // 코드 상태 추가
   const navigate = useNavigate();
   const isMyPage = user.user_id === params.user_id;
   const springUrl = "http://localhost:8080";
   const blurLevel = [50, 70, 90, 140, 4000];
   const newValue = useRef(null);
   const [focused, setFocused] = useState(null);
+  const [flipped, setFlipped] = useState(false); // 추가된 상태
 
   // State for the modal visibility
   const [isNbtiModalVisible, setIsNbtiModalVisible] = useState(false);
@@ -74,6 +79,7 @@ const Mypage = () => {
         login(user.user_id, "");
         setBlur(4);
         setUserInfo({ ...user });
+        setCode(user.user_code || ''); // user_code 값을 code 상태로 설정
         console.log("내 페이지 정보", user);
       } else {
         const response = await axios.post(
@@ -82,6 +88,7 @@ const Mypage = () => {
         console.log("response", response);
         setUserInfo(response.data);
         setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
+        setCode(response.data.user_code || ''); // user_code 값을 code 상태로 설정
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -181,6 +188,23 @@ const Mypage = () => {
     setIsNbtiModalVisible(!isNbtiModalVisible);
   };
 
+  const swapFlip = () => {
+    setFlipped(!flipped);
+  };
+
+  const handleCodeChange = (newCode) => {
+    setCode(newCode);
+    // 백엔드 API 호출하여 user_code 업데이트
+    axios
+      .put(`http://localhost:8080/api/edit-profile/update-code/${user.user_id}`, newCode)
+      .then(response => {
+        console.log('User code updated successfully');
+      })
+      .catch(error => {
+        console.error('Error updating user code:', error);
+      });
+  };
+
   if (!userInfo) {
     return <div>Loading...</div>;
   }
@@ -191,21 +215,50 @@ const Mypage = () => {
   return (
     <div className="mypage-container">
       <div className="profile-section">
-        <div className="profile-picture">
-          <img
-            src={
-              userInfo.user_profile +
-              blurLevel[blur + tempB] +
-              "&blur=AW2$zxORd"
-            }
-            alt="Profile"
-            onContextMenu={(event) => {
-              event.preventDefault();
-            }}
-            style={{ filter: `blur(${(4 - blur - tempB) * 2}px)` }}
-          />
-        </div>
-
+        <ProfileContainer>
+          <FlipButton onClick={swapFlip}>🔄</FlipButton>
+          <Card flipped={flipped}>
+            <CardFront>
+              <ProfilePicture>
+                <img
+                  src={
+                    userInfo.user_profile +
+                    blurLevel[blur + tempB] +
+                    "&blur=AW2$zxORd"
+                  }
+                  alt="Profile"
+                  onContextMenu={(event) => {
+                    event.preventDefault();
+                  }}
+                  style={{ filter: `blur(${(4 - blur - tempB) * 2}px)` }}
+                />
+              </ProfilePicture>
+            </CardFront>
+            <CardBack>
+              {isMyPage ? (
+                <>
+                  <InfoText>
+                    ##두개 앞에 언어를 쓰고 그 뒤에는 자신의 코드를 작성하세요
+                    <br />
+                    ex) java##public void main() &#123; System.out.println("안녕하세요") &#125;
+                  </InfoText>
+                  <MarkdownEditor
+                    lang={"python"}
+                    text={code}
+                    onChange={handleCodeChange}
+                    style={{ height: "100%", overflow: "auto" }}
+                  />
+                </>
+              ) : (
+                <MarkDownViewer
+                  lang={code.split("##")[0]}
+                  text={code.split("##")[1] || ''}
+                  style={{ height: "100%", overflow: "auto" }}
+                />
+              )}
+            </CardBack>
+          </Card>
+        </ProfileContainer>
         <div className="button-group">
           {isMyPage ? (
             <button id="edit-profile-btn" onClick={goToEditProfile}>
@@ -225,9 +278,8 @@ const Mypage = () => {
               <img src={userIcon} alt="User" className="icon" />
               {userInfo.user_name} ({age})
               <span
-                className={`gender-icon ${
-                  userInfo.user_gender === "Female" ? "female" : "male"
-                }`}
+                className={`gender-icon ${userInfo.user_gender === "Female" ? "female" : "male"
+                  }`}
               >
                 {userInfo.user_gender === "Male" ? "♂️" : "♀️"}
               </span>
@@ -450,3 +502,72 @@ const Mypage = () => {
 };
 
 export default Mypage;
+
+const ProfileContainer = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 200px; /* Adjust as needed */
+  margin: auto;
+`;
+
+const FlipButton = styled.button`
+  position: absolute;
+  z-index: 100;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  background-color: transparent;
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    border: none; /* Remove border */
+    outline: none; /* Remove outline */
+  }
+  right: 10px; /* Adjust position as needed */
+  top: 10px; /* Adjust position as needed */
+`;
+
+const ProfilePicture = styled.div`
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%; /* Make image round */
+    object-fit: cover;
+  }
+`;
+
+const Card = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+  transform: ${({ flipped }) => (flipped ? "rotateY(180deg)" : "rotateY(0deg)")};
+`;
+
+const CardFront = styled.div`
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+`;
+
+const CardBack = styled.div`
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column; /* 변경된 부분 */
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+`;
+
+const InfoText = styled.div`
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+`;

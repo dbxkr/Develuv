@@ -95,4 +95,6 @@ public interface UserMapper {
     @Select("select * from users")
     List<UserDto> getAll();
 
+    @Update("UPDATE users SET user_code = #{user_code} WHERE user_id = #{user_id}")
+    void updateUserCode(@Param("user_id") String user_id, @Param("user_code") String user_code);
 }

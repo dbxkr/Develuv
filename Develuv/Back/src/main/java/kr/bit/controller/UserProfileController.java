@@ -54,6 +54,11 @@ public class UserProfileController {
         }
     }
 
+    @PutMapping("/update-code/{userId}")
+    public ResponseEntity<Void> updateUserCode(@PathVariable String userId, @RequestBody String userCode) {
+        userProfileService.updateUserCode(userId, userCode);
+        return ResponseEntity.noContent().build();
+    }
 
     @RequestMapping("/getlatlon/{userId}")
     public ResponseEntity<LatLonDTO> getLatlonEdit(@PathVariable String userId) {
