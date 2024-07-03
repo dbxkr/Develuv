@@ -24,7 +24,7 @@ const FreeQuiz = () => {
           <br />
           (1일 최대 2,000 토큰 획득 가능)
           <br />
-          <button onClick={goAdminQuiz}>🔥 도전 🔥</button>
+          <button onClick={goAdminQuiz}>도전</button>
         </div>
       </div>
     </div>

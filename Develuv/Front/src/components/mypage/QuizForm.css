@@ -7,13 +7,21 @@
   /* background-color: lightskyblue; */
 }
 
-.modal {
+.quiz-modal {
+  position: fixed;
   flex-direction: column;
-  width: 400px;
-  height: 200px;
-  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
-  box-shadow: 0 0 5px #cccccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 20%;
+  z-index: 2; /* 모달 내용이 최상위에 위치하도록 z-index 값 증가 */
 }
 
 /* 프로그레스 바 */
