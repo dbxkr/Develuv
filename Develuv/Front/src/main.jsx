@@ -20,6 +20,7 @@ import Nahhh from "./components/notfound/nahhh.jsx";
 import ChatCmd from "./components/chat/ChatCmd.jsx";
 import FreeQuiz from "./components/freeToken/FreeQuiz.jsx";
 import FreeQuizForm from "./components/freeToken/FreeQuizForm.jsx";
+import Admin from "./components/admin/Admin.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -153,6 +154,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           }
         />
         <Route path={"/singlechat"} element={<ChatCmd />} />
+        <Route path={"/admin"} element={<Admin />} />
       </Routes>
     </BrowserRouter>
   </AuthProvider>

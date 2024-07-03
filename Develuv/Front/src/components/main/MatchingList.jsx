@@ -1,7 +1,7 @@
-import MatchingItem from './MatchingItem.jsx'
-import { useEffect, useRef, useState } from 'react'
-import './MatchingItem.css'
-import axios from 'axios'
+import MatchingItem from "./MatchingItem.jsx";
+import { useEffect, useRef, useState } from "react";
+import "./MatchingItem.css";
+import axios from "axios";
 
 //매칭 항목 리스트 표시
 //선택된 매칭 타입에 따라 매칭 리스트 필터링
@@ -16,19 +16,20 @@ const MatchingList = ({
   excludedUserIds, // 추가된 부분
   setExcludedUserIds, // 추가된 부분
 }) => {
-  const address = useRef('')
+  const address = useRef("");
 
   useEffect(() => {
-    if (
-      matchType === 'nbti' ||
-      matchType === 'rematch' ||
-      matchType === 'fame'
-    ) {
-      // 이미 matchList가 설정되어 있으면 새로 데이터를 가져오지 않음
-      return
-    }
-    getMatchList()
-  }, [matchType])
+    // if (
+    //   matchType === "nbti" ||
+    //   matchType === "rematch" ||
+    //   matchType === "fame"
+    // ) {
+    //   // 이미 matchList가 설정되어 있으면 새로 데이터를 가져오지 않음
+    //   return;
+    // }
+    console.log("매칭타입",matchType);
+    getMatchList();
+  }, [matchType]);
 
   function getMatchList() {
     const formData = new FormData();
@@ -37,23 +38,23 @@ const MatchingList = ({
       // 일반 매칭 검색
 
       axios
-        .get('http://localhost:8080/matching/kdtree', {
+        .get("http://localhost:8080/matching/kdtree", {
           params: {
             user_id: user_id,
           },
         })
-        .then((response) => {
-          setMatchList(response.data)
-          console.log(matchList)
+        .then(async (response) => {
+          await setMatchList(response.data);
+          await console.log("매칭된 리스트",matchList,response.data);
         })
         .catch((error) => {
-          console.error('Error getList normal => ', error)
-        })
-    } else if (matchType === 'rematch') {
+          console.error("Error getList normal => ", error);
+        });
+    } else if (matchType === "rematch") {
       // 다시 검색
 
       axios
-        .get('http://localhost:8080/matching/kdtree/random', {
+        .get("http://localhost:8080/matching/kdtree/random", {
           params: {
             user_id: user_id,
             excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
@@ -68,14 +69,14 @@ const MatchingList = ({
           console.log(matchList);
         })
         .catch((error) => {
-          console.error('Error getList rematch => ', error)
-        })
-    } else if (matchType === 'nbti') {
+          console.error("Error getList rematch => ", error);
+        });
+    } else if (matchType === "nbti") {
       // 선택한 nbti로 검색
-      console.log(matchType)
+      console.log(matchType);
       // formData.append('searchAdr', address.current)
       axios
-        .get('http://localhost:8080/matching/kdtree/nbti', {
+        .get("http://localhost:8080/matching/kdtree/nbti", {
           params: {
             user_id: user_id,
             nbti: user_nbti, //요거 props 받은거로 바꿔주기
@@ -91,13 +92,13 @@ const MatchingList = ({
           console.log(matchList);
         })
         .catch((error) => {
-          console.error('Error getList nbti => ', error)
-        })
-    } else if (matchType === 'fame') {
+          console.error("Error getList nbti => ", error);
+        });
+    } else if (matchType === "fame") {
       // 유명한순
-      formData.append('searchAdr', address.current)
+      formData.append("searchAdr", address.current);
       axios
-        .get('http://localhost:8080/matching/kdtree/famous', {
+        .get("http://localhost:8080/matching/kdtree/famous", {
           params: {
             user_id: user_id,
             excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
@@ -112,16 +113,16 @@ const MatchingList = ({
           console.log(matchList);
         })
         .catch((error) => {
-          console.error('Error getList fame => ', error)
-        })
+          console.error("Error getList fame => ", error);
+        });
     }
   }
 
-  const { formData, setFormData } = useState()
+  const { formData, setFormData } = useState();
 
   return (
-    <div className={'MatchingList'}>
-      <div className={'MatchingItems'}>
+    <div className={"MatchingList"}>
+      <div className={"MatchingItems"}>
         {matchList.map((item) => (
           <MatchingItem
             key={item.user_id}
@@ -131,11 +132,12 @@ const MatchingList = ({
             user_adress={item.user_address}
             user_nbti={item.user_nbti}
             user_profile={item.user_profile}
+            user_birth={item.user_birth}
           />
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MatchingList
+export default MatchingList;

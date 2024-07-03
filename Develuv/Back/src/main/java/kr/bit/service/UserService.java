@@ -170,6 +170,18 @@ public class UserService {
             userMapper.updateProfileGit(userProfileUpdate);
         } else if (type.equals("memo")) {
             userMapper.updateProfileMemo(userProfileUpdate);
+        }else if (type.equals("nbti")) {
+            userMapper.updateProfileNbti(userProfileUpdate);
+        }else if (type.equals("proLang")) {
+            userMapper.updateProfileProLang(userProfileUpdate);
+        }else if (type.equals("drink")) {
+            userMapper.updateProfileDrink(userProfileUpdate);
+        }else if (type.equals("smoke")) {
+            userMapper.updateProfileSmoke(userProfileUpdate);
+        }else if (type.equals("religion")) {
+            userMapper.updateProfileReligion(userProfileUpdate);
+        }else if (type.equals("edu")) {
+            userMapper.updateProfileEdu(userProfileUpdate);
         }
 
 
@@ -189,5 +201,9 @@ public class UserService {
 
     public List<User> findUsersByFame(String excludedUserIds) {
         return userMapper.findFamousUsers(excludedUserIds);
+    }
+
+    public List<UserDto> getAll(){
+        return userMapper.getAll();
     }
 }
