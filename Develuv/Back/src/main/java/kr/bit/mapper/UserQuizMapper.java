@@ -37,4 +37,3 @@ public interface UserQuizMapper {
                                @Param("nbti4") String nbti4,
                                @Param("excludedUserIds") String excludedUserIds);
 }
-
