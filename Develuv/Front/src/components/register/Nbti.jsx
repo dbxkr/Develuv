@@ -86,7 +86,7 @@ function Nbti({ progress, setProgress, formData, setFormData }) {
           <Tooltip
             id="tooltip"
             place="top"
-            style={{ fontSize: "0.7em" }}
+            style={{ fontSize: "0.7em", zIndex: 1 }}
             backgroundColor="gray"
             arrowColor="transparent"
           />
