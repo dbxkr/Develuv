@@ -79,7 +79,7 @@ const Mypage = () => {
         login(user.user_id, "");
         setBlur(4);
         setUserInfo({ ...user });
-        setCode(user.user_code || ''); // user_code 값을 code 상태로 설정
+        setCode(user.user_code || ""); // user_code 값을 code 상태로 설정
         console.log("내 페이지 정보", user);
       } else {
         const response = await axios.post(
@@ -88,7 +88,7 @@ const Mypage = () => {
         console.log("response", response);
         setUserInfo(response.data);
         setBlur(response.data.blur); // 다른 사용자의 마이페이지일 때 블러 적용
-        setCode(response.data.user_code || ''); // user_code 값을 code 상태로 설정
+        setCode(response.data.user_code || ""); // user_code 값을 code 상태로 설정
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -196,12 +196,15 @@ const Mypage = () => {
     setCode(newCode);
     // 백엔드 API 호출하여 user_code 업데이트
     axios
-      .put(`http://localhost:8080/api/edit-profile/update-code/${user.user_id}`, newCode)
-      .then(response => {
-        console.log('User code updated successfully');
+      .put(
+        `http://localhost:8080/api/edit-profile/update-code/${user.user_id}`,
+        newCode
+      )
+      .then((response) => {
+        console.log("User code updated successfully");
       })
-      .catch(error => {
-        console.error('Error updating user code:', error);
+      .catch((error) => {
+        console.error("Error updating user code:", error);
       });
   };
 
@@ -240,7 +243,8 @@ const Mypage = () => {
                   <InfoText>
                     ##두개 앞에 언어를 쓰고 그 뒤에는 자신의 코드를 작성하세요
                     <br />
-                    ex) java##public void main() &#123; System.out.println("안녕하세요") &#125;
+                    ex) java##public void main() &#123;
+                    System.out.println("안녕하세요") &#125;
                   </InfoText>
                   <MarkdownEditor
                     lang={"python"}
@@ -252,7 +256,7 @@ const Mypage = () => {
               ) : (
                 <MarkDownViewer
                   lang={code.split("##")[0]}
-                  text={code.split("##")[1] || ''}
+                  text={code.split("##")[1] || ""}
                   style={{ height: "100%", overflow: "auto" }}
                 />
               )}
@@ -278,8 +282,9 @@ const Mypage = () => {
               <img src={userIcon} alt="User" className="icon" />
               {userInfo.user_name} ({age})
               <span
-                className={`gender-icon ${userInfo.user_gender === "Female" ? "female" : "male"
-                  }`}
+                className={`gender-icon ${
+                  userInfo.user_gender === "Female" ? "female" : "male"
+                }`}
               >
                 {userInfo.user_gender === "Male" ? "♂️" : "♀️"}
               </span>
@@ -544,7 +549,8 @@ const Card = styled.div`
   perspective: 1000px;
   transform-style: preserve-3d;
   transition: transform 1s;
-  transform: ${({ flipped }) => (flipped ? "rotateY(180deg)" : "rotateY(0deg)")};
+  transform: ${({ flipped }) =>
+    flipped ? "rotateY(180deg)" : "rotateY(0deg)"};
 `;
 
 const CardFront = styled.div`
