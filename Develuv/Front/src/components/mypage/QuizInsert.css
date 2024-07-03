@@ -1,6 +1,6 @@
 .QuizInsertItem{
     position: fixed;
-    top: 150px;
+    top: 130px;
     width: 80%;
     left: 10%;
     height: auto;
@@ -43,7 +43,7 @@
 }
 
 .QuizInsertItem .qinput_div{
-    margin: 0 0 20px 0;
+    margin: 0 0 5px 0;
 }
 
 .QuizInsertItem .qinput_div .quiz{
@@ -62,7 +62,7 @@
     height: auto;
     padding: 10px 0;
     margin: 0 0 0 0;
-    max-height: calc(300px); /* 뷰포트 높이에서 상단 여백을 뺀 값 */
+    max-height: calc(350px); /* 뷰포트 높이에서 상단 여백을 뺀 값 */
     overflow-y: auto;
 }
 .QuizInsertItem .choice_div::-webkit-scrollbar {
@@ -117,6 +117,7 @@
 
 .QuizInsertItem .pns_qin_btn{
     border: 3px solid transparent;
+    margin: 10px 0 0 0;
 }
 
 .QuizInsertItem .pns_qin_btn:hover{
