@@ -8,7 +8,7 @@ const DaumPostCode = ({formData,setFormData,setCity}) => {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = '';
-    let localAddress = data.sido + data.sigungu;
+
     let city= "";
 
     if(data.sido==='서울' || data.sido==='대구' || data.sido==='부산'
@@ -20,6 +20,7 @@ const DaumPostCode = ({formData,setFormData,setCity}) => {
     else {
       city = data.sigungu.split(' ')[0];
     }
+    let localAddress = city + data.sigungu;
 
     fullAddress = localAddress +fullAddress;
 
