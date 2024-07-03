@@ -19,14 +19,15 @@ const MatchingList = ({
   const address = useRef("");
 
   useEffect(() => {
-    if (
-      matchType === "nbti" ||
-      matchType === "rematch" ||
-      matchType === "fame"
-    ) {
-      // 이미 matchList가 설정되어 있으면 새로 데이터를 가져오지 않음
-      return;
-    }
+    // if (
+    //   matchType === "nbti" ||
+    //   matchType === "rematch" ||
+    //   matchType === "fame"
+    // ) {
+    //   // 이미 matchList가 설정되어 있으면 새로 데이터를 가져오지 않음
+    //   return;
+    // }
+    console.log("매칭타입",matchType);
     getMatchList();
   }, [matchType]);
 
@@ -42,9 +43,9 @@ const MatchingList = ({
             user_id: user_id,
           },
         })
-        .then((response) => {
-          setMatchList(response.data);
-          console.log(matchList);
+        .then(async (response) => {
+          await setMatchList(response.data);
+          await console.log("매칭된 리스트",matchList,response.data);
         })
         .catch((error) => {
           console.error("Error getList normal => ", error);

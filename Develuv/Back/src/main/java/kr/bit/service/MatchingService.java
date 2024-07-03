@@ -37,23 +37,30 @@ public class MatchingService {
         matchingListMapper.insertLatLon(inLatLon);
     }
 
+    public void updateCoodr(String address, String city , String user_id) {
+        Double[] coodr = getCoodr(address);
+        LatLonDTO inLatLon = new LatLonDTO(user_id, city, coodr[0], coodr[1]);
+        System.out.println("user_id: " + user_id +"\nuser_address: " + address + "\ncity: " + city);
+        matchingListMapper.updateLatLon(inLatLon);
+    }
+
+
     // 맨처음 도시로 리스트 가져오기
     public List<MatchingListDTO> findMatchingListByCity(String user_id){
 
+        String gender = matchingListMapper.getGender(user_id);
         LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
-        List<LatLonDTO> cityUserList = matchingListMapper.findLatLonByCity(userLatLon);
-        KDTree kdTree = new KDTree(2);
+        List<String> users = matchingListMapper.findUsers(userLatLon.getCity(), gender);
+        List<LatLonDTO> userList = new ArrayList<>();
 
-        System.out.println("받은 city 값 : "+ userLatLon.getCity() + " userId : " +user_id);
-        System.out.println("찾은 유저의 latlon 값 개수 "+cityUserList.size());
-
-        int cnt =0;
-        for(LatLonDTO latLon : cityUserList){
-            kdTree.insert(latLon);
-            cnt++;
+        for(String user : users){
+            LatLonDTO fLatlon = matchingListMapper.findLatLonByUserId(user);
+            userList.add(fLatlon);
         }
 
-        System.out.println("넣은 latlon 값: "+ cnt);
+        KDTree kdTree = new KDTree(2);
+
+        for(LatLonDTO latLon : userList){ kdTree.insert(latLon); }
 
         Vector<Float64> target = Float64Vector.valueOf(userLatLon.getLatitude(), userLatLon.getLongitude());
 
@@ -68,6 +75,7 @@ public class MatchingService {
         for(LatLonDTO latLon : neighbors){
             System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
             MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
 
@@ -77,15 +85,19 @@ public class MatchingService {
     // 랜덤 리스트 가져오기
     public List<MatchingListDTO> findMatchingListByRandom(String user_id){
 
+        String gender = matchingListMapper.getGender(user_id);
         LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
-        List<LatLonDTO> cityUserList = matchingListMapper.findLatLonByRandom(userLatLon);
+        List<String> randomUsers = matchingListMapper.findUsersRandom(userLatLon.getCity(), gender);
+        List<LatLonDTO> randomUserList = new ArrayList<>();
+
+        for(String user : randomUsers){
+            LatLonDTO fLatlon = matchingListMapper.findLatLonByUserId(user);
+            randomUserList.add(fLatlon);
+        }
+
         KDTree kdTree = new KDTree(2);
 
-        int cnt =0;
-        for(LatLonDTO latLon : cityUserList){
-            kdTree.insert(latLon);
-            cnt++;
-        }
+        for(LatLonDTO latLon : randomUserList){ kdTree.insert(latLon); }
 
         Vector<Float64> target = Float64Vector.valueOf(userLatLon.getLatitude(), userLatLon.getLongitude());
 
@@ -96,6 +108,7 @@ public class MatchingService {
         for(LatLonDTO latLon : neighbors){
             System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
             MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
 
@@ -105,7 +118,8 @@ public class MatchingService {
     // nbti로 매칭 리스트 가져오기
     public List<MatchingListDTO> findMatchingListByNbti(String user_id, String nbti) {
         LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
-        List<String> nbtiUsers = matchingListMapper.findUserByNbti(userLatLon.getCity(), nbti);
+        String gender = matchingListMapper.getGender(user_id);
+        List<String> nbtiUsers = matchingListMapper.findUserByNbti(userLatLon.getCity(), nbti, gender);
         List<LatLonDTO> nbtiUserList = new ArrayList<>();
 
         for(String user : nbtiUsers){
@@ -125,17 +139,19 @@ public class MatchingService {
         for(LatLonDTO latLon : neighbors){
             System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
             MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
 
         return result;
     }
 
-    // nbti로 매칭 리스트 가져오기
+    // 유명한 순으로 매칭 리스트 가져오기
     public List<MatchingListDTO> findMatchingListByFame(String user_id) {
         LatLonDTO userLatLon = matchingListMapper.findLatLonByUserId(user_id);
         System.out.println("유명한 사람들 아이디 가져오기");
-        List<String> famousUsers = matchingListMapper.findUserByFame(userLatLon.getCity());
+        String gender = matchingListMapper.getGender(user_id);
+        List<String> famousUsers = matchingListMapper.findUserByFame(userLatLon.getCity(),gender);
 
         List<LatLonDTO> famousUserList = new ArrayList<>();
 

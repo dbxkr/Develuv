@@ -60,6 +60,7 @@ public interface UserMapper {
 
     @Update("UPDATE users set user_memo = #{value} where user_id = #{user_id}")
     void updateProfileMemo(UserProfileUpdate userProfileUpdate);
+
     @Select("SELECT * FROM users WHERE user_id NOT IN (#{excludedUserIds}) LIMIT 12")
     List<User> findUsers(@Param("userId") String userId, @Param("excludedUserIds") String excludedUserIds);
 
@@ -73,6 +74,37 @@ public interface UserMapper {
     List<User> findFamousUsers(@Param("excludedUserIds") String excludedUserIds);
 
 
+    @Update("UPDATE users set user_nbti = #{value} where user_id = #{user_id}")
+    void updateProfileNbti(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_pro_lang = #{value} where user_id = #{user_id}")
+    void updateProfileProLang(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_drink = #{value} where user_id = #{user_id}")
+    void updateProfileDrink(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_smoke = #{value} where user_id = #{user_id}")
+    void updateProfileSmoke(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_religion = #{value} where user_id = #{user_id}")
+    void updateProfileReligion(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_edu = #{value} where user_id = #{user_id}")
+    void updateProfileEdu(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_profile = #{value} where user_id = #{user_id}")
+    void updateProfileProfile(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_address = #{value} where user_id = #{user_id}")
+    void updateProfileAddress(UserProfileUpdate userProfileUpdate);
+
+    @Select("select * from users")
+    List<UserDto> getAll();
+
+    @Update("UPDATE users SET user_code = #{user_code} WHERE user_id = #{user_id}")
+    void updateUserCode(@Param("user_id") String user_id, @Param("user_code") String user_code);
+    @Select("SELECT user_pw FROM users WHERE user_id = #{user_id}")
+    String findPasswordByUserId(@Param("user_id") String user_id);
 
 
 }

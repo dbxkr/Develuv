@@ -93,6 +93,9 @@ public class UserService {
         userMapper.updateUserProfile(userDto);
     }
 
+    public String findPasswordByUserId(String userId) {
+        return userMapper.findPasswordByUserId(userId);
+    }
     public void saveUser(UserDto userDto) {
         String hashedPassword = BCrypt.hashpw(userDto.getUser_pw(), BCrypt.gensalt());
         userDto.setUser_pw(hashedPassword);
@@ -170,6 +173,22 @@ public class UserService {
             userMapper.updateProfileGit(userProfileUpdate);
         } else if (type.equals("memo")) {
             userMapper.updateProfileMemo(userProfileUpdate);
+        }else if (type.equals("nbti")) {
+            userMapper.updateProfileNbti(userProfileUpdate);
+        }else if (type.equals("proLang")) {
+            userMapper.updateProfileProLang(userProfileUpdate);
+        }else if (type.equals("drink")) {
+            userMapper.updateProfileDrink(userProfileUpdate);
+        }else if (type.equals("smoke")) {
+            userMapper.updateProfileSmoke(userProfileUpdate);
+        }else if (type.equals("religion")) {
+            userMapper.updateProfileReligion(userProfileUpdate);
+        }else if (type.equals("edu")) {
+            userMapper.updateProfileEdu(userProfileUpdate);
+        }else if (type.equals("user_profile")) {
+            userMapper.updateProfileProfile(userProfileUpdate);
+        }else if (type.equals("user_address")) {
+            userMapper.updateProfileAddress(userProfileUpdate);
         }
 
 
@@ -189,5 +208,9 @@ public class UserService {
 
     public List<User> findUsersByFame(String excludedUserIds) {
         return userMapper.findFamousUsers(excludedUserIds);
+    }
+
+    public List<UserDto> getAll(){
+        return userMapper.getAll();
     }
 }

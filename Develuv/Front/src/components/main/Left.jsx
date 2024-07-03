@@ -8,7 +8,7 @@ import { useAuth } from '../../AuthProvider'
 
 const Left = ({
   setMatchType,
-  setMatchList,
+  // setMatchList,
   setExcludedUserIds,
   setUserNbti,
 }) => {
@@ -46,7 +46,7 @@ const Left = ({
           closeModal={closeModal}
           userId={user.user_id}
           setMatchType={setMatchType}
-          setMatchList={setMatchList} // 매칭 리스트 설정 함수 추가
+          // setMatchList={setMatchList} // 매칭 리스트 설정 함수 추가
           setExcludedUserIds={setExcludedUserIds}
           setUserNbti={setUserNbti} // nbti 설정 함수 추가
         />

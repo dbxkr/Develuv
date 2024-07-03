@@ -143,6 +143,7 @@ public class MatchingListController {
     public List<MatchingListDTO> kdtreeFamous(@RequestParam("user_id") String user_id) {
         List<MatchingListDTO> result = new ArrayList<>();
         result = matchingService.findMatchingListByFame(user_id);
+        System.out.println(result);
 
         return result;
     }
