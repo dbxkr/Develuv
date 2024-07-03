@@ -31,6 +31,7 @@ const Matching = () => {
         setMatchList={setMatchList}
         user_id={user_id}
         user_nbti={userNbti} // nbti props 넣어주기
+        setExcludedUserIds={setExcludedUserIds} // 추가된 부분
       />
     </div>
   )

@@ -91,7 +91,7 @@ function RegisterPage() {
           imgPreview={imgPreview}
           setImgPreview={setImgPreview}
           state={state}
-          setCity = {setCity}
+          setCity={setCity}
         />
       )}
       {progress == 4 && (

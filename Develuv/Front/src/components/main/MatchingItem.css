@@ -20,6 +20,6 @@
 
 .MatchingItem .matching_item_profile {
   border-radius: 10px;
-  border: 2px solid aliceblue;
+  border: 2px solid rgb(217, 228, 238);
   margin-bottom: 10px;
 }
