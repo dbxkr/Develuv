@@ -68,6 +68,7 @@ public class MatchingService {
         for(LatLonDTO latLon : neighbors){
             System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
             MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
 
@@ -96,6 +97,7 @@ public class MatchingService {
         for(LatLonDTO latLon : neighbors){
             System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
             MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
 
@@ -125,6 +127,7 @@ public class MatchingService {
         for(LatLonDTO latLon : neighbors){
             System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
             MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
 

@@ -61,7 +61,7 @@ public interface MatchingListMapper {
     @Select("select * from users where user_id like 'user%'")
     List<UserDto> findUserAddress();
 
-    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile " +
+    @Select("select user_id, user_name, user_gender, user_nbti, user_address, user_profile, user_birth " +
             "from users where user_id=#{user_id}")
     MatchingListDTO findMatchingUserById(String user_id);
 }
