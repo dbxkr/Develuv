@@ -35,7 +35,7 @@ const MatchingList = ({
       // 일반 매칭 검색
 
       axios
-        .get("http://localhost:8080/matching/kdtree/random", {
+        .get("http://localhost:8080/matching/kdtree", {
           params: {
             user_id: user_id,
           },
@@ -52,7 +52,7 @@ const MatchingList = ({
       console.log("before call List address : " + address.current);
       formData.append("searchAdr", address.current);
       axios
-        .get("http://localhost:8080/matchingList/rematch", {
+        .get("http://localhost:8080/matching/kdtree/random", {
           params: {
             searchAdr: address.current,
           },

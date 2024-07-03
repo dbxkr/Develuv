@@ -9,7 +9,7 @@ import { useAuth } from "../../AuthProvider";
 // const socket = io.connect("http://localhost:4000");
 const socket = io.connect("http://175.209.41.173:4000");
 
-function ChatCmd({ oppoName, setDInfo, dInfo }) {
+function ChatCmd({ setDInfo, dInfo }) {
   const urlParams = new URLSearchParams(window.location.search);
   const { user, isLoggedIn } = useAuth();
   const roomId = urlParams.get("roomId");
@@ -72,7 +72,7 @@ function ChatCmd({ oppoName, setDInfo, dInfo }) {
   //메시지 입력하는 동안 받은 메시지의 읽음 처리
   useEffect(() => {
     readMsg();
-    console.log(oppo);
+    console.log("oppo", oppo);
   }, [messageList, oppo]);
 
   useEffect(() => {
@@ -96,15 +96,6 @@ function ChatCmd({ oppoName, setDInfo, dInfo }) {
   };
   const scrollToBottom = () => {
     messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const openSingleChat = () => {
-    const newWindow = window.open(
-      `http://localhost:3500/singlechat/${roomId}/${userId}`,
-      "_blank",
-      "resizable=no"
-    );
-    if (newWindow) newWindow.opener = null;
   };
 
   useEffect(scrollToBottom, [messageList]);
@@ -187,7 +178,7 @@ function ChatCmd({ oppoName, setDInfo, dInfo }) {
             }}
           />
           <ChatButton onClick={sendMessage}>▹</ChatButton>
-          <ChatButton onClick={openSingleChat}>🔺</ChatButton>
+          <ChatButton onClick={readMsg}>🔺</ChatButton>
         </ChatInputBox>
       </RoomContainer>
     </PageContainer>
