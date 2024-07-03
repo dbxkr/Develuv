@@ -60,8 +60,16 @@ public interface UserMapper {
 
     @Update("UPDATE users set user_memo = #{value} where user_id = #{user_id}")
     void updateProfileMemo(UserProfileUpdate userProfileUpdate);
+    @Select("SELECT * FROM users WHERE user_id NOT IN (#{excludedUserIds}) LIMIT 12")
+    List<User> findUsers(@Param("userId") String userId, @Param("excludedUserIds") String excludedUserIds);
 
-
-    @Select("SELECT * FROM users WHERE user_nbti = #{nbti} AND user_id NOT IN (#{excludedUserIds})")
+    @Select("SELECT * FROM users WHERE user_nbti = #{nbti} AND user_id NOT IN(#{excludedUserIds}) LIMIT 12")
     List<User> findUsersByNbti(@Param("nbti") String nbti, @Param("excludedUserIds") String excludedUserIds);
+
+    @Select("SELECT * FROM users WHERE user_id NOT IN (#{excludedUserIds}) ORDER BY user_heart DESC LIMIT 12")
+    List<User> findFamousUsers(@Param("excludedUserIds") String excludedUserIds);
+
+
+
+
 }

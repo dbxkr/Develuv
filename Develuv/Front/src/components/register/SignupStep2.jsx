@@ -48,7 +48,7 @@ const SignupStep2 = ({
       formData.user_profile = state.user.profile
     }
   } else {
-    formData.provider = "develuv";
+    formData.provider = 'develuv'
   }
   useEffect(() => {
     console.log(state)
@@ -243,6 +243,12 @@ const SignupStep2 = ({
 
   return (
     <div className="quiz-container">
+      <div className="progress-container2">
+        <div className="progress-line2">
+          <div className="progress-circle2 second"></div>
+          <div className="progress-circle2 last-child"></div>
+        </div>
+      </div>
       <div className="copy">
         <div className="sign-up">Sign Up</div>
         <div className="welcome-to-bluv">Welcome to Develuv</div>
@@ -443,7 +449,7 @@ const SignupStep2 = ({
             <p className="error-message2">{formErrors.user_phone}</p>
           )}
         </div>
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-button2">
           회원가입
         </button>
       </form>

@@ -99,3 +99,19 @@ export const recommendUserByFame = async (user_id, excludedUserIds = []) => {
     throw error
   }
 }
+
+// "다시 검색" API 호출
+export const recommendUserAgain = async (user_id, excludedUserIds = []) => {
+  try {
+    const response = await axios.get(`${API_URL}/recommend/again`, {
+      params: {
+        user_id,
+        excludedUserIds: excludedUserIds.join(','),
+      },
+    })
+    return response.data
+  } catch (error) {
+    console.error('Failed to recommend user again:', error)
+    throw error
+  }
+}
