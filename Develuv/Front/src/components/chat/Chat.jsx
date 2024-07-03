@@ -146,7 +146,14 @@ function Chat({
 
   // 채팅창 띄울때 자동으로 맨 아래로 내려버림
   useEffect(() => {
-    messageBottomRef.current.scrollIntoView({ behavior: "smooth" });
+    const scrollToBottom = () => {
+      messageBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    // 약간의 지연을 두고 스크롤 실행
+    const timeoutId = setTimeout(scrollToBottom, 100);
+
+    return () => clearTimeout(timeoutId); // cleanup function
   }, [messageList]);
 
   return (

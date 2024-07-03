@@ -147,7 +147,7 @@ const FreeQuizForm = () => {
   // 모달 관련 함수
   function onModal() {
     return (
-      <div className="modal">
+      <div className="quiz-modal">
         <h4>모든 항목을 선택해주세요!</h4>
         <p>선택해 주시지 않으면 채점할 수가 없어용 :(</p>
         <p>

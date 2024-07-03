@@ -66,6 +66,9 @@ public interface UserMapper {
     @Select("SELECT * FROM users WHERE user_nbti = #{nbti} AND user_id NOT IN(#{excludedUserIds}) LIMIT 12")
     List<User> findUsersByNbti(@Param("nbti") String nbti, @Param("excludedUserIds") String excludedUserIds);
 
+    @Update("update users set user_heart = user_heart+1 where user_id = #{oppoId}")
+    void increaseHeart(UnblurDTO unblurDTO);
+
     @Select("SELECT * FROM users WHERE user_id NOT IN (#{excludedUserIds}) ORDER BY user_heart DESC LIMIT 12")
     List<User> findFamousUsers(@Param("excludedUserIds") String excludedUserIds);
 

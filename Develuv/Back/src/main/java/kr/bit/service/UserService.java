@@ -183,6 +183,10 @@ public class UserService {
         return userMapper.findUsersByNbti(nbti, excludedUserIds);
     }
 
+    public void increaeHeart(UnblurDTO unblurDTO){
+        userMapper.increaseHeart(unblurDTO);
+    }
+
     public List<User> findUsersByFame(String excludedUserIds) {
         return userMapper.findFamousUsers(excludedUserIds);
     }
