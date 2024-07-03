@@ -39,7 +39,9 @@ const DaumPostCode = ({formData,setFormData,setCity}) => {
     open({ onComplete: handleComplete });
   };
 
-  return (<button className={"dpost_btn"} type="button" onClick={handleClick}>주소검색</button>);
+  return (<button className={"dpost_btn"} type="button"
+                  style={{borderRadius:"0 5px 5px 0", marginLeft:"0px"}}
+                  onClick={handleClick}>주소검색</button>);
 }
 
 export default DaumPostCode
