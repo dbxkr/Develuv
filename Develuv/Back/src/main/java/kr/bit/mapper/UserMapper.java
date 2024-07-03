@@ -95,4 +95,8 @@ public interface UserMapper {
     @Select("select * from users")
     List<UserDto> getAll();
 
+    @Select("SELECT user_pw FROM users WHERE user_id = #{user_id}")
+    String findPasswordByUserId(@Param("user_id") String user_id);
+
+
 }

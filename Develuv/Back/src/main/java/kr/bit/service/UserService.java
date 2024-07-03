@@ -93,6 +93,9 @@ public class UserService {
         userMapper.updateUserProfile(userDto);
     }
 
+    public String findPasswordByUserId(String userId) {
+        return userMapper.findPasswordByUserId(userId);
+    }
     public void saveUser(UserDto userDto) {
         String hashedPassword = BCrypt.hashpw(userDto.getUser_pw(), BCrypt.gensalt());
         userDto.setUser_pw(hashedPassword);
