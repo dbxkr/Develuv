@@ -57,16 +57,16 @@ const MatchingList = ({
         .get("http://localhost:8080/matching/kdtree/random", {
           params: {
             user_id: user_id,
-            // excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
+            excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
           },
         })
-        .then(async (response) => {
-          await setMatchList(response.data);
-          // setExcludedUserIds((prevIds) => [
-          //   ...prevIds,
-          //   ...response.data.map((user) => user.user_id),
-          // ]); // 추가된 부분
-          await console.log("매칭된 랜덤 리스트", matchList,response.data);
+        .then((response) => {
+          setMatchList(response.data);
+          setExcludedUserIds((prevIds) => [
+            ...prevIds,
+            ...response.data.map((user) => user.user_id),
+          ]); // 추가된 부분
+          console.log(matchList);
         })
         .catch((error) => {
           console.error("Error getList rematch => ", error);
@@ -80,16 +80,16 @@ const MatchingList = ({
           params: {
             user_id: user_id,
             nbti: user_nbti, //요거 props 받은거로 바꿔주기
-            // excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
+            excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
           },
         })
-        .then(async (response) => {
-          await setMatchList(response.data);
-          // setExcludedUserIds((prevIds) => [
-          //   ...prevIds,
-          //   ...response.data.map((user) => user.user_id),
-          // ]); // 추가된 부분
-          await console.log("nbti 매칭 리스트",matchList,response.data);
+        .then((response) => {
+          setMatchList(response.data);
+          setExcludedUserIds((prevIds) => [
+            ...prevIds,
+            ...response.data.map((user) => user.user_id),
+          ]); // 추가된 부분
+          console.log(matchList);
         })
         .catch((error) => {
           console.error("Error getList nbti => ", error);
@@ -101,16 +101,16 @@ const MatchingList = ({
         .get("http://localhost:8080/matching/kdtree/famous", {
           params: {
             user_id: user_id,
-            // excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
+            excludedUserIds: updatedExcludedUserIds.join(","), // 추가된 부분
           },
         })
-        .then(async (response) => {
-          await setMatchList(response.data);
-          // setExcludedUserIds((prevIds) => [
-          //   ...prevIds,
-          //   ...response.data.map((user) => user.user_id),
-          // ]); // 추가된 부분
-          await console.log("유명한 순",matchList,response.data);
+        .then((response) => {
+          setMatchList(response.data);
+          setExcludedUserIds((prevIds) => [
+            ...prevIds,
+            ...response.data.map((user) => user.user_id),
+          ]); // 추가된 부분
+          console.log(matchList);
         })
         .catch((error) => {
           console.error("Error getList fame => ", error);
