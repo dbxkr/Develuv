@@ -92,6 +92,12 @@ public interface UserMapper {
     @Update("UPDATE users set user_edu = #{value} where user_id = #{user_id}")
     void updateProfileEdu(UserProfileUpdate userProfileUpdate);
 
+    @Update("UPDATE users set user_profile = #{value} where user_id = #{user_id}")
+    void updateProfileProfile(UserProfileUpdate userProfileUpdate);
+
+    @Update("UPDATE users set user_address = #{value} where user_id = #{user_id}")
+    void updateProfileAddress(UserProfileUpdate userProfileUpdate);
+
     @Select("select * from users")
     List<UserDto> getAll();
 

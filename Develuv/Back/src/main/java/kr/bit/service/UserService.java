@@ -182,6 +182,10 @@ public class UserService {
             userMapper.updateProfileReligion(userProfileUpdate);
         }else if (type.equals("edu")) {
             userMapper.updateProfileEdu(userProfileUpdate);
+        }else if (type.equals("user_profile")) {
+            userMapper.updateProfileProfile(userProfileUpdate);
+        }else if (type.equals("user_address")) {
+            userMapper.updateProfileAddress(userProfileUpdate);
         }
 
 
