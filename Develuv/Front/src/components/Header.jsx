@@ -19,6 +19,7 @@ const customStyles = {
   },
   overlay: {
     overflow: "scroll",
+    zIndex: "1001",
   },
 };
 
@@ -194,7 +195,7 @@ function Header() {
             top: "110px", // 헤더 아래에 위치하도록 수정
             left: isMenuOpen ? "0" : "-250px",
             width: "250px",
-            height: "calc(100vh - 70px)", // 전체 화면 높이에서 헤더 높이만큼 뺀 크기로 설정
+            height: "calc(100vh - 110px)", // 전체 화면 높이에서 헤더 높이만큼 뺀 크기로 설정
             background: "#001d3d",
             color: "white",
             transition: "left 0.3s ease",
@@ -300,6 +301,7 @@ function Header() {
                 onClick={handleLogout}
                 style={{
                   backgroundColor: "white",
+                  position: "absolute",
                   color: "#00356d",
                   padding: "5px 10px",
                   border: "none",
@@ -315,6 +317,8 @@ function Header() {
                 onClick={openModal}
                 style={{
                   backgroundColor: "white",
+                  position: "absolute",
+                  marginTop: "auto",
                   color: "#00356d",
                   padding: "5px 10px",
                   border: "none",

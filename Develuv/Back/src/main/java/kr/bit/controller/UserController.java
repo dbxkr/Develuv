@@ -149,6 +149,13 @@ public class UserController {
     @PutMapping("/edit-profile/{userId}")
     public ResponseEntity<String> updateUserProfile(@PathVariable String userId, @RequestBody UserDto userDto) {
         userDto.setUser_id(userId);
+
+        // 비밀번호가 null 또는 빈 문자열인 경우 기존 비밀번호를 유지합니다.
+        if (userDto.getUser_pw() == null || userDto.getUser_pw().isEmpty()) {
+            String existingPassword = userService.findPasswordByUserId(userId);
+            userDto.setUser_pw(existingPassword);
+        }
+
         userService.updateUserProfile(userDto);
         return ResponseEntity.ok("프로필이 성공적으로 업데이트 되었습니다.");
     }

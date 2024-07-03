@@ -1,8 +1,13 @@
 
 package kr.bit.controller;
 
+import kr.bit.dto.LatLonRegisterDTO;
 import kr.bit.dto.UserProfileDto;
+import kr.bit.dto.matching.LatLonDTO;
+import kr.bit.mapper.MatchingListMapper;
+import kr.bit.service.MatchingService;
 import kr.bit.service.UserProfileService;
+import kr.bit.vo.UpdateLatlonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,12 @@ public class UserProfileController {
 
     @Autowired
     private UserProfileService userProfileService;
+
+    @Autowired
+    private MatchingListMapper matchingListMapper;
+
+    @Autowired
+    private MatchingService matchingService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserProfileDto> getUserProfile(@PathVariable String userId) {
@@ -43,5 +54,24 @@ public class UserProfileController {
         }
     }
 
+    @PutMapping("/update-code/{userId}")
+    public ResponseEntity<Void> updateUserCode(@PathVariable String userId, @RequestBody String userCode) {
+        userProfileService.updateUserCode(userId, userCode);
+        return ResponseEntity.noContent().build();
+    }
 
+    @RequestMapping("/getlatlon/{userId}")
+    public ResponseEntity<LatLonDTO> getLatlonEdit(@PathVariable String userId) {
+        LatLonDTO result = matchingListMapper.findLatLonByUserId(userId);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping("/update/latlon")
+    public String registerLatLon(@RequestBody UpdateLatlonVO updateVO) {
+        System.out.println(updateVO.getUser_id() + updateVO.getAddress() + updateVO.getCity());
+        matchingService.updateCoodr(updateVO.getAddress(), updateVO.getCity(), updateVO.getUser_id());
+
+        return "register latlon success";
+    }
 }

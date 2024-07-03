@@ -53,6 +53,9 @@ public interface MatchingListMapper {
     @Insert("insert into latlon (user_id, city, latitude, longitude) values (#{user_id},#{city},#{latitude},#{longitude})")
     void insertLatLon (LatLonDTO latlon);
 
+    @Update("update latlon set city=#{city}, latitude=#{latitude}, longitude=#{longitude} where user_id=#{user_id}")
+    void updateLatLon (LatLonDTO latlon);
+
     @Select("select * from latlon where user_id = #{user_id}")
     LatLonDTO findLatLonByUserId(String user_id);
 

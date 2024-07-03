@@ -20,7 +20,8 @@
 
 .quiz-header {
   margin: 0; /* 기본 마진 제거 */
-  margin-bottom: 30px; /* 헤더와 내용 간격 조정 */
+  margin-bottom: 0px; /* 헤더와 내용 간격 조정 */
+
   text-align: center; /* 텍스트 가운데 정렬 */
 }
 
@@ -382,7 +383,7 @@ input[type='date'] {
   margin-top: 170px;
   margin-bottom: 40px;
 }
-/*----------------------------------3page---------------------------------------------*/
+/*----------------------------------4page---------------------------------------------*/
 /* 'vs' 폰트 위치 조정 */
 .container-button-center {
   padding: 100px;
