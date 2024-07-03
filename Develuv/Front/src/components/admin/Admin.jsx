@@ -18,7 +18,7 @@ function Admin() {
       navigate("/nahhh");
     }
     axios.post("http://localhost:8080/user/getAll").then((res) => {
-      console.log(res);
+      // console.log(res);
       setUserList(Object.values(res.data));
     });
   }, []);
@@ -31,15 +31,55 @@ function Admin() {
     return <div>loading...</div>;
   }
 
+  const submit = async (t) => {
+    let newFormData;
+    if (t == "user_address") {
+      newFormData = {
+        value: formData.user_address,
+        type: t,
+        user_id: selectedId,
+      };
+      const cityData = {
+        user_address: formData.user_address,
+        city: city,
+        user_id: selectedId,
+      };
+      console.log(cityData);
+      axios
+        .post("http://localhost:8080/api/register/latlon", cityData)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log("insert latlon err", err);
+        });
+    } else {
+      newFormData = {
+        type: t,
+        user_id: selectedId,
+        value: document.querySelector(`#${t}`).value,
+      };
+    }
+    setFormData(newFormData);
+    // 이제 newFormData를 사용하여 필요한 작업을 수행할 수 있습니다.
+    axios
+      .post("http://localhost:8080/user/updateOneProfile", newFormData)
+      .then((res) => {
+        console.log("submit", res);
+      });
+
+    console.log("newFormData", newFormData);
+  };
+
   return (
     <div>
-      <div>{console.log(userList)}</div>
+      {/* <div>{console.log(userList)}</div> */}
       <select
         value={selectedId}
         onChange={(e) => setSelectedId(e.target.value)}
       >
         {userList.map((item) => {
-          console.log("item", item.user_id);
+          // console.log("item", item.user_id);
           return (
             <option key={item.user_id} value={item.user_id}>
               {item.user_id}
@@ -65,23 +105,26 @@ function Admin() {
             <input
               key={`${selectedId}-${key}-${city}`}
               type="text"
-              defaultValue={
-                key == "user_address" ? value + ",도시: " + city : value
-              }
+              defaultValue={key == "user_address" ? city : value}
               id={key}
               style={{ margin: "0px", paddingTop: "3px", paddingBottom: "3px" }}
             />
-            {key == "user_id" ? null : (
-              <button style={{ padding: "0px", margin: "0px" }}>반영</button>
-            )}
+            {key == "user_address" || key === "user_profile" ? (
+              <button
+                onClick={() => {
+                  submit(key);
+                }}
+                style={{ padding: "0px", margin: "0px" }}
+              >
+                반영
+              </button>
+            ) : null}
             {key != "user_address" ? null : (
               <DaumPostCode
                 formData={formData}
                 setFormData={setFormData}
                 setCity={setCity}
-              >
-                반영
-              </DaumPostCode>
+              />
             )}
           </div>
         ))}
