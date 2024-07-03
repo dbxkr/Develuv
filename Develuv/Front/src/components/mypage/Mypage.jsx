@@ -513,6 +513,7 @@ const ProfileContainer = styled.div`
   width: 100%;
   max-width: 200px; /* Adjust as needed */
   margin: auto;
+  margin-top: 90px; /* 사진과 버튼의 간격을 벌리기 위해 추가 */
 `;
 
 const FlipButton = styled.button`
@@ -537,13 +538,18 @@ const ProfilePicture = styled.div`
   img {
     width: 100%;
     height: auto;
-    border-radius: 50%; /* Make image round */
+    max-height: 300px;
     object-fit: cover;
+    border-radius: 10px;
   }
 `;
 
 const Card = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
   width: 100%;
   max-width: 200px;
   perspective: 1000px;
