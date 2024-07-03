@@ -64,4 +64,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE user_nbti = #{nbti} AND user_id NOT IN (#{excludedUserIds})")
     List<User> findUsersByNbti(@Param("nbti") String nbti, @Param("excludedUserIds") String excludedUserIds);
+
+    @Update("update users set user_heart = user_heart+1 where user_id = #{oppoId}")
+    void increaseHeart(UnblurDTO unblurDTO);
 }

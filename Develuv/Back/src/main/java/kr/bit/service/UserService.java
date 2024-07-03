@@ -178,4 +178,8 @@ public class UserService {
     public List<User> findUsersByNbti(String nbti, String excludedUserIds) {
         return userMapper.findUsersByNbti(nbti, excludedUserIds);
     }
+
+    public void increaeHeart(UnblurDTO unblurDTO){
+        userMapper.increaseHeart(unblurDTO);
+    }
 }
