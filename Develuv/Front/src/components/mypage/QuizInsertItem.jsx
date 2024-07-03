@@ -9,6 +9,7 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
   const [choices, setChoices] = useState([{q_num:q_num,c_num: 1, content: ''}]);
   const answer = useRef(0);
   const q_num1 = useRef(q_num);
+  const [ans,setAns] = useState(answer.current);
   const navi = useNavigate();
   const idVal = localStorage
 
@@ -143,6 +144,7 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
   function onClickAnswer(answerC_num) {
     answer.current = answerC_num;
     console.log("선태된 정답 ", answer)
+    setAns(answer.current);
   }
 
   return (
@@ -158,7 +160,7 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
         <button className={"pns_qin_btn"}
                 type={"button"}
                 onClick={onSubmit}
-                style={{position: "fixed", right: "10%", top: "130px"}}
+                style={{position: "fixed", right: "10%", top: "110px"}}
         >
           제출
         </button>
@@ -175,7 +177,14 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
       <div className={"choice_div"}>
         {choices.map((choice, index) => (
           <div key={choice.c_num} className={"choice_input_div"}>
-            <button className={"choice_btn"} type={"button"} onClick={() => onClickAnswer(choice.c_num)}> ㅇ</button>
+            {choice.c_num === ans ?
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                   className="bi bi-check-circle-fill" viewBox="0 0 16 16" style={{color: "pink", width:"30px", height:"30px"}}>
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+              : <button className={"choice_btn"} type={"button"} style={{color:"#303F7B"}} onClick={() => onClickAnswer(choice.c_num)}> </button>
+            }
             <textarea
               ref={el => textareaRefs.current[index] = el}
               className={"choice_input"}
@@ -199,7 +208,7 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
       {/* 이전, 다음, 제출 버튼 */}
       {
         page === 1 ? "" :
-          <button className={"pn_qin_btn"}
+          <button className={"pns_qin_btn"}
                   onClick={onPrev}
           >이전</button>
       }
@@ -214,11 +223,11 @@ const QuizInsertItem = ({page, q_num, setQInPage, qFormData, updateQForm, quizFo
             다음
           </button>
       }
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-           className="bi bi-check-circle-fill" viewBox="0 0 16 16" style={{color:"blue"}}>
-        <path
-          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-      </svg>
+      {/*<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
+      {/*     className="bi bi-check-circle-fill" viewBox="0 0 16 16" style={{color:"blue"}}>*/}
+      {/*  <path*/}
+      {/*    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>*/}
+      {/*</svg>*/}
 
     </div>
   )

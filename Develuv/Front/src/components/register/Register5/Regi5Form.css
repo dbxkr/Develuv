@@ -9,6 +9,7 @@
   width: 80%;
 }
 
+
 .container div {
   margin-bottom: 10px;
 }
@@ -34,7 +35,7 @@
 }
 
 .option-container {
-  margin-top: 40px; /* hhy 추가 */
+
 }
 
 .form_label {
@@ -44,11 +45,12 @@
   margin-bottom: 5px;
   font-size: 20px;
   border-radius: 5px;
+  margin-left: 10px;
 }
 
 .btn_div {
   text-align: left;
-  margin-left: 140px;
+  /*margin-left: 3%;*/
 }
 
 .regi5_btn {
@@ -91,8 +93,8 @@
   left: 40px;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: white;
-  border: 1px solid darkgray;
+  background-color: #1d4289;
+  color: white;
   font-size: 20px;
   font-weight: 300;
 }
@@ -102,21 +104,21 @@
   bottom: 50px;
   right: 40px;
   padding: 5px 10px;
-  border-radius: 10px;
-  background-color: white;
-  border: 1px solid darkgray;
+  border-radius: 5px;
+  background-color: #1d4289;
+  color: white;
   font-size: 20px;
   font-weight: 300;
 }
 
 .after_btn:hover {
-  background-color: #1d4289;
-  color: white;
+  background-color: white;
+  color: #1d4289;
 }
 
 .before_btn:hover {
-  background-color: #1d4289;
-  color: white;
+  background-color: white;
+  color: #1d4289;
 }
 
 /* 1~5단계 프로그레스 막대 */
@@ -148,4 +150,35 @@
 
 .progress-circle:last-child::after {
   content: '5'; /* 마지막 동그라미에 텍스트 추가 */
+}
+
+.up_form{
+  text-align: center;
+}
+
+body{
+  align-items: unset;
+  margin-top: 130px;
+}
+
+.pro_bar_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pro_bar_container .pro_bar{
+  width: 400px;
+  height: 3px;
+  background-color: #cccccc;
+}
+
+.pro_bar_container .circle5{
+  color: white;
+  background-color: #1d4289;
+  width: 30px;
+  height: 30px;
+  align-content: center;
+  border-radius: 100%;
+  text-align: center;
 }

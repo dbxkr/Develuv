@@ -20,7 +20,7 @@ public interface UserQuizRegiMapper {
     @Insert("insert into quiz_choice (q_id, c_num, content) values (#{q_id},#{c_num},#{content})")
     void insertChoice(@Param("q_id")int q_id, @Param("c_num")int c_num, @Param("content")String content);
 
-    @Select("select q_id from userquiz where user_id=#{user_id} and q_num=#{q_num} and quiz=#{quiz} and answer=#{answer}")
+    @Select("select q_id from userquiz where user_id=#{user_id} and q_num=#{q_num} ")
     int getQuizId(@Param("user_id") String user_id, @Param("q_num") int q_num, @Param("quiz") String quiz, @Param("answer") int answer);
 
 
