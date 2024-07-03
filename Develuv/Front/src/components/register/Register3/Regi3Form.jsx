@@ -57,19 +57,27 @@ function Regi3Form({
 
   return (
     <div className="Register3Form">
+      <div className={"up_opt"}>
+        <div className={"pro_bar_container"} style={{marginBottom:"20px"}}>
+          <div className={"pro_bar"} style={{width:"250px"}}></div>
+          <div className={"circle5"}>3</div>
+          <div className={"pro_bar"} style={{width:"205px"}}></div>
+          <div className={"circle5"}>5</div>
+        </div>
+      </div>
       <div>
-        <div className="tt">Essential Information</div>
+        <div className="tt" style={{marginTop: "0px"}}>Essential Information</div>
         <div className="gray_font">Please enter the information</div>
         <div className="sub_title">변경이 불가능하니 정확하게 입력해주세요</div>
 
         {/* Name */}
-        <div className="form_label">이름</div>
-        <input
-          className="regi3_in"
-          onChange={onChangeName}
-          value={formData.user_name}
-          placeholder="이름 입력"
-        />
+        {/*<div className="form_label">이름</div>*/}
+        {/*<input*/}
+        {/*  className="regi3_in"*/}
+        {/*  onChange={onChangeName}*/}
+        {/*  value={formData.user_name}*/}
+        {/*  placeholder="이름 입력"*/}
+        {/*/>*/}
 
         {/* Gender */}
         <div className="form_label">성별</div>
@@ -85,7 +93,7 @@ function Regi3Form({
           ))}
         </div>
 
-        <hr className="half_hr" />
+        <hr className="half_hr"/>
 
         <div className="sub_title">
           언제든지 변경이 가능하며 매칭을 위해 필요한 정보입니다.
@@ -103,31 +111,38 @@ function Regi3Form({
 
         {/* Address */}
         <div className="form_label">주소</div>
-        <input
-          className="regi3_in"
-          onChange={onChangeAddr}
-          value={formData.user_address}
-          type="text"
-          placeholder="주소 입력"
-        />
-        <DaumPostCode formData={formData} setFormData={setFormData} setCity={setCity}/>
+        <div style={{display: "flex"}}>
+          <input
+            className="regi3_in"
+            onChange={onChangeAddr}
+            value={formData.user_address}
+            type="text"
+            placeholder="주소 입력"
+            style={{
+              marginBottom: "0px",
+              borderRadius: "5px 0 0 5px"
+            }}
+          />
+          <DaumPostCode formData={formData} setFormData={setFormData} setCity={setCity}/>
+        </div>
+
 
         {/* Image Upload */}
         <div
-          style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}
+          style={{display: 'flex', alignItems: 'center', marginTop: '10px'}}
         >
-          <input type="file" onChange={handleImageUpload} />
+          <input type="file" onChange={handleImageUpload}/>
           {imgPreview && (
             <img
               src={imgPreview}
               alt="Preview"
-              style={{ width: '50px', height: 'auto', marginLeft: '10px' }}
+              style={{width: '50px', height: 'auto', marginLeft: '10px'}}
             />
           )}
         </div>
 
         {/* Navigation Buttons */}
-        <div className={"reg3_ba_btn"} style={{ marginTop: '20px' }}>
+        <div className={"reg3_ba_btn"} style={{marginTop: '20px'}}>
           <button
             type="button"
             onClick={() => setProgress(progress - 1)}
@@ -138,16 +153,6 @@ function Regi3Form({
           <button type="button" onClick={regi3Submit} className="after_btn">
             다음
           </button>
-        </div>
-
-        {/* Progress Indicator */}
-        <div className="signup3container">
-          <div className="progress-container3">
-            <div className="progress-line3">
-              <div className="progress-circle3 third" />
-              <div className="progress-circle3 fifth" />
-            </div>
-          </div>
         </div>
       </div>
     </div>
