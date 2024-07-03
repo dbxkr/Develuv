@@ -201,6 +201,7 @@ function ChatList() {
             roomId={roomId}
             myId={user.user_id}
             oppoName={oppoName}
+            oppoId={oppoId}
             oppoProfile={oppoProfile}
             blur={blur}
             setDInfo={setDInfo}

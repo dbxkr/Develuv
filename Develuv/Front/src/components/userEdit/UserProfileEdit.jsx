@@ -21,10 +21,12 @@ const UserProfileEdit = () => {
   const client_id = import.meta.env.VITE_GOOGLE_DRIVE_CLIENT_ID;
   const secret_key = import.meta.env.VITE_GOOGLE_DRIVE_SECRET_KEY;
 
-  const [accessToken, setAccessToken] = useState(import.meta.env.VITE_GOOGLE_DRIVE_API_KEY);
+  const [accessToken, setAccessToken] = useState(
+    import.meta.env.VITE_GOOGLE_DRIVE_API_KEY
+  );
   const refreshToken = import.meta.env.VITE_GOOGLE_DRIVE_REFRESH_TOKEN;
 
-  const [formData, setFormData] = useState([{ user_address: '' }]);
+  const [formData, setFormData] = useState([{ user_address: "" }]);
   const [city, setCity] = useState();
 
   const refreshAccessToken = async () => {
@@ -134,7 +136,11 @@ const UserProfileEdit = () => {
         setProfileImageUrl(newProfileImageUrl);
       } catch (error) {
         console.error("프로필 이미지 업로드 오류:", error);
-        alert(`프로필 이미지 업로드 실패: ${error.response?.data?.message || error.message}`);
+        alert(
+          `프로필 이미지 업로드 실패: ${
+            error.response?.data?.message || error.message
+          }`
+        );
         return;
       }
     }
@@ -149,12 +155,19 @@ const UserProfileEdit = () => {
     };
 
     try {
-      await axios.put(`http://localhost:8080/user/edit-profile/${user.user_id}`, userData);
+      await axios.put(
+        `http://localhost:8080/user/edit-profile/${user.user_id}`,
+        userData
+      );
       alert("프로필이 성공적으로 업데이트 되었습니다.");
       window.location.href = `/mypage/${user.user_id}`;
     } catch (error) {
       console.error("프로필 업데이트 오류:", error);
-      alert(`프로필 업데이트 실패: ${error.response?.data?.message || error.message}`);
+      alert(
+        `프로필 업데이트 실패: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     }
   };
 
@@ -165,7 +178,7 @@ const UserProfileEdit = () => {
   useEffect(() => {
     console.log(formData.user_address);
     setAddress(formData.user_address);
-  }, [formData])
+  }, [formData]);
 
   return (
     <div>
@@ -178,12 +191,22 @@ const UserProfileEdit = () => {
         <br />
         <label>
           비밀번호:
-          <input type="password" value={password} onChange={handlePasswordChange} />
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            readOnly={user.user_provider == "develuv" ? false : true}
+          />
         </label>
         <br />
         <label>
           비밀번호 확인:
-          <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            readOnly={user.user_provider == "develuv" ? false : true}
+          />
         </label>
         <br />
         <label>
@@ -211,21 +234,30 @@ const UserProfileEdit = () => {
         <br />
         {profileImageUrl && !newImagePreview && (
           <div>
-            <img src={profileImageUrl} alt="프로필 미리보기" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+            <img
+              src={profileImageUrl}
+              alt="프로필 미리보기"
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            />
           </div>
         )}
         {newImagePreview && (
           <div>
-            <img src={newImagePreview} alt="새 프로필 미리보기" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+            <img
+              src={newImagePreview}
+              alt="새 프로필 미리보기"
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
+            />
           </div>
         )}
         <ImageUpload onImageUpload={handleImageUpload} />
         <br />
         <div className="button-container">
           <button type="submit">저장</button>
-          <button type="button" onClick={handleCancel}>취소</button>
+          <button type="button" onClick={handleCancel}>
+            취소
+          </button>
         </div>
-
       </form>
     </div>
   );
