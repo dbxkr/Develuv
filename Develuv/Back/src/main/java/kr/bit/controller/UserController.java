@@ -135,6 +135,7 @@ public class UserController {
     public UserDto getUserById(@RequestParam String user_id) {
         return userService.findUserById(user_id);
     }
+
     @PostMapping("/otherInfo")
     public UserDto getOtherUserById(@RequestParam String user_id, @RequestParam String my_id) {
         return userService.findOtherUserById(user_id, my_id);

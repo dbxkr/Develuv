@@ -292,7 +292,7 @@ const Mypage = () => {
           </div>
           <div className="info-row">
             <img src={locationIcon} alt="Location" className="icon" />
-            <p>{userInfo.user_address}</p>
+            <p>{isMyPage ? userInfo.user_address : userInfo.user_city}</p>
           </div>
           <div className="info-row">
             <img src={jobIcon} alt="Job" className="icon" />

@@ -1,6 +1,7 @@
 package kr.bit.service;
 
 import kr.bit.dto.*;
+import kr.bit.mapper.MatchingListMapper;
 import kr.bit.mapper.UserMapper;
 import kr.bit.model.User;
 import org.mindrot.jbcrypt.BCrypt;
@@ -23,6 +24,9 @@ public class UserService {
 
     @Autowired
     TokenService tokenService;
+
+    @Autowired
+    MatchingListMapper matchingListMapper;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -164,7 +168,9 @@ public class UserService {
     }
 
     public UserDto findOtherUserById(String user_id, String my_id) {
-        return userMapper.findOtherUserById(user_id, my_id);
+        UserDto userDto = userMapper.findOtherUserById(user_id, my_id);
+        userDto.setUser_city(matchingListMapper.findLatLonByUserId(user_id).getCity());
+        return userDto;
     }
 
     public void updateOneProfile(UserProfileUpdate userProfileUpdate) {
