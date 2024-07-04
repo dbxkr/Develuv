@@ -123,9 +123,7 @@ function DetailedInfo({ oppoId }) {
               ))}
             </div>
             <div>
-              <ProfileButton onClick={spendToken}>
-                블러 단계 높이기+
-              </ProfileButton>
+              <ProfileButton onClick={spendToken}>Unblur</ProfileButton>
             </div>
           </BlurLevel>
         </InfoBody>
