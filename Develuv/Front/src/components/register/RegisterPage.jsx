@@ -6,7 +6,7 @@ import Regi3Form from "./Register3/Regi3Form";
 import Nbti from "./Nbti";
 import Regi5Form from "./Register5/Regi5Form";
 import "./register.css";
-import { redirect, useLocation } from "react-router-dom";
+import { Link, redirect, useLocation } from "react-router-dom";
 
 function RegisterPage() {
   const [progress, setProgress] = useState(1);
@@ -112,7 +112,6 @@ function RegisterPage() {
           city={city}
         />
       )}
-      {(progress < 1 || progress > 5) && <redirect to="/" />}
     </div>
   );
 }

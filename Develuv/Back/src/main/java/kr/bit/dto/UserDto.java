@@ -27,6 +27,7 @@ public class UserDto {
     private String user_instagram;
     private String user_git;
     private String user_memo;
+    private String user_city = "";
     private int token;
     private int blur=0;
 }

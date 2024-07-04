@@ -9,7 +9,6 @@
   width: 80%;
 }
 
-
 .container div {
   margin-bottom: 10px;
 }
@@ -35,7 +34,6 @@
 }
 
 .option-container {
-
 }
 
 .form_label {
@@ -149,31 +147,31 @@
 }
 
 .progress-circle:last-child::after {
-  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
+  content: "5"; /* 마지막 동그라미에 텍스트 추가 */
 }
 
-.up_form{
+.up_form {
   text-align: center;
 }
 
-body{
+/* body {
   align-items: unset;
   margin-top: 130px;
-}
+} */
 
-.pro_bar_container{
+.pro_bar_container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.pro_bar_container .pro_bar{
+.pro_bar_container .pro_bar {
   width: 400px;
   height: 3px;
   background-color: #cccccc;
 }
 
-.pro_bar_container .circle5{
+.pro_bar_container .circle5 {
   color: white;
   background-color: #1d4289;
   width: 30px;
