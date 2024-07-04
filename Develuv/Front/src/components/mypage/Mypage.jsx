@@ -224,11 +224,7 @@ const Mypage = () => {
             <CardFront>
               <ProfilePicture>
                 <img
-                  src={
-                    userInfo.user_profile +
-                    blurLevel[blur + tempB] +
-                    "&blur=AW2$zxORd"
-                  }
+                  src={userInfo.user_profile + 4000 + "&blur=AW2$zxORd"}
                   alt="Profile"
                   onContextMenu={(event) => {
                     event.preventDefault();
@@ -250,7 +246,7 @@ const Mypage = () => {
                     lang={"python"}
                     text={code}
                     onChange={handleCodeChange}
-                    style={{ height: "100%", overflow: "auto" }}
+                    style={{ height: "100%", width: "100%", overflow: "auto" }} // 위치 조정
                   />
                 </>
               ) : (
@@ -283,16 +279,22 @@ const Mypage = () => {
               {userInfo.user_name} ({age})
               <span
                 className={`gender-icon ${
-                  userInfo.user_gender === "Female" ? "female" : "male"
+                  userInfo.user_gender === "Female" ||
+                  userInfo.user_gender === "female"
+                    ? "female"
+                    : "male"
                 }`}
               >
-                {userInfo.user_gender === "Male" ? "♂️" : "♀️"}
+                {userInfo.user_gender === "Male" ||
+                userInfo.user_gender === "male"
+                  ? "♂️"
+                  : "♀️"}
               </span>
             </h2>
           </div>
           <div className="info-row">
             <img src={locationIcon} alt="Location" className="icon" />
-            <p>{userInfo.user_address}</p>
+            <p>{isMyPage ? userInfo.user_address : userInfo.user_city}</p>
           </div>
           <div className="info-row">
             <img src={jobIcon} alt="Job" className="icon" />
@@ -568,13 +570,15 @@ const CardFront = styled.div`
 const CardBack = styled.div`
   position: absolute;
   width: 100%;
+  height: 100%;
   backface-visibility: hidden;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column; /* 변경된 부분 */
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start; /* 변경된 부분 */
+  justify-content: flex-start; /* 변경된 부분 */
   padding: 10px;
+  overflow: auto; /* 스크롤 가능하게 변경 */
 `;
 
 const InfoText = styled.div`

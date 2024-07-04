@@ -164,6 +164,7 @@ public class MatchingService {
 
         for (LatLonDTO latLon : famousUserList) {
             System.out.println(latLon.getUser_id()+"=" +latLon.getLatitude() + " : " + latLon.getLongitude());
+
         }
 
         System.out.println("트리 넣기 전");
@@ -177,6 +178,7 @@ public class MatchingService {
         for(LatLonDTO latLon : neighbors){
             System.out.println(latLon.getLatitude() + " : " + latLon.getLongitude());
             MatchingListDTO matchingListDTO = matchingListMapper.findMatchingUserById(latLon.getUser_id());
+            matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
         return result;

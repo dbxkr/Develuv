@@ -50,7 +50,7 @@ public class UserQuizController {
                 for (int j = 0; j < choices.size(); j++) {
                     ChoiceInsertDTO choice = choices.get(j);
                     choice.setQ_id(quizId);
-                    choice.setContent(choice.getContent().replaceAll("\\n", "<br/>"));
+                    choice.setContent(choice.getContent().replaceAll("\n", "<br/>"));
                     System.out.println("replace choice enter to <br/> : " + choice.getContent());
 
                     userQuizRegiMapper.insertChoice(choice.getQ_id(), choice.getC_num(), choice.getContent());

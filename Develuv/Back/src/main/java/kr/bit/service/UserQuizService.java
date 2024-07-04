@@ -55,6 +55,7 @@ public class UserQuizService {
                 userQuizRegiMapper.updateUserQuiz(quizVO);
                 userQuizRegiMapper.deleteQuizChoice(quiz_id);
                 for (ChoiceInsertDTO choice : quiz.getChoices()) {
+                    choice.setContent(choice.getContent().replaceAll("\n", "<br/>"));
                     userQuizRegiMapper.insertChoice(quiz_id, choice.getC_num(), choice.getContent());
                 }
             } else {
@@ -64,6 +65,7 @@ public class UserQuizService {
                 System.out.println("quiz_id: " + quiz_id);
 
                 for (ChoiceInsertDTO choice : quiz.getChoices()) {
+                    choice.setContent(choice.getContent().replaceAll("\n", "<br/>"));
                     userQuizRegiMapper.insertChoice(quiz_id, choice.getC_num(), choice.getContent());
                 }
             }

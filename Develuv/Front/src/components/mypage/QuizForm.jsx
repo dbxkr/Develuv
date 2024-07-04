@@ -195,11 +195,19 @@ const QuizForm = ({ userId, myId }) => {
         </div>
         <div className="quiz-div">{renderQuizContent()}</div>
         <div className="button-container">
-          {page > 1 ? <button onClick={prevPage}>이전</button> : null}
+          {page > 1 ? (
+            <button className="quiz-form-button" onClick={prevPage}>
+              이전
+            </button>
+          ) : null}
           {page === quizes.length ? (
-            <button onClick={onSubmit}>제출</button>
+            <button className="quiz-form-button" onClick={onSubmit}>
+              제출
+            </button>
           ) : (
-            <button onClick={nextPage}>다음</button>
+            <button className="quiz-form-button" onClick={nextPage}>
+              다음
+            </button>
           )}
         </div>
       </div>

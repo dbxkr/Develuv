@@ -1,6 +1,7 @@
 package kr.bit.service;
 
 import kr.bit.dto.*;
+import kr.bit.mapper.MatchingListMapper;
 import kr.bit.mapper.UserMapper;
 import kr.bit.model.User;
 import org.mindrot.jbcrypt.BCrypt;
@@ -25,41 +26,60 @@ public class UserService {
     TokenService tokenService;
 
     @Autowired
+    MatchingListMapper matchingListMapper;
+
+    @Autowired
     private JavaMailSender mailSender;
 
     private Map<String, String> verificationCodes = new HashMap<>();
     private Map<String, Long> verificationCodeTimestamps = new HashMap<>();
 
     public String findPwEmail(UserFindPwDTO findPwDTO) {
-        String pw = userMapper.findPw(findPwDTO);
 
-        if (pw == null) {
-            pw = "아이디 혹은 이메일을 다시 확인하세요";
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder result = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 12; i++) {
+            int index = random.nextInt(characters.length());
+            result.append(characters.charAt(index));
+        }
+
+        findPwDTO.setNew_password(BCrypt.hashpw(result.toString(), BCrypt.gensalt()));
+
+        int res = userMapper.sendPwToEmail(findPwDTO);
+        String sendResult = "";
+
+        if (res == 0) {
+            sendResult = "아이디 혹은 이메일을 다시 확인하세요";
         } else {
             MimeMessage message = mailSender.createMimeMessage();
             try {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
                 messageHelper.setFrom("btt0408@gmail.com", "Develuv");
-                messageHelper.setSubject("비번 확인하셈");
+                messageHelper.setSubject("Develuv 임시 비밀번호 발급");
                 messageHelper.setTo(findPwDTO.getUser_email());
-                messageHelper.setText("비밀번호 이거임:\n" + pw);
+                messageHelper.setText("임시 비밀번호: " + result.toString() + "\n이후 마이페이지에서 비밀번호를 변경해주세요.");
                 mailSender.send(message);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            pw = "메일을 확인해주세요.";
+            sendResult = "메일을 확인해주세요.";
         }
-        return pw;
+        return sendResult;
     }
 
-    public String findId(UserFindIdDTO findIdDTO) {
-        String id = userMapper.findId(findIdDTO);
-        if (id == null) {
-            id = "이메일을 다시 확인하세요";
+    public UserFindIdDTO findId(UserFindIdDTO findIdDTO) {
+        UserFindIdDTO userFindIdDTO = userMapper.findId(findIdDTO);
+        if (userFindIdDTO == null || userFindIdDTO.getUser_id() == null) {
+            userFindIdDTO = new UserFindIdDTO();
+            userFindIdDTO.setUser_id("이메일을 다시 확인하세요");;
+        }else if(!userFindIdDTO.getUser_provider_id().equals("develuv")){
+            userFindIdDTO.setUser_id(userFindIdDTO.getUser_provider_id()+"를 통해 가입한 계정입니다.\n해당 서비스를 통해 로그인 해주세요.");
         }
-        return id;
+        return userFindIdDTO;
     }
 
     public String findPw(UserFindPwDTO findPwDTO) {
@@ -164,7 +184,9 @@ public class UserService {
     }
 
     public UserDto findOtherUserById(String user_id, String my_id) {
-        return userMapper.findOtherUserById(user_id, my_id);
+        UserDto userDto = userMapper.findOtherUserById(user_id, my_id);
+        userDto.setUser_city(matchingListMapper.findLatLonByUserId(user_id).getCity());
+        return userDto;
     }
 
     public void updateOneProfile(UserProfileUpdate userProfileUpdate) {

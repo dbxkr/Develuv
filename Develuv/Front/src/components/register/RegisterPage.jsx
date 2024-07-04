@@ -63,7 +63,7 @@ function RegisterPage() {
   const { state } = useLocation();
 
   return (
-    <div>
+    <div style={{ marginTop: "110px" }}>
       {/* <ProgressBar progress={progress} />/ */}
       {progress == 1 && <Quiz setProgress={setProgress} />}
       {progress == 2 && (
@@ -112,7 +112,6 @@ function RegisterPage() {
           city={city}
         />
       )}
-      {(progress < 1 || progress > 5) && <redirect to="/" />}
     </div>
   );
 }

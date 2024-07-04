@@ -2,41 +2,41 @@ import React, { useState, useEffect } from "react";
 import "./NbtiModal.css";
 
 const NbtiModal = ({ isVisible, onClose, onUpdate }) => {
-  const [nbti, setNbti] = useState(['', '', '', '']);
+  const [nbti, setNbti] = useState(["", "", "", ""]);
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
     if (isVisible) {
-      setNbti(['', '', '', '']); // 모달이 열릴 때 NBTI 상태 초기화
+      setNbti(["", "", "", ""]); // 모달이 열릴 때 NBTI 상태 초기화
       setIsValid(false); // 모달이 열릴 때 유효성 상태 초기화
     }
   }, [isVisible]);
 
   const handleNbtiChange = (e) => {
     const newNbti = [...nbti];
-    if (e.target.name === 'nbti1') {
+    if (e.target.name === "nbti1") {
       newNbti[0] = e.target.value;
     }
-    if (e.target.name === 'nbti2') {
+    if (e.target.name === "nbti2") {
       newNbti[1] = e.target.value;
     }
-    if (e.target.name === 'nbti3') {
+    if (e.target.name === "nbti3") {
       newNbti[2] = e.target.value;
     }
-    if (e.target.name === 'nbti4') {
+    if (e.target.name === "nbti4") {
       newNbti[3] = e.target.value;
     }
     setNbti(newNbti);
   };
 
   useEffect(() => {
-    const allSelected = nbti.every((value) => value !== '');
+    const allSelected = nbti.every((value) => value !== "");
     setIsValid(allSelected);
   }, [nbti]);
 
   const handleUpdate = () => {
     if (isValid) {
-      onUpdate(nbti.join(''));
+      onUpdate(nbti.join(""));
       onClose(); // 모달을 닫기 위해 호출
     } else {
       alert("모든 NBTI 항목을 선택해주세요."); // 알림창 표시
@@ -49,7 +49,7 @@ const NbtiModal = ({ isVisible, onClose, onUpdate }) => {
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="n-modal-content" onClick={(e) => e.stopPropagation()}>
         <h3>NBTI</h3>
         <h4>선호하는 NBTI를 골라주세요.</h4>
         <div className="nbti-container">
@@ -143,7 +143,7 @@ const NbtiModal = ({ isVisible, onClose, onUpdate }) => {
             </li>
           </ul>
         </div>
-        <div className="modal-buttons">
+        <div className="n-modal-buttons">
           <button onClick={onClose}>취소</button>
           <button onClick={handleUpdate}>업데이트</button>
         </div>

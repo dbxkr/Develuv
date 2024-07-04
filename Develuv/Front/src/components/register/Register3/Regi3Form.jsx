@@ -1,6 +1,6 @@
-import './Regi3Form.css'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import "./Regi3Form.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DaumPostCode from "./DaumPostCode.jsx";
 
 function Regi3Form({
@@ -11,152 +11,152 @@ function Regi3Form({
   imgPreview,
   setImgPreview,
   setImage,
-  setCity
+  setCity,
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const genders = [
-    { type: 'male', title: '남자' },
-    { type: 'female', title: '여자' },
-  ]
+    { type: "male", title: "남자" },
+    { type: "female", title: "여자" },
+  ];
 
-  const [selGen, setSelGen] = useState('')
+  const [selGen, setSelGen] = useState("");
 
   const onChangeName = (e) => {
-    setFormData({ ...formData, user_name: e.target.value })
-  }
+    setFormData({ ...formData, user_name: e.target.value });
+  };
 
   const onChangeJob = (e) => {
-    setFormData({ ...formData, user_job: e.target.value })
-  }
+    setFormData({ ...formData, user_job: e.target.value });
+  };
 
   const onChangeAddr = (e) => {
-    setFormData({ ...formData, user_address: e.target.value })
-  }
+    setFormData({ ...formData, user_address: e.target.value });
+  };
 
   const genClicked = (type) => {
-    setSelGen(type)
-    setFormData({ ...formData, user_gender: type })
-  }
+    setSelGen(type);
+    setFormData({ ...formData, user_gender: type });
+  };
 
   const regi3Submit = () => {
-    setProgress(progress + 1)
-  }
+    setProgress(progress + 1);
+  };
 
   const handleImageUpload = (event) => {
-    const file = event.target.files[0]
-    setImage(file)
-    const reader = new FileReader()
+    const file = event.target.files[0];
+    setImage(file);
+    const reader = new FileReader();
 
     reader.onloadend = () => {
-      setImgPreview(reader.result)
-    }
+      setImgPreview(reader.result);
+    };
 
-    reader.readAsDataURL(file)
-  }
+    reader.readAsDataURL(file);
+  };
 
   return (
     <div className="Register3Form">
-      <div className={"up_opt"}>
-        <div className={"pro_bar_container"} style={{marginBottom:"20px"}}>
-          <div className={"pro_bar"} style={{width:"250px"}}></div>
-          <div className={"circle5"}>3</div>
-          <div className={"pro_bar"} style={{width:"205px"}}></div>
-          <div className={"circle5"}>5</div>
+      <div className="progress-container3">
+        <div className="progress-line3">
+          <div className="progress-circle3 third"></div>
+          <div className="progress-circle3 fifth"></div>
         </div>
       </div>
-      <div>
-        <div className="tt" style={{marginTop: "0px"}}>Essential Information</div>
+      <div className="title3">
+        <div className="tt">Essential Information</div>
         <div className="gray_font">Please enter the information</div>
-        <div className="sub_title">변경이 불가능하니 정확하게 입력해주세요</div>
+      </div>
 
-        {/* Name */}
-        {/*<div className="form_label">이름</div>*/}
-        {/*<input*/}
-        {/*  className="regi3_in"*/}
-        {/*  onChange={onChangeName}*/}
-        {/*  value={formData.user_name}*/}
-        {/*  placeholder="이름 입력"*/}
-        {/*/>*/}
-
-        {/* Gender */}
-        <div className="form_label">성별</div>
+      <div className="container">
         <div className="gbtn_div">
           {genders.map((gender, index) => (
             <button
               key={index}
               onClick={() => genClicked(gender.type)}
-              className={'gender_btn' + (selGen === gender.type ? '_sel' : '')}
+              className={"gender_btn" + (selGen === gender.type ? "_sel" : "")}
             >
               {gender.title}
             </button>
           ))}
         </div>
 
-        <hr className="half_hr"/>
+        <hr className="half_hr" />
 
         <div className="sub_title">
           언제든지 변경이 가능하며 매칭을 위해 필요한 정보입니다.
         </div>
 
-        {/* Job */}
-        <div className="form_label">직업</div>
         <input
           className="regi3_in"
           onChange={onChangeJob}
           value={formData.user_job}
           type="text"
-          placeholder="직업 입력"
+          placeholder="직업을 입력해주세요"
         />
 
-        {/* Address */}
-        <div className="form_label">주소</div>
-        <div style={{display: "flex"}}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <input
-            className="regi3_in"
+            className="regi3_in2"
             onChange={onChangeAddr}
             value={formData.user_address}
             type="text"
-            placeholder="주소 입력"
+            placeholder="주소를 입력해주세요"
             style={{
               marginBottom: "0px",
-              borderRadius: "5px 0 0 5px"
+              borderRadius: "5px 0 0 5px",
             }}
           />
-          <DaumPostCode formData={formData} setFormData={setFormData} setCity={setCity}/>
+          <DaumPostCode
+            formData={formData}
+            setFormData={setFormData}
+            setCity={setCity}
+          />
         </div>
 
-
-        {/* Image Upload */}
         <div
-          style={{display: 'flex', alignItems: 'center', marginTop: '10px'}}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "20px" /* 상단 여백 */,
+            marginBottom: "20px" /* 하단 여백 */,
+          }}
         >
-          <input type="file" onChange={handleImageUpload}/>
+          <input type="file" onChange={handleImageUpload} />
           {imgPreview && (
             <img
               src={imgPreview}
               alt="Preview"
-              style={{width: '50px', height: 'auto', marginLeft: '10px'}}
+              style={{
+                width: "95px",
+                height: "40px",
+                marginLeft: "15px",
+              }}
             />
           )}
         </div>
-
-        {/* Navigation Buttons */}
-        <div className={"reg3_ba_btn"} style={{marginTop: '20px'}}>
-          <button
-            type="button"
-            onClick={() => setProgress(progress - 1)}
-            className="before_btn"
-          >
-            이전
-          </button>
-          <button type="button" onClick={regi3Submit} className="after_btn">
-            다음
-          </button>
-        </div>
+      </div>
+      <div className="reg3_ba_btn">
+        <button
+          type="button"
+          onClick={() => setProgress(progress - 1)}
+          className="before_btn"
+        >
+          이전
+        </button>
+        <button type="button" onClick={regi3Submit} className="after_btn">
+          다음
+        </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Regi3Form
+export default Regi3Form;
