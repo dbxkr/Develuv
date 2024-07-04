@@ -12,6 +12,12 @@ const DaumPostCode = ({ formData, setFormData, setCity }) => {
     let extraAddress = '';
     let city= "";
 
+    let arr = fullAddress.split(' ')
+    // console.log(arr)
+    arr[0]='';
+
+
+
     if (
       data.sido === '서울' ||
       data.sido === '대구' ||
@@ -26,8 +32,13 @@ const DaumPostCode = ({ formData, setFormData, setCity }) => {
       city = data.sido
     } else {
       city = data.sigungu.split(' ')[0]
+      arr[1]='';
     }
     let localAddress = city + data.sigungu;
+    let ll = ''
+
+    arr.forEach(item => ll+=item);
+    // console.log(ll)
 
     fullAddress = localAddress + fullAddress
 
@@ -37,6 +48,9 @@ const DaumPostCode = ({ formData, setFormData, setCity }) => {
     }
 
     fullAddress = fullAddress.replace(/ /g, '')
+    fullAddress = city + ll;
+
+    console.log(fullAddress)
 
     setFormData({ ...formData, user_address: fullAddress }) // setAddress를 호출하여 부모 컴포넌트의 상태를 업데이트
     setCity(city)
