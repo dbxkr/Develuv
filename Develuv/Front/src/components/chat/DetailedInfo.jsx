@@ -102,7 +102,11 @@ function DetailedInfo({ oppoId }) {
             <ImgContainer>
               <OppoImg
                 src={userInfo.user_profile + "4000" + `&blur=TN1q/^23${blur}`}
-                style={{ filter: `blur(${(4 - blur) * 2.5}px)` }}
+                style={{
+                  filter: `blur(${(4 - blur) * 2.5}px)`,
+                  maxHeight: "400px",
+                  width: "auto",
+                }}
               />
             </ImgContainer>
             <Link to={"/mypage/" + userInfo.user_id}>
@@ -190,6 +194,7 @@ const ProfileContainer = styled.div`
 const ImgContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 310px;
   height: 420px;
   margin-left: 50px;

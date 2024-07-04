@@ -197,7 +197,7 @@ function Chat({
             }}
           />
           <ChatButton onClick={sendMessage}>▹</ChatButton>
-          <ChatButton onClick={openSingleChat}>🔺</ChatButton>
+          <ChatButton onClick={openSingleChat}></ChatButton>
         </ChatInputBox>
       </RoomContainer>
     </PageContainer>
