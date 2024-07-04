@@ -7,10 +7,10 @@ const DaumPostCode = ({ formData, setFormData, setCity }) => {
   const open = useDaumPostcodePopup(postcodeScriptUrl)
 
   const handleComplete = (data) => {
-    let fullAddress = data.address
-    let extraAddress = ''
-    let localAddress = data.sido + data.sigungu
-    let city = ''
+
+    let fullAddress = data.address;
+    let extraAddress = '';
+    let city= "";
 
     if (
       data.sido === '서울' ||
@@ -27,6 +27,7 @@ const DaumPostCode = ({ formData, setFormData, setCity }) => {
     } else {
       city = data.sigungu.split(' ')[0]
     }
+    let localAddress = city + data.sigungu;
 
     fullAddress = localAddress + fullAddress
 
@@ -45,11 +46,10 @@ const DaumPostCode = ({ formData, setFormData, setCity }) => {
     open({ onComplete: handleComplete })
   }
 
-  return (
-    <button className={'dpost_btn'} type="button" onClick={handleClick}>
-      주소검색
-    </button>
-  )
+  return (<button className={"dpost_btn"} type="button"
+                  style={{borderRadius:"0 5px 5px 0", marginLeft:"0px"}}
+                  onClick={handleClick}>주소검색</button>);
+
 }
 
 export default DaumPostCode

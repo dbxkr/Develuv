@@ -221,15 +221,14 @@ const UserProfileEdit = () => {
         <div className="address-container">
           <label>
             지역:
-            <input type="text" value={address} onChange={handleAddressChange} />
+            <div style={{display:"flex"}}>
+              <input type="text" value={address} style={{borderRadius:"5px 0 0 5px"}} onChange={handleAddressChange}/>
+              <DaumPostCode formData={formData} setFormData={setFormData} setCity={setCity}/>
+            </div>
+
           </label>
-          <DaumPostCode
-            formData={formData}
-            setFormData={setFormData}
-            setCity={setCity}
-          />
         </div>
-        <br />
+        <br/>
         <label>
           프로필 사진:
           <input type="file" accept="image/*" onChange={handleImageChange} />

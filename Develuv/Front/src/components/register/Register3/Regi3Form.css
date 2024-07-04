@@ -23,7 +23,7 @@
   width: 500px;
   height: 4px;
   background-color: #cccccc;
-  top: -650px;
+  top: -600px;
 }
 
 .progress-circle3 {
@@ -71,7 +71,7 @@
 .container .tt {
   font-size: 24px;
   font-weight: bold;
-  margin-top: 100px; /* 상단 간격 조정 */
+  /*margin-top: 100px; !* 상단 간격 조정 *!*/
 }
 
 .gray_font {
@@ -87,6 +87,11 @@
   font-weight: 600;
 }
 
+.gbtn_div{
+  text-align: center;
+  margin-top: 10px;
+}
+
 .form_label3 {
   position: relative;
   left: 420px;
@@ -99,7 +104,7 @@
 }
 
 .half_hr {
-  width: 50%;
+  width: 460px;
   margin-bottom: 20px;
   color: whitesmoke;
 }
@@ -142,10 +147,11 @@
   border: 1px solid whitesmoke;
   border-radius: 5px;
   padding: 10px 20px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 450;
   margin-bottom: 10px;
   width: 380px;
+  height: 32px;
 }
 
 .reg3_ba_btn .before_btn {
@@ -180,4 +186,11 @@
 .reg3_ba_btn .before_btn:hover {
   background-color: white;
   color: darkgray;
+}
+
+
+.dpost_btn{
+  margin: 0 0 0 0;
+  height: 20px;
+
 }
