@@ -12,6 +12,15 @@ const DaumPostCode = ({ formData, setFormData, setCity }) => {
     let extraAddress = '';
     let city= "";
 
+    let arr = fullAddress.split(' ')
+    console.log(arr)
+    arr[0]='';
+    let ll = ''
+
+    arr.forEach(item => ll+=item);
+    console.log(ll)
+
+
     if (
       data.sido === '서울' ||
       data.sido === '대구' ||
