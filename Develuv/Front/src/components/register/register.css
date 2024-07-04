@@ -128,7 +128,7 @@
   left: 0; /* 첫 번째 동그라미의 위치 */
 }
 .progress-circle1:nth-child(1)::after {
-  content: '1'; /* 1번 동그라미에 텍스트 추가 */
+  content: "1"; /* 1번 동그라미에 텍스트 추가 */
 }
 
 .progress-circle1:last-child {
@@ -136,7 +136,7 @@
   right: 0; /* 다섯 번째 동그라미의 위치 */
 }
 .progress-circle1:last-child::after {
-  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
+  content: "5"; /* 마지막 동그라미에 텍스트 추가 */
 }
 /*---------------------------2page--------------------------------------------*/
 .signup2container {
@@ -200,7 +200,7 @@
 }
 
 .progress-circle2.second::after {
-  content: '2';
+  content: "2";
   color: white;
   font-weight: bold;
 }
@@ -211,7 +211,7 @@
 }
 
 .progress-circle2:last-child::after {
-  content: '5';
+  content: "5";
 }
 
 .copy {
@@ -310,7 +310,7 @@ input.with-button-input {
   background-color: #001f40; /* 클릭 시 더 어두운 색상 */
 }
 
-input[type='date'] {
+input[type="date"] {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -397,11 +397,11 @@ input[type='date'] {
   justify-content: center;
 }
 
-.container-button input[type='radio'] {
+.container-button input[type="radio"] {
   display: none;
 }
 
-.container-button input[type='radio'] + label {
+.container-button input[type="radio"] + label {
   display: inline-block;
   width: 300px;
   height: 50px;
@@ -413,7 +413,7 @@ input[type='date'] {
   background-color: #f7f8fc;
 }
 
-.container-button input[type='radio']:checked + label {
+.container-button input[type="radio"]:checked + label {
   color: white;
   background-color: #00356d;
 }
@@ -497,7 +497,7 @@ input[type='date'] {
 }
 
 .progress-circle4.fourth::after {
-  content: '4';
+  content: "4";
 }
 
 .progress-circle4.fifth {
@@ -506,5 +506,5 @@ input[type='date'] {
 }
 
 .progress-circle4.fifth::after {
-  content: '5';
+  content: "5";
 }

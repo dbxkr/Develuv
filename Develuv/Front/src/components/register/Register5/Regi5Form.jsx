@@ -119,9 +119,7 @@ function Regi5Form({
     refreshAccessToken();
     document.body.style.alignItems = "unset";
     document.body.style.marginTop = "130px";
-  }, []);
 
-  useEffect(() => {
     // 컴포넌트가 마운트될 때 실행되는 부분
 
     return () => {
@@ -216,9 +214,10 @@ function Regi5Form({
           <div className={"circle5"}>5</div>
         </div>
       </div>
+
       <div className={"up_form"}>
         <div className={"gray_font"}>Please enter the information</div>
-        <div className={"sub_title"}>선택 정보는 다른 사람도 볼 수 있어요</div>
+        <div className={"gray_font2"}>추가 정보는 다른 사람도 볼 수 있어요</div>
       </div>
 
       <div className="option-container">
@@ -236,7 +235,7 @@ function Regi5Form({
             </button>
           ))}
         </div>
-
+        <div className="divider"></div> {/* 구분선 추가 */}
         {/* 음주 즐기는 정도 */}
         <div className={"form_label"}>음주</div>
         <div className={"btn_div"}>
@@ -253,7 +252,7 @@ function Regi5Form({
             </button>
           ))}
         </div>
-
+        <div className="divider"></div> {/* 구분선 추가 */}
         {/* 흡연 여부 */}
         <div className={"form_label"}>흡연</div>
         <div className={"btn_div"}>
@@ -270,9 +269,9 @@ function Regi5Form({
             </button>
           ))}
         </div>
-
+        <div className="divider"></div> {/* 구분선 추가 */}
         {/* 데이팅 스타일 */}
-        <div className={"form_label"}>데이팅 스타일(중복가능)</div>
+        <div className={"form_label"}>데이팅 스타일</div>
         <div className={"btn_div"}>
           {datingStyles.map((ds, index) => (
             <button
@@ -287,7 +286,7 @@ function Regi5Form({
             </button>
           ))}
         </div>
-
+        <div className="divider"></div> {/* 구분선 추가 */}
         {/* 종교 여부 */}
         <div className={"form_label"}>종교</div>
         <div className={"btn_div"}>
@@ -304,7 +303,7 @@ function Regi5Form({
             </button>
           ))}
         </div>
-
+        <div className="divider"></div> {/* 구분선 추가 */}
         {/* 학력 */}
         <div className={"form_label"}>학력</div>
         <div className={"btn_div"}>
