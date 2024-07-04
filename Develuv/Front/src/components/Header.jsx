@@ -118,18 +118,6 @@ function Header() {
 
         {isLoggedIn && (
           <>
-            {/* <div
-              className="center-container"
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
-              <Link to="/chat" style={{ marginRight: '30px', color: 'white' }}>
-                채팅(테스트)
-              </Link>
-              <Link to="/main" style={{ color: 'white' }}>
-                매칭(테스트)
-              </Link>
-            </div> */}
-
             <div
               className="right-container"
               style={{
@@ -138,11 +126,6 @@ function Header() {
                 marginRight: "50px",
               }}
             >
-              {/* <div className="chat_btn" style={{ marginRight: "50px" }}>
-                <Link to="/chat">
-                  <img src={chatBtn} alt="Chat" />
-                </Link>
-              </div> */}
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Link
                   to={`/mypage/${user.user_id}`}
@@ -150,43 +133,11 @@ function Header() {
                 >
                   {user.user_name}님 환영합니다
                 </Link>
-                {/* <button
-                  className="loginBtn"
-                  onClick={handleLogout}
-                  style={{
-                    backgroundColor: 'white',
-                    color: '#00356d',
-                    padding: '5px 10px',
-                    border: 'none',
-                    borderRadius: '5px',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  로그아웃
-                </button> */}
               </div>
             </div>
           </>
         )}
 
-        {/* {!isLoggedIn && location.pathname === "/" && (
-          <button
-            className="loginBtn"
-            onClick={openModal}
-            style={{
-              backgroundColor: 'white',
-              color: '#00356d',
-              padding: '5px 10px',
-              border: 'none',
-              borderRadius: '5px',
-              marginRight: '50px',
-            }}
-          >
-            로그인
-          </button>
-        )} */}
-
-        {/* 왼쪽에서 슬라이드 창 */}
         <div
           ref={menuRef}
           className="menu-slide"
@@ -291,7 +242,6 @@ function Header() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: "500px",
               padding: "20px 0",
             }}
           >
@@ -307,6 +257,8 @@ function Header() {
                   border: "none",
                   borderRadius: "5px",
                   width: "80%",
+                  position: "absolute",
+                  bottom: "100px", // 위치를 더 올리기 위해 조정
                 }}
               >
                 로그아웃
@@ -324,6 +276,8 @@ function Header() {
                   border: "none",
                   borderRadius: "5px",
                   width: "80%",
+                  position: "absolute",
+                  bottom: "100px", // 위치를 더 올리기 위해 조정
                 }}
               >
                 로그인
