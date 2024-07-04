@@ -9,7 +9,6 @@
   width: 80%;
 }
 
-
 .container div {
   margin-bottom: 10px;
 }
@@ -22,20 +21,23 @@
 }
 
 .gray_font {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #888888;
+  font-size: 16px;
+  color: #999;
+  margin-top: 70px;
 }
 
-.sub_title {
-  position: relative;
-  font-size: 15px;
-  margin-bottom: 10px;
-  font-weight: 600;
+.gray_font2 {
+  font-size: 16px;
+  color: #999;
 }
+
+/* .sub_title {
+  font-size: 16px;
+  color: #999;
+} */
 
 .option-container {
-
+  margin-top: 50px;
 }
 
 .form_label {
@@ -122,14 +124,16 @@
 }
 
 /* 1~5단계 프로그레스 막대 */
-.progress-line {
+.progress-line5 {
   position: relative;
   width: 500px;
   height: 4px;
-  background-color: #00356d;
+  background-color: #cccccc;
+  margin-top: 40px;
+  left: 100px;
 }
 
-.progress-circle {
+.progress-circle5 {
   position: absolute;
   width: 30px;
   height: 30px;
@@ -143,37 +147,37 @@
   font-weight: bold;
 }
 
-.progress-circle:last-child {
+.progress-circle5:last-child {
   background-color: #00356d; /* 마지막 동그라미의 색상 */
   left: calc(100%); /* 두 번째 동그라미의 위치 */
 }
 
-.progress-circle:last-child::after {
+.progress-circle5:last-child::after {
   content: '5'; /* 마지막 동그라미에 텍스트 추가 */
 }
 
-.up_form{
+.up_form {
   text-align: center;
 }
 
-body{
+body {
   align-items: unset;
   margin-top: 130px;
 }
 
-.pro_bar_container{
+.pro_bar_container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.pro_bar_container .pro_bar{
+.pro_bar_container .pro_bar {
   width: 400px;
   height: 3px;
   background-color: #cccccc;
 }
 
-.pro_bar_container .circle5{
+.pro_bar_container .circle5 {
   color: white;
   background-color: #1d4289;
   width: 30px;
@@ -181,4 +185,9 @@ body{
   align-content: center;
   border-radius: 100%;
   text-align: center;
+}
+
+.divider {
+  border-top: 1px solid #ccc;
+  margin: 20px 0; /* 간격을 위한 마진 */
 }
