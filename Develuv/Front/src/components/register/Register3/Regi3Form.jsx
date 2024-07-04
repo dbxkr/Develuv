@@ -112,6 +112,7 @@ function Regi3Form({
               marginBottom: "0px",
               borderRadius: "5px 0 0 5px",
             }}
+            readOnly="true"
           />
           <DaumPostCode
             formData={formData}
