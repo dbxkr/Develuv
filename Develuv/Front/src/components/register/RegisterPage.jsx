@@ -6,7 +6,7 @@ import Regi3Form from "./Register3/Regi3Form";
 import Nbti from "./Nbti";
 import Regi5Form from "./Register5/Regi5Form";
 import "./register.css";
-import { Link, redirect, useLocation } from "react-router-dom";
+import { redirect, useLocation } from "react-router-dom";
 
 function RegisterPage() {
   const [progress, setProgress] = useState(1);

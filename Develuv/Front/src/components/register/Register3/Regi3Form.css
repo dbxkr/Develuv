@@ -1,21 +1,16 @@
 .container {
-  margin-top: 50px;
-  margin-left: 10%;
   text-align: center;
-  width: 80%;
-  position: relative;
-}
-.signForm {
-  position: relative;
+  width: 100%;
+  background-color: transparent; /* 배경을 투명하게 설정 */
+  border: none; /* 테두리 제거 */
+  box-shadow: none; /* 그림자 제거 */
 }
 
-.signup3container {
-  position: fixed;
-}
 .progress-container3 {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 }
 
 .progress-line3 {
@@ -23,7 +18,7 @@
   width: 500px;
   height: 4px;
   background-color: #cccccc;
-  top: -600px;
+  margin-top: 40px;
 }
 
 .progress-circle3 {
@@ -42,7 +37,7 @@
 }
 
 .progress-circle3.third {
-  left: calc(60% - 15px);
+  left: calc(50% - 15px);
 }
 
 .progress-circle3.third::after {
@@ -58,61 +53,50 @@
   content: '5';
 }
 
-.container div {
-  margin-bottom: 10px;
+.half_hr {
+  position: relative;
+  width: 500px;
+  height: 1px;
+  background-color: #cccccc;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: none; /* 테두리 제거 */
 }
 
-/*.container .tt {
-  font-size: 30px;
-  margin-bottom: 10px;
-  font-weight: 600;
-}*/
-
-.container .tt {
-  font-size: 24px;
-  font-weight: bold;
-  /*margin-top: 100px; !* 상단 간격 조정 *!*/
+.title3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가운데 정렬 */
+  margin-top: -50px; /* 필요에 따라 여백 조정 */
 }
 
-.gray_font {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #888888;
+.title3 .tt {
+  font-size: 24px; /* 폰트 크기 */
+  font-weight: bold; /* 폰트 굵기 */
+  margin-bottom: 10px; /* 아래 여백 */
+}
+
+.title3 .gray_font {
+  font-size: 16px; /* 폰트 크기 */
+  color: #999; /* 폰트 색상 */
 }
 
 .sub_title {
-  position: relative;
   font-size: 15px;
-  margin-bottom: 10px;
   font-weight: 600;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
 }
 
-.gbtn_div{
+.gbtn_div {
   text-align: center;
-  margin-top: 10px;
-}
-
-.form_label3 {
-  position: relative;
-  left: 420px;
-  font-weight: 500;
-  margin-bottom: 5px;
-  font-size: 20px;
-  border-radius: 5px;
-  width: 300px;
-  text-align: left;
-}
-
-.half_hr {
-  width: 460px;
-  margin-bottom: 20px;
-  color: whitesmoke;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
 }
 
 .gender_btn {
-  gap: 20px;
   width: 200px;
-  margin: 0px 10px 20px 10px;
+  margin: 0px 10px;
   background-color: white;
   border: 1px solid whitesmoke;
   border-radius: 5px;
@@ -120,22 +104,19 @@
   font-weight: 500;
   font-size: 18px;
   padding: 10px 20px;
+  transition: background-color 0.3s, width 0.3s, color 0.3s;
 }
 
 .gender_btn_sel {
+  width: 200px; /* 추가 */
+  margin: 0px 10px; /* 추가 */
   background-color: #1d4289;
-  border-radius: 5px;
   color: whitesmoke;
-
-  gap: 20px;
-  width: 200px;
-  margin: 0px 10px 20px 10px;
-
   border: none;
-
-  font-weight: 500;
-  font-size: 18px;
-  padding: 10px 20px;
+  padding: 10px 20px; /* 추가 */
+  border-radius: 5px; /* 추가 */
+  font-weight: 500; /* 추가 */
+  font-size: 18px; /* 추가 */
 }
 
 .gender_btn:hover {
@@ -149,27 +130,32 @@
   padding: 10px 20px;
   font-size: 15px;
   font-weight: 450;
-  margin-bottom: 10px;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
   width: 380px;
   height: 32px;
 }
 
-.reg3_ba_btn .before_btn {
-  position: fixed;
-  bottom: 50px;
-  left: 40px;
-  padding: 5px 10px;
+.regi3_in2 {
+  border: 1px solid whitesmoke;
   border-radius: 5px;
-  background-color: #1d4289;
-  color: white;
-  font-size: 20px;
-  font-weight: 300;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 450;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
+  width: 275px;
+  height: 32px;
 }
 
+.reg3_ba_btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.reg3_ba_btn .before_btn,
 .reg3_ba_btn .after_btn {
-  position: fixed;
-  bottom: 50px;
-  right: 40px;
   padding: 5px 10px;
   border-radius: 5px;
   background-color: #1d4289;
@@ -178,19 +164,8 @@
   font-weight: 300;
 }
 
+.reg3_ba_btn .before_btn:hover,
 .reg3_ba_btn .after_btn:hover {
   background-color: white;
   color: darkgray;
-}
-
-.reg3_ba_btn .before_btn:hover {
-  background-color: white;
-  color: darkgray;
-}
-
-
-.dpost_btn{
-  margin: 0 0 0 0;
-  height: 20px;
-
 }
