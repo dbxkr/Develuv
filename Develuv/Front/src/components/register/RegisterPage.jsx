@@ -9,7 +9,7 @@ import "./register.css";
 import { redirect, useLocation } from "react-router-dom";
 
 function RegisterPage() {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(1);
   const [userIdAvailable, setUserIdAvailable] = useState(null);
   const [formData, setFormData] = useState({
     user_id: "",
