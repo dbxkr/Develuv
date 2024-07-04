@@ -31,7 +31,7 @@ function Login({ closeModal }) {
       .then((res) => {
         console.log(res);
         if (res.data.user_info == null) {
-          alert("오답이다 어리석은 것");
+          alert("아이디 혹은 비밀번호를 확인해주세요.");
         } else {
           console.log(res);
           login(res.data.user_info.user_id, res.data.user_info.user_name);
