@@ -37,10 +37,7 @@
 } */
 
 .option-container {
-<<<<<<< HEAD
-=======
   margin-top: 50px;
->>>>>>> 2daec10f695547c09187a3797c7d7d98f18ee4f1
 }
 
 .form_label {
@@ -155,24 +152,15 @@
   left: calc(100%); /* 두 번째 동그라미의 위치 */
 }
 
-<<<<<<< HEAD
 .progress-circle:last-child::after {
   content: "5"; /* 마지막 동그라미에 텍스트 추가 */
-=======
-.progress-circle5:last-child::after {
-  content: '5'; /* 마지막 동그라미에 텍스트 추가 */
->>>>>>> 2daec10f695547c09187a3797c7d7d98f18ee4f1
 }
 
 .up_form {
   text-align: center;
 }
 
-<<<<<<< HEAD
 /* body {
-=======
-body {
->>>>>>> 2daec10f695547c09187a3797c7d7d98f18ee4f1
   align-items: unset;
   margin-top: 130px;
 } */
@@ -198,11 +186,3 @@ body {
   border-radius: 100%;
   text-align: center;
 }
-<<<<<<< HEAD
-=======
-
-.divider {
-  border-top: 1px solid #ccc;
-  margin: 20px 0; /* 간격을 위한 마진 */
-}
->>>>>>> 2daec10f695547c09187a3797c7d7d98f18ee4f1

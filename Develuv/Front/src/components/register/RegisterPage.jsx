@@ -9,7 +9,7 @@ import "./register.css";
 import { redirect, useLocation } from "react-router-dom";
 
 function RegisterPage() {
-  const [progress, setProgress] = useState(1);
+  const [progress, setProgress] = useState(5);
   const [userIdAvailable, setUserIdAvailable] = useState(null);
   const [formData, setFormData] = useState({
     user_id: "",
@@ -63,7 +63,7 @@ function RegisterPage() {
   const { state } = useLocation();
 
   return (
-    <div>
+    <div style={{ marginTop: "110px" }}>
       {/* <ProgressBar progress={progress} />/ */}
       {progress == 1 && <Quiz setProgress={setProgress} />}
       {progress == 2 && (

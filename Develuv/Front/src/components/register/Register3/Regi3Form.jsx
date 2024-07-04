@@ -70,9 +70,19 @@ function Regi3Form({
           Essential Information
         </div>
         <div className="gray_font">Please enter the information</div>
-      </div>
+        <div className="sub_title">변경이 불가능하니 정확하게 입력해주세요</div>
 
-      <div className="container">
+        {/* Name */}
+        {/*<div className="form_label">이름</div>*/}
+        {/*<input*/}
+        {/*  className="regi3_in"*/}
+        {/*  onChange={onChangeName}*/}
+        {/*  value={formData.user_name}*/}
+        {/*  placeholder="이름 입력"*/}
+        {/*/>*/}
+
+        {/* Gender */}
+        <div className="form_label">성별</div>
         <div className="gbtn_div">
           {genders.map((gender, index) => (
             <button
@@ -91,23 +101,25 @@ function Regi3Form({
           언제든지 변경이 가능하며 매칭을 위해 필요한 정보입니다.
         </div>
 
+        {/* Job */}
+        <div className="form_label">직업</div>
         <input
           className="regi3_in"
           onChange={onChangeJob}
           value={formData.user_job}
           type="text"
-          placeholder="직업을 입력해주세요"
+          placeholder="직업 입력"
         />
 
         {/* Address */}
         <div className="form_label">주소</div>
         <div style={{ display: "flex" }}>
           <input
-            className="regi3_in2"
+            className="regi3_in"
             onChange={onChangeAddr}
             value={formData.user_address}
             type="text"
-            placeholder="주소를 입력해주세요"
+            placeholder="주소 입력"
             style={{
               marginBottom: "0px",
               borderRadius: "5px 0 0 5px",
