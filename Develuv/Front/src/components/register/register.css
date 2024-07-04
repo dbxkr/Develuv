@@ -173,7 +173,7 @@
 
 .progress-line2 {
   position: fixed;
-  top: 155px; /* 선의 상단 위치를 지정 */
+  top: 165px; /* 선의 상단 위치를 지정 */
   left: 50%; /* 브라우저 중앙에 위치하도록 */
   transform: translateX(-50%); /* 중앙 정렬을 위해 왼쪽으로 50% 이동 */
   width: 500px; /* 적절한 너비 지정 */
@@ -336,7 +336,7 @@ input[type='date'] {
   font-size: 12px;
   margin-top: 3px;
   position: absolute;
-  top: 92%; /* 필드 아래에 위치 */
+  top: 85%; /* 필드 아래에 위치 */
   left: 95px;
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   background: none; /* 배경색 제거 */
@@ -373,7 +373,7 @@ input[type='date'] {
   color: green; /* 텍스트 색상 */
 
   position: absolute;
-  top: 365px; /* 적절한 위치 조정 */
+  top: 585px; /* 적절한 위치 조정 */
   left: 120px; /* 왼쪽 여백 조정 */
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   text-align: center;

@@ -29,24 +29,24 @@ const SignupStep2 = ({
   }, [formData, fieldTouched])
 
   if (state && state.user != null) {
-    formData.provider = "develuv";
-    console.log("state", state);
-    setUserIdAvailable(true);
-    formData.user_provider_id = state.provider;
-    formData.user_id = state.user.id;
-    formData.user_pw = state.provider;
-    formData.user_pw_confirm = state.provider;
-    if (state.provider === "naver") {
-      formData.user_email = state.user.email;
-      formData.verification_code = state.user.provider;
-      formData.user_name = state.user.name;
-      formData.user_birth = state.user.birthyear + "-" + state.user.birthday;
-      formData.user_phone = state.user.mobile;
+    formData.provider = 'develuv'
+    console.log('state', state)
+    setUserIdAvailable(true)
+    formData.user_provider_id = state.provider
+    formData.user_id = state.user.id
+    formData.user_pw = state.provider
+    formData.user_pw_confirm = state.provider
+    if (state.provider === 'naver') {
+      formData.user_email = state.user.email
+      formData.verification_code = state.user.provider
+      formData.user_name = state.user.name
+      formData.user_birth = state.user.birthyear + '-' + state.user.birthday
+      formData.user_phone = state.user.mobile
     }
-    if (state.provider === "google") {
-      formData.user_name = state.user.name;
-      formData.user_email = state.user.email;
-      formData.user_profile = state.user.profile;
+    if (state.provider === 'google') {
+      formData.user_name = state.user.name
+      formData.user_email = state.user.email
+      formData.user_profile = state.user.profile
     }
   }
   useEffect(() => {
@@ -242,6 +242,12 @@ const SignupStep2 = ({
 
   return (
     <div className="quiz-container">
+      <div className="progress-container2">
+        <div className="progress-line2">
+          <div className="progress-circle2 second"></div>
+          <div className="progress-circle2 last-child"></div>
+        </div>
+      </div>
       <div className="copy">
         <div className="sign-up">Sign Up</div>
         <div className="welcome-to-bluv">Welcome to Develuv</div>
@@ -292,7 +298,7 @@ const SignupStep2 = ({
             readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw && formErrors.user_pw && (
-            <p className="error-message2">{formErrors.user_pw}</p>
+            <p className="error-message3">{formErrors.user_pw}</p>
           )}
         </div>
         <div className="field">
@@ -310,7 +316,7 @@ const SignupStep2 = ({
             readOnly={state && !!state.user}
           />
           {fieldTouched.user_pw_confirm && formErrors.user_pw_confirm && (
-            <p className="error-message2">{formErrors.user_pw_confirm}</p>
+            <p className="error-message3">{formErrors.user_pw_confirm}</p>
           )}
         </div>
         <div className="field input-with-button">
@@ -442,7 +448,7 @@ const SignupStep2 = ({
             <p className="error-message2">{formErrors.user_phone}</p>
           )}
         </div>
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-button2">
           회원가입
         </button>
       </form>

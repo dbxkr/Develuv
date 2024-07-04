@@ -1,21 +1,28 @@
-.container {
-  margin-top: 50px;
-  margin-left: 10%;
-  text-align: center;
-  width: 80%;
+.signup3-container {
   position: relative;
-}
-.signForm {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
 }
 
-.signup3container {
-  position: fixed;
+.signup-step3-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
+
 .progress-container3 {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  top: 150px; /* 동일한 위치에 고정 */
+  width: 100%;
+  z-index: 1;
 }
 
 .progress-line3 {
@@ -23,7 +30,7 @@
   width: 500px;
   height: 4px;
   background-color: #cccccc;
-  top: -650px;
+  top: 19px;
 }
 
 .progress-circle3 {
@@ -42,7 +49,7 @@
 }
 
 .progress-circle3.third {
-  left: calc(60% - 15px);
+  left: calc(52% - 15px);
 }
 
 .progress-circle3.third::after {
@@ -58,126 +65,172 @@
   content: '5';
 }
 
-.container div {
+.copy3 {
+  text-align: center;
   margin-bottom: 10px;
+  margin-top: 100px; /* 진행바와 겹치지 않도록 조정 */
 }
 
-/*.container .tt {
-  font-size: 30px;
-  margin-bottom: 10px;
-  font-weight: 600;
-}*/
-
-.container .tt {
+.sign-up3 {
   font-size: 24px;
   font-weight: bold;
-  margin-top: 100px; /* 상단 간격 조정 */
+  margin-top: -30px;
+}
+.signup-step3-form {
+  margin-top: 20px;
 }
 
-.gray_font {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #888888;
+.welcome-to-bluv3 {
+  font-size: 16px;
+  color: #999;
+  font-weight: bold;
 }
 
-.sub_title {
-  position: relative;
+.sub_title3 {
   font-size: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   font-weight: 600;
 }
 
-.form_label3 {
-  position: relative;
-  left: 420px;
-  font-weight: 500;
+.field3 {
+  width: 100%;
   margin-bottom: 5px;
-  font-size: 20px;
+}
+
+.input-with-button3 {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* 버튼과 입력 필드 사이에 여백 추가 */
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  width: 300px;
-  text-align: left;
+  box-sizing: border-box;
 }
 
-.half_hr {
-  width: 50%;
-  margin-bottom: 20px;
-  color: whitesmoke;
+input::placeholder {
+  color: #ccc;
 }
 
-.gender_btn {
-  gap: 20px;
-  width: 200px;
-  margin: 0px 10px 20px 10px;
-  background-color: white;
-  border: 1px solid whitesmoke;
-  border-radius: 5px;
-  color: darkgray;
-  font-weight: 500;
-  font-size: 18px;
-  padding: 10px 20px;
+input:focus::placeholder {
+  color: transparent;
 }
 
-.gender_btn_sel {
+input.with-button-input {
+  width: calc(100% - 140px); /* 버튼이 있는 입력 필드의 너비 설정 */
+}
+
+.check-button3 {
+  width: 130px; /* 버튼의 너비 설정 */
+  padding: 8px;
   background-color: #1d4289;
-  border-radius: 5px;
-  color: whitesmoke;
-
-  gap: 20px;
-  width: 200px;
-  margin: 0px 10px 20px 10px;
-
+  color: white;
   border: none;
-
-  font-weight: 500;
-  font-size: 18px;
-  padding: 10px 20px;
-}
-
-.gender_btn:hover {
-  background-color: #1d4289;
-  color: whitesmoke;
-}
-
-.regi3_in {
-  border: 1px solid whitesmoke;
   border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: 450;
-  margin-bottom: 10px;
-  width: 380px;
+  cursor: pointer;
 }
 
-.reg3_ba_btn .before_btn {
-  position: fixed;
-  bottom: 50px;
-  left: 40px;
-  padding: 5px 10px;
+.separator3 {
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  margin: 20px 0;
+}
+
+.submit-button3,
+.before_btn3,
+.after_btn3 {
+  width: 48%; /* Sign Up 페이지와 일치하도록 너비 조정 */
+  padding: 8px 16px;
+  background-color: white;
+  color: #1d4289;
+  border: 1px solid #1d4289;
   border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-button3:hover,
+.before_btn3:hover,
+.after_btn3:hover {
   background-color: #1d4289;
   color: white;
-  font-size: 20px;
-  font-weight: 300;
 }
 
-.reg3_ba_btn .after_btn {
-  position: fixed;
-  bottom: 50px;
-  right: 40px;
-  padding: 5px 10px;
+.submit-button3:active,
+.before_btn3:active,
+.after_btn3:active {
+  background-color: #001f40; /* 클릭 시 더 어두운 색상 */
+}
+
+input[type='date'] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #1d4289;
-  color: white;
-  font-size: 20px;
-  font-weight: 300;
+  box-sizing: border-box;
 }
 
-.reg3_ba_btn .after_btn:hover {
-  background-color: white;
-  color: darkgray;
+.error-message3 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 95%; /* 필드 아래에 위치 */
+  left: 105px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
 }
 
-.reg3_ba_btn .before_btn:hover {
-  background-color: white;
-  color: darkgray;
+.error-message3-2 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 92%; /* 필드 아래에 위치 */
+  left: 95px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+
+.error-message3-3 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 80%; /* 필드 아래에 위치 */
+  left: 105px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+
+.availability-message3 {
+  font-size: 12px;
+  margin-top: 3px;
+  color: green;
+  position: absolute;
+  top: 35px;
+  left: 120px; /* 왼쪽 여백 조정 */
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+}
+
+.verification-message3 {
+  font-size: 12px;
+  margin-top: 3px;
+  color: green; /* 텍스트 색상 */
+  position: absolute;
+  top: 365px; /* 적절한 위치 조정 */
+  left: 120px; /* 왼쪽 여백 조정 */
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  text-align: center;
 }

@@ -1,7 +1,7 @@
 import './Regi3Form.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import DaumPostCode from "./DaumPostCode.jsx";
+import DaumPostCode from './DaumPostCode.jsx'
 
 function Regi3Form({
   progress,
@@ -11,7 +11,7 @@ function Regi3Form({
   imgPreview,
   setImgPreview,
   setImage,
-  setCity
+  setCity,
 }) {
   const navigate = useNavigate()
 
@@ -110,7 +110,11 @@ function Regi3Form({
           type="text"
           placeholder="주소 입력"
         />
-        <DaumPostCode formData={formData} setFormData={setFormData} setCity={setCity}/>
+        <DaumPostCode
+          formData={formData}
+          setFormData={setFormData}
+          setCity={setCity}
+        />
 
         {/* Image Upload */}
         <div
@@ -127,7 +131,7 @@ function Regi3Form({
         </div>
 
         {/* Navigation Buttons */}
-        <div className={"reg3_ba_btn"} style={{ marginTop: '20px' }}>
+        <div className={'reg3_ba_btn'} style={{ marginTop: '20px' }}>
           <button
             type="button"
             onClick={() => setProgress(progress - 1)}
