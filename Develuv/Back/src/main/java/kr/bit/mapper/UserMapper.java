@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Select("select user_id from users where user_email = #{user_email}")
-    String findId(UserFindIdDTO userFindIdDTO);
+    @Select("select user_id, user_provider_id from users where user_email = #{user_email}")
+    UserFindIdDTO findId(UserFindIdDTO userFindIdDTO);
 
     @Select("SELECT user_id, user_name, user_birth, user_gender, user_profile, user_job, user_address, user_nbti, user_pro_lang, user_drink, user_smoke, user_religion, user_edu FROM users WHERE user_id = #{user_id}")
     UserDto getUserById(@Param("user_id") String user_id);
@@ -105,6 +105,9 @@ public interface UserMapper {
     void updateUserCode(@Param("user_id") String user_id, @Param("user_code") String user_code);
     @Select("SELECT user_pw FROM users WHERE user_id = #{user_id}")
     String findPasswordByUserId(@Param("user_id") String user_id);
+
+    @Update("update users set user_pw = #{new_password} where user_id = #{user_id} and user_email = #{user_email}")
+    int sendPwToEmail(UserFindPwDTO userFindPwDTO);
 
 
 }

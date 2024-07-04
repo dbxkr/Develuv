@@ -150,7 +150,6 @@ function Header() {
             background: "#001d3d",
             color: "white",
             transition: "left 0.3s ease",
-            zIndex: "1001", // 헤더의 z-index보다 높게 설정
             opacity: 0.8,
           }}
         >
@@ -257,7 +256,6 @@ function Header() {
                   border: "none",
                   borderRadius: "5px",
                   width: "80%",
-                  position: "absolute",
                   bottom: "100px", // 위치를 더 올리기 위해 조정
                 }}
               >
@@ -276,7 +274,6 @@ function Header() {
                   border: "none",
                   borderRadius: "5px",
                   width: "80%",
-                  position: "absolute",
                   bottom: "100px", // 위치를 더 올리기 위해 조정
                 }}
               >

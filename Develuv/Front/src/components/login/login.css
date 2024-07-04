@@ -101,6 +101,7 @@ button.login-button {
   border-radius: 8px;
   width: 500px;
   height: 300px; /* 높이를 조정하여 내용에 맞추기 */
+  z-index: 1002;
 }
 
 .modal-overlay {

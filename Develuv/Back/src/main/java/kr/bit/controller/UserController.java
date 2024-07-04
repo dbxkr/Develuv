@@ -25,7 +25,7 @@ public class UserController {
     @GetMapping("/findId")
     public Map<String, String> findId(@ModelAttribute UserFindIdDTO userFindIdDTO) {
         Map<String, String> data = new HashMap<>();
-        String id = userService.findId(userFindIdDTO);
+        String id = userService.findId(userFindIdDTO).getUser_id();
         data.put("아이디", id);
         return data;
     }
@@ -54,8 +54,8 @@ public class UserController {
     @GetMapping("/findPw")
     public Map<String, String> findPw(@ModelAttribute UserFindPwDTO userFindPwDTO) {
         Map<String, String> data = new HashMap<>();
-        String pw = userService.findPw(userFindPwDTO);
-        data.put("비번", pw);
+        String message =  userService.findPwEmail(userFindPwDTO);
+        data.put("비번", message);
         return data;
     }
 
