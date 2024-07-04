@@ -224,11 +224,7 @@ const Mypage = () => {
             <CardFront>
               <ProfilePicture>
                 <img
-                  src={
-                    userInfo.user_profile +
-                    blurLevel[blur + tempB] +
-                    "&blur=AW2$zxORd"
-                  }
+                  src={userInfo.user_profile + 4000 + "&blur=AW2$zxORd"}
                   alt="Profile"
                   onContextMenu={(event) => {
                     event.preventDefault();
@@ -585,11 +581,9 @@ const CardBack = styled.div`
   overflow: auto; /* 스크롤 가능하게 변경 */
 `;
 
-
 const InfoText = styled.div`
   margin-bottom: 10px;
   text-align: center;
   font-size: 12px;
   color: #666;
 `;
-
