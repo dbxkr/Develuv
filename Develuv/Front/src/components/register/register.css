@@ -11,8 +11,8 @@
   border: 2px solid #000000; /* 박스 테두리 */
   border-radius: 10px; /* 박스 테두리 둥글게 */
   padding: 10px; /* 내부 여백 */
-  margin-top: 50px; /* 상단 간격 조정 */
-  margin-bottom: 40px; /* 하단 간격 조정 */
+  margin-top: 40px; /* 상단 간격 조정 */
+  margin-bottom: 75px; /* 하단 간격 조정 */
 
   width: 150%; /* 너비 조정 */
   max-width: 800px; /* 최대 너비 설정 */
@@ -50,7 +50,7 @@
   text-decoration: none;
   font-size: 16px;
   width: 100px;
-  margin-bottom: 110px; /* 상단 간격 조정 */
+  margin-bottom: 103px; /* 상단 간격 조정 */
 }
 
 .radio-like-button:hover,
@@ -72,7 +72,7 @@
 .submit-button {
   background-color: #00356d;
   color: #ffffff;
-  margin-top: -60px; /* 위쪽 간격 조정 */
+  margin-top: -100px; /* 위쪽 간격 조정 */
   margin-left: 65px;
 }
 
@@ -105,7 +105,7 @@
   height: 4px; /* 선의 두께 */
   background-color: #cccccc; /* 선의 색상
    */
-  margin-top: 30px;
+  margin-top: -120px;
   margin-bottom: 40px;
 }
 
@@ -147,7 +147,7 @@
   color: red;
   font-weight: bold;
   position: fixed; /* 메시지를 고정 위치에 배치 */
-  bottom: 20px; /* 화면 하단에서 20px 위에 위치 */
+  bottom: 75px; /* 화면 하단에서 20px 위에 위치 */
   right: 31%; /* 화면 가로 중앙에 위치 */
   transform: translateX(-50%); /* 가로 중앙 정렬 */
   background-color: #fff; /* 배경 색상 추가 */
@@ -173,7 +173,7 @@
 
 .progress-line2 {
   position: fixed;
-  top: 155px; /* 선의 상단 위치를 지정 */
+  top: 165px; /* 선의 상단 위치를 지정 */
   left: 50%; /* 브라우저 중앙에 위치하도록 */
   transform: translateX(-50%); /* 중앙 정렬을 위해 왼쪽으로 50% 이동 */
   width: 500px; /* 적절한 너비 지정 */
@@ -217,6 +217,7 @@
 .copy {
   text-align: center;
   margin-bottom: 30px;
+  margin-top: -100px;
 }
 
 .sign-up {
@@ -336,7 +337,7 @@ input[type="date"] {
   font-size: 12px;
   margin-top: 3px;
   position: absolute;
-  top: 92%; /* 필드 아래에 위치 */
+  top: 85%; /* 필드 아래에 위치 */
   left: 95px;
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   background: none; /* 배경색 제거 */
@@ -369,24 +370,32 @@ input[type="date"] {
 /* 새로운 스타일 추가 */
 .verification-message {
   font-size: 12px;
-  margin-top: 3px;
+  margin-top: -95px;
   color: green; /* 텍스트 색상 */
 
   position: absolute;
-  top: 365px; /* 적절한 위치 조정 */
+  top: 585px; /* 적절한 위치 조정 */
   left: 120px; /* 왼쪽 여백 조정 */
   white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
   text-align: center;
 }
+/*----------------------------------4page---------------------------------------------*/
 .container-header {
   text-align: center;
-  margin-top: 170px;
+  margin-top: 105px;
   margin-bottom: 40px;
 }
-/*----------------------------------4page---------------------------------------------*/
+
 /* 'vs' 폰트 위치 조정 */
 .container-button-center {
-  padding: 100px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-button-center h3 {
+  margin-top: 110px; /* 원하는 만큼 숫자를 조정하세요 */
 }
 
 /* NBTI 선택 버튼 */
@@ -403,7 +412,7 @@ input[type="date"] {
 
 .container-button input[type="radio"] + label {
   display: inline-block;
-  width: 300px;
+  width: 150px;
   height: 50px;
   text-align: center;
   line-height: 50px;
@@ -474,7 +483,7 @@ input[type="date"] {
   width: 500px;
   height: 4px;
   background-color: #cccccc;
-  top: 70px;
+  top: 80px;
 }
 
 .progress-circle4 {
@@ -507,4 +516,20 @@ input[type="date"] {
 
 .progress-circle4.fifth::after {
   content: "5";
+}
+
+.tt4 {
+  font-size: 24px; /* 폰트 크기 */
+  font-weight: bold; /* 폰트 굵기 */
+  margin-bottom: 10px; /* 아래 여백 */
+}
+
+.gray_font4 {
+  font-size: 16px; /* 폰트 크기 */
+  color: #999; /* 폰트 색상 */
+}
+
+.gray_font4-2 {
+  font-size: 16px; /* 폰트 크기 */
+  color: #999; /* 폰트 색상 */
 }

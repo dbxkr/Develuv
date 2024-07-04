@@ -29,6 +29,7 @@ const SignupStep2 = ({
   }, [formData, fieldTouched]);
 
   if (state && state.user != null) {
+    formData.provider = "develuv";
     console.log("state", state);
     setUserIdAvailable(true);
     formData.user_provider_id = state.provider;
@@ -46,10 +47,7 @@ const SignupStep2 = ({
       formData.user_name = state.user.name;
       formData.user_email = state.user.email;
       formData.user_profile = state.user.profile;
-      formData.verification_code = state.user.provider;
     }
-  } else {
-    formData.user_provider_id = "develuv";
   }
   useEffect(() => {
     console.log(state);
