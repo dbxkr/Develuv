@@ -18,8 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MatchingService {
@@ -181,6 +180,7 @@ public class MatchingService {
             matchingListDTO.setUser_address(latLon.getCity());
             result.add(matchingListDTO);
         }
+        result.sort(Comparator.comparing(MatchingListDTO::getUser_heart).reversed());
         return result;
     }
 

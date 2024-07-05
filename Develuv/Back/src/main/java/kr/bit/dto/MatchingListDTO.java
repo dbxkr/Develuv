@@ -20,6 +20,7 @@ public class MatchingListDTO {
     private String user_address;
     private String user_profile;
     private String user_birth;
+    private String user_heart;
 
     public UserDto toUserDTO(){
         return userMapper.findUserById(this.user_id);

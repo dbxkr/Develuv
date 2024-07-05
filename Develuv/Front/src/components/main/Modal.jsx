@@ -46,13 +46,21 @@ const Modal = ({
     const confirmPayment = window.confirm("결제하시겠습니까?");
     if (!confirmPayment) return; // 사용자가 결제를 확인하지 않으면 함수 종료
 
+    let price;
+
+    if (type === "onceMore") {
+      price = 500;
+    } else {
+      price = 1000;
+    }
+
     try {
       // 코인을 차감하는 API 호출
-      const remainingCoins = await deductCoins(userId, 1000);
+      const remainingCoins = await deductCoins(userId, price);
       setCoins(remainingCoins); // 차감된 후 남은 코인 상태 업데이트
 
       // 남은 코인이 1000 미만인 경우 결제 중단 및 경고 메시지 표시
-      if (remainingCoins < 1000) {
+      if (remainingCoins < price) {
         alert("코인이 부족합니다.");
         return;
       }
@@ -179,10 +187,12 @@ const Modal = ({
               alt="Icon"
               style={{ width: "50px", height: "50px" }}
             />
-            <p className="modal-text">1000 BIT로 한번 더 소개받기</p>
+            <p className="modal-text">
+              {type == "onceMore" ? 500 : 1000} BIT로 한번 더 소개받기
+            </p>
             <p>현재 코인: {coins}</p>
             <button className="modal-button" onClick={handleCoinUse}>
-              1000 BIT 결제
+              {type == "onceMore" ? 500 : 1000} BIT 결제
             </button>
             <button className="modal-button" onClick={closeModal}>
               뒤로가기
