@@ -1,0 +1,25 @@
+.MatchingList {
+  position: absolute;
+  left: 500px;
+  top: 150px;
+  width: auto;
+  text-align: left;
+}
+
+.MatchingItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.MatchingItem {
+  width: 220px;
+  padding: 10px;
+  text-align: center;
+}
+
+.MatchingItem .matching_item_profile {
+  border-radius: 10px;
+  border: 2px solid rgb(217, 228, 238);
+  margin-bottom: 10px;
+}

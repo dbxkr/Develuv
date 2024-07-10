@@ -1,0 +1,55 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  margin-top: 100px;
+}
+
+.n-modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.nbti-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nbti-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nbti-container li {
+  margin: 10px 0;
+}
+
+.vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.n-modal-buttons {
+  width: 100%; /* 제출 버튼의 너비를 줄이도록 설정 */
+  padding: 4px; /* 버튼의 패딩을 줄여서 크기를 줄임 */
+  font-size: 14px; /* 폰트 크기를 줄여서 버튼 크기와 일치 */
+  position: relative;
+  top: -30px;
+  display: flex;
+  justify-content: center;
+}
+
+.n-modal-buttons button {
+  margin-left: 10px;
+  padding: 5px 10px;
+}

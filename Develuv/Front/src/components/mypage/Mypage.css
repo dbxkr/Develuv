@@ -1,0 +1,229 @@
+.mypage-container {
+  display: flex;
+  padding: 20px;
+}
+
+.profile-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  margin-top: 100px;
+  display: flex;
+  align-items: center;
+  width: 310px;
+  height: 420px;
+  margin-right: 50px; /* 프로필 사진과 정보 섹션 사이의 간격 조정 */
+}
+
+.profile-picture img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-top: 40px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-start; /* 버튼들을 왼쪽으로 정렬 */
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%; /* 버튼들이 컨테이너의 전체 너비를 차지하도록 설정 */
+  margin-top: 30px;
+  margin-left: 150px;
+}
+
+.button-group button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #00356d;
+  color: #f1eded;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#start-chat-btn,
+#edit-profile-btn {
+  background-color: #00356d;
+  color: #f1eded;
+  padding: 8px 17px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  width: 140px;
+}
+.info-row-select {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.info-section {
+  flex: 2;
+  padding-left: 0; /* 왼쪽 패딩 제거 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 중앙 정렬 */
+  margin-top: 50px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: -13px; /* 줄 간격 조정 */
+  flex-wrap: wrap; /* 줄 바꿈을 허용하여 아이템들이 잘리지 않도록 함 */
+}
+.info-row h2 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px; /* 제목과 텍스트 사이 간격 제거 */
+}
+
+.info-group {
+  margin-bottom: 40px; /* 그룹 간 간격 추가 */
+}
+
+.icon {
+  width: 25px;
+  margin-right: 10px; /* 아이콘과 텍스트 사이 여백 */
+}
+
+.gender-icon {
+  margin-left: 5px; /* 성별 아이콘과 텍스트 사이 여백 */
+}
+
+.female {
+  color: pink; /* 여성 성별 아이콘 색상 */
+}
+
+.male {
+  color: blue; /* 남성 성별 아이콘 색상 */
+}
+
+.info-tag,
+select.info-tag {
+  margin-right: 10px;
+  padding: 10px;
+  background-color: #f1eded;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  width: auto;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 텍스트 가운데 정렬 */
+  font-size: 16px; /* 글자 크기를 키워 가독성을 높입니다 */
+  color: black; /* 글자 색상 설정 */
+}
+
+.extra-info {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.extra-info span::before {
+  content: "# ";
+  margin-right: 5px;
+}
+
+.social-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: -8px;
+}
+
+.social-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.social-row input {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+}
+
+.social-row span {
+  margin-left: 10px;
+  padding: 5px;
+}
+
+.n-focus {
+  background-color: transparent;
+  border: none;
+}
+
+.profile-change {
+  display: flex;
+  gap: 3px;
+}
+
+.profile-change input,
+.profile-change button {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.profile-change button {
+  background-color: transparent;
+  color: black;
+  opacity: 50%;
+  font-size: 15px;
+  padding: 5px;
+}
+.profile-change button:hover {
+  background-color: aquamarine;
+}
+select.info-tag {
+  padding: 10px;
+  font-size: 16px; /* 글자 크기를 키워 가독성을 높입니다 */
+  background-color: #f1eded;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  width: auto; /* 드롭다운 메뉴의 너비를 자동으로 설정 */
+  height: 50px; /* 드롭다운 메뉴의 높이를 키웁니다 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black; /* 글자 색상을 검은색으로 설정 */
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%; /* Position the tooltip above the element */
+  left: 50%;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}

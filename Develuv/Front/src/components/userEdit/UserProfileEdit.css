@@ -1,0 +1,49 @@
+.address-container {
+  display: flex;
+  align-items: center;
+}
+
+.address-container label {
+  flex: 1;
+}
+
+.dpost_btn {
+  background-color: #1d4289;
+  width: 100px;
+  /* border-radius: 10px; */
+  height: 32px;
+  /* margin-left: 10px; 버튼과 입력 필드 사이의 간격 추가 */
+  text-align: center;
+  line-height: 15px; /* 버튼의 높이와 동일하게 설정하여 수직 중앙 정렬 */
+  color: white; /* 텍스트 색상 설정 */
+  font-size: 15px;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-container button {
+  width: 48%;
+  height: 40px; /* 버튼 높이 설정 */
+  font-size: 16px; /* 버튼 글자 크기 설정 */
+  background-color: #1d4289; /* 버튼 배경색 설정 */
+  color: white; /* 버튼 글자 색 설정 */
+  border: none;
+  border-radius: 10px; /*버튼 모서리 둥글게 설정*/
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #163d7a; /* 버튼 호버 색상 설정 */
+}
+
+.edit-mypage {
+  margin-top: 50px;
+}
+
+.edit-member {
+  /* margin-top: 100px; */
+
+  margin-top: 20%;
+}

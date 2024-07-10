@@ -1,0 +1,122 @@
+.main-chat {
+  flex-direction: column;
+  width: 500px;
+  background-color: #f7f7f7;
+}
+
+.chat-container {
+  position: relative;
+  top: 30%;
+  left: 5%;
+  flex-direction: column;
+  /* margin-top: 20px; */
+  /* height: calc(100% - 20px); */
+  align-items: center;
+}
+
+.small-button {
+  font-size: 14px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 25px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.small-button:hover {
+  background-color: #0056b3;
+}
+
+.chat-list {
+  width: 80%;
+  max-width: 500px;
+  height: 77vh;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow-y: auto;
+}
+.chat-list::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-item:hover {
+  background-color: #f9f9f9;
+}
+
+.chat-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 15px;
+}
+
+.chat-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chat-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 223px;
+}
+
+.chat-message {
+  color: #555;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 223px;
+}
+
+.chat-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chat-time {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.chat-notification {
+  background-color: #ff4d4d;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}

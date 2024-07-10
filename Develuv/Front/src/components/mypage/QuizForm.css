@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  height: 100%;
+  /* background-color: lightskyblue; */
+}
+
+.quiz-modal {
+  position: fixed;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 5px gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 20%;
+  z-index: 2; /* 모달 내용이 최상위에 위치하도록 z-index 값 증가 */
+}
+
+/* 프로그레스 바 */
+.progress-line-gray {
+  position: relative;
+  margin-top: 50px;
+  width: 500px;
+  height: 5px;
+  background-color: #cccccc;
+  z-index: 0;
+}
+
+.progress-line-blue {
+  position: absolute;
+  background-color: #00356d;
+  height: 5px;
+  z-index: 10;
+}
+
+.total-quiz-number {
+  /* 동그라미 위치 조절 */
+  position: absolute;
+  top: -13px;
+  right: 0;
+  /* 동그라미를 동그랗게(?) 하기 */
+  background-color: #cccccc;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.current-quiz-number {
+  /* 동그라미 위치 조절 */
+  position: absolute;
+  top: -13px;
+  /* 동그라미를 동그랗게(?) 하기 */
+  background-color: #00356d;
+  color: white;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  z-index: 20;
+}
+
+.quiz-div {
+  height: 100%;
+  width: 500px;
+}
+
+.children-container {
+  margin: 5px 50px;
+  box-shadow: none;
+  text-align: left;
+}
+
+.choice-label {
+  display: flex;
+  gap: 30px;
+  padding: 15px;
+}
+
+.choice-input {
+  margin: 0;
+  width: 1rem;
+  display: block;
+}
+
+/* 관리자 퀴즈 form 에서 쓰는 css */
+.free-quiz-container {
+  width: 100%;
+  border: 1px dashed black;
+  padding: 20px;
+}
+
+.button-container .quiz-form-button {
+  width: 70px;
+}

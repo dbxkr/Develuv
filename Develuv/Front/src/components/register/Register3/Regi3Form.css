@@ -1,0 +1,171 @@
+.container {
+  text-align: center;
+  width: 100%;
+  background-color: transparent; /* 배경을 투명하게 설정 */
+  border: none; /* 테두리 제거 */
+  box-shadow: none; /* 그림자 제거 */
+}
+
+.progress-container3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.progress-line3 {
+  position: relative;
+  width: 500px;
+  height: 4px;
+  background-color: #cccccc;
+  margin-top: 40px;
+}
+
+.progress-circle3 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #00356d;
+  top: -13px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+.progress-circle3.third {
+  left: calc(50% - 15px);
+}
+
+.progress-circle3.third::after {
+  content: "3";
+}
+
+.progress-circle3.fifth {
+  left: calc(100% - 15px);
+  background-color: #cccccc;
+}
+
+.progress-circle3.fifth::after {
+  content: "5";
+}
+
+.half_hr {
+  position: relative;
+  width: 500px;
+  height: 1px;
+  background-color: #cccccc;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: none; /* 테두리 제거 */
+}
+
+.title3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가운데 정렬 */
+  margin-top: -50px; /* 필요에 따라 여백 조정 */
+}
+
+.title3 .tt {
+  font-size: 24px; /* 폰트 크기 */
+  font-weight: bold; /* 폰트 굵기 */
+  margin-bottom: 10px; /* 아래 여백 */
+}
+
+.title3 .gray_font {
+  font-size: 16px; /* 폰트 크기 */
+  color: #999; /* 폰트 색상 */
+}
+
+.sub_title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
+}
+
+.gbtn_div {
+  text-align: center;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
+}
+
+.gender_btn {
+  width: 200px;
+  margin: 0px 10px;
+  background-color: white;
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
+  color: darkgray;
+  font-weight: 500;
+  font-size: 18px;
+  padding: 10px 20px;
+  transition: background-color 0.3s, width 0.3s, color 0.3s;
+}
+
+.gender_btn_sel {
+  width: 200px; /* 추가 */
+  margin: 0px 10px; /* 추가 */
+  background-color: #1d4289;
+  color: whitesmoke;
+  border: none;
+  padding: 10px 20px; /* 추가 */
+  border-radius: 5px; /* 추가 */
+  font-weight: 500; /* 추가 */
+  font-size: 18px; /* 추가 */
+}
+
+.gender_btn:hover {
+  background-color: #1d4289;
+  color: whitesmoke;
+}
+
+.regi3_in {
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 450;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
+  width: 380px;
+  height: 32px;
+}
+
+.regi3_in2 {
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 450;
+  margin-top: 20px; /* 필드 간의 위쪽 간격 */
+  margin-bottom: 20px; /* 필드 간의 아래쪽 간격 */
+  width: 275px;
+  height: 32px;
+}
+
+.reg3_ba_btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.reg3_ba_btn .before_btn,
+.reg3_ba_btn .after_btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #1d4289;
+  color: white;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.reg3_ba_btn .before_btn:hover,
+.reg3_ba_btn .after_btn:hover {
+  background-color: white;
+  color: darkgray;
+}

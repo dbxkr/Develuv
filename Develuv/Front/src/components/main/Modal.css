@@ -1,0 +1,146 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* 모달 내용이 최상위에 위치하도록 z-index 값 증가 */
+}
+
+.m-modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  position: absolute;
+  max-width: 500px; /* 모달창의 최대 너비를 설정 */
+  height: 390px;
+  width: 100%; /* 모달창의 너비를 설정 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2; /* 모달 내용이 최상위에 위치하도록 z-index 값 증가 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.modal-text {
+  font-weight: bold; /* 텍스트를 두껍게 설정 */
+  margin: 30px; /* 텍스트와 버튼 사이에 공백 추가 */
+}
+
+.m-modal-content img {
+  /* margin-bottom: 30px; /* 이미지 아래쪽에 공백 추가 */
+  margin-top: 45px;
+}
+
+.m-modal-content select {
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+}
+
+.m-modal-content button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  background-color: #1d4289;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.m-modal-content button:nth-child(3) {
+  background-color: #f44336; /* 뒤로가기 버튼 색상 변경 */
+}
+
+.modal-text {
+  font-weight: bold; /* 텍스트를 두껍게 설정 */
+}
+.m-modal-content .modal-button:first-of-type {
+  margin-top: 40px; /* 첫 번째 버튼을 밑으로 내림 */
+  margin-bottom: 30px;
+}
+
+.nbti-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.nbti-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nbti-container li {
+  margin-bottom: 10px;
+}
+
+.nbti-container .vs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 70px;
+}
+
+.nbti-container input[type="radio"] {
+  display: none;
+}
+
+.nbti-container input[type="radio"] + label {
+  display: inline-block;
+  width: 100px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  box-shadow: 0 5px 5px -5px #888;
+  border: 1px solid #888;
+  border-radius: 5px;
+  background-color: #f7f8fc;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.nbti-container input[type="radio"]:checked + label {
+  color: white;
+  background-color: #00356d;
+}
+
+button {
+  margin-top: 20px;
+  width: 80px; /* 버튼의 너비를 줄이도록 설정 */
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1d4289;
+  color: white;
+  cursor: pointer;
+}
+
+button.submit-button {
+  width: 350px; /* 제출 버튼의 너비를 줄이도록 설정 */
+  padding: 8px; /* 버튼의 패딩을 줄여서 크기를 줄임 */
+  font-size: 14px; /* 폰트 크기를 줄여서 버튼 크기와 일치 */
+  position: relative;
+  top: -15px;
+}

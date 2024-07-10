@@ -1,0 +1,153 @@
+.login-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+button.login-button {
+  width: 100%;
+  padding: 5px;
+  background-color: #00356d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.link-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.link {
+  color: #000000;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center; /* 가운데로 정렬 */
+  align-items: center;
+}
+
+.image-container img {
+  margin: 0 30px; /* 이미지 사이의 간격 조절 */
+}
+
+.naver,
+.kakao,
+.google {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 5px;
+  border: 1px solid #00356d;
+  border-radius: 8px;
+  width: 500px;
+  height: 300px; /* 높이를 조정하여 내용에 맞추기 */
+  z-index: 1002;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 100%; /* 버튼이 모달 창의 너비에 맞춰서 정렬되도록 설정 */
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  background-color: #00356d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-buttons button:hover {
+  background-color: #002a50;
+}
+
+.closeBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.background {
+  font-size: 12px;
+  width: 8px;
+  height: 12px;
+  font-weight: bold;
+}
+.loginBtn {
+  color: black;
+}

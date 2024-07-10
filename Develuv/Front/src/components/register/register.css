@@ -1,0 +1,535 @@
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 100px; /* 헤더와 같은 높이만큼의 공간을 확보 */
+}
+
+.quiz-header-box {
+  background-color: #ffffff; /* 박스 배경색 */
+  border: 2px solid #000000; /* 박스 테두리 */
+  border-radius: 10px; /* 박스 테두리 둥글게 */
+  padding: 10px; /* 내부 여백 */
+  margin-top: 40px; /* 상단 간격 조정 */
+  margin-bottom: 75px; /* 하단 간격 조정 */
+
+  width: 150%; /* 너비 조정 */
+  max-width: 800px; /* 최대 너비 설정 */
+}
+
+.quiz-header {
+  margin: 0; /* 기본 마진 제거 */
+  margin-bottom: 0px; /* 헤더와 내용 간격 조정 */
+
+  text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.quiz-content {
+  width: 100%; /* 내용 가로폭 조정 */
+  max-width: 600px; /* 최대 가로폭 설정 */
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: row; /* 요소들을 가로로 배열 */
+  flex-wrap: wrap; /* 요소들이 넘칠 경우 다음 줄로 이동 */
+  position: center; /* 가운데 정렬 */
+  gap: 30px; /* 버튼 간격을 조정 */
+}
+
+.radio-like-button,
+.submit-button {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 8px 16px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  width: 100px;
+  margin-bottom: 103px; /* 상단 간격 조정 */
+}
+
+.radio-like-button:hover,
+.submit-button:hover {
+  background-color: #00356d;
+  color: #ffffff;
+}
+
+.radio-like-button:active,
+.submit-button:active {
+  background-color: #cccccc;
+}
+
+.radio-like-button.selected {
+  background-color: #00356d;
+  color: #ffffff;
+}
+
+.submit-button {
+  background-color: #00356d;
+  color: #ffffff;
+  margin-top: -100px; /* 위쪽 간격 조정 */
+  margin-left: 65px;
+}
+
+.submit-button:hover {
+  border-color: #cccccc;
+}
+
+.submit-button:active {
+  border-color: #cccccc;
+}
+
+.quiz-container,
+.quiz-header,
+.quiz-content,
+.quiz-options,
+.submit-button {
+  font-weight: bold;
+}
+
+.progress-container1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.progress-line1 {
+  position: relative;
+  width: 500px; /* 적절한 너비 지정 */
+  height: 4px; /* 선의 두께 */
+  background-color: #cccccc; /* 선의 색상
+   */
+  margin-top: -120px;
+  margin-bottom: 40px;
+}
+
+.progress-circle1 {
+  position: absolute;
+  width: 30px; /* 동그라미의 지름 */
+  height: 30px; /* 동그라미의 지름 */
+  border-radius: 50%; /* 동그라미를 원 모양으로 만듦 */
+  background-color: #00356d; /* 동그라미의 색상 */
+  top: -13px; /* 선 위에 위치하도록 조정 */
+  transition: background-color 0.3s; /* 동그라미 색상 변경 시 애니메이션 효과 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* 텍스트 색상 */
+  font-weight: bold;
+}
+
+.progress-circle1:nth-child(1) {
+  left: 0; /* 첫 번째 동그라미의 위치 */
+}
+.progress-circle1:nth-child(1)::after {
+  content: "1"; /* 1번 동그라미에 텍스트 추가 */
+}
+
+.progress-circle1:last-child {
+  background-color: #cccccc; /* 마지막 동그라미의 색상 */
+  right: 0; /* 다섯 번째 동그라미의 위치 */
+}
+.progress-circle1:last-child::after {
+  content: "5"; /* 마지막 동그라미에 텍스트 추가 */
+}
+/*---------------------------2page--------------------------------------------*/
+.signup2container {
+  position: relative;
+}
+.error-message {
+  margin-top: 20px;
+  color: red;
+  font-weight: bold;
+  position: fixed; /* 메시지를 고정 위치에 배치 */
+  bottom: 75px; /* 화면 하단에서 20px 위에 위치 */
+  right: 31%; /* 화면 가로 중앙에 위치 */
+  transform: translateX(-50%); /* 가로 중앙 정렬 */
+  background-color: #fff; /* 배경 색상 추가 */
+  padding: 10px; /* 패딩 추가 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  z-index: 1000; /* 다른 요소들보다 위에 배치 */
+}
+
+.signup-step2-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+.progress-container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-line2 {
+  position: fixed;
+  top: 165px; /* 선의 상단 위치를 지정 */
+  left: 50%; /* 브라우저 중앙에 위치하도록 */
+  transform: translateX(-50%); /* 중앙 정렬을 위해 왼쪽으로 50% 이동 */
+  width: 500px; /* 적절한 너비 지정 */
+  height: 4px; /* 선의 두께 */
+  background-color: #cccccc; /* 선의 색상 */
+}
+.progress-circle2 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #00356d;
+  top: -13px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* 숫자 색상 */
+  font-weight: bold; /* 숫자 두께 */
+}
+
+.progress-circle2.second {
+  left: calc(25% - 15px);
+}
+
+.progress-circle2.second::after {
+  content: "2";
+  color: white;
+  font-weight: bold;
+}
+
+.progress-circle2:last-child {
+  background-color: #cccccc;
+  right: 0;
+}
+
+.progress-circle2:last-child::after {
+  content: "5";
+}
+
+.copy {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: -100px;
+}
+
+.sign-up {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 100px; /* 상단 간격 조정 */
+}
+
+.welcome-to-bluv {
+  font-size: 16px;
+  color: #999;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 20px;
+  margin-top: 20px; /* 상단 간격 조정 */
+}
+
+.input-with-button {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* 버튼과 입력 필드 사이에 여백 추가 */
+  margin-top: 20px; /* 상단 간격 조정 */
+  margin-bottom: 20px; /* 하단 간격 조정 */
+  align-items: center;
+  padding: auto;
+}
+
+.input-with-button input {
+  margin: auto;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  color: #ccc;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+input.with-button-input {
+  width: calc(100% - 140px); /* 버튼이 있는 입력 필드의 너비 설정 */
+}
+
+.check-button {
+  width: 130px; /* 버튼의 너비 설정 */
+  padding: 8px;
+  background-color: #1d4289;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.separator {
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  margin: 20px 0;
+}
+
+.submit-button2 {
+  width: 100%;
+  padding: 8px 16px;
+  background-color: #00356d; /* 다크 블루 색상 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 0px; /* 위쪽 간격 조정 */
+  margin-left: 0px;
+}
+
+.submit-button2:hover {
+  background-color: #002a56; /* 마우스 오버 시 더 어두운 색상 */
+}
+
+.submit-button2:active {
+  background-color: #001f40; /* 클릭 시 더 어두운 색상 */
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.error-message2 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 95%; /* 필드 아래에 위치 */
+  left: 105px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+
+.error-message3 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 85%; /* 필드 아래에 위치 */
+  left: 95px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+.error-message4 {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  top: 80%; /* 필드 아래에 위치 */
+  left: 105px;
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  background: none; /* 배경색 제거 */
+  border: none; /* 경계선 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+
+.availability-message {
+  font-size: 12px;
+  margin-top: 3px;
+  color: green;
+  position: absolute;
+  top: 35px;
+  left: 120px; /* 왼쪽 여백 조정 */
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+}
+
+/* 새로운 스타일 추가 */
+.verification-message {
+  font-size: 12px;
+  margin-top: -95px;
+  color: green; /* 텍스트 색상 */
+
+  position: absolute;
+  top: 585px; /* 적절한 위치 조정 */
+  left: 120px; /* 왼쪽 여백 조정 */
+  white-space: nowrap; /* 텍스트가 길어질 경우 줄바꿈 방지 */
+  text-align: center;
+}
+/*----------------------------------4page---------------------------------------------*/
+.container-header {
+  text-align: center;
+  margin-top: 105px;
+  margin-bottom: 40px;
+}
+
+/* 'vs' 폰트 위치 조정 */
+.container-button-center {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-button-center h3 {
+  margin-top: 110px; /* 원하는 만큼 숫자를 조정하세요 */
+}
+
+/* NBTI 선택 버튼 */
+.container-button {
+  display: flex;
+  text-align: left;
+  font-weight: bold;
+  justify-content: center;
+}
+
+.container-button input[type="radio"] {
+  display: none;
+}
+
+.container-button input[type="radio"] + label {
+  display: inline-block;
+  width: 150px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  box-shadow: 0 5px 5px -5px #888;
+  border: 1px solid #888;
+  border-radius: 5px;
+  background-color: #f7f8fc;
+}
+
+.container-button input[type="radio"]:checked + label {
+  color: white;
+  background-color: #00356d;
+}
+
+.container-button ul {
+  list-style: none;
+}
+
+.container-button li {
+  margin-top: 30px;
+  margin-right: 40px;
+}
+
+.container-footer {
+  margin-top: 100px;
+}
+
+.left-button {
+  position: fixed;
+  bottom: 50px;
+  left: 40px;
+}
+
+.right-button {
+  position: fixed;
+  bottom: 50px;
+  right: 40px;
+}
+
+.container-footer button {
+  width: 70px;
+  padding: 5px;
+  border: 1px solid #888;
+  border-radius: 5px;
+}
+
+/* button:hover {
+    color: white;
+    background-color: #00356d;
+  } */
+
+.signup4container {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.progress-container4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-line4 {
+  position: relative;
+  width: 500px;
+  height: 4px;
+  background-color: #cccccc;
+  top: 80px;
+}
+
+.progress-circle4 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #00356d;
+  top: -13px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+.progress-circle4.fourth {
+  left: calc(75% - 15px);
+}
+
+.progress-circle4.fourth::after {
+  content: "4";
+}
+
+.progress-circle4.fifth {
+  left: calc(100% - 15px);
+  background-color: #cccccc;
+}
+
+.progress-circle4.fifth::after {
+  content: "5";
+}
+
+.tt4 {
+  font-size: 24px; /* 폰트 크기 */
+  font-weight: bold; /* 폰트 굵기 */
+  margin-bottom: 10px; /* 아래 여백 */
+}
+
+.gray_font4 {
+  font-size: 16px; /* 폰트 크기 */
+  color: #999; /* 폰트 색상 */
+}
+
+.gray_font4-2 {
+  font-size: 16px; /* 폰트 크기 */
+  color: #999; /* 폰트 색상 */
+}
